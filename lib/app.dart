@@ -17,7 +17,7 @@ class YaBalashApp extends StatelessWidget {
       builder: (context, child) => GetMaterialApp(
         navigatorKey: Get.key,
         getPages: RouteHelper.routes,
-        initialRoute: RouteHelper.getHomeRoute(),
+        initialRoute: RouteHelper.getIntialRoute(),
         title: AppStrings.appName,
         theme: lightTheme,
       ),

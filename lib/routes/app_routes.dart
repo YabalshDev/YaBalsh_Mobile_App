@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/features/on_boaring/presentation/views/splash_view.dart';
 
 import '../features/home/presentatiom/views/home_view.dart';
 
@@ -14,6 +15,10 @@ class RouteHelper {
   static getHomeRoute() => _homeRoute;
 
   static final routes = [
+    GetPage(
+      name: _intialRoute,
+      page: () => const SplashView(),
+    ),
     GetPage(
       name: _homeRoute,
       page: () => const HomeView(),

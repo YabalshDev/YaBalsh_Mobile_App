@@ -8,10 +8,11 @@ final ThemeData lightTheme = ThemeData(
     primaryColor: AppColorsLight.kAppPrimaryColorLight,
     scaffoldBackgroundColor: AppColorsLight.kScaffoldBackGroundColor,
     textTheme: TextTheme(
-        headline1: headingTextStyle,
+        headlineLarge: headingTextStyle,
         displayLarge: headingTextStyle,
         headlineMedium: subHeadingTextStyle,
-        bodyText1: bodyTextStyle),
+        bodyLarge: regularTextStyle,
+        bodyMedium: bodyTextStyle),
     progressIndicatorTheme: const ProgressIndicatorThemeData(
-      circularTrackColor: AppColorsLight.kAppPrimaryColorLight,
-    ));
+        circularTrackColor: AppColorsLight.kCircularProgressTrackColor,
+        color: AppColorsLight.kCircularProgressColor));
