@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yabalash_mobile_app/core/constants/app_strings.dart';
 
 class YaBalashApp extends StatelessWidget {
   const YaBalashApp({super.key});
@@ -6,7 +7,7 @@ class YaBalashApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
+        title: AppStrings.appName,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
