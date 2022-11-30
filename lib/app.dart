@@ -16,6 +16,7 @@ class YaBalashApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) => GetMaterialApp(
         navigatorKey: Get.key,
+        debugShowCheckedModeBanner: false,
         getPages: RouteHelper.routes,
         initialRoute: RouteHelper.getIntialRoute(),
         title: AppStrings.appName,
