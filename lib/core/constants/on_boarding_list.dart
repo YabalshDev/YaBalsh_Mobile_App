@@ -1,6 +1,6 @@
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
 
-import '../../features/on_boaring/domain/on_boarding.dart';
+import '../../features/on_boaring/domain/entities/on_boarding.dart';
 
 final List<OnBoarding> onBoardings = [
   OnBoarding(
