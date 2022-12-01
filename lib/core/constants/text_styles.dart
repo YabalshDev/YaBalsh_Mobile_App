@@ -12,3 +12,6 @@ TextStyle regularTextStyle =
 
 TextStyle bodyTextStyle =
     TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w400);
+
+TextStyle buttonTextStyle =
+    TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600);
