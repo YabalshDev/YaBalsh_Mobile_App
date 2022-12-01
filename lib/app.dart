@@ -14,13 +14,16 @@ class YaBalashApp extends StatelessWidget {
       designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context, child) => GetMaterialApp(
-        navigatorKey: Get.key,
-        debugShowCheckedModeBanner: false,
-        getPages: RouteHelper.routes,
-        initialRoute: RouteHelper.getIntialRoute(),
-        title: AppStrings.appName,
-        theme: lightTheme,
+      builder: (context, child) => Directionality(
+        textDirection: TextDirection.rtl,
+        child: GetMaterialApp(
+          navigatorKey: Get.key,
+          debugShowCheckedModeBanner: false,
+          getPages: RouteHelper.routes,
+          initialRoute: RouteHelper.getIntialRoute(),
+          title: AppStrings.appName,
+          theme: lightTheme,
+        ),
       ),
     );
   }
