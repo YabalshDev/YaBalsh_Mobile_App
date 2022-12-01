@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
-import 'package:yabalash_mobile_app/routes/app_routes.dart';
+import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 
 part 'splash_state.dart';
 

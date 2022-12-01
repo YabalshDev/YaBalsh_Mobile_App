@@ -5,7 +5,7 @@ import 'package:yabalash_mobile_app/features/on_boaring/presentation/blocs/cubit
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/views/on_boarding_view.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/views/splash_view.dart';
 
-import '../features/home/presentatiom/views/home_view.dart';
+import '../../features/home/presentatiom/views/home_view.dart';
 
 class RouteHelper {
   // paths

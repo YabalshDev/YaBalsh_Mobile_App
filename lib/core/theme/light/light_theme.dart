@@ -12,7 +12,7 @@ final ButtonStyle kMainButtonStyle = ButtonStyle(
     )),
     backgroundColor:
         MaterialStateProperty.all(AppColorsLight.kAppPrimaryColorLight),
-    textStyle: MaterialStateProperty.all(buttonTextStyle),
+    textStyle: MaterialStateProperty.all(kActivebuttonTextStyle),
     elevation: MaterialStateProperty.all(1),
     fixedSize: MaterialStateProperty.all(
       Size(345.w, 51.h),

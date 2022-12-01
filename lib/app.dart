@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_strings.dart';
 import 'package:yabalash_mobile_app/core/theme/light/light_theme.dart';
-import 'package:yabalash_mobile_app/routes/app_routes.dart';
+import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 
 class YaBalashApp extends StatelessWidget {
   const YaBalashApp({super.key});

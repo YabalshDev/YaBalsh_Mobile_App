@@ -29,17 +29,17 @@ class PageViewItem extends StatelessWidget {
         ),
         SizedBox(
           width: 306.w,
-          // height: 283.h,
+          height: 283.h,
           child: Image.asset(
             imagePath,
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
           ),
         ),
         SizedBox(
-          height: 20.h,
+          height: 10.h,
         ),
         SizedBox(
-          width: 200.w,
+          width: 210.w,
           child: Text(
             subTitle,
             style: Theme.of(context)

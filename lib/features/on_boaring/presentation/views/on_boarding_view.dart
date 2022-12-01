@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/on_boarding_list.dart';
-import 'package:yabalash_mobile_app/core/theme/light/app_colors_light.dart';
+import 'package:yabalash_mobile_app/core/widgets/ya_balash_custom_button.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/blocs/cubit/on_boarding_cubit.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/widgets/dots_indicators.dart';
+import 'package:yabalash_mobile_app/features/on_boaring/presentation/widgets/next_skip_row.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/widgets/page_view_item.dart';
 
 class OnBoardingView extends StatefulWidget {
@@ -48,60 +49,22 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                     },
                   ),
                 ),
-                SizedBox(
-                  height: 10.h,
-                ),
                 DotsIndicatorsCards(index: state.index, length: 3),
                 SizedBox(
                   height: 10.h,
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30.w),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          if (state.index > 0) {
-                            _pageController.animateToPage(state.index - 1,
-                                duration: const Duration(milliseconds: 500),
-                                curve: Curves.easeInOut);
-                          }
-                        },
-                        child: Text(
-                          'تخطي',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColorsLight.kAppPrimaryColorLight),
+                state.index < 2
+                    ? NextSkipRow(pageController: _pageController)
+                    : Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.w),
+                        child: YaBalashCustomButton(
+                          title: 'الصفحة الرئيسية',
+                          onTap: () {},
                         ),
                       ),
-                      InkWell(
-                        onTap: () {
-                          if (state.index < 2) {
-                            _pageController.animateToPage(state.index + 1,
-                                duration: const Duration(milliseconds: 500),
-                                curve: Curves.easeInOut);
-                          }
-                        },
-                        child: Text(
-                          'التالي',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColorsLight.kAppPrimaryColorLight),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
                 SizedBox(
                   height: 30.h,
-                )
+                ),
               ],
             );
           }

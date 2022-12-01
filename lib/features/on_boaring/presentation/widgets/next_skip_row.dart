@@ -14,15 +14,15 @@ class NextSkipRow extends StatelessWidget {
     return BlocBuilder<OnBoardingCubit, OnBoardingState>(
       builder: (context, state) {
         if (state is PageIndex) {
-          Padding(
+          return Padding(
             padding: EdgeInsets.symmetric(horizontal: 30.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
                   onTap: () {
-                    if (state.index > 0) {
-                      pageController.animateToPage(state.index - 1,
+                    if (state.index < 2) {
+                      pageController.animateToPage(2,
                           duration: const Duration(milliseconds: 500),
                           curve: Curves.easeInOut);
                     }
@@ -37,7 +37,7 @@ class NextSkipRow extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     if (state.index < 2) {
-                      pageController.animateToPage(2,
+                      pageController.animateToPage(state.index + 1,
                           duration: const Duration(milliseconds: 500),
                           curve: Curves.easeInOut);
                     }
