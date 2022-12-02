@@ -18,3 +18,6 @@ TextStyle kActivebuttonTextStyle =
 
 TextStyle kDisabledbuttonTextStyle =
     TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600);
+
+TextStyle kBottomNavbuttonTextStyle =
+    TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w500);

@@ -17,6 +17,7 @@ class YaBalashApp extends StatelessWidget {
       builder: (context, child) => Directionality(
         textDirection: TextDirection.rtl,
         child: GetMaterialApp(
+          textDirection: TextDirection.rtl,
           navigatorKey: Get.key,
           debugShowCheckedModeBanner: false,
           getPages: RouteHelper.routes,

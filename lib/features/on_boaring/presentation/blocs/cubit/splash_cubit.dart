@@ -37,7 +37,7 @@ class SplashCubit extends Cubit<SplashState> {
           setIsFirstTimeVisit(false);
           Get.toNamed(RouteHelper.getOnBoardingRoute());
         } else {
-          Get.toNamed(RouteHelper.getHomeRoute());
+          Get.toNamed(RouteHelper.getMainNavigationRoute());
         }
       },
     );

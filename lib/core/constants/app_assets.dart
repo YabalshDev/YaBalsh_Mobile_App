@@ -6,4 +6,16 @@ class AppAssets {
       'assets/images/on_boarding2.png';
   static const String thirdOnBoardingIllustration =
       'assets/images/on_boarding3.png';
+
+  static const String homeIcon = 'assets/icons/home.svg';
+
+  static const String cartIcon = 'assets/icons/cart.svg';
+
+  static const String categoriesIcon = 'assets/icons/categories.svg';
+
+  static const String shoppingListsIcon = 'assets/icons/lists.svg';
+
+  static const String menuIcon = 'assets/icons/menu.svg';
+
+  static const String notificationIcon = 'assets/icons/notification.svg';
 }

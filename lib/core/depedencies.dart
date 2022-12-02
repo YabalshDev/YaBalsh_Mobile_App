@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/api/local_data_api/hive_local_storage_consumer.dart';
 import 'package:yabalash_mobile_app/core/api/local_data_api/local_storage_provider.dart';
+import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/main_navigation_cubit.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/data/repositories/splash_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/domain/repositories/splash_repository.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/blocs/cubit/splash_cubit.dart';
@@ -12,6 +13,9 @@ setupDependecies() {
   Get.lazyPut<SplashRepository>(
       () => SplashRepositoryImpl(localStorageProvider: Get.find()));
 
+  Get.lazyPut(
+    () => MainNavigationCubit(),
+  );
   Get.lazyPut(() => OnBoardingCubit(), fenix: true);
   Get.lazyPut(() => SplashCubit(splashRepository: Get.find()), fenix: true);
 }

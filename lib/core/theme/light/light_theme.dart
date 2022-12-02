@@ -37,4 +37,13 @@ final ThemeData lightTheme = ThemeData(
         bodyMedium: bodyTextStyle),
     progressIndicatorTheme: const ProgressIndicatorThemeData(
         circularTrackColor: AppColorsLight.kCircularProgressTrackColor,
-        color: AppColorsLight.kCircularProgressColor));
+        color: AppColorsLight.kCircularProgressColor),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        elevation: 2,
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: AppColorsLight.kAppPrimaryColorLight,
+        unselectedItemColor: Colors.black,
+        backgroundColor: AppColorsLight.kScaffoldBackGroundColor,
+        selectedLabelStyle: kBottomNavbuttonTextStyle,
+        showSelectedLabels: true,
+        showUnselectedLabels: true));
