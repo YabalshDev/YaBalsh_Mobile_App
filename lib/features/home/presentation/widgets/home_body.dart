@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/Title_row.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/banners_section.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/home_header.dart';
+import 'package:yabalash_mobile_app/features/home/presentation/widgets/keword_section.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/last_offers_section.dart';
+import 'package:yabalash_mobile_app/features/home/presentation/widgets/near_stores_section.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/search_section.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/welcome_section.dart';
 
@@ -34,7 +36,12 @@ class HomeBody extends StatelessWidget {
             child: SizedBox(
           height: 5.h,
         )),
-        const SliverToBoxAdapter(child: LastOfferSection()),
+        const SliverToBoxAdapter(child: NearStoresSection()),
+        const SliverToBoxAdapter(child: KewordSection()),
+        SliverToBoxAdapter(
+            child: SizedBox(
+          height: 100.h,
+        )),
       ],
     );
   }

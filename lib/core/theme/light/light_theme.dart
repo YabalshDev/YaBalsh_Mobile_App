@@ -18,6 +18,11 @@ final ButtonStyle kMainButtonStyle = ButtonStyle(
       Size(345.w, 51.h),
     ));
 
+final BoxDecoration kDefaultBoxDecoration = BoxDecoration(
+  borderRadius: kDefaultBorderRaduis,
+  border: Border.all(color: AppColorsLight.kDefaultBorderColor, width: 1),
+);
+
 final ThemeData lightTheme = ThemeData(
     fontFamily: AppStrings.fontFamily,
     cardTheme: CardTheme(
