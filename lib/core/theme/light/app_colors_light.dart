@@ -7,4 +7,5 @@ class AppColorsLight {
   static const Color kCircularProgressColor = Color(0xFFD6CCE9);
   static const Color kDisabledButtonColor = Color(0xFFF5F6F5);
   static const Color kDisabledButtonTextColor = Color(0xff888888);
+  static const Color kMainCategoryCardColor = Color(0xffF4DD79);
 }

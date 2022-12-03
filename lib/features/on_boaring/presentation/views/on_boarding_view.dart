@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:yabalash_mobile_app/core/constants/on_boarding_list.dart';
+import 'package:yabalash_mobile_app/core/constants/constantdata/on_boarding_list.dart';
 import 'package:yabalash_mobile_app/core/widgets/ya_balash_custom_button.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/blocs/cubit/on_boarding_cubit.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/widgets/dots_indicators.dart';

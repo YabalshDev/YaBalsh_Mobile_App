@@ -8,7 +8,7 @@ class AppAssets {
       'assets/images/on_boarding3.png';
   static const String dairyMilk = 'assets/images/dairy_milks.png';
   static const String beverages = 'assets/images/beverages.png';
-  static const String vegatables = 'assets/images/vegatables.png';
+  static const String vegatables = 'assets/images/vegetables.png';
 
   static const String carefour = 'assets/images/carefour.png';
   static const String bonjourno = 'assets/images/bonjourno.png';
