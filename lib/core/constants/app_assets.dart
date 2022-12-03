@@ -6,6 +6,16 @@ class AppAssets {
       'assets/images/on_boarding2.png';
   static const String thirdOnBoardingIllustration =
       'assets/images/on_boarding3.png';
+  static const String dairyMilk = 'assets/images/dairy_milks.png';
+  static const String beverages = 'assets/images/beverages.png';
+  static const String vegatables = 'assets/images/vegatables.png';
+
+  static const String carefour = 'assets/images/carefour.png';
+  static const String bonjourno = 'assets/images/bonjourno.png';
+  static const String seoudi = 'assets/images/seoudi.png';
+  static const String mix = 'assets/images/mix.png';
+  static const String gourmet = 'assets/images/gourmet.png';
+  static const String banner = 'assets/images/banner1.png';
 
   static const String homeIcon = 'assets/icons/home.svg';
 

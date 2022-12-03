@@ -1,3 +1,5 @@
+import 'package:yabalash_mobile_app/core/constants/constantdata/banner_mock_data.dart';
+
 import '../../domain/entities/banner.dart';
 import '../../domain/entities/main_category.dart';
 import '../../domain/entities/section.dart';
@@ -13,7 +15,12 @@ abstract class HomeMockDataSource {
 class HomeMockDataSourceImpl implements HomeMockDataSource {
   @override
   Future<List<Banner>> getBanners() async {
-    final List<Banner> banners = [];
+    List<Banner> banners = [];
+    await Future.delayed(
+      const Duration(seconds: 2),
+      () => banners = bannersMockData,
+    );
+
     return banners;
   }
 
