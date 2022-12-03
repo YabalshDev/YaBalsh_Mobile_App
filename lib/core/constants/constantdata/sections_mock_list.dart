@@ -3,7 +3,7 @@ import 'package:yabalash_mobile_app/features/home/domain/entities/price_model.da
 import 'package:yabalash_mobile_app/features/home/domain/entities/product.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/section.dart';
 
-const List<Section> sections = [
+const List<Section> sectionsMock = [
   Section(keyWord: 'ارخص الاسعار للمنتجات', products: [
     Product(
         id: '1',

@@ -2,7 +2,7 @@ import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
 
 import '../../../features/home/domain/entities/store.dart';
 
-const List<Store> stores = [
+const List<Store> storesMock = [
   Store(
       id: '1',
       name: 'كارفور',
