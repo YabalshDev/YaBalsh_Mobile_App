@@ -14,13 +14,15 @@ class MainNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView.builder(
-          controller: _pageController,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: screens.length,
-          itemBuilder: ((context, index) {
-            return screens[index];
-          })),
+      body: SafeArea(
+        child: PageView.builder(
+            controller: _pageController,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: screens.length,
+            itemBuilder: ((context, index) {
+              return screens[index];
+            })),
+      ),
       bottomNavigationBar: MainBottomNavBar(
         pageController: _pageController,
       ),
@@ -40,7 +42,6 @@ class MainBottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<MainNavigationCubit, MainNavigationState>(
       builder: (context, state) {
-        print('bloc builder page index');
         return BottomNavigationBar(
           currentIndex: Get.find<MainNavigationCubit>().currentPageIndex,
           onTap: (value) {

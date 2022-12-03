@@ -20,6 +20,15 @@ final ButtonStyle kMainButtonStyle = ButtonStyle(
 
 final ThemeData lightTheme = ThemeData(
     fontFamily: AppStrings.fontFamily,
+    cardTheme: CardTheme(
+      shape: RoundedRectangleBorder(borderRadius: kSecondaryBorderRaduis),
+      color: AppColorsLight.kDisabledButtonColor,
+      elevation: 1,
+    ),
+    appBarTheme: AppBarTheme(
+        elevation: 0,
+        color: Colors.transparent,
+        iconTheme: IconThemeData(size: 12.h)),
     primaryColor: AppColorsLight.kAppPrimaryColorLight,
     scaffoldBackgroundColor: AppColorsLight.kScaffoldBackGroundColor,
     buttonTheme: ButtonThemeData(
@@ -34,7 +43,8 @@ final ThemeData lightTheme = ThemeData(
         displayLarge: headingTextStyle,
         headlineMedium: subHeadingTextStyle,
         bodyLarge: regularTextStyle,
-        bodyMedium: bodyTextStyle),
+        bodyMedium: bodyTextStyle,
+        bodySmall: kBottomNavbuttonTextStyle),
     progressIndicatorTheme: const ProgressIndicatorThemeData(
         circularTrackColor: AppColorsLight.kCircularProgressTrackColor,
         color: AppColorsLight.kCircularProgressColor),

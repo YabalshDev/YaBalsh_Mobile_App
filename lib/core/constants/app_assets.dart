@@ -18,4 +18,5 @@ class AppAssets {
   static const String menuIcon = 'assets/icons/menu.svg';
 
   static const String notificationIcon = 'assets/icons/notification.svg';
+  static const String barcodeIcon = 'assets/icons/barcode.svg';
 }

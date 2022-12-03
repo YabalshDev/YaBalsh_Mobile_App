@@ -21,7 +21,7 @@ class CustomSvgIcon extends StatelessWidget {
       child: SvgPicture.asset(
         iconPath,
         color: color,
-        fit: BoxFit.cover,
+        fit: BoxFit.contain,
       ),
     );
   }
