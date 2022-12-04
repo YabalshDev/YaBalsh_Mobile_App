@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
-import 'package:yabalash_mobile_app/core/constants/constantdata/sections_mock_list.dart';
+import 'package:yabalash_mobile_app/features/home/domain/entities/section.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/home_product_card.dart';
 
 import 'Title_row.dart';
 
 class KewordSection extends StatelessWidget {
-  const KewordSection({super.key});
+  final Section section;
+  const KewordSection({super.key, required this.section});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TitleRow(title: sectionsMock[0].keyWord!),
+        TitleRow(title: section.keyWord!),
         SizedBox(
           height: 10.h,
         ),
@@ -24,9 +25,9 @@ class KewordSection extends StatelessWidget {
             padding: kScaffoldPadding,
             scrollDirection: Axis.horizontal,
             shrinkWrap: true,
-            itemCount: sectionsMock[0].products!.length,
+            itemCount: section.products!.length,
             itemBuilder: (context, index) {
-              final product = sectionsMock[0].products![index];
+              final product = section.products![index];
               return HomeProductCard(product: product);
             },
           ),

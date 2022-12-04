@@ -6,11 +6,10 @@ import '../../../../core/errors/faliures.dart';
 import '../../../../core/usecases/use_cases.dart';
 import '../repositories/home_repository.dart';
 
-class GetSectiosParamsUseCase
-    implements UseCase<List<Section>, GetSectiosParams> {
+class GetSectiosUseCase implements UseCase<List<Section>, GetSectiosParams> {
   final HomeRepository homeRepository;
 
-  GetSectiosParamsUseCase({required this.homeRepository});
+  GetSectiosUseCase({required this.homeRepository});
   @override
   Future<Either<Failure, List<Section>>> call(GetSectiosParams params) =>
       homeRepository.getHomeSections(keword: params.keword);

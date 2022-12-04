@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
+import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/main_navigation_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/views/home_view.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/nav_icon.dart';
@@ -94,7 +95,12 @@ class MainBottomNavBar extends StatelessWidget {
 }
 
 final List<Widget> screens = [
-  const HomeView(),
+  BlocProvider<HomeCubit>(
+    create: (context) => Get.find<HomeCubit>()
+      ..getLastOffers()
+      ..getBanners(),
+    child: const HomeView(),
+  ),
   const HomeView(),
   const HomeView(),
   const HomeView(),

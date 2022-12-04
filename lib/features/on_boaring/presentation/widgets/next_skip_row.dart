@@ -42,11 +42,22 @@ class NextSkipRow extends StatelessWidget {
                           curve: Curves.easeInOut);
                     }
                   },
-                  child: Text(
-                    'التالي',
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: AppColorsLight.kAppPrimaryColorLight),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        'التالي',
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: AppColorsLight.kAppPrimaryColorLight),
+                      ),
+                      SizedBox(
+                        width: 3.w,
+                      ),
+                      Icon(Icons.arrow_forward,
+                          size: 20.sp,
+                          color: AppColorsLight.kAppPrimaryColorLight)
+                    ],
                   ),
                 )
               ],
