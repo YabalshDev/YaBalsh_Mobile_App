@@ -10,4 +10,5 @@ class AppColorsLight {
   static const Color kMainCategoryCardColor = Color(0xffF4DD79);
   static const Color kDefaultBorderColor = Color(0xffE5E5E5);
   static const Color kOfferBackgroundColor = Color(0xffEBF9EE);
+  static const Color kOffwhiteColor = Color(0XFFFAFAFA);
 }

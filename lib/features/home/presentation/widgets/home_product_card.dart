@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/product.dart';
+import 'package:yabalash_mobile_app/features/home/presentation/widgets/saving_card.dart';
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
@@ -17,7 +18,43 @@ class HomeProductCard extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-              width: 133.w, height: 290.h, decoration: kDefaultBoxDecoration),
+            width: 133.w,
+            height: 290.h,
+            decoration: kDefaultBoxDecoration,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  height: 44.h,
+                  width: 133.w,
+                  color: AppColorsLight.kOffwhiteColor,
+                  padding: kDefaultPadding,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Text(
+                          'جنيه ${product.prices!['كارفور']!.price!}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                  fontSize: 9.sp,
+                                  decoration: TextDecoration.lineThrough,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      Expanded(
+                          flex: 1,
+                          child: Image.asset(
+                              product.prices!['كارفور']!.storeImagePath!)),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
           Positioned(
             top: 0,
             child: Container(
@@ -34,25 +71,8 @@ class HomeProductCard extends StatelessWidget {
                           height: 140.h,
                           width: 133.h,
                           child: Image.asset(product.imagePath!)),
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 5.w),
-                          decoration: kDefaultBoxDecoration.copyWith(
-                              borderRadius: BorderRadius.circular(8),
-                              color: AppColorsLight.kOfferBackgroundColor),
-                          child: Text(
-                            'توفير 20%',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(
-                                    color: Colors.green.shade600,
-                                    fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                      ),
+                      const Positioned(
+                          top: 0, left: 0, child: SavingCard(percentage: '20')),
                       Positioned(
                         top: 100.h,
                         left: 0,

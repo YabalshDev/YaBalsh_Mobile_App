@@ -83,7 +83,7 @@ class MainBottomNavBar extends StatelessWidget {
                 icon: NavIcon(
                     activeIndex:
                         Get.find<MainNavigationCubit>().currentPageIndex,
-                    iconPath: AppAssets.homeIcon,
+                    iconPath: AppAssets.settingsIcon,
                     itemIndex: 4),
                 label: 'الاعدادت')
           ],
