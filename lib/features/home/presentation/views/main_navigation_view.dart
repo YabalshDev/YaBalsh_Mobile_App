@@ -98,7 +98,9 @@ final List<Widget> screens = [
   BlocProvider<HomeCubit>(
     create: (context) => Get.find<HomeCubit>()
       ..getLastOffers()
-      ..getBanners(),
+      ..getBanners()
+      ..getNearStores()
+      ..getFirstSection(),
     child: const HomeView(),
   ),
   const HomeView(),
