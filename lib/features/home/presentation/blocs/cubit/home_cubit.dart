@@ -26,6 +26,10 @@ class HomeCubit extends Cubit<HomeState> {
       required this.getSectiosUseCase})
       : super(const HomeState());
 
+  void onBannerChanged(int index) {
+    emit(state.copyWith(currentBannerIndex: index));
+  }
+
   void getLastOffers() async {
     final response = await getLatestOffersUseCase(NoParams());
 

@@ -13,9 +13,11 @@ class HomeState extends Equatable {
   final String? firstSectionError;
   final Section? firstSection;
   final RequestState? firstSectionRequestState;
+  final int? currentBannerIndex;
 
   const HomeState(
       {this.lastOffersError = '',
+      this.currentBannerIndex = 0,
       this.lastOffers = const [],
       this.lastOfferrequestState = RequestState.loading,
       this.bannersError = '',
@@ -40,6 +42,7 @@ class HomeState extends Equatable {
       RequestState? nearStoreRequestState,
       String? firstSectionError,
       Section? firstSection,
+      int? currentBannerIndex,
       RequestState? firstSectionRequestState}) {
     return HomeState(
         lastOffers: lastOffers ?? this.lastOffers,
@@ -56,7 +59,8 @@ class HomeState extends Equatable {
         nearStoreRequestState:
             nearStoreRequestState ?? this.nearStoreRequestState,
         nearStores: nearStores ?? this.nearStores,
-        nearStoresError: nearStoresError ?? this.nearStoresError);
+        nearStoresError: nearStoresError ?? this.nearStoresError,
+        currentBannerIndex: currentBannerIndex ?? this.currentBannerIndex);
   }
 
   @override
@@ -73,5 +77,6 @@ class HomeState extends Equatable {
         firstSectionError!,
         firstSection!,
         firstSectionRequestState!,
+        currentBannerIndex!
       ];
 }

@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/constants/app_layouts.dart';
@@ -48,12 +49,18 @@ class BannersSection extends StatelessWidget {
                         );
                       },
                       options: CarouselOptions(
-                          viewportFraction: 1, autoPlay: true, height: 133.h)),
+                          onPageChanged: (index, reason) =>
+                              Get.find<HomeCubit>().onBannerChanged(index),
+                          viewportFraction: 1,
+                          autoPlay: false,
+                          height: 133.h)),
                 ),
                 SizedBox(
                   height: 5.h,
                 ),
-                DotsIndicatorsCards(index: 0, length: state.banners!.length)
+                DotsIndicatorsCards(
+                    index: state.currentBannerIndex!,
+                    length: state.banners!.length)
               ],
             );
 
