@@ -34,12 +34,12 @@ setupDependecies() {
   Get.lazyPut(() => GetSectiosUseCase(homeRepository: Get.find()));
 
   Get.lazyPut(
-      () => HomeCubit(
-          getLatestOffersUseCase: Get.find(),
-          getBannersUseCase: Get.find(),
-          getNearStoresUseCase: Get.find(),
-          getSectiosUseCase: Get.find()),
-      fenix: true);
+    () => HomeCubit(
+        getLatestOffersUseCase: Get.find(),
+        getBannersUseCase: Get.find(),
+        getNearStoresUseCase: Get.find(),
+        getSectiosUseCase: Get.find()),
+  );
 
   Get.lazyPut(
     () => MainNavigationCubit(),
