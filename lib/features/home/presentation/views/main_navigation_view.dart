@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
+import 'package:yabalash_mobile_app/features/categories/presentation/views/category_view.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/main_navigation_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/views/home_view.dart';
@@ -103,7 +104,7 @@ final List<Widget> screens = [
       ..getFirstSection(),
     child: const HomeView(),
   ),
-  const HomeView(),
+  const CategoriesScreen(),
   const HomeView(),
   const HomeView(),
   const HomeView()
