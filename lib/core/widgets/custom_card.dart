@@ -15,7 +15,9 @@ class CustomCard extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 3.w),
       width: 60.w,
       height: 60.h,
-      decoration: kDefaultBoxDecoration.copyWith(color: backgroundColor),
+      decoration: kDefaultBoxDecoration.copyWith(
+          color: backgroundColor,
+          border: Border.all(color: Colors.transparent)),
       child: Center(child: Image.asset(imagePath!)),
     );
   }

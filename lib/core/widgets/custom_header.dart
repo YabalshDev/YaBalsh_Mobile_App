@@ -20,17 +20,17 @@ class CustomHeader extends StatelessWidget {
             ? CustomSvgIcon(
                 iconPath: AppAssets.notificationIcon,
                 color: AppColorsLight.kAppPrimaryColorLight,
-                height: 27.h,
+                height: 30.h,
                 width: 23.w,
               )
             : const SizedBox(),
         const Spacer(),
         Text(
           title,
-          style: Theme.of(context)
-              .textTheme
-              .bodyMedium
-              ?.copyWith(color: AppColorsLight.kAppPrimaryColorLight),
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: AppColorsLight.kAppPrimaryColorLight,
+              fontWeight: FontWeight.w700,
+              fontSize: 17.sp),
         ),
         const Spacer()
       ],

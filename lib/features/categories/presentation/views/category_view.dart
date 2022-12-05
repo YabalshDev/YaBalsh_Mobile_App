@@ -8,7 +8,7 @@ class CategoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: CategoriesBody(),
+      body: SafeArea(child: CategoriesBody()),
     );
   }
 }
