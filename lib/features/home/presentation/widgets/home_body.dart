@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/constants/constantdata/banner_mock_data.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/Title_row.dart';
@@ -28,33 +27,27 @@ class HomeBody extends StatelessWidget {
         SliverToBoxAdapter(child: mediumVerticalSpace),
         const SliverToBoxAdapter(child: LastOfferSection()),
         SliverToBoxAdapter(child: BannersSection()),
+        SliverToBoxAdapter(child: mediumVerticalSpace),
         const SliverToBoxAdapter(
             child: TitleRow(title: 'السوبر ماركتس القريبة منك  🏠')),
-        SliverToBoxAdapter(
-            child: SizedBox(
-          height: 5.h,
-        )),
+        SliverToBoxAdapter(child: mediumVerticalSpace),
         const SliverToBoxAdapter(child: NearStoresSection()),
-        const SliverToBoxAdapter(
-            child: KewordSection(
-          order: 1,
-        )),
-        SliverToBoxAdapter(
-            child: SizedBox(
-          height: 10.h,
-        )),
-        const SliverToBoxAdapter(
-            child: KewordSection(
-          order: 1,
-        )),
-        SliverToBoxAdapter(
-            child: SizedBox(
-          height: 10.h,
-        )),
+        SliverToBoxAdapter(child: mediumVerticalSpace),
         SliverToBoxAdapter(
             child: AddSection(
           adImagePath: bannersMockData[0].imagePath!,
-        ))
+        )),
+        SliverToBoxAdapter(child: mediumVerticalSpace),
+        const SliverToBoxAdapter(
+            child: KewordSection(
+          order: 1,
+        )),
+        SliverToBoxAdapter(child: mediumVerticalSpace),
+        const SliverToBoxAdapter(
+            child: KewordSection(
+          order: 1,
+        )),
+        SliverToBoxAdapter(child: mediumVerticalSpace),
       ],
     );
   }

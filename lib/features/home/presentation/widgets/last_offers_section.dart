@@ -42,7 +42,7 @@ class LastOfferSection extends StatelessWidget {
             );
           case RequestState.loaded:
             return SizedBox(
-              height: 100.h,
+              height: 110.h,
               child: ListView.builder(
                 padding: kScaffoldPadding,
                 scrollDirection: Axis.horizontal,
@@ -50,48 +50,65 @@ class LastOfferSection extends StatelessWidget {
                 itemCount: state.lastOffers!.length,
                 itemBuilder: (context, index) {
                   final mainCategory = state.lastOffers![index];
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                  return Row(
                     children: [
-                      Container(
-                        width: 60.w,
-                        height: 60.h,
-                        margin: EdgeInsets.only(left: 10.w),
-                        decoration: BoxDecoration(
-                            color: AppColorsLight.kMainCategoryCardColor,
-                            borderRadius: kDefaultBorderRaduis),
-                        child: SizedBox(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Expanded(
-                                  flex: 1,
-                                  child: Image.asset(
-                                    mainCategory.imagePath!,
-                                    fit: BoxFit.cover,
-                                  )),
-                              Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                    'حتى 20% خصم',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.copyWith(fontWeight: FontWeight.w900),
-                                  ))
-                            ],
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 60.w,
+                            height: 60.h,
+                            // margin: EdgeInsets.only(left: 10.w),
+                            decoration: BoxDecoration(
+                                color: AppColorsLight.kMainCategoryCardColor,
+                                borderRadius: kDefaultBorderRaduis),
+                            child: SizedBox(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Expanded(
+                                      flex: 1,
+                                      child: Image.asset(
+                                        mainCategory.imagePath!,
+                                        fit: BoxFit.cover,
+                                      )),
+                                  Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                        'حتى 20% خصم',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.w900),
+                                      ))
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
+                          SizedBox(
+                            height: 5.h,
+                          ),
+                          ConstrainedBox(
+                            constraints: BoxConstraints(
+                              maxWidth: 90.w,
+                            ),
+                            child: Text(
+                              mainCategory.name!,
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.black),
+                            ),
+                          )
+                        ],
                       ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Text(
-                        mainCategory.name!,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.w700, color: Colors.black),
-                      )
+                      mediumHorizontalSpace
                     ],
                   );
                 },

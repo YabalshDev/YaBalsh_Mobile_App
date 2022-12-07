@@ -43,21 +43,24 @@ class BannersSection extends StatelessWidget {
                         final banner = state.banners![index];
                         return ClipRRect(
                           borderRadius: kDefaultBorderRaduis,
-                          child: Image.asset(
-                            banner.imagePath!,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 2.w),
+                            child: Image.asset(
+                              banner.imagePath!,
+                              width: Get.size.width * 0.9,
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         );
                       },
                       options: CarouselOptions(
                           onPageChanged: (index, reason) =>
                               Get.find<HomeCubit>().onBannerChanged(index),
-                          viewportFraction: 1,
+                          viewportFraction: 0.94,
                           autoPlay: false,
-                          height: 133.h)),
+                          height: 150.h)),
                 ),
-                SizedBox(
-                  height: 5.h,
-                ),
+                mediumVerticalSpace,
                 DotsIndicatorsCards(
                     index: state.currentBannerIndex!,
                     length: state.banners!.length)
