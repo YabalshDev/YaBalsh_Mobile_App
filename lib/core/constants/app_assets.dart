@@ -35,4 +35,10 @@ class AppAssets {
 
   static const String notificationIcon = 'assets/icons/notification.svg';
   static const String barcodeIcon = 'assets/icons/barcode.svg';
+  static const String warningIcon = 'assets/icons/warning.svg';
+
+  static const String locationPin = 'assets/images/location_pin.png';
+
+  static const String inStockIcon = 'assets/images/In_stock.png';
+  static const String outOfStockIcon = 'assets/images/Out_of_stock.png';
 }

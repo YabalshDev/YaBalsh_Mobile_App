@@ -28,7 +28,7 @@ final ThemeData lightTheme = ThemeData(
     cardTheme: CardTheme(
       shape: RoundedRectangleBorder(borderRadius: kSecondaryBorderRaduis),
       color: AppColorsLight.kDisabledButtonColor,
-      elevation: 1,
+      elevation: 0,
     ),
     appBarTheme: AppBarTheme(
         elevation: 0,
