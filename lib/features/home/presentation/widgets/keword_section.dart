@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
+import 'package:yabalash_mobile_app/core/widgets/kew_word_products.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_cubit.dart';
-import 'package:yabalash_mobile_app/features/home/presentation/widgets/home_product_card.dart';
 
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/utils/enums/request_state.dart';
@@ -61,18 +61,9 @@ class KewordSection extends StatelessWidget {
                       height: 10.h,
                     ),
                     SizedBox(
-                      height: 280.h,
-                      child: ListView.builder(
-                        padding: kScaffoldPadding,
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount: state.firstSection!.products!.length,
-                        itemBuilder: (context, index) {
-                          final product = state.firstSection!.products![index];
-                          return HomeProductCard(product: product);
-                        },
-                      ),
-                    )
+                        height: 280.h,
+                        child: KewordProducts(
+                            products: state.firstSection!.products!))
                   ],
                 );
 

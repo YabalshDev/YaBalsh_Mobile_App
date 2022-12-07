@@ -14,6 +14,7 @@ class SavingCard extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 5.w),
       decoration: kDefaultBoxDecoration.copyWith(
           borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: Colors.transparent),
           color: AppColorsLight.kOfferBackgroundColor),
       child: Text(
         'توفير $percentage%',

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yabalash_mobile_app/core/constants/app_strings.dart';
 import 'package:yabalash_mobile_app/core/theme/light/app_colors_light.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/product.dart';
-import 'package:yabalash_mobile_app/features/product_details/presentation/widgets/price_comparison_card.dart';
+import 'package:yabalash_mobile_app/features/home/presentation/widgets/Title_row.dart';
 
 import '../../../../core/constants/app_layouts.dart';
+import 'price_comparison_section.dart';
 import 'product_image_card.dart';
 import 'product_kewords_card.dart';
 
@@ -38,37 +41,24 @@ class ProductDetailsBody extends StatelessWidget {
             ProductKewordCards(productName: product.name!),
             mediumVerticalSpace,
             Text(
-              'اكتشف و قارن الأسعار',
+              AppStrings.discoverComparePrices,
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge
                   ?.copyWith(color: Colors.black, fontWeight: FontWeight.w700),
             ),
-            PriceComparisonSection(product: product)
+            PriceComparisonSection(product: product),
+            mediumVerticalSpace,
+            TitleRow(
+              title: 'ممكن كمان يعجبك',
+              fontWeight: FontWeight.w800,
+              padding: kDefaultPadding.copyWith(right: 2.w),
+            ),
+
+            // KewordSection(order: order)
           ],
         ),
       ),
-    );
-  }
-}
-
-class PriceComparisonSection extends StatelessWidget {
-  final Product product;
-  const PriceComparisonSection({super.key, required this.product});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: product.prices!.entries.toList().length,
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        final priceModelEntry = product.prices!.entries.toList()[index];
-        return PriceComparisonCard(
-            index: index,
-            priceModel: priceModelEntry,
-            pricesLength: product.prices!.entries.toList().length);
-      },
     );
   }
 }

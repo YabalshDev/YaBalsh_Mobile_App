@@ -32,8 +32,11 @@ class HomeProductCard extends StatelessWidget {
                   Container(
                     height: 44.h,
                     width: 133.w,
-                    color: AppColorsLight.kOffwhiteColor,
+                    // color: AppColorsLight.kOffwhiteColor,
                     padding: kDefaultPadding,
+                    decoration: kDefaultBoxDecoration.copyWith(
+                        color: AppColorsLight.kOffwhiteColor,
+                        border: Border.all(color: Colors.transparent)),
                     child: Row(
                       children: [
                         Expanded(
@@ -44,7 +47,7 @@ class HomeProductCard extends StatelessWidget {
                                 .textTheme
                                 .bodySmall
                                 ?.copyWith(
-                                    fontSize: 9.sp,
+                                    fontSize: 11.sp,
                                     decoration: TextDecoration.lineThrough,
                                     color: Colors.grey,
                                     fontWeight: FontWeight.w600),
@@ -118,6 +121,7 @@ class HomeProductCard extends StatelessWidget {
                                 .textTheme
                                 .bodySmall
                                 ?.copyWith(
+                                    fontSize: 13.sp,
                                     color: AppColorsLight.kAppPrimaryColorLight,
                                     fontWeight: FontWeight.w700),
                           ),
