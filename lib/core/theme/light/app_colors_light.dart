@@ -14,4 +14,5 @@ class AppColorsLight {
   static const Color kSubCategoryCardColor = Color(0XFFF7F7FF);
   static const Color kDarkPurpleColor = Color(0XFF727797);
   static const Color warningColor = Color(0xffFFC120);
+  static const Color kTextFieldBorderColor = Color(0xffE5E5E5);
 }

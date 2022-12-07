@@ -38,6 +38,11 @@ final BoxDecoration kDefaultBoxDecoration = BoxDecoration(
   border: Border.all(color: AppColorsLight.kDefaultBorderColor, width: 1),
 );
 
+final BoxDecoration kFilledTextFieldDecoration = BoxDecoration(
+  borderRadius: kSecondaryBorderRaduis,
+  color: AppColorsLight.kDisabledButtonColor,
+);
+
 final ThemeData lightTheme = ThemeData(
     fontFamily: AppStrings.fontFamily,
     cardTheme: CardTheme(
