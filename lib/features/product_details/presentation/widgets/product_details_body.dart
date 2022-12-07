@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_strings.dart';
 import 'package:yabalash_mobile_app/core/theme/light/app_colors_light.dart';
+import 'package:yabalash_mobile_app/core/widgets/kew_word_products.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/product.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/Title_row.dart';
 
@@ -23,11 +25,17 @@ class ProductDetailsBody extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: kDefaultPadding,
-              child: const Icon(
-                Icons.arrow_back_ios,
-                color: AppColorsLight.kAppPrimaryColorLight,
+            SizedBox(
+              height: 30.h,
+              child: Padding(
+                padding: kDefaultPadding,
+                child: IconButton(
+                  onPressed: () => Get.back(),
+                  icon: const Icon(
+                    Icons.arrow_back_ios,
+                    color: AppColorsLight.kAppPrimaryColorLight,
+                  ),
+                ),
               ),
             ),
             ProductImageCard(imagePath: product.imagePath!),
@@ -54,6 +62,9 @@ class ProductDetailsBody extends StatelessWidget {
               fontWeight: FontWeight.w800,
               padding: kDefaultPadding.copyWith(right: 2.w),
             ),
+            mediumVerticalSpace,
+
+            SizedBox(height: 280.h, child: KewordProducts(products: [product]))
 
             // KewordSection(order: order)
           ],

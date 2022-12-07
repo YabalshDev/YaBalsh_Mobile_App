@@ -12,10 +12,25 @@ final ButtonStyle kMainButtonStyle = ButtonStyle(
     )),
     backgroundColor:
         MaterialStateProperty.all(AppColorsLight.kAppPrimaryColorLight),
-    textStyle: MaterialStateProperty.all(kActivebuttonTextStyle),
+    textStyle: MaterialStateProperty.all(
+        kActivebuttonTextStyle.copyWith(fontSize: 13.sp)),
     elevation: MaterialStateProperty.all(1),
     fixedSize: MaterialStateProperty.all(
-      Size(345.w, 51.h),
+      Size(381.w, 51.h),
+    ));
+
+final ButtonStyle kSecondaryButtonStyle = ButtonStyle(
+    padding: MaterialStateProperty.all(kDefaultPadding),
+    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+      borderRadius: kSecondaryBorderRaduis,
+    )),
+    backgroundColor:
+        MaterialStateProperty.all(AppColorsLight.kAppPrimaryColorLight),
+    textStyle: MaterialStateProperty.all(
+        kActivebuttonTextStyle.copyWith(fontSize: 13.sp)),
+    elevation: MaterialStateProperty.all(1),
+    fixedSize: MaterialStateProperty.all(
+      Size(290.w, 30.h),
     ));
 
 final BoxDecoration kDefaultBoxDecoration = BoxDecoration(
