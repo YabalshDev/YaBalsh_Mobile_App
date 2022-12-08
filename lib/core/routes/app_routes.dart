@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
+import 'package:yabalash_mobile_app/features/auth/presentation/views/login_view.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/main_navigation_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/views/main_navigation_view.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/blocs/cubit/on_boarding_cubit.dart';
@@ -20,12 +21,14 @@ class RouteHelper {
   static const String _homeRoute = '/home';
   static const String _mainNavigationRoute = '/main-navigation';
   static const String _productDetailsRoute = '/product-details';
+  static const String _loginRoute = '/login';
 
   static getIntialRoute() => _intialRoute;
   static getOnBoardingRoute() => _onBordingRoute;
   static getHomeRoute() => _homeRoute;
   static getMainNavigationRoute() => _mainNavigationRoute;
   static getProductDetailsRoute() => _productDetailsRoute;
+  static getLoginRoute() => _loginRoute;
 
   static final routes = [
     GetPage(
@@ -61,6 +64,11 @@ class RouteHelper {
               child: ProductDetailsView(
             product: product,
           ));
+        }),
+    GetPage(
+        name: _loginRoute,
+        page: () {
+          return const CustomAnimatedWidget(child: LoginView());
         })
   ];
 }

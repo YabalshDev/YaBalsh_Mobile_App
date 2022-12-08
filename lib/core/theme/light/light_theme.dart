@@ -39,9 +39,9 @@ final BoxDecoration kDefaultBoxDecoration = BoxDecoration(
 );
 
 final BoxDecoration kFilledTextFieldDecoration = BoxDecoration(
-  borderRadius: kSecondaryBorderRaduis,
-  color: AppColorsLight.kDisabledButtonColor,
-);
+    borderRadius: kSecondaryBorderRaduis,
+    color: AppColorsLight.kDisabledButtonColor,
+    border: Border.all(color: AppColorsLight.kTextFieldBorderColor, width: 2));
 
 final ThemeData lightTheme = ThemeData(
     fontFamily: AppStrings.fontFamily,

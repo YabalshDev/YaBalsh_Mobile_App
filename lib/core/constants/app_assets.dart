@@ -36,6 +36,7 @@ class AppAssets {
   static const String notificationIcon = 'assets/icons/notification.svg';
   static const String barcodeIcon = 'assets/icons/barcode.svg';
   static const String warningIcon = 'assets/icons/warning.svg';
+  static const String eyeIcon = 'assets/icons/eye.svg';
 
   static const String locationPin = 'assets/images/location_pin.png';
 
