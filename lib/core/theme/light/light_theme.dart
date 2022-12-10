@@ -19,6 +19,20 @@ final ButtonStyle kMainButtonStyle = ButtonStyle(
       Size(381.w, 51.h),
     ));
 
+final ButtonStyle kDisabledButtonStyle = ButtonStyle(
+    padding: MaterialStateProperty.all(kDefaultPadding),
+    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+      borderRadius: kDefaultBorderRaduis,
+    )),
+    backgroundColor:
+        MaterialStateProperty.all(AppColorsLight.kDisabledButtonColor),
+    textStyle: MaterialStateProperty.all(kActivebuttonTextStyle.copyWith(
+        fontSize: 13.sp, color: AppColorsLight.kDisabledButtonTextColor)),
+    elevation: MaterialStateProperty.all(1),
+    fixedSize: MaterialStateProperty.all(
+      Size(381.w, 51.h),
+    ));
+
 final ButtonStyle kSecondaryButtonStyle = ButtonStyle(
     padding: MaterialStateProperty.all(kDefaultPadding),
     shape: MaterialStateProperty.all(RoundedRectangleBorder(

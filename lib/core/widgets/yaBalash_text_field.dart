@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
+import 'package:yabalash_mobile_app/core/constants/text_styles.dart';
 
 import '../theme/light/app_colors_light.dart';
 
@@ -14,10 +15,12 @@ class YaBalashTextField extends StatelessWidget {
   final bool? readOnly;
   final String? intialValue;
   final bool? isWithBorder;
+  final Function(String?)? onChanged;
 
   const YaBalashTextField(
       {super.key,
       this.isWithBorder = true,
+      this.onChanged,
       this.fillColor = Colors.transparent,
       this.name = '',
       this.obsecure = false,
@@ -29,6 +32,8 @@ class YaBalashTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FormBuilderTextField(
+      readOnly: readOnly ?? false,
+      onChanged: onChanged ?? (value) {},
       name: name ?? '',
       initialValue: intialValue,
       obscureText: obsecure ?? false,
@@ -40,11 +45,13 @@ class YaBalashTextField extends StatelessWidget {
           ?.copyWith(fontWeight: FontWeight.w600),
       cursorColor: AppColorsLight.kAppPrimaryColorLight,
       decoration: InputDecoration(
+        errorStyle: kErrorTextStyle,
         suffixIcon: suffixIcon,
         errorBorder: OutlineInputBorder(
             borderRadius: kDefaultBorderRaduis,
-            borderSide: const BorderSide(width: 2, color: Colors.red)),
-        fillColor: Colors.amber,
+            borderSide:
+                const BorderSide(width: 2, color: AppColorsLight.kErrorColor)),
+        fillColor: fillColor,
         contentPadding: EdgeInsets.symmetric(vertical: 11.h, horizontal: 10.w),
         focusedBorder: OutlineInputBorder(
             borderRadius: kDefaultBorderRaduis,

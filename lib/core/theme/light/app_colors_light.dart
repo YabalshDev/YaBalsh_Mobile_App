@@ -15,4 +15,5 @@ class AppColorsLight {
   static const Color kDarkPurpleColor = Color(0XFF727797);
   static const Color warningColor = Color(0xffFFC120);
   static const Color kTextFieldBorderColor = Color(0xffE5E5E5);
+  static const Color kErrorColor = Color(0xffFE3A30);
 }

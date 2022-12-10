@@ -8,11 +8,13 @@ class YaBalashCustomButton extends StatelessWidget {
   final bool? isWithIcon;
   final String? iconPath;
   final bool? isSecondaryButton;
+  final bool? isDisabled;
 
   const YaBalashCustomButton(
       {super.key,
       required this.title,
       required this.onTap,
+      this.isDisabled = false,
       this.iconPath,
       this.isSecondaryButton = false,
       this.isWithIcon = false});
@@ -20,7 +22,11 @@ class YaBalashCustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      style: isSecondaryButton! ? kSecondaryButtonStyle : kMainButtonStyle,
+      style: isSecondaryButton!
+          ? kSecondaryButtonStyle
+          : !isDisabled!
+              ? kMainButtonStyle
+              : kDisabledButtonStyle,
       onPressed: onTap,
       child: !isWithIcon!
           ? Text(title)

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/api/local_data_api/hive_local_storage_consumer.dart';
 import 'package:yabalash_mobile_app/core/api/local_data_api/local_storage_provider.dart';
+import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/login_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/data/datasources/home_mock_datasource.dart';
 import 'package:yabalash_mobile_app/features/home/data/repositories/home_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/home/domain/repositories/home_repository.dart';
@@ -46,4 +47,5 @@ setupDependecies() {
   );
   Get.lazyPut(() => OnBoardingCubit(), fenix: true);
   Get.lazyPut(() => SplashCubit(splashRepository: Get.find()), fenix: true);
+  Get.lazyPut(() => LoginCubit(), fenix: true);
 }

@@ -6,9 +6,13 @@ class HiveLocalDataConsumer implements LocalStorageProvider {
   @override
   void deleteData({required key, id}) {
     try {
+      if (!Hive.isBoxOpen(key)) {
+        Hive.openBox(key);
+      }
       final box = Hive.box(key);
 
       box.delete(key);
+      box.close();
     } catch (err) {
       throw CacheException();
     }
@@ -17,9 +21,13 @@ class HiveLocalDataConsumer implements LocalStorageProvider {
   @override
   dynamic getData({required key, type}) {
     try {
+      if (!Hive.isBoxOpen(key)) {
+        Hive.openBox(key);
+      }
       final box = Hive.box(key);
-
-      return box.get(key)!;
+      final data = box.get(key)!;
+      box.close();
+      return data;
     } catch (err) {
       throw CacheException();
     }
@@ -28,9 +36,13 @@ class HiveLocalDataConsumer implements LocalStorageProvider {
   @override
   void setData({required key, required data}) {
     try {
+      if (!Hive.isBoxOpen(key)) {
+        Hive.openBox(key);
+      }
       final box = Hive.box(key);
 
       box.put(key, data);
+      box.close();
     } catch (err) {
       throw CacheException();
     }

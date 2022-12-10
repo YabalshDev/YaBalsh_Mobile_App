@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
+import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/login_cubit.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/views/login_view.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/main_navigation_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/views/main_navigation_view.dart';
@@ -68,7 +69,11 @@ class RouteHelper {
     GetPage(
         name: _loginRoute,
         page: () {
-          return const CustomAnimatedWidget(child: LoginView());
+          return CustomAnimatedWidget(
+              child: BlocProvider(
+            create: (context) => Get.find<LoginCubit>(),
+            child: const LoginView(),
+          ));
         })
   ];
 }
