@@ -1,16 +1,17 @@
 import 'package:equatable/equatable.dart';
+import 'package:yabalash_mobile_app/core/api/remote_data_api/api_error_model.dart';
 
 class ServerException extends Equatable implements Exception {
-  final String? message;
+  final ApiErrorModel errorModel;
 
-  const ServerException([this.message]);
+  const ServerException({required this.errorModel});
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [errorModel];
 
   @override
   String toString() {
-    return '$message';
+    return '$errorModel';
   }
 }
 
@@ -19,38 +20,43 @@ class ServerException extends Equatable implements Exception {
 // }
 
 class PlatformDataException extends ServerException {
-  const PlatformDataException([message])
-      : super("Error in platform communication");
+  const PlatformDataException({required ApiErrorModel errorModel})
+      : super(errorModel: errorModel);
 }
 
 class FetchDataException extends ServerException {
-  const FetchDataException([message]) : super("Error During Communication");
+  const FetchDataException({required ApiErrorModel errorModel})
+      : super(errorModel: errorModel);
 }
 
 class BadRequestException extends ServerException {
-  const BadRequestException([message]) : super("Bad Request");
+  const BadRequestException({required ApiErrorModel errorModel})
+      : super(errorModel: errorModel);
 }
 
 class UnauthorizedException extends ServerException {
-  const UnauthorizedException([message]) : super("Unauthorized");
+  const UnauthorizedException({required ApiErrorModel errorModel})
+      : super(errorModel: errorModel);
 }
 
 class NotFoundException extends ServerException {
-  const NotFoundException([message]) : super("Requested Info Not Found");
+  const NotFoundException({required ApiErrorModel errorModel})
+      : super(errorModel: errorModel);
 }
 
 class ConflictException extends ServerException {
-  const ConflictException([message]) : super("Conflict Occurred");
+  const ConflictException({required ApiErrorModel errorModel})
+      : super(errorModel: errorModel);
 }
 
 class InternalServerErrorException extends ServerException {
-  const InternalServerErrorException([message])
-      : super("Internal Server Error");
+  const InternalServerErrorException({required ApiErrorModel errorModel})
+      : super(errorModel: errorModel);
 }
 
 class NoInternetConnectionException extends ServerException {
-  const NoInternetConnectionException([message])
-      : super("No Internet Connection");
+  const NoInternetConnectionException({required ApiErrorModel errorModel})
+      : super(errorModel: errorModel);
 }
 
 class CacheException implements Exception {}
