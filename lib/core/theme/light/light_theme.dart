@@ -12,8 +12,8 @@ final ButtonStyle kMainButtonStyle = ButtonStyle(
     )),
     backgroundColor:
         MaterialStateProperty.all(AppColorsLight.kAppPrimaryColorLight),
-    textStyle: MaterialStateProperty.all(
-        kActivebuttonTextStyle.copyWith(fontSize: 13.sp)),
+    textStyle: MaterialStateProperty.all(kActivebuttonTextStyle),
+    foregroundColor: MaterialStateProperty.all(Colors.white),
     elevation: MaterialStateProperty.all(1),
     fixedSize: MaterialStateProperty.all(
       Size(381.w, 51.h),
@@ -26,9 +26,10 @@ final ButtonStyle kDisabledButtonStyle = ButtonStyle(
     )),
     backgroundColor:
         MaterialStateProperty.all(AppColorsLight.kDisabledButtonColor),
-    textStyle: MaterialStateProperty.all(kActivebuttonTextStyle.copyWith(
-        fontSize: 13.sp, color: AppColorsLight.kDisabledButtonTextColor)),
-    elevation: MaterialStateProperty.all(1),
+    textStyle: MaterialStateProperty.all(kActivebuttonTextStyle),
+    foregroundColor:
+        MaterialStateProperty.all(AppColorsLight.kDisabledButtonTextColor),
+    elevation: MaterialStateProperty.all(0),
     fixedSize: MaterialStateProperty.all(
       Size(381.w, 51.h),
     ));

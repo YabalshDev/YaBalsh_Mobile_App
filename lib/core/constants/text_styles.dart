@@ -14,8 +14,8 @@ TextStyle regularTextStyle =
 TextStyle bodyTextStyle =
     TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w400);
 
-TextStyle kActivebuttonTextStyle =
-    TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w700);
+TextStyle kActivebuttonTextStyle = TextStyle(
+    fontSize: 15.sp, fontWeight: FontWeight.w700, color: Colors.white);
 
 TextStyle kDisabledbuttonTextStyle =
     TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600);
