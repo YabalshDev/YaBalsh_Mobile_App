@@ -4,6 +4,7 @@ import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/core/widgets/keyboard_dissmisable.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/login_cubit.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/views/login_view.dart';
+import 'package:yabalash_mobile_app/features/auth/presentation/views/register_view.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/main_navigation_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/views/main_navigation_view.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/blocs/cubit/on_boarding_cubit.dart';
@@ -24,6 +25,7 @@ class RouteHelper {
   static const String _mainNavigationRoute = '/main-navigation';
   static const String _productDetailsRoute = '/product-details';
   static const String _loginRoute = '/login';
+  static const String _registerRoute = '/register';
 
   static getIntialRoute() => _intialRoute;
   static getOnBoardingRoute() => _onBordingRoute;
@@ -31,6 +33,7 @@ class RouteHelper {
   static getMainNavigationRoute() => _mainNavigationRoute;
   static getProductDetailsRoute() => _productDetailsRoute;
   static getLoginRoute() => _loginRoute;
+  static getRegisterRoute() => _registerRoute;
 
   static final routes = [
     GetPage(
@@ -75,6 +78,12 @@ class RouteHelper {
             create: (context) => Get.find<LoginCubit>(),
             child: const KeyboardDissmisable(child: LoginView()),
           ));
+        }),
+    GetPage(
+        name: _registerRoute,
+        page: () {
+          return const CustomAnimatedWidget(
+              child: KeyboardDissmisable(child: RegisterView()));
         })
   ];
 }

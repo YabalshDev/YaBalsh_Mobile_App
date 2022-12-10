@@ -49,6 +49,7 @@ class YaBalashTextField extends StatelessWidget {
       cursorColor: AppColorsLight.kAppPrimaryColorLight,
       decoration: InputDecoration(
         errorStyle: kErrorTextStyle,
+        floatingLabelBehavior: FloatingLabelBehavior.never,
         suffixIcon: suffixIcon,
         errorBorder: OutlineInputBorder(
             borderRadius: kDefaultBorderRaduis,
@@ -56,6 +57,10 @@ class YaBalashTextField extends StatelessWidget {
                 const BorderSide(width: 2, color: AppColorsLight.kErrorColor)),
         fillColor: fillColor,
         contentPadding: EdgeInsets.symmetric(vertical: 11.h, horizontal: 10.w),
+        enabledBorder: OutlineInputBorder(
+            borderRadius: kDefaultBorderRaduis,
+            borderSide: const BorderSide(
+                width: 1.3, color: AppColorsLight.kTextFieldBorderColor)),
         focusedBorder: OutlineInputBorder(
             borderRadius: kDefaultBorderRaduis,
             borderSide: const BorderSide(
@@ -65,7 +70,7 @@ class YaBalashTextField extends StatelessWidget {
             : OutlineInputBorder(
                 borderRadius: kDefaultBorderRaduis,
                 borderSide: const BorderSide(
-                    width: 2, color: AppColorsLight.kAppPrimaryColorLight)),
+                    width: 1, color: AppColorsLight.kDisabledButtonTextColor)),
       ),
     );
   }
