@@ -16,10 +16,12 @@ class YaBalashTextField extends StatelessWidget {
   final String? intialValue;
   final bool? isWithBorder;
   final Function(String?)? onChanged;
+  final FormFieldValidator<String>? validator;
 
   const YaBalashTextField(
       {super.key,
       this.isWithBorder = true,
+      this.validator,
       this.onChanged,
       this.fillColor = Colors.transparent,
       this.name = '',
@@ -33,6 +35,7 @@ class YaBalashTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return FormBuilderTextField(
       readOnly: readOnly ?? false,
+      validator: validator,
       onChanged: onChanged ?? (value) {},
       name: name ?? '',
       initialValue: intialValue,

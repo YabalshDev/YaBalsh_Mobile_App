@@ -1,3 +1,4 @@
+import 'package:yabalash_mobile_app/core/api/remote_data_api/api_error_model.dart';
 import 'package:yabalash_mobile_app/core/constants/constantdata/banner_mock_data.dart';
 import 'package:yabalash_mobile_app/core/constants/constantdata/main_categories_list.dart';
 import 'package:yabalash_mobile_app/core/constants/constantdata/sections_mock_list.dart';
@@ -28,7 +29,7 @@ class HomeMockDataSourceImpl implements HomeDataSource {
 
       return banners;
     } catch (err) {
-      throw const ServerException();
+      throw const ServerException(errorModel: ApiErrorModel());
     }
   }
 
@@ -42,7 +43,7 @@ class HomeMockDataSourceImpl implements HomeDataSource {
       );
       return sections;
     } catch (err) {
-      throw const ServerException();
+      throw const ServerException(errorModel: ApiErrorModel());
     }
   }
 
@@ -56,7 +57,7 @@ class HomeMockDataSourceImpl implements HomeDataSource {
       );
       return mainCategories;
     } catch (err) {
-      throw const ServerException();
+      throw const ServerException(errorModel: ApiErrorModel());
     }
   }
 
@@ -70,7 +71,7 @@ class HomeMockDataSourceImpl implements HomeDataSource {
       );
       return stores;
     } catch (err) {
-      throw const ServerException();
+      throw const ServerException(errorModel: ApiErrorModel());
     }
   }
 }

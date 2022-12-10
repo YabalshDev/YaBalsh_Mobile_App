@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/constants/app_assets.dart';
@@ -81,6 +82,10 @@ class LoginBody extends StatelessWidget {
                                   return YaBalashTextField(
                                     name: 'password',
                                     isWithBorder: true,
+                                    validator: FormBuilderValidators.compose([
+                                      FormBuilderValidators.required(
+                                          errorText: 'كلمة السر مطلوبة')
+                                    ]),
                                     onChanged: (value) {
                                       if (value!.isEmpty) {
                                         Get.find<LoginCubit>()

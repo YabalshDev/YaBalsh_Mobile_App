@@ -2,6 +2,7 @@ class AppStrings {
   static const String appName = "YaBalash";
   static const String appVersion = '1.0';
   static const String fontFamily = 'Cairo';
+  static const String baseUrl = 'http://165.227.160.125';
 
   static const String splashHeading =
       'Compare and find the product’s lowest price!';

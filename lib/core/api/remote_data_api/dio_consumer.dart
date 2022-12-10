@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/api_error_model.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/api_response_model.dart';
+import 'package:yabalash_mobile_app/core/constants/app_strings.dart';
 
 import '../../errors/exceptions.dart';
 import 'interceptors.dart';
@@ -21,13 +22,12 @@ class DioConsumer implements RestApiProvider {
       return client;
     };
 
-    // client.options
-    //   ..baseUrl = AppConstants.baseUrl
-    //   ..followRedirects = false
-    //   ..queryParameters = {"api_key": AppConstants.apiKey}
-    //   ..validateStatus = ((status) {
-    //     return status! < StatusCode.internalServerError;
-    //   });
+    client.options
+      ..baseUrl = AppStrings.baseUrl
+      ..followRedirects = false
+      ..validateStatus = ((status) {
+        return status! < StatusCode.internalServerError;
+      });
 
     client.interceptors.add(Get.find<AppInterceptor>());
 
@@ -37,29 +37,61 @@ class DioConsumer implements RestApiProvider {
   }
 
   @override
-  Future<ApiResponse> delete(String path, {Map<String, dynamic>? queryParams}) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future<ApiResponse> delete(String path,
+      {Map<String, dynamic>? queryParams}) async {
+    try {
+      final response = await client.delete(path, queryParameters: queryParams);
+      return ApiResponse(
+          data: response.data['data'],
+          message: response.data['message'],
+          success: response.data['success']);
+    } on DioError catch (err) {
+      return _handleDioError(err);
+    }
   }
 
   @override
-  Future<ApiResponse> get(String path, {Map<String, dynamic>? queryParams}) {
-    // TODO: implement get
-    throw UnimplementedError();
+  Future<ApiResponse> get(String path,
+      {Map<String, dynamic>? queryParams}) async {
+    try {
+      final response = await client.get(path, queryParameters: queryParams);
+      return ApiResponse(
+          data: response.data['data'],
+          message: response.data['message'],
+          success: response.data['success']);
+    } on DioError catch (err) {
+      return _handleDioError(err);
+    }
   }
 
   @override
   Future<ApiResponse> post(String path,
-      {Map<String, dynamic>? queryParams, Map<String, dynamic>? body}) {
-    // TODO: implement post
-    throw UnimplementedError();
+      {Map<String, dynamic>? queryParams, Map<String, dynamic>? body}) async {
+    try {
+      final response =
+          await client.post(path, queryParameters: queryParams, data: body);
+      return ApiResponse(
+          data: response.data['data'],
+          message: response.data['message'],
+          success: response.data['success']);
+    } on DioError catch (err) {
+      return _handleDioError(err);
+    }
   }
 
   @override
   Future<ApiResponse> put(String path,
-      {Map<String, dynamic>? queryParams, Map<String, dynamic>? body}) {
-    // TODO: implement put
-    throw UnimplementedError();
+      {Map<String, dynamic>? queryParams, Map<String, dynamic>? body}) async {
+    try {
+      final response =
+          await client.put(path, queryParameters: queryParams, data: body);
+      return ApiResponse(
+          data: response.data['data'],
+          message: response.data['message'],
+          success: response.data['success']);
+    } on DioError catch (err) {
+      return _handleDioError(err);
+    }
   }
 
   dynamic _handleDioError(DioError error) {

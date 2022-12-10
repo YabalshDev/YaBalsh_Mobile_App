@@ -2,6 +2,7 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 
 import '../constants/app_layouts.dart';
 import '../theme/light/app_colors_light.dart';
@@ -42,6 +43,9 @@ class PhoneTextField extends StatelessWidget {
                 name: 'phoneNumber',
                 initialValue: intialValue,
                 keyboardType: TextInputType.phone,
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(errorText: 'رقم الهاتف مطلوب')
+                ]),
                 readOnly: readOnly ?? false,
                 cursorHeight: 25.h,
                 cursorRadius: const Radius.circular(8),
