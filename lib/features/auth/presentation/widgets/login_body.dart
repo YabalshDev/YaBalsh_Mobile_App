@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
+import 'package:yabalash_mobile_app/features/auth/data/models/login_request_model.dart';
+import 'package:yabalash_mobile_app/features/auth/presentation/widgets/login_form.dart';
 
-import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
-import '../../../../core/widgets/custom_svg_icon.dart';
-import '../../../../core/widgets/phone_number_text_field.dart';
-import '../../../../core/widgets/yaBalash_text_field.dart';
 import '../../../../core/widgets/ya_balash_custom_button.dart';
 import '../blocs/cubit/login_cubit.dart';
 
@@ -45,80 +43,7 @@ class LoginBody extends StatelessWidget {
                                 color: AppColorsLight.kAppPrimaryColorLight),
                       ),
                       largeVerticalSpace,
-                      FormBuilder(
-                          key: _formKey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'رقم الهاتف',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 13.sp),
-                              ),
-                              mediumVerticalSpace,
-                              const PhoneTextField(
-                                intialValue: '01033266355',
-                                readOnly: true,
-                              ),
-                              mediumVerticalSpace,
-                              Text(
-                                'كلمة المرور',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 13.sp),
-                              ),
-                              mediumVerticalSpace,
-                              BlocBuilder<LoginCubit, LoginState>(
-                                buildWhen: (previous, current) =>
-                                    previous.obsecure != current.obsecure,
-                                builder: (context, state) {
-                                  return YaBalashTextField(
-                                    name: 'password',
-                                    isWithBorder: true,
-                                    validator: FormBuilderValidators.compose([
-                                      FormBuilderValidators.required(
-                                          errorText: 'كلمة السر مطلوبة')
-                                    ]),
-                                    onChanged: (value) {
-                                      if (value!.isEmpty) {
-                                        Get.find<LoginCubit>()
-                                            .changeButtonDisabled(true);
-                                      } else {
-                                        Get.find<LoginCubit>()
-                                            .changeButtonDisabled(false);
-                                      }
-                                    },
-                                    obsecure: state.obsecure,
-                                    suffixIcon: Padding(
-                                      padding: const EdgeInsets.all(13),
-                                      child: InkWell(
-                                        onTap: () {
-                                          if (state.obsecure!) {
-                                            Get.find<LoginCubit>()
-                                                .changeObsecure(false);
-                                          } else {
-                                            Get.find<LoginCubit>()
-                                                .changeObsecure(true);
-                                          }
-                                        },
-                                        child: const CustomSvgIcon(
-                                          iconPath: AppAssets.eyeIcon,
-                                          color: Color(0xffBCBDBF),
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              )
-                            ],
-                          )),
+                      LoginForm(formKey: _formKey),
                       largeVerticalSpace,
                       mediumVerticalSpace,
                       BlocBuilder<LoginCubit, LoginState>(
@@ -127,9 +52,26 @@ class LoginBody extends StatelessWidget {
                             current.isButtonDisabled,
                         builder: (context, state) {
                           return YaBalashCustomButton(
-                            title: 'تسجيل الدخول',
                             isDisabled: state.isButtonDisabled,
-                            onTap: () {},
+                            onTap: () {
+                              if (_formKey.currentState!.validate()) {
+                                final loginRequest = LoginRequestModel(
+                                    password: _formKey.currentState!
+                                        .fields['password']!.value,
+                                    phoneNumber: _formKey.currentState!
+                                        .fields['phoneNumber']!.value);
+
+                                print(loginRequest);
+
+                                Get.find<LoginCubit>()
+                                    .loginUser(loginCredentials: loginRequest);
+                              }
+                            },
+                            child: state.loginState == RequestState.loading
+                                ? const Center(
+                                    child: CircularProgressIndicator(),
+                                  )
+                                : const Text('تسجيل الدخول'),
                           );
                         },
                       )

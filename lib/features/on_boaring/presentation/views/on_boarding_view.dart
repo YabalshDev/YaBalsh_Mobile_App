@@ -59,7 +59,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                     : Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8.w),
                         child: YaBalashCustomButton(
-                          title: 'الصفحة الرئيسية',
+                          child: const Text('الصفحة الرئيسية'),
                           onTap: () {
                             Get.toNamed(RouteHelper.getMainNavigationRoute());
                           },

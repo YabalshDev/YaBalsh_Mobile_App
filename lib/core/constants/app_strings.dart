@@ -11,4 +11,5 @@ class AppStrings {
   //hive keys
 
   static const String isFirstTimeVisitKey = 'isFirstTimeVisit';
+  static const String token = 'token';
 }

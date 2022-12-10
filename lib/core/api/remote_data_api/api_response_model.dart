@@ -8,6 +8,5 @@ class ApiResponse extends Equatable {
   const ApiResponse({this.success, this.data, this.message});
 
   @override
-  // TODO: implement props
   List<Object?> get props => [success, data, message];
 }

@@ -3,7 +3,7 @@ import 'package:yabalash_mobile_app/core/theme/light/light_theme.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_svg_icon.dart';
 
 class YaBalashCustomButton extends StatelessWidget {
-  final String title;
+  final Widget child;
   final VoidCallback onTap;
   final bool? isWithIcon;
   final String? iconPath;
@@ -12,7 +12,7 @@ class YaBalashCustomButton extends StatelessWidget {
 
   const YaBalashCustomButton(
       {super.key,
-      required this.title,
+      required this.child,
       required this.onTap,
       this.isDisabled = false,
       this.iconPath,
@@ -29,7 +29,7 @@ class YaBalashCustomButton extends StatelessWidget {
               : kDisabledButtonStyle,
       onPressed: onTap,
       child: !isWithIcon!
-          ? Text(title)
+          ? child
           : CustomSvgIcon(
               iconPath: iconPath!,
               color: Colors.white,

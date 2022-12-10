@@ -11,4 +11,6 @@ abstract class AuthRepository {
 
   Future<Either<Failure, Customer>> registerCustomer(
       {required RegisterRequestModel registerRequest});
+
+  bool checkUserLoggedIn();
 }

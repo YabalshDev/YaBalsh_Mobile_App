@@ -1,13 +1,15 @@
-import 'package:yabalash_mobile_app/core/api/remote_data_api/api_response_model.dart';
+import 'package:equatable/equatable.dart';
 
-class ApiErrorModel extends ApiResponse {
-  const ApiErrorModel({dynamic data, String? message})
-      : super(data: data, success: false, message: message);
+class ApiErrorModel extends Equatable {
+  final bool? success;
+  final String? message;
 
   factory ApiErrorModel.fromJson(Map<String, dynamic> json) {
-    return ApiErrorModel(message: json['message'], data: json['data']);
+    return ApiErrorModel(message: json['message'], success: false);
   }
 
+  const ApiErrorModel({this.success, this.message});
+
   @override
-  List<Object?> get props => [data, success, message];
+  List<Object?> get props => [success, message];
 }

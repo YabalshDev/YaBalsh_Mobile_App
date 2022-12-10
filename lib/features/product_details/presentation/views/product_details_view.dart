@@ -44,9 +44,9 @@ class ProductDetailsView extends StatelessWidget {
             Expanded(
               flex: 6,
               child: YaBalashCustomButton(
-                title: '+ اضف الى السلة',
                 isSecondaryButton: true,
                 onTap: () {},
+                child: const Text('+ اضف الى السلة'),
               ),
             ),
           ]),
