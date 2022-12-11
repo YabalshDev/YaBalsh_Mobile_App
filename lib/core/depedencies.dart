@@ -24,9 +24,16 @@ import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/main_
 import 'package:yabalash_mobile_app/features/on_boaring/data/repositories/splash_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/domain/repositories/splash_repository.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/blocs/cubit/splash_cubit.dart';
+import 'package:yabalash_mobile_app/features/zones/data/datasources/zone_remote_data_source.dart';
+import 'package:yabalash_mobile_app/features/zones/data/repositories/zones_repository_impl.dart';
+import 'package:yabalash_mobile_app/features/zones/domain/repositories/zones_repositoriy.dart';
+import 'package:yabalash_mobile_app/features/zones/domain/usecases/get_all_subzones_usecase.dart';
+import 'package:yabalash_mobile_app/features/zones/domain/usecases/get_past_subzones_usecase.dart';
+import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/main_zones_cubit.dart';
 
 import '../features/auth/presentation/blocs/cubit/register_cubit.dart';
 import '../features/on_boaring/presentation/blocs/cubit/on_boarding_cubit.dart';
+import '../features/zones/data/datasources/zone_local_data_source.dart';
 
 setupDependecies() {
   Get.lazyPut(() => Dio());
@@ -36,10 +43,16 @@ setupDependecies() {
   Get.lazyPut<RestApiProvider>(() => DioConsumer(client: Get.find()));
   Get.lazyPut<LocalStorageProvider>(() => HiveLocalDataConsumer());
   Get.lazyPut<HomeDataSource>(() => HomeMockDataSourceImpl());
+
   Get.lazyPut<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(restApiProvider: Get.find()));
   Get.lazyPut<AuthLocalDataSource>(
       () => AuthLocalDataSourceImpl(localStorageProvider: Get.find()));
+
+  Get.lazyPut<ZonesRemoteDataSource>(
+      () => ZonesRemoteDataSourceImpl(restApiProvider: Get.find()));
+  Get.lazyPut<ZonesLocalDataSource>(
+      () => ZoneLocalDataSourceImpl(localStorageProvider: Get.find()));
 
   Get.lazyPut<SplashRepository>(
       () => SplashRepositoryImpl(localStorageProvider: Get.find()));
@@ -48,6 +61,9 @@ setupDependecies() {
       () => HomeRepositoryImpl(homeDataSource: Get.find()));
   Get.lazyPut<AuthRepository>(() => AuthRepositoryImpl(
       authRemoteDataSource: Get.find(), authLocalDataSource: Get.find()));
+
+  Get.lazyPut<ZonesRepository>(() => ZonesRepositoryImpl(
+      zonesLocalDataSource: Get.find(), zonesRemoteDataSource: Get.find()));
 
   // use cases
 
@@ -58,6 +74,9 @@ setupDependecies() {
 
   Get.lazyPut(() => RegisterUseCase(authRepository: Get.find()));
   Get.lazyPut(() => LoginUseCase(authRepository: Get.find()));
+
+  Get.lazyPut(() => GetSubZonesUseCase(zonesRepository: Get.find()));
+  Get.lazyPut(() => GetPastSubZonesUseCase(zonesRepository: Get.find()));
 
   Get.lazyPut(
     () => HomeCubit(
@@ -74,4 +93,6 @@ setupDependecies() {
   Get.lazyPut(() => SplashCubit(splashRepository: Get.find()), fenix: true);
   Get.lazyPut(() => LoginCubit(loginUseCase: Get.find()), fenix: true);
   Get.lazyPut(() => RegisterCubit(registerUseCase: Get.find()), fenix: true);
+  Get.lazyPut(() => MainZonesCubit(getPastSubZonesUseCase: Get.find()),
+      fenix: true);
 }

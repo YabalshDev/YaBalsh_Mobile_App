@@ -8,11 +8,11 @@ class SubZone extends Equatable {
   final int? id;
   @HiveField(1)
   final String? name;
-  @HiveField(2)
-  final int? mainZoneId;
+  @HiveField(3)
+  final String? mainZoneName;
 
-  const SubZone({this.id, this.name, this.mainZoneId});
+  const SubZone({this.id, this.name, this.mainZoneName});
 
   @override
-  List<Object?> get props => [id, name, mainZoneId];
+  List<Object?> get props => [id, name, mainZoneName];
 }

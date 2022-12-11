@@ -13,6 +13,7 @@ import 'package:yabalash_mobile_app/features/on_boaring/presentation/blocs/cubit
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/views/on_boarding_view.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/views/splash_view.dart';
 import 'package:yabalash_mobile_app/features/product_details/presentation/views/product_details_view.dart';
+import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/main_zones_cubit.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/views/main_zones_view.dart';
 
 import '../../features/home/domain/entities/product.dart';
@@ -95,8 +96,12 @@ class RouteHelper {
     GetPage(
         name: _mainZonesRoute,
         page: () {
-          return const CustomAnimatedWidget(
-            child: MainZonesView(),
+          return CustomAnimatedWidget(
+            child: BlocProvider<MainZonesCubit>(
+              create: (context) =>
+                  Get.find<MainZonesCubit>()..getZonesHistory(),
+              child: const MainZonesView(),
+            ),
           );
         })
   ];

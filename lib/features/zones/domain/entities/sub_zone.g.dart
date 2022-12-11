@@ -19,7 +19,7 @@ class SubZoneAdapter extends TypeAdapter<SubZone> {
     return SubZone(
       id: fields[0] as int?,
       name: fields[1] as String?,
-      mainZoneId: fields[2] as int?,
+      mainZoneName: fields[2] as String?,
     );
   }
 
@@ -32,7 +32,7 @@ class SubZoneAdapter extends TypeAdapter<SubZone> {
       ..writeByte(1)
       ..write(obj.name)
       ..writeByte(2)
-      ..write(obj.mainZoneId);
+      ..write(obj.mainZoneName);
   }
 
   @override
