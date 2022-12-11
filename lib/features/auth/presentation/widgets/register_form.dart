@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:get/get.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
@@ -9,11 +11,24 @@ import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/custom_form_section.dart';
 import '../../../../core/widgets/custom_svg_icon.dart';
 import '../../../../core/widgets/phone_number_text_field.dart';
+import '../blocs/cubit/register_cubit.dart';
 
 class RegisterForm extends StatelessWidget {
   final GlobalKey<FormBuilderState> formKey;
 
   const RegisterForm({super.key, required this.formKey});
+
+  void validateOnChanged(String value) {
+    if (value.isEmpty) {
+      Get.find<RegisterCubit>().changeButtonDisabled(true);
+    }
+
+    if (formKey.currentState!.fields['firstName']!.value != '' &&
+        formKey.currentState!.fields['lastName']!.value != '' &&
+        formKey.currentState!.fields['password']!.value != '') {
+      Get.find<RegisterCubit>().changeButtonDisabled(false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +61,9 @@ class RegisterForm extends StatelessWidget {
                           fontWeight: FontWeight.w600, fontSize: 13.sp),
                     ),
                     name: 'firstName',
+                    onChanged: (value) {
+                      validateOnChanged(value!);
+                    },
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(
                           errorText: 'الاسم الاول مطلوب')
@@ -61,6 +79,9 @@ class RegisterForm extends StatelessWidget {
                           fontWeight: FontWeight.w600, fontSize: 13.sp),
                     ),
                     name: 'lastName',
+                    onChanged: (value) {
+                      validateOnChanged(value!);
+                    },
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(
                           errorText: 'الاسم الاخير مطلوب')
@@ -104,25 +125,34 @@ class RegisterForm extends StatelessWidget {
             name: 'password',
             validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(errorText: 'كلمة السر مطلوبة'),
-              FormBuilderValidators.minLength(6,
-                  errorText: 'كلمة المرور لازم تكون أكثر من 6 حروف'),
+              FormBuilderValidators.minLength(8,
+                  errorText: 'كلمة المرور لازم تكون أكثر من 8 حروف'),
             ]),
             obsecure: true,
-            suffixIcon: Padding(
-              padding: const EdgeInsets.all(13),
-              child: InkWell(
-                onTap: () {
-                  // if (state.obsecure!) {
-                  //   Get.find<LoginCubit>().changeObsecure(false);
-                  // } else {
-                  //   Get.find<LoginCubit>().changeObsecure(true);
-                  // }
-                },
-                child: const CustomSvgIcon(
-                  iconPath: AppAssets.eyeIcon,
-                  color: Color(0xffBCBDBF),
-                ),
-              ),
+            onChanged: (value) {
+              validateOnChanged(value!);
+            },
+            suffixIcon: BlocBuilder<RegisterCubit, RegisterState>(
+              builder: (context, state) {
+                return Padding(
+                  padding: const EdgeInsets.all(13),
+                  child: InkWell(
+                    onTap: () {
+                      if (state.obsecure!) {
+                        Get.find<RegisterCubit>().changeObsecure(false);
+                      } else {
+                        Get.find<RegisterCubit>().changeObsecure(true);
+                      }
+                    },
+                    child: CustomSvgIcon(
+                      iconPath: AppAssets.eyeIcon,
+                      color: !state.formValidationError!
+                          ? const Color(0xffBCBDBF)
+                          : AppColorsLight.kErrorColor,
+                    ),
+                  ),
+                );
+              },
             ),
           )
         ],

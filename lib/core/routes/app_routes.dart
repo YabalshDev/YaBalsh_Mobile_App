@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/core/widgets/keyboard_dissmisable.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/login_cubit.dart';
+import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/register_cubit.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/views/login_view.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/views/register_view.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/main_navigation_cubit.dart';
@@ -74,7 +75,7 @@ class RouteHelper {
         name: _loginRoute,
         page: () {
           return CustomAnimatedWidget(
-              child: BlocProvider(
+              child: BlocProvider<LoginCubit>(
             create: (context) => Get.find<LoginCubit>(),
             child: const KeyboardDissmisable(child: LoginView()),
           ));
@@ -82,8 +83,11 @@ class RouteHelper {
     GetPage(
         name: _registerRoute,
         page: () {
-          return const CustomAnimatedWidget(
-              child: KeyboardDissmisable(child: RegisterView()));
+          return CustomAnimatedWidget(
+              child: BlocProvider<RegisterCubit>(
+            create: (context) => Get.find<RegisterCubit>(),
+            child: const KeyboardDissmisable(child: RegisterView()),
+          ));
         })
   ];
 }

@@ -39,7 +39,13 @@ class DioConsumer implements RestApiProvider {
   Future delete(String path, {Map<String, dynamic>? queryParams}) async {
     try {
       final response = await client.delete(path, queryParameters: queryParams);
-      return response.data;
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        throw ServerException(
+            errorModel: ApiErrorModel(
+                message: response.data['message'], success: false));
+      }
     } on DioError catch (err) {
       return _handleDioError(err);
     }
@@ -49,7 +55,13 @@ class DioConsumer implements RestApiProvider {
   Future get(String path, {Map<String, dynamic>? queryParams}) async {
     try {
       final response = await client.get(path, queryParameters: queryParams);
-      return response.data;
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        throw ServerException(
+            errorModel: ApiErrorModel(
+                message: response.data['message'], success: false));
+      }
     } on DioError catch (err) {
       return _handleDioError(err);
     }
@@ -61,7 +73,13 @@ class DioConsumer implements RestApiProvider {
     try {
       final response =
           await client.post(path, queryParameters: queryParams, data: body);
-      return response.data;
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        throw ServerException(
+            errorModel: ApiErrorModel(
+                message: response.data['message'], success: false));
+      }
     } on DioError catch (err) {
       return _handleDioError(err);
     }
@@ -73,7 +91,13 @@ class DioConsumer implements RestApiProvider {
     try {
       final response =
           await client.put(path, queryParameters: queryParams, data: body);
-      return response.data;
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        throw ServerException(
+            errorModel: ApiErrorModel(
+                message: response.data['message'], success: false));
+      }
     } on DioError catch (err) {
       return _handleDioError(err);
     }
@@ -101,7 +125,9 @@ class DioConsumer implements RestApiProvider {
           case StatusCode.confilct:
             throw ConflictException(
                 errorModel: ApiErrorModel.fromJson(error.response!.data));
-
+          case StatusCode.test:
+            throw BadRequestException(
+                errorModel: ApiErrorModel.fromJson(error.response!.data));
           case StatusCode.internalServerError:
             throw InternalServerErrorException(
                 errorModel: ApiErrorModel.fromJson(error.response!.data));

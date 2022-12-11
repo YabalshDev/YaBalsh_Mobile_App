@@ -5,5 +5,6 @@ class StatusCode {
   static const int forbidden = 403;
   static const int notFound = 404;
   static const int confilct = 409;
+  static const int test = 422;
   static const int internalServerError = 500;
 }

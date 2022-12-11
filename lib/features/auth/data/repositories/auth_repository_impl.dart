@@ -29,8 +29,14 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, Customer>> registerCustomer(
-      {required RegisterRequestModel registerRequest}) {
-    throw UnimplementedError();
+      {required RegisterRequestModel registerRequest}) async {
+    try {
+      final result = await authRemoteDataSource.registerUser(
+          requestModel: registerRequest);
+      return Right(result.data as Customer);
+    } on ServerException catch (err) {
+      return Left(ServerFailure(message: err.errorModel.message!));
+    }
   }
 
   @override

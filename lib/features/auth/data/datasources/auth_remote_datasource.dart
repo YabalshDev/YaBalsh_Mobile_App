@@ -28,7 +28,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<RegisterResponseModel> registerUser(
-      {required RegisterRequestModel requestModel}) {
-    throw UnimplementedError();
+      {required RegisterRequestModel requestModel}) async {
+    final response = await restApiProvider.post(registerEndPoint,
+        body: requestModel.toJson());
+
+    return RegisterResponseModel.fromJson(response);
   }
 }

@@ -10,6 +10,7 @@ import 'package:yabalash_mobile_app/features/auth/data/datasources/auth_remote_d
 import 'package:yabalash_mobile_app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/login_usecase.dart';
+import 'package:yabalash_mobile_app/features/auth/domain/usecases/register_usecase.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/login_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/data/datasources/home_mock_datasource.dart';
 import 'package:yabalash_mobile_app/features/home/data/repositories/home_repository_impl.dart';
@@ -24,6 +25,7 @@ import 'package:yabalash_mobile_app/features/on_boaring/data/repositories/splash
 import 'package:yabalash_mobile_app/features/on_boaring/domain/repositories/splash_repository.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/blocs/cubit/splash_cubit.dart';
 
+import '../features/auth/presentation/blocs/cubit/register_cubit.dart';
 import '../features/on_boaring/presentation/blocs/cubit/on_boarding_cubit.dart';
 
 setupDependecies() {
@@ -54,6 +56,7 @@ setupDependecies() {
   Get.lazyPut(() => GetNearStoresUseCase(homeRepository: Get.find()));
   Get.lazyPut(() => GetSectiosUseCase(homeRepository: Get.find()));
 
+  Get.lazyPut(() => RegisterUseCase(authRepository: Get.find()));
   Get.lazyPut(() => LoginUseCase(authRepository: Get.find()));
 
   Get.lazyPut(
@@ -70,4 +73,5 @@ setupDependecies() {
   Get.lazyPut(() => OnBoardingCubit(), fenix: true);
   Get.lazyPut(() => SplashCubit(splashRepository: Get.find()), fenix: true);
   Get.lazyPut(() => LoginCubit(loginUseCase: Get.find()), fenix: true);
+  Get.lazyPut(() => RegisterCubit(registerUseCase: Get.find()), fenix: true);
 }
