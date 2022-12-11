@@ -13,6 +13,7 @@ import 'package:yabalash_mobile_app/features/on_boaring/presentation/blocs/cubit
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/views/on_boarding_view.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/views/splash_view.dart';
 import 'package:yabalash_mobile_app/features/product_details/presentation/views/product_details_view.dart';
+import 'package:yabalash_mobile_app/features/zones/presentation/views/main_zones_view.dart';
 
 import '../../features/home/domain/entities/product.dart';
 import '../../features/home/presentation/views/home_view.dart';
@@ -27,6 +28,7 @@ class RouteHelper {
   static const String _productDetailsRoute = '/product-details';
   static const String _loginRoute = '/login';
   static const String _registerRoute = '/register';
+  static const String _mainZonesRoute = '/main-zones';
 
   static getIntialRoute() => _intialRoute;
   static getOnBoardingRoute() => _onBordingRoute;
@@ -35,6 +37,7 @@ class RouteHelper {
   static getProductDetailsRoute() => _productDetailsRoute;
   static getLoginRoute() => _loginRoute;
   static getRegisterRoute() => _registerRoute;
+  static getMainZonesRoute() => _mainZonesRoute;
 
   static final routes = [
     GetPage(
@@ -88,6 +91,13 @@ class RouteHelper {
             create: (context) => Get.find<RegisterCubit>(),
             child: const KeyboardDissmisable(child: RegisterView()),
           ));
+        }),
+    GetPage(
+        name: _mainZonesRoute,
+        page: () {
+          return const CustomAnimatedWidget(
+            child: MainZonesView(),
+          );
         })
   ];
 }

@@ -1,10 +1,11 @@
-import 'package:hive/hive.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:yabalash_mobile_app/core/constants/app_strings.dart';
+import 'package:yabalash_mobile_app/features/zones/domain/entities/sub_zone.dart';
 
 void openHiveBoxes() async {
-  final directory = await getApplicationDocumentsDirectory();
-  Hive.init(directory.path);
+  await Hive.initFlutter();
+  Hive.registerAdapter(SubZoneAdapter());
   await Hive.openBox(AppStrings.isFirstTimeVisitKey);
   await Hive.openBox(AppStrings.token);
+  await Hive.openBox<SubZone>(AppStrings.zones);
 }

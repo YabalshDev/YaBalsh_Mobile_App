@@ -12,4 +12,5 @@ class AppStrings {
 
   static const String isFirstTimeVisitKey = 'isFirstTimeVisit';
   static const String token = 'token';
+  static const String zones = 'zones';
 }

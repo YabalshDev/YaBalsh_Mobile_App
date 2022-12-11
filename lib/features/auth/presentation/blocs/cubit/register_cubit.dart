@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
 import 'package:yabalash_mobile_app/features/auth/data/models/register_request_model.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/register_usecase.dart';
 
@@ -20,10 +22,14 @@ class RegisterCubit extends Cubit<RegisterState> {
       emit(state.copyWith(
           registerState: RequestState.loading, errorMessage: failure.message));
 
-      print('error is ${failure.message}');
+      showCustomDialog(
+          buttonTitle: 'حسنا',
+          isWithEmoji: false,
+          title: 'مشكلة في انشاء الحساب',
+          onConfirm: () => Get.back(),
+          mainContent: failure.message);
     }, (customer) {
       emit(state.copyWith(registerState: RequestState.loaded));
-      print(customer);
     });
   }
 

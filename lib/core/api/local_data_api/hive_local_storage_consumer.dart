@@ -47,4 +47,19 @@ class HiveLocalDataConsumer implements LocalStorageProvider {
       throw CacheException();
     }
   }
+
+  @override
+  void addData({required key, required data}) {
+    try {
+      if (!Hive.isBoxOpen(key)) {
+        Hive.openBox(key);
+      }
+      final box = Hive.box(key);
+
+      box.add(data);
+      box.close();
+    } catch (err) {
+      throw CacheException();
+    }
+  }
 }
