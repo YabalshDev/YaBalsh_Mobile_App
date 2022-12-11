@@ -19,7 +19,28 @@ class RegisterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: RegisterBody());
+    return Scaffold(
+      body: const RegisterBody(),
+      bottomNavigationBar: SizedBox(
+        height: 100.h,
+        child: Padding(
+          padding: EdgeInsets.only(bottom: 30.h),
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: TextButton(
+              onPressed: () {},
+              child: Text(
+                'لديك مشكلة للدخول إلي حسابك؟',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13.sp,
+                    color: AppColorsLight.kAppPrimaryColorLight),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -187,23 +208,6 @@ class RegisterBody extends StatelessWidget {
               ),
               mediumVerticalSpace,
               const PrivacyPolicyText(),
-
-              Padding(
-                padding: EdgeInsets.only(top: 60.h),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      'لديك مشكلة للدخول إلي حسابك؟',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 13.sp,
-                          color: AppColorsLight.kAppPrimaryColorLight),
-                    ),
-                  ),
-                ),
-              )
             ],
           ),
         ),
