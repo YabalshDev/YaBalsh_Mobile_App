@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
+import 'package:yabalash_mobile_app/core/widgets/custom_form_section.dart';
 import 'package:yabalash_mobile_app/core/widgets/phone_number_text_field.dart';
-import 'package:yabalash_mobile_app/core/widgets/yaBalash_text_field.dart';
+import 'package:yabalash_mobile_app/features/auth/presentation/widgets/privacy_policy_text.dart';
 
+import '../../../../core/constants/app_assets.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
+import '../../../../core/widgets/custom_svg_icon.dart';
+import '../../../../core/widgets/ya_balash_custom_button.dart';
 
 final _formKey = GlobalKey<FormBuilderState>();
 
@@ -62,11 +67,9 @@ class RegisterBody extends StatelessWidget {
                     Row(
                       children: [
                         Expanded(
-                          flex: 1,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
+                            flex: 1,
+                            child: CustomFormSection(
+                              title: Text(
                                 'الاسم الاول',
                                 style: Theme.of(context)
                                     .textTheme
@@ -75,20 +78,17 @@ class RegisterBody extends StatelessWidget {
                                         fontWeight: FontWeight.w600,
                                         fontSize: 13.sp),
                               ),
-                              mediumVerticalSpace,
-                              const YaBalashTextField(
-                                name: 'firstName',
-                              )
-                            ],
-                          ),
-                        ),
+                              name: 'firstName',
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(
+                                    errorText: 'الاسم الاول مطلوب')
+                              ]),
+                            )),
                         mediumHorizontalSpace,
                         Expanded(
-                          flex: 1,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
+                            flex: 1,
+                            child: CustomFormSection(
+                              title: Text(
                                 'الاسم الاخير',
                                 style: Theme.of(context)
                                     .textTheme
@@ -97,26 +97,111 @@ class RegisterBody extends StatelessWidget {
                                         fontWeight: FontWeight.w600,
                                         fontSize: 13.sp),
                               ),
-                              mediumVerticalSpace,
-                              const YaBalashTextField(
-                                name: 'lastName',
-                              )
-                            ],
-                          ),
-                        )
+                              name: 'lastName',
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(
+                                    errorText: 'الاسم الاخير مطلوب')
+                              ]),
+                            ))
                       ],
                     ),
                     mediumVerticalSpace,
-                    Text(
-                      'البريد الالكتروني',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w600, fontSize: 13.sp),
+                    CustomFormSection(
+                      title: Row(
+                        children: [
+                          Text(
+                            'البريد الالكتروني',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 13.sp),
+                          ),
+                          Text(
+                            '(إختياري)',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                    color: AppColorsLight.kTextFieldBorderColor,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 13.sp),
+                          ),
+                        ],
+                      ),
+                      name: 'email',
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.email(errorText: 'نسيت علامة @')
+                      ]),
                     ),
                     mediumVerticalSpace,
-                    const YaBalashTextField(
-                      name: 'email',
+                    CustomFormSection(
+                      title: Text(
+                        'كلمة المرور',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w600, fontSize: 13.sp),
+                      ),
+                      name: 'password',
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(
+                            errorText: 'كلمة السر مطلوبة'),
+                        FormBuilderValidators.minLength(6,
+                            errorText: 'كلمة المرور لازم تكون أكثر من 6 حروف'),
+                      ]),
+                      obsecure: true,
+                      suffixIcon: Padding(
+                        padding: const EdgeInsets.all(13),
+                        child: InkWell(
+                          onTap: () {
+                            // if (state.obsecure!) {
+                            //   Get.find<LoginCubit>().changeObsecure(false);
+                            // } else {
+                            //   Get.find<LoginCubit>().changeObsecure(true);
+                            // }
+                          },
+                          child: const CustomSvgIcon(
+                            iconPath: AppAssets.eyeIcon,
+                            color: Color(0xffBCBDBF),
+                          ),
+                        ),
+                      ),
                     )
                   ],
+                ),
+              ),
+
+              largeVerticalSpace,
+              largeVerticalSpace,
+
+              // register button
+
+              YaBalashCustomButton(
+                isDisabled: false,
+                onTap: () {
+                  if (_formKey.currentState!.validate()) {
+                    print('success');
+                  }
+                },
+                child: const Text('انشاء الحساب'),
+              ),
+              mediumVerticalSpace,
+              const PrivacyPolicyText(),
+
+              Padding(
+                padding: EdgeInsets.only(top: 60.h),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      'لديك مشكلة للدخول إلي حسابك؟',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13.sp,
+                          color: AppColorsLight.kAppPrimaryColorLight),
+                    ),
+                  ),
                 ),
               )
             ],
