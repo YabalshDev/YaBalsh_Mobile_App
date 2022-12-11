@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/features/zones/domain/entities/main_zone.dart';
 
 class MainZoneCard extends StatelessWidget {
@@ -19,7 +21,10 @@ class MainZoneCard extends StatelessWidget {
         SizedBox(
           height: 44.h,
           child: ListTile(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(RouteHelper.getSubZonesRoute(),
+                    arguments: mainZone.name);
+              },
               trailing: Icon(
                 Icons.arrow_forward_ios,
                 color: Colors.grey,

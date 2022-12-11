@@ -14,7 +14,9 @@ import 'package:yabalash_mobile_app/features/on_boaring/presentation/views/on_bo
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/views/splash_view.dart';
 import 'package:yabalash_mobile_app/features/product_details/presentation/views/product_details_view.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/main_zones_cubit.dart';
+import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/sub_zone_cubit.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/views/main_zones_view.dart';
+import 'package:yabalash_mobile_app/features/zones/presentation/views/sub_zones_view.dart';
 
 import '../../features/home/domain/entities/product.dart';
 import '../../features/home/presentation/views/home_view.dart';
@@ -30,6 +32,7 @@ class RouteHelper {
   static const String _loginRoute = '/login';
   static const String _registerRoute = '/register';
   static const String _mainZonesRoute = '/main-zones';
+  static const String _subZonesRoutes = '/sub-zones';
 
   static getIntialRoute() => _intialRoute;
   static getOnBoardingRoute() => _onBordingRoute;
@@ -39,6 +42,7 @@ class RouteHelper {
   static getLoginRoute() => _loginRoute;
   static getRegisterRoute() => _registerRoute;
   static getMainZonesRoute() => _mainZonesRoute;
+  static getSubZonesRoute() => _subZonesRoutes;
 
   static final routes = [
     GetPage(
@@ -101,6 +105,16 @@ class RouteHelper {
               create: (context) =>
                   Get.find<MainZonesCubit>()..getZonesHistory(),
               child: const MainZonesView(),
+            ),
+          );
+        }),
+    GetPage(
+        name: _subZonesRoutes,
+        page: () {
+          return CustomAnimatedWidget(
+            child: BlocProvider<SubZoneCubit>(
+              create: (context) => Get.find<SubZoneCubit>()..getSubZones(),
+              child: SubZonesView(mainZone: Get.arguments),
             ),
           );
         })

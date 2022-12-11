@@ -30,6 +30,7 @@ import 'package:yabalash_mobile_app/features/zones/domain/repositories/zones_rep
 import 'package:yabalash_mobile_app/features/zones/domain/usecases/get_all_subzones_usecase.dart';
 import 'package:yabalash_mobile_app/features/zones/domain/usecases/get_past_subzones_usecase.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/main_zones_cubit.dart';
+import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/sub_zone_cubit.dart';
 
 import '../features/auth/presentation/blocs/cubit/register_cubit.dart';
 import '../features/on_boaring/presentation/blocs/cubit/on_boarding_cubit.dart';
@@ -94,5 +95,9 @@ setupDependecies() {
   Get.lazyPut(() => LoginCubit(loginUseCase: Get.find()), fenix: true);
   Get.lazyPut(() => RegisterCubit(registerUseCase: Get.find()), fenix: true);
   Get.lazyPut(() => MainZonesCubit(getPastSubZonesUseCase: Get.find()),
+      fenix: true);
+  Get.lazyPut(
+      () => SubZoneCubit(
+          getSubZonesUseCase: Get.find(), zonesRepository: Get.find()),
       fenix: true);
 }
