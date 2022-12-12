@@ -16,6 +16,9 @@ class ZoneLocalDataSourceImpl implements ZonesLocalDataSource {
   @override
   List<SubZone> getPastZones() {
     try {
+      if (!Hive.isBoxOpen(AppStrings.zones)) {
+        Hive.openBox<SubZone>(AppStrings.zones);
+      }
       final box = Hive.box<SubZone>(AppStrings.zones);
       return box.values.toList();
     } catch (err) {
@@ -26,7 +29,10 @@ class ZoneLocalDataSourceImpl implements ZonesLocalDataSource {
   @override
   void setZone({required SubZone subZone}) {
     try {
-      final box = Hive.box(AppStrings.zones);
+      if (!Hive.isBoxOpen(AppStrings.zones)) {
+        Hive.openBox<SubZone>(AppStrings.zones);
+      }
+      final box = Hive.box<SubZone>(AppStrings.zones);
       box.put(subZone.name, subZone);
       box.close();
     } catch (err) {

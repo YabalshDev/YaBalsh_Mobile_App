@@ -50,7 +50,10 @@ class SubZonesBody extends StatelessWidget {
             ),
             smallVerticalSpace,
             BlocBuilder<SubZoneCubit, SubZoneState>(
+              buildWhen: (previous, current) =>
+                  previous.subZonesState != current.subZonesState,
               builder: (context, state) {
+                debugPrint('build sub zones');
                 switch (state.subZonesState) {
                   case RequestState.idle:
                     return const SizedBox();
@@ -67,25 +70,29 @@ class SubZonesBody extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         final subZone = state.subZones![index];
-                        return Column(
-                          children: [
-                            SizedBox(
-                              height: 45.h,
-                              child: ListTile(
-                                title: Text(subZone.name ?? '',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                            fontSize: 13.sp,
-                                            fontWeight: FontWeight.w500)),
+                        return InkWell(
+                          onTap: () => Get.find<SubZoneCubit>()
+                              .onSubZoneSelect(subZone: subZone),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 45.h,
+                                child: ListTile(
+                                  title: Text(subZone.name ?? '',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(
+                                              fontSize: 13.sp,
+                                              fontWeight: FontWeight.w500)),
+                                ),
                               ),
-                            ),
-                            Divider(
-                              color: Colors.grey.shade300,
-                              thickness: 1,
-                            )
-                          ],
+                              Divider(
+                                color: Colors.grey.shade300,
+                                thickness: 1,
+                              )
+                            ],
+                          ),
                         );
                       },
                     );
