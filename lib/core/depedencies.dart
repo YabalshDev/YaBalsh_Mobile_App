@@ -12,6 +12,7 @@ import 'package:yabalash_mobile_app/features/auth/domain/repositories/auth_repos
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/register_usecase.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/login_cubit.dart';
+import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/phone_number_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/data/datasources/home_mock_datasource.dart';
 import 'package:yabalash_mobile_app/features/home/data/repositories/home_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/home/domain/repositories/home_repository.dart';
@@ -100,4 +101,5 @@ setupDependecies() {
       () => SubZoneCubit(
           getSubZonesUseCase: Get.find(), zonesRepository: Get.find()),
       fenix: true);
+  Get.lazyPut(() => PhoneNumberCubit(), fenix: true);
 }

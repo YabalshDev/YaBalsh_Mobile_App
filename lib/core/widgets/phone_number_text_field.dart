@@ -10,15 +10,28 @@ import '../theme/light/light_theme.dart';
 
 class PhoneTextField extends StatelessWidget {
   final String? intialValue;
+  final String? title;
   final bool? readOnly;
-  const PhoneTextField({super.key, this.intialValue, this.readOnly = false});
+  final bool? isFilled;
+  final String? hintText;
+  final Function(String?)? onChanged;
+  const PhoneTextField(
+      {super.key,
+      this.intialValue,
+      this.hintText,
+      this.readOnly = false,
+      this.title,
+      this.onChanged,
+      this.isFilled = true});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 51.h,
       child: Container(
-        decoration: kFilledTextFieldDecoration,
+        decoration: isFilled!
+            ? kFilledTextFieldDecoration
+            : kFilledTextFieldDecoration.copyWith(color: Colors.transparent),
         padding: kDefaultPadding,
         child: Row(
           children: [
@@ -40,6 +53,7 @@ class PhoneTextField extends StatelessWidget {
             ),
             Expanded(
               child: FormBuilderTextField(
+                onChanged: onChanged ?? (value) {},
                 name: 'phoneNumber',
                 initialValue: intialValue,
                 keyboardType: TextInputType.phone,
@@ -55,8 +69,12 @@ class PhoneTextField extends StatelessWidget {
                     ?.copyWith(fontWeight: FontWeight.w600),
                 cursorColor: AppColorsLight.kAppPrimaryColorLight,
                 decoration: InputDecoration(
+                    hintText: hintText ?? '',
+                    hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: AppColorsLight.kTextFieldBorderColor),
                     contentPadding:
-                        EdgeInsets.symmetric(vertical: 11.h, horizontal: 10.w),
+                        EdgeInsets.symmetric(vertical: 6.h, horizontal: 10.w),
                     border: InputBorder.none),
               ),
             )

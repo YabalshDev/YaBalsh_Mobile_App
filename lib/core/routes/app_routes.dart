@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/core/widgets/keyboard_dissmisable.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/login_cubit.dart';
+import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/phone_number_cubit.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/register_cubit.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/views/login_view.dart';
+import 'package:yabalash_mobile_app/features/auth/presentation/views/phone_number_view.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/views/register_view.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/main_navigation_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/views/main_navigation_view.dart';
@@ -31,6 +33,7 @@ class RouteHelper {
   static const String _productDetailsRoute = '/product-details';
   static const String _loginRoute = '/login';
   static const String _registerRoute = '/register';
+  static const String _phoneNumberRoute = '/phone-number';
   static const String _mainZonesRoute = '/main-zones';
   static const String _subZonesRoutes = '/sub-zones';
 
@@ -43,6 +46,7 @@ class RouteHelper {
   static getRegisterRoute() => _registerRoute;
   static getMainZonesRoute() => _mainZonesRoute;
   static getSubZonesRoute() => _subZonesRoutes;
+  static getPhoneNumberRoute() => _phoneNumberRoute;
 
   static final routes = [
     GetPage(
@@ -117,6 +121,16 @@ class RouteHelper {
               child: SubZonesView(mainZone: Get.arguments),
             ),
           );
+        }),
+    GetPage(
+        name: _phoneNumberRoute,
+        page: () {
+          return CustomAnimatedWidget(
+              child: KeyboardDissmisable(
+                  child: BlocProvider<PhoneNumberCubit>(
+            create: (context) => Get.find<PhoneNumberCubit>(),
+            child: const PhoneNumberView(),
+          )));
         })
   ];
 }

@@ -21,79 +21,58 @@ class LoginBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: kDefaultPadding,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 180.h,
-                      ),
-                      Text(
-                        'ايه هي كلمة السر؟',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium
-                            ?.copyWith(
-                                color: AppColorsLight.kAppPrimaryColorLight),
-                      ),
-                      largeVerticalSpace,
-                      LoginForm(formKey: _formKey),
-                      largeVerticalSpace,
-                      mediumVerticalSpace,
-                      BlocBuilder<LoginCubit, LoginState>(
-                        buildWhen: (previous, current) =>
-                            previous.isButtonDisabled !=
-                            current.isButtonDisabled,
-                        builder: (context, state) {
-                          return YaBalashCustomButton(
-                            isDisabled: state.isButtonDisabled,
-                            onTap: () {
-                              if (_formKey.currentState!.validate()) {
-                                final loginRequest = LoginRequestModel(
-                                    password: _formKey.currentState!
-                                        .fields['password']!.value,
-                                    phoneNumber: _formKey.currentState!
-                                        .fields['phoneNumber']!.value);
-
-                                print(loginRequest);
-
-                                Get.find<LoginCubit>()
-                                    .loginUser(loginCredentials: loginRequest);
-                              }
-                            },
-                            child: state.loginState == RequestState.loading
-                                ? const Center(
-                                    child: CircularProgressIndicator(),
-                                  )
-                                : const Text('تسجيل الدخول'),
-                          );
-                        },
-                      )
-                    ],
-                  ),
+        SingleChildScrollView(
+          child: Padding(
+            padding: kDefaultPadding,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 180.h,
                 ),
-              ),
+                Text(
+                  'ايه هي كلمة السر؟',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineMedium
+                      ?.copyWith(color: AppColorsLight.kAppPrimaryColorLight),
+                ),
+                largeVerticalSpace,
+                LoginForm(formKey: _formKey),
+                largeVerticalSpace,
+                mediumVerticalSpace,
+                BlocBuilder<LoginCubit, LoginState>(
+                  buildWhen: (previous, current) =>
+                      previous.isButtonDisabled != current.isButtonDisabled,
+                  builder: (context, state) {
+                    return YaBalashCustomButton(
+                      isDisabled: state.isButtonDisabled,
+                      onTap: () {
+                        if (_formKey.currentState!.validate()) {
+                          final loginRequest = LoginRequestModel(
+                              password: _formKey
+                                  .currentState!.fields['password']!.value,
+                              phoneNumber: _formKey
+                                  .currentState!.fields['phoneNumber']!.value);
+
+                          print(loginRequest);
+
+                          Get.find<LoginCubit>()
+                              .loginUser(loginCredentials: loginRequest);
+                        }
+                      },
+                      child: state.loginState == RequestState.loading
+                          ? const Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : const Text('تسجيل الدخول'),
+                    );
+                  },
+                )
+              ],
             ),
-            Padding(
-              padding: kDefaultPadding.copyWith(bottom: 40.h),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Text(
-                  'لديك مشكلة للدخول إلي حسابك؟',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13.sp,
-                      color: AppColorsLight.kAppPrimaryColorLight),
-                ),
-              ),
-            )
-          ],
+          ),
         ),
         Padding(
           padding: kDefaultPadding,

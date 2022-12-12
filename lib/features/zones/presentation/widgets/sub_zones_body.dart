@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/features/zones/presentation/widgets/sub_zone_list.dart';
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
@@ -49,64 +50,7 @@ class SubZonesBody extends StatelessWidget {
               ]),
             ),
             smallVerticalSpace,
-            BlocBuilder<SubZoneCubit, SubZoneState>(
-              buildWhen: (previous, current) =>
-                  previous.subZonesState != current.subZonesState,
-              builder: (context, state) {
-                debugPrint('build sub zones');
-                switch (state.subZonesState) {
-                  case RequestState.idle:
-                    return const SizedBox();
-                  case RequestState.loading:
-                    return SizedBox(
-                      height: Get.size.height * 0.75,
-                      child: const Center(child: CircularProgressIndicator()),
-                    );
-
-                  case RequestState.loaded:
-                    return ListView.builder(
-                      itemCount: state.subZones!.length,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        final subZone = state.subZones![index];
-                        return InkWell(
-                          onTap: () => Get.find<SubZoneCubit>()
-                              .onSubZoneSelect(subZone: subZone),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 45.h,
-                                child: ListTile(
-                                  title: Text(subZone.name ?? '',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.copyWith(
-                                              fontSize: 13.sp,
-                                              fontWeight: FontWeight.w500)),
-                                ),
-                              ),
-                              Divider(
-                                color: Colors.grey.shade300,
-                                thickness: 1,
-                              )
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                  case RequestState.error:
-                    return const SizedBox();
-
-                  default:
-                    return const SizedBox();
-                }
-              },
-            ),
-            Expanded(
-              child: Row(),
-            ),
+            const SubZoneList()
           ],
         ),
       ),
