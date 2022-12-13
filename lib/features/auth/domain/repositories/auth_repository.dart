@@ -13,4 +13,5 @@ abstract class AuthRepository {
       {required RegisterRequestModel registerRequest});
 
   bool checkUserLoggedIn();
+  void saveUserToken({required String token});
 }

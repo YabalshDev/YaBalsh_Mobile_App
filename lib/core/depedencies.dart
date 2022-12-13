@@ -95,17 +95,17 @@ setupDependecies() {
         getSectiosUseCase: getIt()),
   );
 
-  getIt.registerFactory(
+  getIt.registerLazySingleton(
     () => MainNavigationCubit(),
   );
-  getIt.registerFactory(
+  getIt.registerLazySingleton(
     () => OnBoardingCubit(),
   );
-  getIt.registerFactory(
+  getIt.registerLazySingleton(
     () => SplashCubit(splashRepository: getIt()),
   );
   getIt.registerLazySingleton(
-    () => LoginCubit(loginUseCase: getIt()),
+    () => LoginCubit(loginUseCase: getIt(), authRepository: getIt()),
   );
   getIt.registerLazySingleton(
     () => RegisterCubit(registerUseCase: getIt()),

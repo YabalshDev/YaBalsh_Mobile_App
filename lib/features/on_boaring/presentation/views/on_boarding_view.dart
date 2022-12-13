@@ -10,6 +10,8 @@ import 'package:yabalash_mobile_app/features/on_boaring/presentation/widgets/dot
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/widgets/next_skip_row.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/widgets/page_view_item.dart';
 
+import '../../../../core/depedencies.dart';
+
 class OnBoardingView extends StatefulWidget {
   const OnBoardingView({super.key});
 
@@ -40,7 +42,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                     controller: _pageController,
                     itemCount: onBoardings.length,
                     onPageChanged: (value) =>
-                        Get.find<OnBoardingCubit>().setPageIndex(value),
+                        getIt<OnBoardingCubit>().setPageIndex(value),
                     itemBuilder: (context, index) {
                       final onBoarding = onBoardings[index];
                       return PageViewItem(

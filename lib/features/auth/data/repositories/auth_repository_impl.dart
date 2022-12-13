@@ -43,4 +43,9 @@ class AuthRepositoryImpl implements AuthRepository {
   bool checkUserLoggedIn() {
     return authLocalDataSource.checkUserLoggedIn();
   }
+
+  @override
+  void saveUserToken({required String token}) {
+    authLocalDataSource.setUserToken(token: token);
+  }
 }

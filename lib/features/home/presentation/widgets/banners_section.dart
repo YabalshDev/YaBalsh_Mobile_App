@@ -18,6 +18,7 @@ class BannersSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
+        print(state);
         switch (state.bannersRequestState) {
           case RequestState.loading:
             return SizedBox(
@@ -55,7 +56,8 @@ class BannersSection extends StatelessWidget {
                       },
                       options: CarouselOptions(
                           onPageChanged: (index, reason) =>
-                              Get.find<HomeCubit>().onBannerChanged(index),
+                              BlocProvider.of<HomeCubit>(context)
+                                  .onBannerChanged(index),
                           viewportFraction: 0.94,
                           autoPlay: false,
                           height: 150.h)),

@@ -14,8 +14,8 @@ class SplashRepositoryImpl implements SplashRepository {
   Either<Failure, bool> checkIsFirstTimeVisit() {
     try {
       bool isFirstTimeVisit = true;
-      final response = localStorageProvider.getData(
-          key: AppStrings.isFirstTimeVisitKey) as bool?;
+      final response =
+          localStorageProvider.getData(key: AppStrings.isFirstTimeVisitKey);
 
       if (response != null) {
         isFirstTimeVisit = false;
@@ -31,7 +31,7 @@ class SplashRepositoryImpl implements SplashRepository {
   Either<Failure, void> setIsFirstTimeVisit({required bool value}) {
     try {
       final response = localStorageProvider.setData(
-          key: AppStrings.isFirstTimeVisitKey, data: value) as bool?;
+          key: AppStrings.isFirstTimeVisitKey, data: value);
 
       return Right(response);
     } catch (err) {

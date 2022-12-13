@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/features/auth/presentation/widgets/auth_back_icon.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/widgets/sub_zone_list.dart';
 
 import '../../../../core/constants/app_layouts.dart';
@@ -21,10 +22,7 @@ class SubZonesBody extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Icon(
-              Icons.arrow_back_ios,
-              color: AppColorsLight.kAppPrimaryColorLight,
-            ),
+            const AuthBackIcon(),
             mediumVerticalSpace,
             Text(
               'اختار منطقة',
