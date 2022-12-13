@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:get/get.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
+import '../../../../core/depedencies.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/custom_form_section.dart';
 import '../../../../core/widgets/custom_svg_icon.dart';
@@ -22,13 +22,13 @@ class RegisterForm extends StatelessWidget {
 
   void validateOnChanged(String value) {
     if (value.isEmpty) {
-      Get.find<RegisterCubit>().changeButtonDisabled(true);
+      getIt<RegisterCubit>().changeButtonDisabled(true);
     }
 
     if (formKey.currentState!.fields['firstName']!.value != '' &&
         formKey.currentState!.fields['lastName']!.value != '' &&
         formKey.currentState!.fields['password']!.value != '') {
-      Get.find<RegisterCubit>().changeButtonDisabled(false);
+      getIt<RegisterCubit>().changeButtonDisabled(false);
     }
   }
 
@@ -141,9 +141,9 @@ class RegisterForm extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
                       if (state.obsecure!) {
-                        Get.find<RegisterCubit>().changeObsecure(false);
+                        getIt<RegisterCubit>().changeObsecure(false);
                       } else {
-                        Get.find<RegisterCubit>().changeObsecure(true);
+                        getIt<RegisterCubit>().changeObsecure(true);
                       }
                     },
                     child: CustomSvgIcon(

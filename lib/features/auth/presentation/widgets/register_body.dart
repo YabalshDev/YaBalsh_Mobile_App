@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/features/auth/data/models/register_request_model.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/widgets/auth_back_icon.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/widgets/auth_title_widget.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/widgets/register_form.dart';
 
 import '../../../../core/constants/app_layouts.dart';
+import '../../../../core/depedencies.dart';
 import '../../../../core/widgets/ya_balash_custom_button.dart';
 import '../blocs/cubit/register_cubit.dart';
 import 'privacy_policy_text.dart';
@@ -45,42 +45,44 @@ class RegisterBody extends StatelessWidget {
                   return YaBalashCustomButton(
                     isDisabled: state.isButtonDisabled,
                     onTap: () {
-                      if (_formKey.currentState!.validate()) {
-                        Get.find<RegisterCubit>().changeFormFieldError(false);
-                        RegisterRequestModel? registerBody;
+                      if (!state.isButtonDisabled!) {
+                        if (_formKey.currentState!.validate()) {
+                          getIt<RegisterCubit>().changeFormFieldError(false);
+                          RegisterRequestModel? registerBody;
 
-                        if (_formKey.currentState!.fields['email']!.value !=
-                            '') {
-                          registerBody = RegisterRequestModel(
-                              email:
-                                  _formKey.currentState!.fields['email']!.value,
-                              firstName: _formKey
-                                  .currentState!.fields['firstName']!.value,
-                              lastName: _formKey
-                                  .currentState!.fields['lastName']!.value,
-                              password: _formKey
-                                  .currentState!.fields['password']!.value,
-                              phoneNumber: _formKey
-                                  .currentState!.fields['phoneNumber']!.value);
-                        } else {
-                          registerBody = RegisterRequestModel(
-                              firstName: _formKey
-                                  .currentState!.fields['firstName']!.value,
-                              lastName: _formKey
-                                  .currentState!.fields['lastName']!.value,
-                              password: _formKey
-                                  .currentState!.fields['password']!.value,
-                              phoneNumber: _formKey
-                                  .currentState!.fields['phoneNumber']!.value);
+                          if (_formKey.currentState!.fields['email']!.value !=
+                              '') {
+                            registerBody = RegisterRequestModel(
+                                email: _formKey
+                                    .currentState!.fields['email']!.value,
+                                firstName: _formKey
+                                    .currentState!.fields['firstName']!.value,
+                                lastName: _formKey
+                                    .currentState!.fields['lastName']!.value,
+                                password: _formKey
+                                    .currentState!.fields['password']!.value,
+                                phoneNumber: _formKey.currentState!
+                                    .fields['phoneNumber']!.value);
+                          } else {
+                            registerBody = RegisterRequestModel(
+                                firstName: _formKey
+                                    .currentState!.fields['firstName']!.value,
+                                lastName: _formKey
+                                    .currentState!.fields['lastName']!.value,
+                                password: _formKey
+                                    .currentState!.fields['password']!.value,
+                                phoneNumber: _formKey.currentState!
+                                    .fields['phoneNumber']!.value);
+                          }
+
+                          print(registerBody);
+
+                          getIt<RegisterCubit>()
+                              .registerUser(registerCredntials: registerBody);
+                        } else if (!_formKey
+                            .currentState!.fields['password']!.isValid) {
+                          getIt<RegisterCubit>().changeFormFieldError(true);
                         }
-
-                        print(registerBody);
-
-                        Get.find<RegisterCubit>()
-                            .registerUser(registerCredntials: registerBody);
-                      } else if (!_formKey
-                          .currentState!.fields['password']!.isValid) {
-                        Get.find<RegisterCubit>().changeFormFieldError(true);
                       }
                     },
                     child: const Text('انشاء الحساب'),

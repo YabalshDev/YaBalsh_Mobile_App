@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:get/get.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
+import '../../../../core/depedencies.dart';
 import '../../../../core/widgets/custom_svg_icon.dart';
 import '../../../../core/widgets/phone_number_text_field.dart';
 import '../../../../core/widgets/yaBalash_text_field.dart';
@@ -59,9 +59,9 @@ class LoginForm extends StatelessWidget {
                   ]),
                   onChanged: (value) {
                     if (value!.isEmpty) {
-                      Get.find<LoginCubit>().changeButtonDisabled(true);
+                      getIt<LoginCubit>().changeButtonDisabled(true);
                     } else {
-                      Get.find<LoginCubit>().changeButtonDisabled(false);
+                      getIt<LoginCubit>().changeButtonDisabled(false);
                     }
                   },
                   obsecure: state.obsecure,
@@ -70,9 +70,9 @@ class LoginForm extends StatelessWidget {
                     child: InkWell(
                       onTap: () {
                         if (state.obsecure!) {
-                          Get.find<LoginCubit>().changeObsecure(false);
+                          getIt<LoginCubit>().changeObsecure(false);
                         } else {
-                          Get.find<LoginCubit>().changeObsecure(true);
+                          getIt<LoginCubit>().changeObsecure(true);
                         }
                       },
                       child: const CustomSvgIcon(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/features/categories/presentation/views/category_view.dart';
@@ -8,6 +7,8 @@ import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/main_navigation_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/views/home_view.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/nav_icon.dart';
+
+import '../../../../core/depedencies.dart';
 
 class MainNavigation extends StatelessWidget {
   MainNavigation({super.key});
@@ -46,9 +47,9 @@ class MainBottomNavBar extends StatelessWidget {
     return BlocBuilder<MainNavigationCubit, MainNavigationState>(
       builder: (context, state) {
         return BottomNavigationBar(
-          currentIndex: Get.find<MainNavigationCubit>().currentPageIndex,
+          currentIndex: getIt<MainNavigationCubit>().currentPageIndex,
           onTap: (value) {
-            Get.find<MainNavigationCubit>().setPageIndex(value);
+            getIt<MainNavigationCubit>().setPageIndex(value);
             pageController.animateToPage(value,
                 duration: const Duration(milliseconds: 500),
                 curve: Curves.easeInOut);
@@ -56,36 +57,31 @@ class MainBottomNavBar extends StatelessWidget {
           items: [
             BottomNavigationBarItem(
                 icon: NavIcon(
-                    activeIndex:
-                        Get.find<MainNavigationCubit>().currentPageIndex,
+                    activeIndex: getIt<MainNavigationCubit>().currentPageIndex,
                     iconPath: AppAssets.homeIcon,
                     itemIndex: 0),
                 label: 'الرئيسية'),
             BottomNavigationBarItem(
                 icon: NavIcon(
-                    activeIndex:
-                        Get.find<MainNavigationCubit>().currentPageIndex,
+                    activeIndex: getIt<MainNavigationCubit>().currentPageIndex,
                     iconPath: AppAssets.menuIcon,
                     itemIndex: 1),
                 label: 'الاقسام'),
             BottomNavigationBarItem(
                 icon: NavIcon(
-                    activeIndex:
-                        Get.find<MainNavigationCubit>().currentPageIndex,
+                    activeIndex: getIt<MainNavigationCubit>().currentPageIndex,
                     iconPath: AppAssets.cartIcon,
                     itemIndex: 2),
                 label: 'السلة'),
             BottomNavigationBarItem(
                 icon: NavIcon(
-                    activeIndex:
-                        Get.find<MainNavigationCubit>().currentPageIndex,
+                    activeIndex: getIt<MainNavigationCubit>().currentPageIndex,
                     iconPath: AppAssets.shoppingListsIcon,
                     itemIndex: 3),
                 label: 'قوائمي'),
             BottomNavigationBarItem(
                 icon: NavIcon(
-                    activeIndex:
-                        Get.find<MainNavigationCubit>().currentPageIndex,
+                    activeIndex: getIt<MainNavigationCubit>().currentPageIndex,
                     iconPath: AppAssets.settingsIcon,
                     itemIndex: 4),
                 label: 'الاعدادت')
@@ -99,15 +95,15 @@ class MainBottomNavBar extends StatelessWidget {
 final List<Widget> screens = [
   BlocProvider<HomeCubit>(
     create: (context) {
-      if (!Get.find<HomeCubit>().isClosed) {
-        return Get.find<HomeCubit>()
+      if (!getIt<HomeCubit>().isClosed) {
+        return getIt<HomeCubit>()
           ..getLastOffers()
           ..getBanners()
           ..getNearStores()
           ..getFirstSection();
       }
 
-      return Get.find<HomeCubit>();
+      return getIt<HomeCubit>();
     },
     child: const CustomAnimatedWidget(child: HomeView()),
   ),

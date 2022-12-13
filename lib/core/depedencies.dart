@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:yabalash_mobile_app/core/api/local_data_api/hive_local_storage_consumer.dart';
 import 'package:yabalash_mobile_app/core/api/local_data_api/local_storage_provider.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/dio_consumer.dart';
@@ -37,69 +37,86 @@ import '../features/auth/presentation/blocs/cubit/register_cubit.dart';
 import '../features/on_boaring/presentation/blocs/cubit/on_boarding_cubit.dart';
 import '../features/zones/data/datasources/zone_local_data_source.dart';
 
+final getIt = GetIt.instance;
 setupDependecies() {
-  Get.lazyPut(() => Dio());
-  Get.lazyPut(() => AppInterceptor());
-  Get.lazyPut(() => LogInterceptor());
+  getIt.registerLazySingleton(() => Dio());
+  getIt.registerLazySingleton(() => AppInterceptor());
+  getIt.registerLazySingleton(() => LogInterceptor());
 
-  Get.lazyPut<RestApiProvider>(() => DioConsumer(client: Get.find()));
-  Get.lazyPut<LocalStorageProvider>(() => HiveLocalDataConsumer());
-  Get.lazyPut<HomeDataSource>(() => HomeMockDataSourceImpl());
+  getIt.registerLazySingleton<RestApiProvider>(
+      () => DioConsumer(client: getIt()));
+  getIt.registerLazySingleton<LocalStorageProvider>(
+      () => HiveLocalDataConsumer());
+  getIt.registerLazySingleton<HomeDataSource>(() => HomeMockDataSourceImpl());
 
-  Get.lazyPut<AuthRemoteDataSource>(
-      () => AuthRemoteDataSourceImpl(restApiProvider: Get.find()));
-  Get.lazyPut<AuthLocalDataSource>(
-      () => AuthLocalDataSourceImpl(localStorageProvider: Get.find()));
+  getIt.registerLazySingleton<AuthRemoteDataSource>(
+      () => AuthRemoteDataSourceImpl(restApiProvider: getIt()));
+  getIt.registerLazySingleton<AuthLocalDataSource>(
+      () => AuthLocalDataSourceImpl(localStorageProvider: getIt()));
 
-  Get.lazyPut<ZonesRemoteDataSource>(
-      () => ZonesRemoteDataSourceImpl(restApiProvider: Get.find()));
-  Get.lazyPut<ZonesLocalDataSource>(
-      () => ZoneLocalDataSourceImpl(localStorageProvider: Get.find()));
+  getIt.registerLazySingleton<ZonesRemoteDataSource>(
+      () => ZonesRemoteDataSourceImpl(restApiProvider: getIt()));
+  getIt.registerLazySingleton<ZonesLocalDataSource>(
+      () => ZoneLocalDataSourceImpl(localStorageProvider: getIt()));
 
-  Get.lazyPut<SplashRepository>(
-      () => SplashRepositoryImpl(localStorageProvider: Get.find()));
+  getIt.registerLazySingleton<SplashRepository>(
+      () => SplashRepositoryImpl(localStorageProvider: getIt()));
 
-  Get.lazyPut<HomeRepository>(
-      () => HomeRepositoryImpl(homeDataSource: Get.find()));
-  Get.lazyPut<AuthRepository>(() => AuthRepositoryImpl(
-      authRemoteDataSource: Get.find(), authLocalDataSource: Get.find()));
+  getIt.registerLazySingleton<HomeRepository>(
+      () => HomeRepositoryImpl(homeDataSource: getIt()));
+  getIt.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(
+      authRemoteDataSource: getIt(), authLocalDataSource: getIt()));
 
-  Get.lazyPut<ZonesRepository>(() => ZonesRepositoryImpl(
-      zonesLocalDataSource: Get.find(), zonesRemoteDataSource: Get.find()));
+  getIt.registerLazySingleton<ZonesRepository>(() => ZonesRepositoryImpl(
+      zonesLocalDataSource: getIt(), zonesRemoteDataSource: getIt()));
 
   // use cases
 
-  Get.lazyPut(() => GetLatestOffersUseCase(homeRepository: Get.find()));
-  Get.lazyPut(() => GetBannersUseCase(homeRepository: Get.find()));
-  Get.lazyPut(() => GetNearStoresUseCase(homeRepository: Get.find()));
-  Get.lazyPut(() => GetSectiosUseCase(homeRepository: Get.find()));
+  getIt.registerLazySingleton(
+      () => GetLatestOffersUseCase(homeRepository: getIt()));
+  getIt.registerLazySingleton(() => GetBannersUseCase(homeRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => GetNearStoresUseCase(homeRepository: getIt()));
+  getIt.registerLazySingleton(() => GetSectiosUseCase(homeRepository: getIt()));
 
-  Get.lazyPut(() => RegisterUseCase(authRepository: Get.find()));
-  Get.lazyPut(() => LoginUseCase(authRepository: Get.find()));
+  getIt.registerLazySingleton(() => RegisterUseCase(authRepository: getIt()));
+  getIt.registerLazySingleton(() => LoginUseCase(authRepository: getIt()));
 
-  Get.lazyPut(() => GetSubZonesUseCase(zonesRepository: Get.find()));
-  Get.lazyPut(() => GetPastSubZonesUseCase(zonesRepository: Get.find()));
+  getIt.registerLazySingleton(
+      () => GetSubZonesUseCase(zonesRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => GetPastSubZonesUseCase(zonesRepository: getIt()));
 
-  Get.lazyPut(
+  getIt.registerFactory(
     () => HomeCubit(
-        getLatestOffersUseCase: Get.find(),
-        getBannersUseCase: Get.find(),
-        getNearStoresUseCase: Get.find(),
-        getSectiosUseCase: Get.find()),
+        getLatestOffersUseCase: getIt(),
+        getBannersUseCase: getIt(),
+        getNearStoresUseCase: getIt(),
+        getSectiosUseCase: getIt()),
   );
 
-  Get.lazyPut(
+  getIt.registerFactory(
     () => MainNavigationCubit(),
   );
-  Get.lazyPut(() => OnBoardingCubit(), fenix: true);
-  Get.lazyPut(() => SplashCubit(splashRepository: Get.find()), fenix: true);
-  Get.lazyPut(() => LoginCubit(loginUseCase: Get.find()), fenix: true);
-  Get.lazyPut(() => RegisterCubit(registerUseCase: Get.find()), fenix: true);
-  Get.lazyPut(() => MainZonesCubit(getPastSubZonesUseCase: Get.find()),
-      fenix: true);
-  Get.lazyPut(
-      () => SubZoneCubit(
-          getSubZonesUseCase: Get.find(), zonesRepository: Get.find()),
-      fenix: true);
-  Get.lazyPut(() => PhoneNumberCubit(), fenix: true);
+  getIt.registerFactory(
+    () => OnBoardingCubit(),
+  );
+  getIt.registerFactory(
+    () => SplashCubit(splashRepository: getIt()),
+  );
+  getIt.registerLazySingleton(
+    () => LoginCubit(loginUseCase: getIt()),
+  );
+  getIt.registerLazySingleton(
+    () => RegisterCubit(registerUseCase: getIt()),
+  );
+  getIt.registerFactory(
+    () => MainZonesCubit(getPastSubZonesUseCase: getIt()),
+  );
+  getIt.registerFactory(
+    () => SubZoneCubit(getSubZonesUseCase: getIt(), zonesRepository: getIt()),
+  );
+  getIt.registerLazySingleton(
+    () => PhoneNumberCubit(),
+  );
 }

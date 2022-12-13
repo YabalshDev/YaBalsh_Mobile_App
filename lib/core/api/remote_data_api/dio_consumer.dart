@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/api_error_model.dart';
 import 'package:yabalash_mobile_app/core/constants/app_strings.dart';
 
+import '../../depedencies.dart';
 import '../../errors/exceptions.dart';
 import 'interceptors.dart';
 import 'rest_api_provider.dart';
@@ -28,10 +28,10 @@ class DioConsumer implements RestApiProvider {
         return status! < StatusCode.internalServerError;
       });
 
-    client.interceptors.add(Get.find<AppInterceptor>());
+    client.interceptors.add(getIt<AppInterceptor>());
 
     if (kDebugMode) {
-      client.interceptors.add(Get.find<LogInterceptor>());
+      client.interceptors.add(getIt<LogInterceptor>());
     }
   }
 

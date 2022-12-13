@@ -22,6 +22,7 @@ import 'package:yabalash_mobile_app/features/zones/presentation/views/sub_zones_
 
 import '../../features/home/domain/entities/product.dart';
 import '../../features/home/presentation/views/home_view.dart';
+import '../depedencies.dart';
 
 class RouteHelper {
   // paths
@@ -52,21 +53,21 @@ class RouteHelper {
     GetPage(
       name: _intialRoute,
       page: () => BlocProvider<SplashCubit>(
-        create: (context) => Get.find<SplashCubit>()..splashInit(),
+        create: (context) => getIt<SplashCubit>()..splashInit(),
         child: const SplashView(),
       ),
     ),
     GetPage(
       name: _onBordingRoute,
       page: () => BlocProvider<OnBoardingCubit>(
-        create: (context) => Get.find<OnBoardingCubit>(),
+        create: (context) => getIt<OnBoardingCubit>(),
         child: const OnBoardingView(),
       ),
     ),
     GetPage(
       name: _mainNavigationRoute,
       page: () => BlocProvider<MainNavigationCubit>(
-        create: (context) => Get.find<MainNavigationCubit>(),
+        create: (context) => getIt<MainNavigationCubit>(),
         child: MainNavigation(),
       ),
     ),
@@ -88,7 +89,7 @@ class RouteHelper {
         page: () {
           return CustomAnimatedWidget(
               child: BlocProvider<LoginCubit>(
-            create: (context) => Get.find<LoginCubit>(),
+            create: (context) => getIt<LoginCubit>(),
             child: KeyboardDissmisable(
                 child: LoginView(
               phoneNumber: Get.arguments,
@@ -100,7 +101,7 @@ class RouteHelper {
         page: () {
           return CustomAnimatedWidget(
               child: BlocProvider<RegisterCubit>(
-            create: (context) => Get.find<RegisterCubit>(),
+            create: (context) => getIt<RegisterCubit>(),
             child: KeyboardDissmisable(
                 child: RegisterView(
               phoneNumber: Get.arguments,
@@ -112,8 +113,7 @@ class RouteHelper {
         page: () {
           return CustomAnimatedWidget(
             child: BlocProvider<MainZonesCubit>(
-              create: (context) =>
-                  Get.find<MainZonesCubit>()..getZonesHistory(),
+              create: (context) => getIt<MainZonesCubit>()..getZonesHistory(),
               child: const MainZonesView(),
             ),
           );
@@ -123,7 +123,7 @@ class RouteHelper {
         page: () {
           return CustomAnimatedWidget(
             child: BlocProvider<SubZoneCubit>(
-              create: (context) => Get.find<SubZoneCubit>()..getSubZones(),
+              create: (context) => getIt<SubZoneCubit>()..getSubZones(),
               child: SubZonesView(mainZone: Get.arguments),
             ),
           );
@@ -134,7 +134,7 @@ class RouteHelper {
           return CustomAnimatedWidget(
               child: KeyboardDissmisable(
                   child: BlocProvider<PhoneNumberCubit>(
-            create: (context) => Get.find<PhoneNumberCubit>(),
+            create: (context) => getIt<PhoneNumberCubit>(),
             child: const PhoneNumberView(),
           )));
         })

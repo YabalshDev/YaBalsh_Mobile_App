@@ -12,6 +12,8 @@ import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/phone
 import 'package:yabalash_mobile_app/features/auth/presentation/widgets/auth_back_icon.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/widgets/auth_title_widget.dart';
 
+import '../../../../core/depedencies.dart';
+
 final _formKey = GlobalKey<FormBuilderState>();
 
 class PhoneNumberBody extends StatelessWidget {
@@ -56,10 +58,10 @@ class PhoneNumberBody extends StatelessWidget {
                           hintText: '1012222222',
                           onChanged: (value) {
                             if (value!.isEmpty) {
-                              Get.find<PhoneNumberCubit>()
+                              getIt<PhoneNumberCubit>()
                                   .changeButtonDisabled(true);
                             } else {
-                              Get.find<PhoneNumberCubit>()
+                              getIt<PhoneNumberCubit>()
                                   .changeButtonDisabled(false);
                             }
                           },
@@ -89,8 +91,8 @@ class PhoneNumberBody extends StatelessWidget {
                     if (!state.isButtonDisabled!) {
                       final formValue = _formKey
                           .currentState!.fields['phoneNumber']!.value as String;
-                      final hasError = Get.find<PhoneNumberCubit>()
-                          .isFormHasError(formValue);
+                      final hasError =
+                          getIt<PhoneNumberCubit>().isFormHasError(formValue);
                       if (!hasError) {
                         Get.toNamed(RouteHelper.getLoginRoute(),
                             arguments: formValue);

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
 import 'package:yabalash_mobile_app/features/auth/data/models/login_request_model.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/widgets/auth_back_icon.dart';
@@ -10,6 +9,7 @@ import 'package:yabalash_mobile_app/features/auth/presentation/widgets/auth_titl
 import 'package:yabalash_mobile_app/features/auth/presentation/widgets/login_form.dart';
 
 import '../../../../core/constants/app_layouts.dart';
+import '../../../../core/depedencies.dart';
 import '../../../../core/widgets/ya_balash_custom_button.dart';
 import '../blocs/cubit/login_cubit.dart';
 
@@ -47,15 +47,17 @@ class LoginBody extends StatelessWidget {
                     return YaBalashCustomButton(
                       isDisabled: state.isButtonDisabled,
                       onTap: () {
-                        if (_formKey.currentState!.validate()) {
-                          final loginRequest = LoginRequestModel(
-                              password: _formKey
-                                  .currentState!.fields['password']!.value,
-                              phoneNumber: _formKey
-                                  .currentState!.fields['phoneNumber']!.value);
+                        if (!state.isButtonDisabled!) {
+                          if (_formKey.currentState!.validate()) {
+                            final loginRequest = LoginRequestModel(
+                                password: _formKey
+                                    .currentState!.fields['password']!.value,
+                                phoneNumber: _formKey.currentState!
+                                    .fields['phoneNumber']!.value);
 
-                          Get.find<LoginCubit>()
-                              .loginUser(loginCredentials: loginRequest);
+                            getIt<LoginCubit>()
+                                .loginUser(loginCredentials: loginRequest);
+                          }
                         }
                       },
                       child: state.loginState == RequestState.loading
