@@ -5,17 +5,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
 import 'package:yabalash_mobile_app/features/auth/data/models/login_request_model.dart';
+import 'package:yabalash_mobile_app/features/auth/presentation/widgets/auth_back_icon.dart';
+import 'package:yabalash_mobile_app/features/auth/presentation/widgets/auth_title_widget.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/widgets/login_form.dart';
 
 import '../../../../core/constants/app_layouts.dart';
-import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/ya_balash_custom_button.dart';
 import '../blocs/cubit/login_cubit.dart';
 
 final _formKey = GlobalKey<FormBuilderState>();
 
 class LoginBody extends StatelessWidget {
-  const LoginBody({super.key});
+  final String phoneNumber;
+  const LoginBody({super.key, required this.phoneNumber});
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +33,11 @@ class LoginBody extends StatelessWidget {
                 SizedBox(
                   height: 180.h,
                 ),
-                Text(
-                  'ايه هي كلمة السر؟',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineMedium
-                      ?.copyWith(color: AppColorsLight.kAppPrimaryColorLight),
+                const AuthTitleWidget(
+                  title: 'ايه هي كلمة السر؟',
                 ),
                 largeVerticalSpace,
-                LoginForm(formKey: _formKey),
+                LoginForm(formKey: _formKey, phoneNumber: phoneNumber),
                 largeVerticalSpace,
                 mediumVerticalSpace,
                 BlocBuilder<LoginCubit, LoginState>(
@@ -55,8 +53,6 @@ class LoginBody extends StatelessWidget {
                                   .currentState!.fields['password']!.value,
                               phoneNumber: _formKey
                                   .currentState!.fields['phoneNumber']!.value);
-
-                          print(loginRequest);
 
                           Get.find<LoginCubit>()
                               .loginUser(loginCredentials: loginRequest);
@@ -76,13 +72,8 @@ class LoginBody extends StatelessWidget {
         ),
         Padding(
           padding: kDefaultPadding,
-          child: const Align(
-            alignment: Alignment.topRight,
-            child: Icon(
-              Icons.arrow_back_ios,
-              color: AppColorsLight.kAppPrimaryColorLight,
-            ),
-          ),
+          child:
+              const Align(alignment: Alignment.topRight, child: AuthBackIcon()),
         ),
       ],
     );

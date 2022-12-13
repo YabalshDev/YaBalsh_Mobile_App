@@ -89,7 +89,10 @@ class RouteHelper {
           return CustomAnimatedWidget(
               child: BlocProvider<LoginCubit>(
             create: (context) => Get.find<LoginCubit>(),
-            child: const KeyboardDissmisable(child: LoginView()),
+            child: KeyboardDissmisable(
+                child: LoginView(
+              phoneNumber: Get.arguments,
+            )),
           ));
         }),
     GetPage(
@@ -98,7 +101,10 @@ class RouteHelper {
           return CustomAnimatedWidget(
               child: BlocProvider<RegisterCubit>(
             create: (context) => Get.find<RegisterCubit>(),
-            child: const KeyboardDissmisable(child: RegisterView()),
+            child: KeyboardDissmisable(
+                child: RegisterView(
+              phoneNumber: Get.arguments,
+            )),
           ));
         }),
     GetPage(

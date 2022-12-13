@@ -2,7 +2,6 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 
 import '../constants/app_layouts.dart';
 import '../theme/light/app_colors_light.dart';
@@ -15,11 +14,13 @@ class PhoneTextField extends StatelessWidget {
   final bool? isFilled;
   final String? hintText;
   final Function(String?)? onChanged;
+  final bool? hasError;
   const PhoneTextField(
       {super.key,
       this.intialValue,
       this.hintText,
       this.readOnly = false,
+      this.hasError = false,
       this.title,
       this.onChanged,
       this.isFilled = true});
@@ -31,7 +32,12 @@ class PhoneTextField extends StatelessWidget {
       child: Container(
         decoration: isFilled!
             ? kFilledTextFieldDecoration
-            : kFilledTextFieldDecoration.copyWith(color: Colors.transparent),
+            : !hasError!
+                ? kFilledTextFieldDecoration.copyWith(color: Colors.transparent)
+                : kFilledTextFieldDecoration.copyWith(
+                    color: Colors.transparent,
+                    border: Border.all(
+                        color: AppColorsLight.kErrorColor, width: 1)),
         padding: kDefaultPadding,
         child: Row(
           children: [
@@ -57,9 +63,6 @@ class PhoneTextField extends StatelessWidget {
                 name: 'phoneNumber',
                 initialValue: intialValue,
                 keyboardType: TextInputType.phone,
-                validator: FormBuilderValidators.compose([
-                  FormBuilderValidators.required(errorText: 'رقم الهاتف مطلوب')
-                ]),
                 readOnly: readOnly ?? false,
                 cursorHeight: 25.h,
                 cursorRadius: const Radius.circular(8),

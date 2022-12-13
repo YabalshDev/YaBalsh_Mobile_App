@@ -15,8 +15,10 @@ import '../blocs/cubit/register_cubit.dart';
 
 class RegisterForm extends StatelessWidget {
   final GlobalKey<FormBuilderState> formKey;
+  final String phoneNumber;
 
-  const RegisterForm({super.key, required this.formKey});
+  const RegisterForm(
+      {super.key, required this.formKey, required this.phoneNumber});
 
   void validateOnChanged(String value) {
     if (value.isEmpty) {
@@ -45,8 +47,8 @@ class RegisterForm extends StatelessWidget {
                 ?.copyWith(fontWeight: FontWeight.w600, fontSize: 13.sp),
           ),
           mediumVerticalSpace,
-          const PhoneTextField(
-            intialValue: '01033266455',
+          PhoneTextField(
+            intialValue: phoneNumber,
             readOnly: true,
           ),
           largeVerticalSpace,

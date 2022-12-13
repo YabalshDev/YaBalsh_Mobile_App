@@ -14,7 +14,9 @@ import '../blocs/cubit/login_cubit.dart';
 
 class LoginForm extends StatelessWidget {
   final GlobalKey<FormBuilderState> formKey;
-  const LoginForm({super.key, required this.formKey});
+  final String phoneNumber;
+  const LoginForm(
+      {super.key, required this.formKey, required this.phoneNumber});
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +33,8 @@ class LoginForm extends StatelessWidget {
                   ?.copyWith(fontWeight: FontWeight.w600, fontSize: 13.sp),
             ),
             mediumVerticalSpace,
-            const PhoneTextField(
-              intialValue: '01033266355',
+            PhoneTextField(
+              intialValue: phoneNumber,
               readOnly: true,
             ),
             mediumVerticalSpace,

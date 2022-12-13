@@ -4,13 +4,17 @@ import 'package:yabalash_mobile_app/features/auth/presentation/widgets/account_p
 import '../widgets/login_body.dart';
 
 class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+  final String phoneNumber;
+  const LoginView({super.key, required this.phoneNumber});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SafeArea(child: LoginBody()),
-      bottomNavigationBar: AccountProblemBottomBar(),
+    return Scaffold(
+      body: SafeArea(
+          child: LoginBody(
+        phoneNumber: phoneNumber,
+      )),
+      bottomNavigationBar: const AccountProblemBottomBar(),
     );
   }
 }

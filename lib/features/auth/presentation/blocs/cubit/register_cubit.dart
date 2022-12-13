@@ -5,6 +5,7 @@ import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
 import 'package:yabalash_mobile_app/features/auth/data/models/register_request_model.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/register_usecase.dart';
 
+import '../../../../../core/routes/app_routes.dart';
 import '../../../../../core/utils/enums/request_state.dart';
 
 part 'register_state.dart';
@@ -30,6 +31,7 @@ class RegisterCubit extends Cubit<RegisterState> {
           mainContent: failure.message);
     }, (customer) {
       emit(state.copyWith(registerState: RequestState.loaded));
+      Get.toNamed(RouteHelper.getMainZonesRoute());
     });
   }
 
