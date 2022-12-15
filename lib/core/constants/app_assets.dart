@@ -1,5 +1,5 @@
 class AppAssets {
-  static const String logo = 'assets/images/logo.png';
+  static const String logo = 'assets/images/Logo.png';
   static const String firstOnBoardingIllustration =
       'assets/images/on_boarding1.png';
   static const String secondOnBoardingIllustration =
@@ -53,4 +53,5 @@ class AppAssets {
   static const String ordersIcon = 'assets/icons/orders.svg';
 
   static const String speakerphoneIcon = 'assets/icons/speakerphone.svg';
+  static const String addressesIcon = 'assets/icons/map-pin.svg';
 }

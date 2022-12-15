@@ -66,13 +66,10 @@ class PriceComparisonCard extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        SizedBox(
-                          width: 9.w,
-                          height: 10.h,
-                          child: Image.asset(
-                            AppAssets.locationPin,
-                            fit: BoxFit.contain,
-                          ),
+                        CustomSvgIcon(
+                          iconPath: AppAssets.addressesIcon,
+                          height: 7.h,
+                          width: 8.w,
                         ),
                         smallHorizontalSpace,
                         Text(

@@ -7,6 +7,7 @@ import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/main_navigation_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/views/home_view.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/nav_icon.dart';
+import 'package:yabalash_mobile_app/features/settings/presentation/views/settings_view.dart';
 
 import '../../../../core/depedencies.dart';
 
@@ -110,5 +111,5 @@ final List<Widget> screens = [
   const CustomAnimatedWidget(child: CategoriesScreen()),
   const CustomAnimatedWidget(child: CategoriesScreen()),
   const CustomAnimatedWidget(child: CategoriesScreen()),
-  const CustomAnimatedWidget(child: CategoriesScreen()),
+  const CustomAnimatedWidget(child: SettingsView()),
 ];
