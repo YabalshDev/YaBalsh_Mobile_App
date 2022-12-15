@@ -41,13 +41,14 @@ class SubZoneCubit extends Cubit<SubZoneState> {
   }
 
   void onSubZoneSelect({required SubZone subZone}) {
-    showCustomDialog(
+    yaBalashCustomDialog(
       title: 'ملاحظة',
       buttonTitle: 'تاكيد',
       isWithEmoji: false,
       mainContent: 'هل انت متاكد من اختيار منطقة ${subZone.name}؟',
       onConfirm: () {
         setSubZone(subZone: subZone);
+        Get.back();
         debugPrint('success');
       },
     );

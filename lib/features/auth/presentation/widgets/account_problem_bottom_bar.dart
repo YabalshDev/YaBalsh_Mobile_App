@@ -18,7 +18,7 @@ class AccountProblemBottomBar extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           child: TextButton(
             onPressed: () {
-              showCustomDialog(
+              yaBalashCustomDialog(
                   buttonTitle: 'ابعتلنا رسالة',
                   subContent:
                       'احنا حابين نسمع منك أكتر ونساعدك ، ممكن تبعتلنا رسالة و فريق الدعم الفني هيتواصل معاك في أقرب وقت. ',

@@ -24,7 +24,7 @@ class LoginCubit extends Cubit<LoginState> {
       // show error message to user
       emit(state.copyWith(
           errorMessage: faiulre.message, loginState: RequestState.error));
-      showCustomDialog(
+      yaBalashCustomDialog(
           isWithEmoji: false,
           buttonTitle: 'حسنا',
           onConfirm: () => Get.back(),

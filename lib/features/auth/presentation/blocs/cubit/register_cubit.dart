@@ -23,7 +23,7 @@ class RegisterCubit extends Cubit<RegisterState> {
       emit(state.copyWith(
           registerState: RequestState.loading, errorMessage: failure.message));
 
-      showCustomDialog(
+      yaBalashCustomDialog(
           buttonTitle: 'حسنا',
           isWithEmoji: false,
           title: 'مشكلة في انشاء الحساب',

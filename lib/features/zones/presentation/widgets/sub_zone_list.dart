@@ -32,7 +32,7 @@ class SubZoneList extends StatelessWidget {
               itemBuilder: (context, index) {
                 final subZone = state.subZones![index];
                 return InkWell(
-                  onTap: () => Get.find<SubZoneCubit>()
+                  onTap: () => BlocProvider.of<SubZoneCubit>(context)
                       .onSubZoneSelect(subZone: subZone),
                   child: Column(
                     children: [
