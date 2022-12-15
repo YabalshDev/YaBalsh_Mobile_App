@@ -43,4 +43,14 @@ class AppAssets {
 
   static const String inStockIcon = 'assets/images/In_stock.png';
   static const String outOfStockIcon = 'assets/images/Out_of_stock.png';
+
+  static const String headphoneIcon = 'assets/icons/headphone.svg';
+
+  static const String likeIcon = 'assets/icons/like.svg';
+
+  static const String logoutIcon = 'assets/icons/logout.svg';
+
+  static const String ordersIcon = 'assets/icons/orders.svg';
+
+  static const String speakerphoneIcon = 'assets/icons/speakerphone.svg';
 }
