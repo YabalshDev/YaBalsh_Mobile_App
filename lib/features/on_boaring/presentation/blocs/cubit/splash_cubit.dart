@@ -2,14 +2,22 @@ import 'package:bloc/bloc.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
+import 'package:yabalash_mobile_app/core/services/user_service.dart';
+import 'package:yabalash_mobile_app/core/services/zone_service.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/domain/repositories/splash_repository.dart';
 
 part 'splash_state.dart';
 
 class SplashCubit extends Cubit<SplashState> {
   final SplashRepository splashRepository;
+  final ZoneService zoneService;
+  final UserService userService;
 
-  SplashCubit({required this.splashRepository}) : super(SplashInitial());
+  SplashCubit(
+      {required this.zoneService,
+      required this.userService,
+      required this.splashRepository})
+      : super(SplashInitial());
 
   bool _isFirstTimeVisit = true;
   bool get isFirstTimeVisit => _isFirstTimeVisit;
