@@ -20,15 +20,12 @@ abstract class AddressRemoteDatasource {
 
 class AddressRemoteDataSourceImpl implements AddressRemoteDatasource {
   final RestApiProvider restApiProvider;
-  final ZoneService zoneService;
-  final UserService userService;
 
-  AddressRemoteDataSourceImpl(
-      {required this.zoneService,
-      required this.restApiProvider,
-      required this.userService});
+  AddressRemoteDataSourceImpl({
+    required this.restApiProvider,
+  });
 
-  final Map<String, dynamic> addressQueryParameters = {
+  final Map<String, dynamic> addressHeaders = {
     'zone': getIt<ZoneService>().getCurrentSubZone()!.id,
     'Authorization': 'Bearer ${getIt<UserService>().token}'
   };
@@ -37,7 +34,7 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDatasource {
       {required AddressRequestModel addressRequest}) async {
     //get token
     final response = await restApiProvider.post(addressEndPoint,
-        body: addressRequest.toJson(), queryParams: addressQueryParameters);
+        body: addressRequest.toJson(), headers: addressHeaders);
     final result = AddressResponseModel.fromJson(response);
     return result.data as AddressModel;
   }
@@ -45,14 +42,14 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDatasource {
   @override
   Future<void> deleteAddress({required int id}) async {
     await restApiProvider.delete(getAddressEndPointById(id),
-        queryParams: addressQueryParameters);
+        headers: addressHeaders);
   }
 
   @override
   Future<AddressModel> editAddress(
       {required int id, required AddressRequestModel addressRequest}) async {
     final response = await restApiProvider.put(getAddressEndPointById(id),
-        body: addressRequest.toJson(), queryParams: addressQueryParameters);
+        body: addressRequest.toJson(), headers: addressHeaders);
 
     final result = AddressResponseModel.fromJson(response);
     return result.data as AddressModel;
@@ -60,8 +57,8 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDatasource {
 
   @override
   Future<List<AddressModel>> getAllAddresses() async {
-    final response = await restApiProvider.get(addressEndPoint,
-        queryParams: addressQueryParameters);
+    final response =
+        await restApiProvider.get(addressEndPoint, headers: addressHeaders);
     final result = AddressListResponseModel.fromJson(response);
     return result.data as List<AddressModel>;
   }

@@ -2,6 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/core/widgets/keyboard_dissmisable.dart';
+import 'package:yabalash_mobile_app/features/addresses/presentation/blocs/cubit/address_cubit.dart';
+import 'package:yabalash_mobile_app/features/addresses/presentation/views/addresses_view.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/login_cubit.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/phone_number_cubit.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/register_cubit.dart';
@@ -37,6 +39,7 @@ class RouteHelper {
   static const String _phoneNumberRoute = '/phone-number';
   static const String _mainZonesRoute = '/main-zones';
   static const String _subZonesRoutes = '/sub-zones';
+  static const String _addressesRoute = '/addresses';
 
   static getIntialRoute() => _intialRoute;
   static getOnBoardingRoute() => _onBordingRoute;
@@ -48,6 +51,7 @@ class RouteHelper {
   static getMainZonesRoute() => _mainZonesRoute;
   static getSubZonesRoute() => _subZonesRoutes;
   static getPhoneNumberRoute() => _phoneNumberRoute;
+  static getAddressesRoute() => _addressesRoute;
 
   static final routes = [
     GetPage(
@@ -137,6 +141,15 @@ class RouteHelper {
             create: (context) => getIt<PhoneNumberCubit>(),
             child: const PhoneNumberView(),
           )));
+        }),
+    GetPage(
+        name: _addressesRoute,
+        page: () {
+          return CustomAnimatedWidget(
+              child: BlocProvider<AddressCubit>(
+            create: (context) => getIt<AddressCubit>()..getAllAddress(),
+            child: const AddressesView(),
+          ));
         })
   ];
 }

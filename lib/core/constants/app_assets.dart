@@ -56,4 +56,6 @@ class AppAssets {
   static const String addressesIcon = 'assets/icons/map-pin.svg';
   static const String loginIcon = 'assets/icons/login.svg';
   static const String homeAddressIcon = 'assets/icons/home_address.svg';
+  static const String closeIcon = 'assets/icons/close.svg';
+  static const String pencilIcon = 'assets/icons/pencil.svg';
 }

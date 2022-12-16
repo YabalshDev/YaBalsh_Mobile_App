@@ -44,7 +44,9 @@ class SettingsBody extends StatelessWidget {
                     thickness: 1,
                   ),
                   SettingsElementCard(
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed(RouteHelper.getAddressesRoute());
+                      },
                       iconPath: AppAssets.addressesIcon,
                       title: 'عناويني'),
                   Divider(

@@ -36,9 +36,13 @@ class DioConsumer implements RestApiProvider {
   }
 
   @override
-  Future delete(String path, {Map<String, dynamic>? queryParams}) async {
+  Future delete(String path,
+      {Map<String, dynamic>? queryParams,
+      Map<String, dynamic>? headers}) async {
     try {
-      final response = await client.delete(path, queryParameters: queryParams);
+      final response = await client.delete(path,
+          queryParameters: queryParams,
+          options: headers != null ? Options(headers: headers) : null);
       if (response.statusCode == 200) {
         return response.data;
       } else {
@@ -52,9 +56,13 @@ class DioConsumer implements RestApiProvider {
   }
 
   @override
-  Future get(String path, {Map<String, dynamic>? queryParams}) async {
+  Future get(String path,
+      {Map<String, dynamic>? queryParams,
+      Map<String, dynamic>? headers}) async {
     try {
-      final response = await client.get(path, queryParameters: queryParams);
+      final response = await client.get(path,
+          queryParameters: queryParams,
+          options: headers != null ? Options(headers: headers) : null);
       if (response.statusCode == 200) {
         return response.data;
       } else {
@@ -69,10 +77,14 @@ class DioConsumer implements RestApiProvider {
 
   @override
   Future post(String path,
-      {Map<String, dynamic>? queryParams, Map<String, dynamic>? body}) async {
+      {Map<String, dynamic>? queryParams,
+      Map<String, dynamic>? body,
+      Map<String, dynamic>? headers}) async {
     try {
-      final response =
-          await client.post(path, queryParameters: queryParams, data: body);
+      final response = await client.post(path,
+          queryParameters: queryParams,
+          data: body,
+          options: headers != null ? Options(headers: headers) : null);
       if (response.statusCode == 200) {
         return response.data;
       } else {
@@ -87,10 +99,14 @@ class DioConsumer implements RestApiProvider {
 
   @override
   Future put(String path,
-      {Map<String, dynamic>? queryParams, Map<String, dynamic>? body}) async {
+      {Map<String, dynamic>? queryParams,
+      Map<String, dynamic>? body,
+      Map<String, dynamic>? headers}) async {
     try {
-      final response =
-          await client.put(path, queryParameters: queryParams, data: body);
+      final response = await client.put(path,
+          queryParameters: queryParams,
+          data: body,
+          options: headers != null ? Options(headers: headers) : null);
       if (response.statusCode == 200) {
         return response.data;
       } else {
