@@ -9,6 +9,6 @@ abstract class AddressRepository {
   Future<Either<Failure, Address>> addAddress(
       {required AddressRequest addressRequest});
   Future<Either<Failure, Address>> editAddress(
-      {required int id, AddressRequest addressRequest});
+      {required int id, required AddressRequest addressRequest});
   Future<Either<Failure, void>> deleteAddress({required int id});
 }

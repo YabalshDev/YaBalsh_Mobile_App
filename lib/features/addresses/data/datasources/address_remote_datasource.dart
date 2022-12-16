@@ -1,11 +1,15 @@
 import 'package:yabalash_mobile_app/core/api/remote_data_api/endpoints.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/rest_api_provider.dart';
+import 'package:yabalash_mobile_app/core/services/user_service.dart';
 import 'package:yabalash_mobile_app/core/services/zone_service.dart';
+import 'package:yabalash_mobile_app/features/addresses/data/models/address_list_response_model.dart';
 import 'package:yabalash_mobile_app/features/addresses/data/models/address_model.dart';
 import 'package:yabalash_mobile_app/features/addresses/data/models/address_request_model.dart';
 import 'package:yabalash_mobile_app/features/addresses/data/models/address_response_model.dart';
 
-abstract class AddressRemoteRemoteDatasource {
+import '../../../../core/depedencies.dart';
+
+abstract class AddressRemoteDatasource {
   Future<List<AddressModel>> getAllAddresses();
   Future<AddressModel> addAddress(
       {required AddressRequestModel addressRequest});
@@ -14,35 +18,51 @@ abstract class AddressRemoteRemoteDatasource {
   Future<void> deleteAddress({required int id});
 }
 
-class AddressRemoteDataSourceImpl implements AddressRemoteRemoteDatasource {
+class AddressRemoteDataSourceImpl implements AddressRemoteDatasource {
   final RestApiProvider restApiProvider;
   final ZoneService zoneService;
+  final UserService userService;
 
   AddressRemoteDataSourceImpl(
-      {required this.zoneService, required this.restApiProvider});
+      {required this.zoneService,
+      required this.restApiProvider,
+      required this.userService});
+
+  final Map<String, dynamic> addressQueryParameters = {
+    'zone': getIt<ZoneService>().getCurrentSubZone()!.id,
+    'Authorization': 'Bearer ${getIt<UserService>().token}'
+  };
   @override
   Future<AddressModel> addAddress(
       {required AddressRequestModel addressRequest}) async {
     //get token
-    final zoneId = zoneService.getCurrentSubZone()!.id;
     final response = await restApiProvider.post(addressEndPoint,
-        body: addressRequest.toJson(), queryParams: {'zone': zoneId});
+        body: addressRequest.toJson(), queryParams: addressQueryParameters);
     final result = AddressResponseModel.fromJson(response);
     return result.data as AddressModel;
   }
 
   @override
-  Future<void> deleteAddress({required int id}) async {}
-
-  @override
-  Future<AddressModel> editAddress(
-      {required int id, required AddressRequestModel addressRequest}) {
-    throw UnimplementedError();
+  Future<void> deleteAddress({required int id}) async {
+    await restApiProvider.delete(getAddressEndPointById(id),
+        queryParams: addressQueryParameters);
   }
 
   @override
-  Future<List<AddressModel>> getAllAddresses() {
-    // TODO: implement getAllAddresses
-    throw UnimplementedError();
+  Future<AddressModel> editAddress(
+      {required int id, required AddressRequestModel addressRequest}) async {
+    final response = await restApiProvider.put(getAddressEndPointById(id),
+        body: addressRequest.toJson(), queryParams: addressQueryParameters);
+
+    final result = AddressResponseModel.fromJson(response);
+    return result.data as AddressModel;
+  }
+
+  @override
+  Future<List<AddressModel>> getAllAddresses() async {
+    final response = await restApiProvider.get(addressEndPoint,
+        queryParams: addressQueryParameters);
+    final result = AddressListResponseModel.fromJson(response);
+    return result.data as List<AddressModel>;
   }
 }
