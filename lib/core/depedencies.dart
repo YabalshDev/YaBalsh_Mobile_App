@@ -15,6 +15,7 @@ import 'package:yabalash_mobile_app/features/addresses/domain/use%20cases/delete
 import 'package:yabalash_mobile_app/features/addresses/domain/use%20cases/edit_address_usecase.dart';
 import 'package:yabalash_mobile_app/features/addresses/domain/use%20cases/get_all_addresses_usecase.dart';
 import 'package:yabalash_mobile_app/features/addresses/presentation/blocs/cubit/address_cubit.dart';
+import 'package:yabalash_mobile_app/features/addresses/presentation/blocs/cubit/update_address_cubit.dart';
 import 'package:yabalash_mobile_app/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:yabalash_mobile_app/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:yabalash_mobile_app/features/auth/data/repositories/auth_repository_impl.dart';
@@ -154,9 +155,11 @@ setupDependecies() {
 
   getIt.registerFactory(
     () => AddressCubit(
-        addAddressUseCase: getIt(),
-        deleteAddressUseCase: getIt(),
-        editAddressUseCase: getIt(),
-        getAllAddressUseCase: getIt()),
+        deleteAddressUseCase: getIt(), getAllAddressUseCase: getIt()),
   );
+
+  getIt.registerFactory(() => UpdateAddressCubit(
+        addAddressUseCase: getIt(),
+        editAddressUseCase: getIt(),
+      ));
 }

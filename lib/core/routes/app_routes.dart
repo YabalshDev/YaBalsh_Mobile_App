@@ -40,6 +40,7 @@ class RouteHelper {
   static const String _mainZonesRoute = '/main-zones';
   static const String _subZonesRoutes = '/sub-zones';
   static const String _addressesRoute = '/addresses';
+  static const String _updateAddressRoute = '/update-address';
 
   static getIntialRoute() => _intialRoute;
   static getOnBoardingRoute() => _onBordingRoute;
@@ -52,6 +53,7 @@ class RouteHelper {
   static getSubZonesRoute() => _subZonesRoutes;
   static getPhoneNumberRoute() => _phoneNumberRoute;
   static getAddressesRoute() => _addressesRoute;
+  static getUpdateAddress() => _updateAddressRoute;
 
   static final routes = [
     GetPage(

@@ -42,6 +42,7 @@ class AddressesBody extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return AddressCard(
                         index: index,
+                        isPrimary: state.currentAddressIndex == index,
                       );
                     },
                   );

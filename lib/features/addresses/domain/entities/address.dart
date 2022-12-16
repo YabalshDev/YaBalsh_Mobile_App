@@ -5,9 +5,9 @@ class Address extends Equatable {
   final String? addressName;
   final String? fullAddress;
   final String? zone;
-  final int? floor;
-  final int? buildingNo;
-  final int? apartmentNo;
+  final String? floor;
+  final String? buildingNo;
+  final String? apartmentNo;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yabalash_mobile_app/features/addresses/presentation/blocs/cubit/address_cubit.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
@@ -11,7 +13,9 @@ import '../../domain/entities/address.dart';
 class AddressCard extends StatelessWidget {
   final Address? address;
   final int index;
-  const AddressCard({super.key, this.address, required this.index});
+  final bool? isPrimary;
+  const AddressCard(
+      {super.key, this.address, required this.index, this.isPrimary = false});
 
   @override
   Widget build(BuildContext context) {
@@ -108,26 +112,36 @@ class AddressCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: 18.w,
-                        height: 18.w,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                                color: Colors.grey.shade400, width: 2)),
-                      ),
-                      smallHorizontalSpace,
-                      Text(
-                        'عنوان اساسي',
-                        maxLines: 2,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: AppColorsLight.kAppPrimaryColorLight
-                                .withOpacity(0.7)),
-                      ),
-                    ],
+                  InkWell(
+                    onTap: () => BlocProvider.of<AddressCubit>(context)
+                        .setIsPrimary(index),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 18.w,
+                          height: 18.w,
+                          decoration: BoxDecoration(
+                              color: isPrimary!
+                                  ? AppColorsLight.kAppPrimaryColorLight
+                                  : Colors.transparent,
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                  color: Colors.grey.shade400, width: 2)),
+                        ),
+                        smallHorizontalSpace,
+                        Text(
+                          'عنوان اساسي',
+                          maxLines: 2,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColorsLight.kAppPrimaryColorLight
+                                      .withOpacity(0.7)),
+                        ),
+                      ],
+                    ),
                   ),
                   Row(
                     children: [

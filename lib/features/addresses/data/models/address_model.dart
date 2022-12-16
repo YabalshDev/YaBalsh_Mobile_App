@@ -6,9 +6,9 @@ class AddressModel extends Address {
     String? addressName,
     String? fullAddress,
     String? zone,
-    int? floor,
-    int? buildingNo,
-    int? apartmentNo,
+    String? floor,
+    String? buildingNo,
+    String? apartmentNo,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) : super(
@@ -26,11 +26,15 @@ class AddressModel extends Address {
     return AddressModel(
         apartmentNo: json['apartment_no'],
         buildingNo: json['building_no'],
-        createdAt: DateTime.parse(json['created_at'].toString()),
+        createdAt: json['created_at'] != null
+            ? DateTime.parse(json['created_at'].toString())
+            : DateTime.now(),
         floor: json['floor_no'],
         fullAddress: json['address_line'],
         id: json['id'],
-        updatedAt: DateTime.parse(json['updated_at'].toString()),
+        updatedAt: json['updated_at'] != null
+            ? DateTime.parse(json['created_at'].toString())
+            : DateTime.now(),
         zone: json['zone']);
   }
 }
