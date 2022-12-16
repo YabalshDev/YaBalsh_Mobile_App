@@ -4,10 +4,10 @@ import 'package:dartz/dartz.dart';
 import 'package:yabalash_mobile_app/core/usecases/use_cases.dart';
 import 'package:yabalash_mobile_app/features/addresses/domain/repositories/address_repository.dart';
 
-class EditAddressUseCase implements UseCase<void, DeleteAddressParams> {
+class DeleteAddressUseCase implements UseCase<void, DeleteAddressParams> {
   final AddressRepository addressRepository;
 
-  EditAddressUseCase({required this.addressRepository});
+  DeleteAddressUseCase({required this.addressRepository});
   @override
   Future<Either<Failure, void>> call(DeleteAddressParams params) =>
       addressRepository.deleteAddress(
