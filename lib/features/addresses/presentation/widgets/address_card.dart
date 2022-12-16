@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/depedencies.dart';
+import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/features/addresses/presentation/blocs/cubit/address_cubit.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
+import '../../../../core/services/zone_service.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/theme/light/light_theme.dart';
 import '../../../../core/widgets/custom_svg_icon.dart';
@@ -20,7 +24,7 @@ class AddressCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key('$index'),
+      key: Key('${address!.id}'),
       direction: DismissDirection.startToEnd,
       background: Container(
         decoration: const BoxDecoration(
@@ -80,7 +84,7 @@ class AddressCard extends StatelessWidget {
                   ),
                   smallHorizontalSpace,
                   Text(
-                    'حي البنفسج 4, التجمع الخامس، القاهرة',
+                    '${address!.fullAddress!.split(',')[0]},${getIt<ZoneService>().currentSubZone!.name},${getIt<ZoneService>().currentSubZone!.mainZoneName}',
                     maxLines: 2,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontWeight: FontWeight.w600,
@@ -91,7 +95,7 @@ class AddressCard extends StatelessWidget {
               ),
               mediumVerticalSpace,
               Text(
-                '  ابن فضلان متفرع من يوسف عباس التجمع الخامس',
+                '  ${address!.fullAddress}',
                 maxLines: 2,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w600,
@@ -101,7 +105,7 @@ class AddressCard extends StatelessWidget {
               ),
               mediumVerticalSpace,
               Text(
-                '  رقم المبني 62، رقم الدور 1, رقم الشقة 1',
+                '  رقم المبني ${address!.buildingNo}، رقم الدور ${address!.floor}, رقم الشقة ${address!.apartmentNo}',
                 maxLines: 2,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w600,
@@ -143,21 +147,28 @@ class AddressCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Row(
-                    children: [
-                      const CustomSvgIcon(
-                        iconPath: AppAssets.pencilIcon,
-                        color: AppColorsLight.kAppPrimaryColorLight,
-                      ),
-                      smallHorizontalSpace,
-                      Text(
-                        'تغيير العنوان',
-                        maxLines: 2,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: AppColorsLight.kAppPrimaryColorLight),
-                      ),
-                    ],
+                  InkWell(
+                    onTap: () => Get.toNamed(RouteHelper.getUpdateAddress(),
+                        arguments: [true, address]),
+                    child: Row(
+                      children: [
+                        const CustomSvgIcon(
+                          iconPath: AppAssets.pencilIcon,
+                          color: AppColorsLight.kAppPrimaryColorLight,
+                        ),
+                        smallHorizontalSpace,
+                        Text(
+                          'تغيير العنوان',
+                          maxLines: 2,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColorsLight.kAppPrimaryColorLight),
+                        ),
+                      ],
+                    ),
                   )
                 ],
               )

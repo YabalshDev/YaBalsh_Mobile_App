@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/core/widgets/keyboard_dissmisable.dart';
 import 'package:yabalash_mobile_app/features/addresses/presentation/blocs/cubit/address_cubit.dart';
+import 'package:yabalash_mobile_app/features/addresses/presentation/blocs/cubit/update_address_cubit.dart';
 import 'package:yabalash_mobile_app/features/addresses/presentation/views/addresses_view.dart';
+import 'package:yabalash_mobile_app/features/addresses/presentation/views/update_address_view.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/login_cubit.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/phone_number_cubit.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/register_cubit.dart';
@@ -151,6 +153,18 @@ class RouteHelper {
               child: BlocProvider<AddressCubit>(
             create: (context) => getIt<AddressCubit>()..getAllAddress(),
             child: const AddressesView(),
+          ));
+        }),
+    GetPage(
+        name: _updateAddressRoute,
+        page: () {
+          return CustomAnimatedWidget(
+              child: KeyboardDissmisable(
+            child: BlocProvider<UpdateAddressCubit>(
+              create: (context) => getIt<UpdateAddressCubit>(),
+              child: UpdateAddress(
+                  isfromEdit: Get.arguments[0], address: Get.arguments[1]),
+            ),
           ));
         })
   ];

@@ -49,6 +49,7 @@ class YaBalashTextField extends StatelessWidget {
       cursorColor: AppColorsLight.kAppPrimaryColorLight,
       decoration: InputDecoration(
         errorStyle: kErrorTextStyle,
+        filled: fillColor != null ? true : false,
         floatingLabelBehavior: FloatingLabelBehavior.never,
         suffixIcon: suffixIcon,
         errorBorder: OutlineInputBorder(

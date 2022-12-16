@@ -38,10 +38,12 @@ class AddressesBody extends StatelessWidget {
                 case RequestState.loaded:
                   return ListView.builder(
                     shrinkWrap: true,
-                    itemCount: 2,
+                    itemCount: state.addresses!.length,
                     itemBuilder: (context, index) {
+                      final address = state.addresses![index];
                       return AddressCard(
                         index: index,
+                        address: address,
                         isPrimary: state.currentAddressIndex == index,
                       );
                     },

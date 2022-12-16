@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yabalash_mobile_app/features/addresses/presentation/widgets/address_form.dart';
 
 import '../../../../core/constants/app_layouts.dart';
-import '../../../../core/widgets/phone_number_text_field.dart';
 import '../../../auth/presentation/widgets/auth_back_icon.dart';
 import '../../../auth/presentation/widgets/auth_title_widget.dart';
-
-final _formKey = GlobalKey<FormBuilderState>();
+import '../../domain/entities/address.dart';
 
 class UpdateAddressBody extends StatelessWidget {
-  const UpdateAddressBody({super.key});
+  final Address? address;
+  final bool isFromEdit;
+  final GlobalKey<FormBuilderState> formkey;
+  const UpdateAddressBody(
+      {super.key,
+      this.address,
+      required this.isFromEdit,
+      required this.formkey});
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +24,7 @@ class UpdateAddressBody extends StatelessWidget {
         child: Padding(
           padding: kDefaultPadding,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const AuthBackIcon(),
               largeVerticalSpace,
@@ -26,23 +32,11 @@ class UpdateAddressBody extends StatelessWidget {
                 title: 'حابب نوصلك فين؟',
               ),
               largeVerticalSpace,
-              FormBuilder(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'رقم الهاتف',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.w600, fontSize: 13.sp),
-                      ),
-                      mediumVerticalSpace,
-                      const PhoneTextField(
-                        intialValue: '01033266355',
-                        readOnly: true,
-                      ),
-                    ],
-                  ))
+              AddressForm(
+                isFromEdit: isFromEdit,
+                formkey: formkey,
+                context: context,
+              )
             ],
           ),
         ),
