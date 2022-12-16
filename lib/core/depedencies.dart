@@ -57,13 +57,15 @@ setupDependecies() {
 
   getIt.registerLazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(restApiProvider: getIt()));
-  getIt.registerLazySingleton<AuthLocalDataSource>(
-      () => AuthLocalDataSourceImpl(localStorageProvider: getIt()));
+  getIt.registerLazySingleton<AuthLocalDataSource>(() =>
+      AuthLocalDataSourceImpl(
+          localStorageProvider: getIt(), userService: getIt()));
 
   getIt.registerLazySingleton<ZonesRemoteDataSource>(
       () => ZonesRemoteDataSourceImpl(restApiProvider: getIt()));
-  getIt.registerLazySingleton<ZonesLocalDataSource>(
-      () => ZoneLocalDataSourceImpl(localStorageProvider: getIt()));
+  getIt.registerLazySingleton<ZonesLocalDataSource>(() =>
+      ZoneLocalDataSourceImpl(
+          localStorageProvider: getIt(), zoneService: getIt()));
 
   getIt.registerLazySingleton<SplashRepository>(
       () => SplashRepositoryImpl(localStorageProvider: getIt()));
@@ -101,7 +103,7 @@ setupDependecies() {
         getSectiosUseCase: getIt()),
   );
 
-  getIt.registerLazySingleton(
+  getIt.registerFactory(
     () => MainNavigationCubit(),
   );
   getIt.registerLazySingleton(

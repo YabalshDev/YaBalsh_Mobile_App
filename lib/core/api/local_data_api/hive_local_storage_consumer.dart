@@ -19,10 +19,10 @@ class HiveLocalDataConsumer implements LocalStorageProvider {
   }
 
   @override
-  dynamic getData({required key, type}) async {
+  dynamic getData({required key, type}) {
     try {
       if (!Hive.isBoxOpen(key)) {
-        await Hive.openBox(key);
+        Hive.openBox(key);
       }
       final box = Hive.box(key);
       final data = box.get(key)!;

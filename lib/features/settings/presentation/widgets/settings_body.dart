@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
 import 'package:yabalash_mobile_app/core/theme/light/app_colors_light.dart';
+import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
 import 'package:yabalash_mobile_app/features/settings/presentation/widgets/settings_element_card.dart';
 
 import '../../../../core/constants/app_layouts.dart';
+import '../../../../core/depedencies.dart';
+import '../../../../core/routes/app_routes.dart';
+import '../../../../core/services/user_service.dart';
 import '../../../../core/widgets/custom_header.dart';
 
 class SettingsBody extends StatelessWidget {
@@ -74,15 +79,36 @@ class SettingsBody extends StatelessWidget {
               color: const Color(0xffF5F5F5),
             ),
             Padding(
-              padding: kDefaultPadding,
-              child: SettingsElementCard(
-                  onTap: () {},
-                  isWithTrailing: false,
-                  titleColor: AppColorsLight.kAppPrimaryColorLight,
-                  iconColor: AppColorsLight.kAppPrimaryColorLight,
-                  iconPath: AppAssets.logoutIcon,
-                  title: 'تسجيل الخروج'),
-            )
+                padding: kDefaultPadding,
+                child: StatefulBuilder(
+                  builder: (context, setState) => SettingsElementCard(
+                      onTap: () {
+                        if (getIt<UserService>().token.isEmpty) {
+                          Get.toNamed(RouteHelper.getPhoneNumberRoute());
+                        } else {
+                          yaBalashCustomDialog(
+                            isWithEmoji: false,
+                            buttonTitle: 'تاكيد',
+                            title: 'ملاحظة',
+                            mainContent: 'هل انت متاكد من تسجيل الخروج',
+                            onConfirm: () {
+                              getIt<UserService>().setToken('');
+                              setState(() {});
+                              Get.back();
+                            },
+                          );
+                        }
+                      },
+                      isWithTrailing: false,
+                      titleColor: AppColorsLight.kAppPrimaryColorLight,
+                      iconColor: AppColorsLight.kAppPrimaryColorLight,
+                      iconPath: getIt<UserService>().token.isEmpty
+                          ? AppAssets.loginIcon
+                          : AppAssets.logoutIcon,
+                      title: getIt<UserService>().token.isEmpty
+                          ? 'تسجيل الدخول'
+                          : 'تسجيل الخروج'),
+                ))
           ],
         ),
       ),

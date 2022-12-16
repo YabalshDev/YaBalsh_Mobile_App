@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/features/zones/domain/repositories/zones_repositoriy.dart';
 import 'package:yabalash_mobile_app/features/zones/domain/usecases/get_all_subzones_usecase.dart';
 
@@ -49,6 +50,7 @@ class SubZoneCubit extends Cubit<SubZoneState> {
       onConfirm: () {
         setSubZone(subZone: subZone);
         Get.back();
+        Get.offAndToNamed(RouteHelper.getMainNavigationRoute());
         debugPrint('success');
       },
     );

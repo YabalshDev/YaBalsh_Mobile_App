@@ -24,7 +24,7 @@ class AddressRemoteDataSourceImpl implements AddressRemoteRemoteDatasource {
   Future<AddressModel> addAddress(
       {required AddressRequestModel addressRequest}) async {
     //get token
-    final zoneId = zoneService.getCurrentSubZone().id;
+    final zoneId = zoneService.getCurrentSubZone()!.id;
     final response = await restApiProvider.post(addressEndPoint,
         body: addressRequest.toJson(), queryParams: {'zone': zoneId});
     final result = AddressResponseModel.fromJson(response);

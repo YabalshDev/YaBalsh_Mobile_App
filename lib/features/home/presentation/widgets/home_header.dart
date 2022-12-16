@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 
 import '../../../../core/constants/app_assets.dart';
+import '../../../../core/depedencies.dart';
+import '../../../../core/services/zone_service.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/custom_svg_icon.dart';
 
@@ -38,7 +40,7 @@ class HomeHeader extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "التجمع الخامس",
+                    getIt<ZoneService>().currentSubZone?.name ?? '',
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium

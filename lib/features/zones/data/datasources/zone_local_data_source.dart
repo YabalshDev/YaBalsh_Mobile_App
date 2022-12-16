@@ -2,6 +2,7 @@ import 'package:hive/hive.dart';
 import 'package:yabalash_mobile_app/core/api/local_data_api/local_storage_provider.dart';
 import 'package:yabalash_mobile_app/core/constants/app_strings.dart';
 import 'package:yabalash_mobile_app/core/errors/exceptions.dart';
+import 'package:yabalash_mobile_app/core/services/zone_service.dart';
 import 'package:yabalash_mobile_app/features/zones/domain/entities/sub_zone.dart';
 
 abstract class ZonesLocalDataSource {
@@ -11,8 +12,10 @@ abstract class ZonesLocalDataSource {
 
 class ZoneLocalDataSourceImpl implements ZonesLocalDataSource {
   final LocalStorageProvider localStorageProvider;
+  final ZoneService zoneService;
 
-  ZoneLocalDataSourceImpl({required this.localStorageProvider});
+  ZoneLocalDataSourceImpl(
+      {required this.zoneService, required this.localStorageProvider});
   @override
   List<SubZone> getPastZones() {
     try {
@@ -35,6 +38,7 @@ class ZoneLocalDataSourceImpl implements ZonesLocalDataSource {
       final box = Hive.box<SubZone>(AppStrings.zones);
       box.put(subZone.name, subZone);
       box.close();
+      zoneService.setCurrentSubZone(subZone);
     } catch (err) {
       throw CacheException();
     }

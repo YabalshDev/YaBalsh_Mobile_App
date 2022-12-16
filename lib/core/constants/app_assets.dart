@@ -54,4 +54,5 @@ class AppAssets {
 
   static const String speakerphoneIcon = 'assets/icons/speakerphone.svg';
   static const String addressesIcon = 'assets/icons/map-pin.svg';
+  static const String loginIcon = 'assets/icons/login.svg';
 }

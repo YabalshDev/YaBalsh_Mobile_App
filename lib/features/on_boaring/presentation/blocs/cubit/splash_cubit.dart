@@ -20,7 +20,22 @@ class SplashCubit extends Cubit<SplashState> {
       : super(SplashInitial());
 
   bool _isFirstTimeVisit = true;
-  bool get isFirstTimeVisit => _isFirstTimeVisit;
+  bool _isUserLoggedIn = false;
+  bool _isZoneExits = false;
+
+  void checkIfUserLoggedIn() async {
+    final result = userService.getToken();
+    if (result.isNotEmpty) {
+      _isUserLoggedIn = true;
+    }
+  }
+
+  void checkIfZoneExist() {
+    final result = zoneService.getCurrentSubZone();
+    if (result != null) {
+      _isZoneExits = true;
+    }
+  }
 
   void checkIsFirstTimeVisit() {
     final response = splashRepository.checkIsFirstTimeVisit();
@@ -30,24 +45,34 @@ class SplashCubit extends Cubit<SplashState> {
   void setIsFirstTimeVisit(bool value) {
     final response = splashRepository.setIsFirstTimeVisit(value: value);
 
-    response.fold((l) {}, (result) {
-      print('success');
-    });
+    response.fold((l) {}, (result) {});
   }
 
   void splashInit() async {
     await Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(seconds: 4),
       () {
         checkIsFirstTimeVisit();
+        checkIfUserLoggedIn();
+        checkIfZoneExist();
 
         if (_isFirstTimeVisit) {
           setIsFirstTimeVisit(false);
           Get.offAndToNamed(RouteHelper.getOnBoardingRoute());
         } else {
-          Get.offAndToNamed(
-            RouteHelper.getMainNavigationRoute(),
-          );
+          if (!_isUserLoggedIn) {
+            Get.offAndToNamed(
+              RouteHelper.getPhoneNumberRoute(),
+            );
+          } else if (!_isZoneExits) {
+            Get.offAndToNamed(
+              RouteHelper.getMainZonesRoute(),
+            );
+          } else {
+            Get.offAndToNamed(
+              RouteHelper.getMainNavigationRoute(),
+            );
+          }
         }
       },
     );

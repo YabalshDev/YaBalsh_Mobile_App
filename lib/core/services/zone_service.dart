@@ -5,14 +5,20 @@ import '../../features/zones/domain/entities/sub_zone.dart';
 
 class ZoneService {
   SubZone? _currentSubZone;
-
-  SubZone getCurrentSubZone() {
+  SubZone? get currentSubZone => _currentSubZone;
+  SubZone? getCurrentSubZone() {
     if (!Hive.isBoxOpen(AppStrings.zones)) {
       Hive.openBox<SubZone>(AppStrings.zones);
     }
     final box = Hive.box<SubZone>(AppStrings.zones);
-    _currentSubZone = box.values.toList().last;
+    if (box.values.isNotEmpty) {
+      _currentSubZone = box.values.toList().last;
+    }
 
-    return _currentSubZone!;
+    return _currentSubZone;
+  }
+
+  void setCurrentSubZone(SubZone subZone) {
+    _currentSubZone = subZone;
   }
 }
