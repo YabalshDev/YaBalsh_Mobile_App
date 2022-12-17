@@ -3,9 +3,9 @@ import 'package:yabalash_mobile_app/features/addresses/domain/entities/address_r
 class AddressRequestModel extends AddressRequest {
   const AddressRequestModel({
     String? addressLine,
-    int? floorNo,
-    int? buildingNo,
-    int? apartmentNo,
+    String? floorNo,
+    String? buildingNo,
+    String? apartmentNo,
   }) : super(
           addressLine: addressLine,
           floorNo: floorNo,

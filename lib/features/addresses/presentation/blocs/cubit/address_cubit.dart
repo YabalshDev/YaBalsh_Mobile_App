@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/core/usecases/use_cases.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
@@ -24,6 +25,15 @@ class AddressCubit extends Cubit<AddressState> {
     emit(state.copyWith(currentAddressIndex: index));
   }
 
+  void handleDeleteDialogClose() {
+    emit(state.copyWith(
+        addresses: state.addresses, addressesRequestState: RequestState.error));
+
+    emit(state.copyWith(
+        addresses: state.addresses,
+        addressesRequestState: RequestState.loaded));
+  }
+
   void getAllAddress() async {
     final response = await getAllAddressUseCase(NoParams());
     response.fold((failure) {
@@ -35,82 +45,37 @@ class AddressCubit extends Cubit<AddressState> {
         isWithEmoji: false,
         title: 'خطأ',
         mainContent: failure.message,
-        onConfirm: () => Get.back(),
+        onConfirm: () {
+          Get.offAndToNamed(RouteHelper.getAddressesRoute());
+        },
       );
     },
         (addresses) => emit(state.copyWith(
             addresses: addresses, addressesRequestState: RequestState.loaded)));
   }
 
-  // void addAddress({required AddressRequest addressRequest}) async {
-  //   final response = await addAddressUseCase(
-  //       AddAddressParams(addressRequest: addressRequest));
-  //   response.fold((failure) {
-  //     emit(state.copyWith(
-  //         errorMessage: failure.message,
-  //         addressesRequestState: RequestState.error));
-  //     yaBalashCustomDialog(
-  //       buttonTitle: 'حسنا',
-  //       isWithEmoji: false,
-  //       title: 'خطأ',
-  //       mainContent: failure.message,
-  //       onConfirm: () => Get.back(),
-  //     );
-  //   },
-  //       (address) => yaBalashCustomDialog(
-  //             buttonTitle: 'حسنا',
-  //             isWithEmoji: false,
-  //             title: 'ملاحظة',
-  //             mainContent: 'تمت اضافة العنوان بنجاح',
-  //             onConfirm: () => Get.back(),
-  //           ));
-  // }
+  void deleteAddress({required int id, required Address address}) async {
+    List<Address> updatedAddress = List.from(state.addresses!)..remove(address);
 
-  // void editAddress(
-  //     {required int id, required AddressRequest addressRequest}) async {
-  //   final response = await editAddressUseCase(
-  //       EditAddressParams(addressRequest: addressRequest, id: id));
-  //   response.fold((failure) {
-  //     emit(state.copyWith(
-  //         errorMessage: failure.message,
-  //         addressesRequestState: RequestState.error));
-  //     yaBalashCustomDialog(
-  //       buttonTitle: 'حسنا',
-  //       isWithEmoji: false,
-  //       title: 'خطأ',
-  //       mainContent: failure.message,
-  //       onConfirm: () => Get.back(),
-  //     );
-  //   },
-  //       (address) => yaBalashCustomDialog(
-  //             buttonTitle: 'حسنا',
-  //             isWithEmoji: false,
-  //             title: 'ملاحظة',
-  //             mainContent: 'تم تعديل العنوان بنجاح',
-  //             onConfirm: () => Get.back(),
-  //           ));
-  // }
-
-  void deleteAddress({required int id}) async {
     final response = await deleteAddressUseCase(DeleteAddressParams(id: id));
     response.fold((failure) {
-      emit(state.copyWith(
-          errorMessage: failure.message,
-          addressesRequestState: RequestState.error));
+      handleDeleteDialogClose();
       yaBalashCustomDialog(
-        buttonTitle: 'حسنا',
-        isWithEmoji: false,
-        title: 'خطأ',
-        mainContent: failure.message,
-        onConfirm: () => Get.back(),
-      );
-    },
-        (success) => yaBalashCustomDialog(
-              buttonTitle: 'حسنا',
-              isWithEmoji: false,
-              title: 'ملاحظة',
-              mainContent: 'تم حذف العنوان بنجاح',
-              onConfirm: () => Get.back(),
-            ));
+          buttonTitle: 'حسنا',
+          isWithEmoji: false,
+          title: 'خطأ',
+          mainContent: failure.message,
+          onConfirm: () => Get.until(
+              (route) => Get.currentRoute == RouteHelper.getAddressesRoute()));
+    }, (success) {
+      emit(state.copyWith(addresses: updatedAddress));
+      yaBalashCustomDialog(
+          buttonTitle: 'حسنا',
+          isWithEmoji: false,
+          title: 'ملاحظة',
+          mainContent: 'تم حذف العنوان بنجاح',
+          onConfirm: () => Get.until(
+              (route) => Get.currentRoute == RouteHelper.getAddressesRoute()));
+    });
   }
 }

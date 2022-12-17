@@ -11,14 +11,17 @@ import '../../../../core/services/zone_service.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/custom_form_section.dart';
 import '../../../../core/widgets/phone_number_text_field.dart';
+import '../../domain/entities/address.dart';
 
 class AddressForm extends StatelessWidget {
   final bool isFromEdit;
   final GlobalKey<FormBuilderState> formkey;
   final BuildContext context;
+  final Address? address;
   const AddressForm(
       {super.key,
       required this.isFromEdit,
+      this.address,
       required this.formkey,
       required this.context});
   void validateOnChanged(String value) {
@@ -69,12 +72,14 @@ class AddressForm extends StatelessWidget {
                             fontWeight: FontWeight.w600, fontSize: 13.sp),
                       ),
                       name: 'district',
+                      intialValue: address != null
+                          ? address!.fullAddress!.split(',')[0]
+                          : '',
                       onChanged: (value) {
                         validateOnChanged(value!);
                       },
                       validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(
-                            errorText: 'الاسم الاول مطلوب')
+                        FormBuilderValidators.required(errorText: 'الحي مطلوب')
                       ]),
                     )),
                 mediumHorizontalSpace,
@@ -96,7 +101,7 @@ class AddressForm extends StatelessWidget {
                       validator: !isFromEdit
                           ? FormBuilderValidators.compose([
                               FormBuilderValidators.required(
-                                  errorText: 'الحي مطلوب')
+                                  errorText: 'المنطقة مطلوبة')
                             ])
                           : null,
                     ))
@@ -112,6 +117,8 @@ class AddressForm extends StatelessWidget {
                     ?.copyWith(fontWeight: FontWeight.w600, fontSize: 13.sp),
               ),
               name: 'fullName',
+              intialValue:
+                  address != null ? address!.fullAddress!.split(',')[0] : '',
               onChanged: (value) {
                 validateOnChanged(value!);
               },
@@ -131,6 +138,7 @@ class AddressForm extends StatelessWidget {
                     ?.copyWith(fontWeight: FontWeight.w600, fontSize: 13.sp),
               ),
               name: 'street',
+              intialValue: address != null ? address!.fullAddress : '',
               onChanged: (value) {
                 validateOnChanged(value!);
               },
@@ -153,6 +161,7 @@ class AddressForm extends StatelessWidget {
                             fontWeight: FontWeight.w600, fontSize: 13.sp),
                       ),
                       name: 'buildingNo',
+                      intialValue: address != null ? address!.buildingNo : '',
                       onChanged: (value) {
                         validateOnChanged(value!);
                       },
@@ -173,6 +182,7 @@ class AddressForm extends StatelessWidget {
                             fontWeight: FontWeight.w600, fontSize: 13.sp),
                       ),
                       name: 'floor',
+                      intialValue: address != null ? address!.floor : '',
                       onChanged: (value) {
                         validateOnChanged(value!);
                       },
@@ -193,6 +203,7 @@ class AddressForm extends StatelessWidget {
                             fontWeight: FontWeight.w600, fontSize: 13.sp),
                       ),
                       name: 'apartment',
+                      intialValue: address != null ? address!.apartmentNo : '',
                       onChanged: (value) {
                         validateOnChanged(value!);
                       },

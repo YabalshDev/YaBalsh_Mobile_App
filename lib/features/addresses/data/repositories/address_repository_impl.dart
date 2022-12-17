@@ -15,8 +15,13 @@ class AddressRepositoryImpl implements AddressRepository {
   Future<Either<Failure, Address>> addAddress(
       {required AddressRequest addressRequest}) async {
     try {
-      final response = await addressRemoteDatasource.addAddress(
-          addressRequest: addressRequest as AddressRequestModel);
+      final AddressRequestModel addressBody = AddressRequestModel(
+          addressLine: addressRequest.addressLine,
+          apartmentNo: addressRequest.apartmentNo,
+          buildingNo: addressRequest.buildingNo,
+          floorNo: addressRequest.floorNo);
+      final response =
+          await addressRemoteDatasource.addAddress(addressRequest: addressBody);
       return Right(response);
     } on ServerException catch (err) {
       return Left(ServerFailure(message: err.errorModel.message!));
@@ -37,8 +42,13 @@ class AddressRepositoryImpl implements AddressRepository {
   Future<Either<Failure, Address>> editAddress(
       {required int id, required AddressRequest addressRequest}) async {
     try {
+      final AddressRequestModel addressBody = AddressRequestModel(
+          addressLine: addressRequest.addressLine,
+          apartmentNo: addressRequest.apartmentNo,
+          buildingNo: addressRequest.buildingNo,
+          floorNo: addressRequest.floorNo);
       final response = await addressRemoteDatasource.editAddress(
-          addressRequest: addressRequest as AddressRequestModel, id: id);
+          addressRequest: addressBody, id: id);
       return Right(response);
     } on ServerException catch (err) {
       return Left(ServerFailure(message: err.errorModel.message!));

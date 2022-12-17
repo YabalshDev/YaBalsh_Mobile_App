@@ -40,6 +40,7 @@ class AppAssets {
   static const String eyeIcon = 'assets/icons/eye.svg';
 
   static const String locationPin = 'assets/images/location_pin.png';
+  static const String emptyIllustrator = 'assets/images/empty_illustrator.png';
 
   static const String inStockIcon = 'assets/images/In_stock.png';
   static const String outOfStockIcon = 'assets/images/Out_of_stock.png';

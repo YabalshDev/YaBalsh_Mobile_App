@@ -11,6 +11,7 @@ import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/services/zone_service.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/theme/light/light_theme.dart';
+import '../../../../core/widgets/custom_dialog.dart';
 import '../../../../core/widgets/custom_svg_icon.dart';
 import '../../domain/entities/address.dart';
 
@@ -24,8 +25,23 @@ class AddressCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key('${address!.id}'),
+      key: ObjectKey(address!),
       direction: DismissDirection.startToEnd,
+      onDismissed: (direction) {
+        yaBalashCustomDialog(
+          buttonTitle: 'تاكيد',
+          isWithEmoji: false,
+          onClose: () {
+            BlocProvider.of<AddressCubit>(context, listen: false)
+                .handleDeleteDialogClose();
+            Get.back();
+          },
+          title: 'ملاحظة',
+          mainContent: 'هل انت متاكد من حذف العنوان',
+          onConfirm: () => BlocProvider.of<AddressCubit>(context, listen: false)
+              .deleteAddress(id: address!.id!, address: address!),
+        );
+      },
       background: Container(
         decoration: const BoxDecoration(
           color: AppColorsLight.kErrorColor,
@@ -65,7 +81,7 @@ class AddressCard extends StatelessWidget {
                   ),
                   smallHorizontalSpace,
                   Text(
-                    'بيت الشروق',
+                    address!.fullAddress!.split(',')[0],
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontWeight: FontWeight.w600,
                         color: AppColorsLight.kAppPrimaryColorLight),
@@ -84,7 +100,7 @@ class AddressCard extends StatelessWidget {
                   ),
                   smallHorizontalSpace,
                   Text(
-                    '${address!.fullAddress!.split(',')[0]},${getIt<ZoneService>().currentSubZone!.name},${getIt<ZoneService>().currentSubZone!.mainZoneName}',
+                    '${address!.fullAddress!.split(',')[1]},${getIt<ZoneService>().currentSubZone!.name},${getIt<ZoneService>().currentSubZone!.mainZoneName}',
                     maxLines: 2,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontWeight: FontWeight.w600,

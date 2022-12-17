@@ -2,9 +2,9 @@ import 'package:equatable/equatable.dart';
 
 class AddressRequest extends Equatable {
   final String? addressLine;
-  final int? buildingNo;
-  final int? floorNo;
-  final int? apartmentNo;
+  final String? buildingNo;
+  final String? floorNo;
+  final String? apartmentNo;
 
   const AddressRequest(
       {this.addressLine, this.buildingNo, this.floorNo, this.apartmentNo});

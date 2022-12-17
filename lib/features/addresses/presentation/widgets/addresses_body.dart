@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
+import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
 import 'package:yabalash_mobile_app/features/addresses/presentation/blocs/cubit/address_cubit.dart';
 import 'package:yabalash_mobile_app/features/addresses/presentation/widgets/address_card.dart';
 
@@ -36,18 +37,26 @@ class AddressesBody extends StatelessWidget {
                     ),
                   );
                 case RequestState.loaded:
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: state.addresses!.length,
-                    itemBuilder: (context, index) {
-                      final address = state.addresses![index];
-                      return AddressCard(
-                        index: index,
-                        address: address,
-                        isPrimary: state.currentAddressIndex == index,
-                      );
-                    },
-                  );
+                  if (state.addresses!.isNotEmpty) {
+                    return ListView.builder(
+                      key: UniqueKey(),
+                      shrinkWrap: true,
+                      itemCount: state.addresses!.length,
+                      itemBuilder: (context, index) {
+                        final address = state.addresses![index];
+                        return AddressCard(
+                          index: index,
+                          address: address,
+                          isPrimary: state.currentAddressIndex == index,
+                        );
+                      },
+                    );
+                  } else {
+                    return SizedBox(
+                        height: Get.height * 0.75,
+                        child: const EmptyIndicator(
+                            title: 'لا يوجد عناوين حاليا'));
+                  }
 
                 case RequestState.error:
                   return const SizedBox();

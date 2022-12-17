@@ -27,7 +27,12 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDatasource {
 
   final Map<String, dynamic> addressHeaders = {
     'zone': getIt<ZoneService>().getCurrentSubZone()!.id,
-    'Authorization': 'Bearer ${getIt<UserService>().token}'
+    'authorization': 'Bearer ${getIt<UserService>().token}'
+  };
+
+  final updateAddressHeaders = {
+    'authorization':
+        'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTY1LjIyNy4xNjAuMTI1L2FwaS92MS9hdXRoL2xvZ2luIiwiaWF0IjoxNjcxMTA3NzIyLCJleHAiOjE2NzM2OTk3MjIsIm5iZiI6MTY3MTEwNzcyMiwianRpIjoiQnBuY2tRR2M5OG5YNzFRNiIsInN1YiI6IjIiLCJwcnYiOiI2MTM0MDBlZmIxYmZiNTBmOTZmOTBiM2VmZjNlYjFlNDlkZjRlODFkIn0.6RbctdKrSRvUiniclX4OeG5_Cb3wdi729H7_qvbu2W8'
   };
   @override
   Future<AddressModel> addAddress(
@@ -42,14 +47,14 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDatasource {
   @override
   Future<void> deleteAddress({required int id}) async {
     await restApiProvider.delete(getAddressEndPointById(id),
-        headers: addressHeaders);
+        headers: updateAddressHeaders);
   }
 
   @override
   Future<AddressModel> editAddress(
       {required int id, required AddressRequestModel addressRequest}) async {
     final response = await restApiProvider.put(getAddressEndPointById(id),
-        body: addressRequest.toJson(), headers: addressHeaders);
+        body: addressRequest.toJson(), headers: updateAddressHeaders);
 
     final result = AddressResponseModel.fromJson(response);
     return result.data as AddressModel;
