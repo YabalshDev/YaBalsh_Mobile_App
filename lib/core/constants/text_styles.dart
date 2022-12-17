@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yabalash_mobile_app/core/constants/app_strings.dart';
 import 'package:yabalash_mobile_app/core/theme/light/app_colors_light.dart';
 
 TextStyle headingTextStyle =
@@ -15,13 +16,20 @@ TextStyle bodyTextStyle =
     TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w400);
 
 TextStyle kActivebuttonTextStyle = TextStyle(
-    fontSize: 15.sp, fontWeight: FontWeight.w700, color: Colors.white);
+    fontFamily: AppStrings.fontFamily,
+    fontSize: 15.sp,
+    fontWeight: FontWeight.w700,
+    color: Colors.white);
 
-TextStyle kDisabledbuttonTextStyle =
-    TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600);
+TextStyle kDisabledbuttonTextStyle = TextStyle(
+    fontFamily: AppStrings.fontFamily,
+    fontSize: 15.sp,
+    fontWeight: FontWeight.w600);
 
-TextStyle kBottomNavbuttonTextStyle =
-    TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w500);
+TextStyle kBottomNavbuttonTextStyle = TextStyle(
+    fontFamily: AppStrings.fontFamily,
+    fontSize: 11.sp,
+    fontWeight: FontWeight.w500);
 
 TextStyle kErrorTextStyle = TextStyle(
     fontSize: 13.sp,

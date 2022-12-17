@@ -34,6 +34,7 @@ class CustomHeader extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: AppColorsLight.kAppPrimaryColorLight,
               fontWeight: FontWeight.w700,
+              letterSpacing: 1,
               fontSize: 17.sp),
         ),
         const Spacer()
