@@ -65,8 +65,9 @@ class AddressCubit extends Cubit<AddressState> {
           isWithEmoji: false,
           title: 'خطأ',
           mainContent: failure.message,
-          onConfirm: () => Get.until(
-              (route) => Get.currentRoute == RouteHelper.getAddressesRoute()));
+          onConfirm: () => Get
+            ..back()
+            ..back());
     }, (success) {
       emit(state.copyWith(addresses: updatedAddress));
       yaBalashCustomDialog(
@@ -74,8 +75,9 @@ class AddressCubit extends Cubit<AddressState> {
           isWithEmoji: false,
           title: 'ملاحظة',
           mainContent: 'تم حذف العنوان بنجاح',
-          onConfirm: () => Get.until(
-              (route) => Get.currentRoute == RouteHelper.getAddressesRoute()));
+          onConfirm: () => Get
+            ..back()
+            ..back());
     });
   }
 }

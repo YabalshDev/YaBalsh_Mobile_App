@@ -31,8 +31,7 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDatasource {
   };
 
   final updateAddressHeaders = {
-    'authorization':
-        'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTY1LjIyNy4xNjAuMTI1L2FwaS92MS9hdXRoL2xvZ2luIiwiaWF0IjoxNjcxMTA3NzIyLCJleHAiOjE2NzM2OTk3MjIsIm5iZiI6MTY3MTEwNzcyMiwianRpIjoiQnBuY2tRR2M5OG5YNzFRNiIsInN1YiI6IjIiLCJwcnYiOiI2MTM0MDBlZmIxYmZiNTBmOTZmOTBiM2VmZjNlYjFlNDlkZjRlODFkIn0.6RbctdKrSRvUiniclX4OeG5_Cb3wdi729H7_qvbu2W8'
+    'authorization': 'Bearer ${getIt<UserService>().token}'
   };
   @override
   Future<AddressModel> addAddress(
