@@ -5,6 +5,17 @@ import 'package:yabalash_mobile_app/core/api/local_data_api/local_storage_provid
 import 'package:yabalash_mobile_app/core/api/remote_data_api/dio_consumer.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/interceptors.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/rest_api_provider.dart';
+import 'package:yabalash_mobile_app/core/services/user_service.dart';
+import 'package:yabalash_mobile_app/core/services/zone_service.dart';
+import 'package:yabalash_mobile_app/features/addresses/data/datasources/address_remote_datasource.dart';
+import 'package:yabalash_mobile_app/features/addresses/data/repositories/address_repository_impl.dart';
+import 'package:yabalash_mobile_app/features/addresses/domain/repositories/address_repository.dart';
+import 'package:yabalash_mobile_app/features/addresses/domain/use%20cases/add_address_usecase.dart';
+import 'package:yabalash_mobile_app/features/addresses/domain/use%20cases/delete_address_usecase.dart';
+import 'package:yabalash_mobile_app/features/addresses/domain/use%20cases/edit_address_usecase.dart';
+import 'package:yabalash_mobile_app/features/addresses/domain/use%20cases/get_all_addresses_usecase.dart';
+import 'package:yabalash_mobile_app/features/addresses/presentation/blocs/cubit/address_cubit.dart';
+import 'package:yabalash_mobile_app/features/addresses/presentation/blocs/cubit/update_address_cubit.dart';
 import 'package:yabalash_mobile_app/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:yabalash_mobile_app/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:yabalash_mobile_app/features/auth/data/repositories/auth_repository_impl.dart';
@@ -47,17 +58,26 @@ setupDependecies() {
       () => DioConsumer(client: getIt()));
   getIt.registerLazySingleton<LocalStorageProvider>(
       () => HiveLocalDataConsumer());
+
+  getIt.registerLazySingleton(() => ZoneService());
+  getIt.registerLazySingleton(() => UserService(localStorageProvider: getIt()));
+
   getIt.registerLazySingleton<HomeDataSource>(() => HomeMockDataSourceImpl());
 
   getIt.registerLazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(restApiProvider: getIt()));
-  getIt.registerLazySingleton<AuthLocalDataSource>(
-      () => AuthLocalDataSourceImpl(localStorageProvider: getIt()));
+  getIt.registerLazySingleton<AuthLocalDataSource>(() =>
+      AuthLocalDataSourceImpl(
+          localStorageProvider: getIt(), userService: getIt()));
 
   getIt.registerLazySingleton<ZonesRemoteDataSource>(
       () => ZonesRemoteDataSourceImpl(restApiProvider: getIt()));
-  getIt.registerLazySingleton<ZonesLocalDataSource>(
-      () => ZoneLocalDataSourceImpl(localStorageProvider: getIt()));
+  getIt.registerLazySingleton<ZonesLocalDataSource>(() =>
+      ZoneLocalDataSourceImpl(
+          localStorageProvider: getIt(), zoneService: getIt()));
+
+  getIt.registerLazySingleton<AddressRemoteDatasource>(
+      () => AddressRemoteDataSourceImpl(restApiProvider: getIt()));
 
   getIt.registerLazySingleton<SplashRepository>(
       () => SplashRepositoryImpl(localStorageProvider: getIt()));
@@ -69,6 +89,9 @@ setupDependecies() {
 
   getIt.registerLazySingleton<ZonesRepository>(() => ZonesRepositoryImpl(
       zonesLocalDataSource: getIt(), zonesRemoteDataSource: getIt()));
+
+  getIt.registerLazySingleton<AddressRepository>(
+      () => AddressRepositoryImpl(addressRemoteDatasource: getIt()));
 
   // use cases
 
@@ -87,6 +110,15 @@ setupDependecies() {
   getIt.registerLazySingleton(
       () => GetPastSubZonesUseCase(zonesRepository: getIt()));
 
+  getIt.registerLazySingleton(
+      () => GetAllAddressUseCase(addressRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => AddAddressUseCase(addressRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => EditAddressUseCase(addressRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => DeleteAddressUseCase(addressRepository: getIt()));
+
   getIt.registerFactory(
     () => HomeCubit(
         getLatestOffersUseCase: getIt(),
@@ -95,14 +127,15 @@ setupDependecies() {
         getSectiosUseCase: getIt()),
   );
 
-  getIt.registerLazySingleton(
+  getIt.registerFactory(
     () => MainNavigationCubit(),
   );
   getIt.registerLazySingleton(
     () => OnBoardingCubit(),
   );
   getIt.registerLazySingleton(
-    () => SplashCubit(splashRepository: getIt()),
+    () => SplashCubit(
+        splashRepository: getIt(), userService: getIt(), zoneService: getIt()),
   );
   getIt.registerLazySingleton(
     () => LoginCubit(loginUseCase: getIt(), authRepository: getIt()),
@@ -119,4 +152,14 @@ setupDependecies() {
   getIt.registerLazySingleton(
     () => PhoneNumberCubit(),
   );
+
+  getIt.registerFactory(
+    () => AddressCubit(
+        deleteAddressUseCase: getIt(), getAllAddressUseCase: getIt()),
+  );
+
+  getIt.registerFactory(() => UpdateAddressCubit(
+        addAddressUseCase: getIt(),
+        editAddressUseCase: getIt(),
+      ));
 }

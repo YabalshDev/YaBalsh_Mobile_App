@@ -12,10 +12,12 @@ class CustomFormSection extends StatelessWidget {
   final Function(String?)? onChanged;
   final FormFieldValidator<String>? validator;
   final Widget? suffixIcon;
+  final Color? fillColor;
 
   const CustomFormSection(
       {super.key,
       this.title,
+      this.fillColor = Colors.transparent,
       this.intialValue,
       this.suffixIcon,
       this.name,
@@ -31,6 +33,7 @@ class CustomFormSection extends StatelessWidget {
       mediumVerticalSpace,
       YaBalashTextField(
         name: name,
+        fillColor: fillColor,
         onChanged: onChanged,
         validator: validator,
         obsecure: obsecure,

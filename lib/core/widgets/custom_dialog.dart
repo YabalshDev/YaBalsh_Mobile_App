@@ -75,6 +75,7 @@ void yaBalashCustomDialog(
     String? subContent,
     String? buttonTitle,
     void Function()? onConfirm,
+    void Function()? onClose,
     bool? isWithEmoji}) {
   showDialog(
     context: Get.context!,
@@ -94,7 +95,7 @@ void yaBalashCustomDialog(
                       .copyWith(fontSize: 16.sp, fontWeight: FontWeight.w700),
                 ),
                 InkWell(
-                  onTap: () => Get.back(),
+                  onTap: onClose ?? () => Get.back(),
                   child: const Icon(
                     Icons.close,
                     color: AppColorsLight.kAppPrimaryColorLight,

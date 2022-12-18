@@ -16,4 +16,6 @@ class AppColorsLight {
   static const Color warningColor = Color(0xffFFC120);
   static const Color kTextFieldBorderColor = Color(0xffE5E5E5);
   static const Color kErrorColor = Color(0xffFE3A30);
+  static const Color kAddressBorderColor = Color(0xffD8DAE8);
+  static const Color kAddressBackgroundColor = Color(0xffFCFCFC);
 }

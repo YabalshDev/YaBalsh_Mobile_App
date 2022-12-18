@@ -4,14 +4,16 @@ import 'package:get/get.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 
 class AuthBackIcon extends StatelessWidget {
-  const AuthBackIcon({super.key});
+  final VoidCallback? onTap;
+  const AuthBackIcon({super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Get.back();
-      },
+      onTap: onTap ??
+          () {
+            Get.back();
+          },
       child: const Icon(
         Icons.arrow_back_ios,
         color: AppColorsLight.kAppPrimaryColorLight,

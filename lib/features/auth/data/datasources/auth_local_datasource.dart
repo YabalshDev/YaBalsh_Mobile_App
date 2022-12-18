@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:yabalash_mobile_app/core/api/local_data_api/local_storage_provider.dart';
 import 'package:yabalash_mobile_app/core/constants/app_strings.dart';
 import 'package:yabalash_mobile_app/core/errors/exceptions.dart';
+import 'package:yabalash_mobile_app/core/services/user_service.dart';
 
 abstract class AuthLocalDataSource {
   void setUserToken({required String token});
@@ -9,13 +11,15 @@ abstract class AuthLocalDataSource {
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   final LocalStorageProvider localStorageProvider;
+  final UserService userService;
 
-  AuthLocalDataSourceImpl({required this.localStorageProvider});
+  AuthLocalDataSourceImpl(
+      {required this.userService, required this.localStorageProvider});
   @override
   bool checkUserLoggedIn() {
     try {
       final response = localStorageProvider.getData(key: AppStrings.token);
-      print(response);
+      debugPrint(response);
       return true;
     } on CacheException {
       return false;
@@ -25,10 +29,10 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   @override
   void setUserToken({required String token}) {
     try {
-      final response =
-          localStorageProvider.setData(key: AppStrings.token, data: token);
+      localStorageProvider.setData(key: AppStrings.token, data: token);
+      userService.setToken(token);
     } on CacheException catch (err) {
-      print(err);
+      debugPrint(err.toString());
     }
   }
 }

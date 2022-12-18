@@ -13,7 +13,7 @@ class AppInterceptor implements Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     debugPrint(
-        'REQUEST[${options.method}] => PATH: ${options.path} AND Query Paramters are : ${options.queryParameters}');
+        'REQUEST[${options.method}] => PATH: ${options.path} AND Query Paramters are : ${options.queryParameters} And headers are ${options.headers} ');
     return handler.next(options);
   }
 

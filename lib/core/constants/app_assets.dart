@@ -1,5 +1,5 @@
 class AppAssets {
-  static const String logo = 'assets/images/logo.png';
+  static const String logo = 'assets/images/Logo.png';
   static const String firstOnBoardingIllustration =
       'assets/images/on_boarding1.png';
   static const String secondOnBoardingIllustration =
@@ -40,7 +40,24 @@ class AppAssets {
   static const String eyeIcon = 'assets/icons/eye.svg';
 
   static const String locationPin = 'assets/images/location_pin.png';
+  static const String emptyIllustrator = 'assets/images/empty_illustrator.png';
 
   static const String inStockIcon = 'assets/images/In_stock.png';
   static const String outOfStockIcon = 'assets/images/Out_of_stock.png';
+
+  static const String headphoneIcon = 'assets/icons/headphone.svg';
+
+  static const String likeIcon = 'assets/icons/like.svg';
+
+  static const String logoutIcon = 'assets/icons/logout.svg';
+
+  static const String ordersIcon = 'assets/icons/orders.svg';
+
+  static const String speakerphoneIcon = 'assets/icons/speakerphone.svg';
+  static const String addressesIcon = 'assets/icons/map-pin.svg';
+  static const String loginIcon = 'assets/icons/login.svg';
+  static const String homeAddressIcon = 'assets/icons/home_address.svg';
+  static const String closeIcon = 'assets/icons/close.svg';
+  static const String pencilIcon = 'assets/icons/pencil.svg';
+  static const String binIcon = 'assets/icons/bin.svg';
 }

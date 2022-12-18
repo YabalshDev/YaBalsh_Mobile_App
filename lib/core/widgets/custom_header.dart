@@ -8,8 +8,12 @@ import 'custom_svg_icon.dart';
 class CustomHeader extends StatelessWidget {
   final bool isWithNotification;
   final String title;
+  final String? iconPath;
   const CustomHeader(
-      {super.key, required this.isWithNotification, required this.title});
+      {super.key,
+      required this.isWithNotification,
+      required this.title,
+      this.iconPath});
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +22,9 @@ class CustomHeader extends StatelessWidget {
       children: [
         isWithNotification
             ? CustomSvgIcon(
-                iconPath: AppAssets.notificationIcon,
+                iconPath: iconPath ?? AppAssets.notificationIcon,
                 color: AppColorsLight.kAppPrimaryColorLight,
-                height: 30.h,
+                height: 20.h,
                 width: 23.w,
               )
             : const SizedBox(),
@@ -30,6 +34,7 @@ class CustomHeader extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: AppColorsLight.kAppPrimaryColorLight,
               fontWeight: FontWeight.w700,
+              letterSpacing: 1,
               fontSize: 17.sp),
         ),
         const Spacer()
