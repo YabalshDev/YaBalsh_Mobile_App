@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
 import 'package:yabalash_mobile_app/core/utils/app_bloc_observer.dart';
+import 'package:yabalash_mobile_app/features/cart/domain/entities/cart_item.dart';
+import 'package:yabalash_mobile_app/features/home/domain/entities/product.dart';
 
 import 'app.dart';
 import 'core/constants/app_strings.dart';
@@ -15,9 +17,12 @@ void main() async {
   setupDependecies();
   await Hive.initFlutter();
   Hive.registerAdapter(SubZoneAdapter());
+  Hive.registerAdapter(ProductAdapter());
+  Hive.registerAdapter(CartItemAdapter());
   await Hive.openBox(AppStrings.isFirstTimeVisitKey);
   await Hive.openBox(AppStrings.token);
   await Hive.openBox<SubZone>(AppStrings.zones);
+  await Hive.openBox<CartItem>(AppStrings.cartKey);
   // intialize hive boxes
   Bloc.observer = AppBlocObserver();
   runApp(DevicePreview(builder: (context) => const YaBalashApp()));

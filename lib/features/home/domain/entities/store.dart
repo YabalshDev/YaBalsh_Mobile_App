@@ -1,25 +1,23 @@
 import 'package:equatable/equatable.dart';
 
+import 'location.dart';
+
 class Store extends Equatable {
-  final String? id;
+  final int? id;
   final String? name;
-  final String? imagePath;
-  final double? deliveryTime;
-  final Map<String, dynamic>? location;
+  final String? cardImagePath;
+  final String? logoImagePath;
+
+  final List<Location>? locations;
 
   const Store(
-      {required this.id,
-      required this.name,
-      required this.imagePath,
-      required this.deliveryTime,
-      required this.location});
+      {this.id,
+      this.name,
+      this.cardImagePath,
+      this.locations,
+      this.logoImagePath});
 
   @override
-  List<Object?> get props => [
-        id,
-        name,
-        imagePath,
-        deliveryTime,
-        location,
-      ];
+  List<Object?> get props =>
+      [id, name, cardImagePath, logoImagePath, locations];
 }
