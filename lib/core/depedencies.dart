@@ -24,6 +24,18 @@ import 'package:yabalash_mobile_app/features/auth/domain/usecases/login_usecase.
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/register_usecase.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/login_cubit.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/phone_number_cubit.dart';
+import 'package:yabalash_mobile_app/features/cart/data/datasources/cart_local_datasource.dart';
+import 'package:yabalash_mobile_app/features/cart/data/datasources/cart_remote_datasource.dart';
+import 'package:yabalash_mobile_app/features/cart/data/repositories/cart_repository_impl.dart';
+import 'package:yabalash_mobile_app/features/cart/domain/repositories/cart_repository.dart';
+import 'package:yabalash_mobile_app/features/cart/domain/usecases/add_cart_item_usecase.dart';
+import 'package:yabalash_mobile_app/features/cart/domain/usecases/clear_cart_usecase.dart';
+import 'package:yabalash_mobile_app/features/cart/domain/usecases/decrement_quantity_usecase.dart';
+import 'package:yabalash_mobile_app/features/cart/domain/usecases/delete_cartItem.dart';
+import 'package:yabalash_mobile_app/features/cart/domain/usecases/fetch_cart_items_usecase.dart';
+import 'package:yabalash_mobile_app/features/cart/domain/usecases/get_store_usecase.dart';
+import 'package:yabalash_mobile_app/features/cart/domain/usecases/increment_quantity.dart';
+import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/cart_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/data/datasources/home_mock_datasource.dart';
 import 'package:yabalash_mobile_app/features/home/data/repositories/home_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/home/domain/repositories/home_repository.dart';
@@ -79,6 +91,11 @@ setupDependecies() {
   getIt.registerLazySingleton<AddressRemoteDatasource>(
       () => AddressRemoteDataSourceImpl(restApiProvider: getIt()));
 
+  getIt.registerLazySingleton<CartRemoteDataSource>(
+      () => CartRemoteDataSourceImpl(restApiProvider: getIt()));
+  getIt.registerLazySingleton<CartLocalDataSource>(
+      () => CartLocalDataSourceImpl());
+
   getIt.registerLazySingleton<SplashRepository>(
       () => SplashRepositoryImpl(localStorageProvider: getIt()));
 
@@ -92,6 +109,9 @@ setupDependecies() {
 
   getIt.registerLazySingleton<AddressRepository>(
       () => AddressRepositoryImpl(addressRemoteDatasource: getIt()));
+
+  getIt.registerLazySingleton<CartRepository>(() => CartRepositoryImpl(
+      cartLocalDataSource: getIt(), cartRemoteDataSource: getIt()));
 
   // use cases
 
@@ -118,6 +138,19 @@ setupDependecies() {
       () => EditAddressUseCase(addressRepository: getIt()));
   getIt.registerLazySingleton(
       () => DeleteAddressUseCase(addressRepository: getIt()));
+
+  getIt.registerLazySingleton(
+      () => FetchCartItemsUseCase(cartRepository: getIt()));
+  getIt
+      .registerLazySingleton(() => AddCartItemUseCase(cartRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => IncrementQuantityUseCase(cartRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => DeleteCartItemUseCase(cartRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => DecrementQuantityUseCase(cartRepository: getIt()));
+  getIt.registerLazySingleton(() => ClearCartUseCase(cartRepository: getIt()));
+  getIt.registerLazySingleton(() => GetStoreUseCase(cartRepository: getIt()));
 
   getIt.registerFactory(
     () => HomeCubit(
@@ -162,4 +195,13 @@ setupDependecies() {
         addAddressUseCase: getIt(),
         editAddressUseCase: getIt(),
       ));
+
+  getIt.registerLazySingleton(() => CartCubit(
+      getStoreUseCase: getIt(),
+      fetchCartItemsUseCase: getIt(),
+      incrementQuantityUseCase: getIt(),
+      decrementQuantityUseCase: getIt(),
+      addCartItemUseCase: getIt(),
+      deleteCartItemUseCase: getIt(),
+      clearCartUseCase: getIt()));
 }
