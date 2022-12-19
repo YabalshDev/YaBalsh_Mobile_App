@@ -90,7 +90,8 @@ class CartCubit extends Cubit<CartState> {
       yaBalashCustomDialog(
         isWithEmoji: false,
         buttonTitle: 'حسنا',
-        mainContent: 'تمت اضافة المنتج الى السلة',
+        mainContent:
+            !isProductExist ? 'تمت اضافة المنتج الى السلة' : 'تمت تحديث الكمية',
         title: 'ملاحظة',
         onConfirm: () => Get.back(),
       );
@@ -115,8 +116,42 @@ class CartCubit extends Cubit<CartState> {
       );
       emit(state.copyWith(errorMessage: failure.message));
       emit(state.copyWith(errorMessage: ''));
-    },
-        (success) => emit(state.copyWith(
-            cartItems: List.from(state.cartItems!)..remove(cartItem))));
+    }, (success) {
+      emit(state.copyWith(
+          cartItems: List.from(state.cartItems!)..remove(cartItem)));
+      Get.back();
+    });
+  }
+
+  void incrementQuantity(Product product) {
+    List<CartItem> updatedList = List.from(state.cartItems!);
+    CartItem cartItem = state.cartItems!
+        .firstWhere((element) => element.product!.id == product.id);
+
+    final index = state.cartItems!.indexOf(cartItem);
+
+    updatedList[index] = cartItem.copyWith(quantity: cartItem.quantity! + 1);
+
+    final response =
+        incrementQuantityUseCase(QuantityParams(cartItem: cartItem));
+    response.fold((l) {}, (r) {
+      emit(state.copyWith(cartItems: updatedList));
+    });
+  }
+
+  void decrementQuantity(Product product) {
+    List<CartItem> updatedList = List.from(state.cartItems!);
+    CartItem cartItem = state.cartItems!
+        .firstWhere((element) => element.product!.id == product.id);
+
+    final index = state.cartItems!.indexOf(cartItem);
+
+    updatedList[index] = cartItem.copyWith(quantity: cartItem.quantity! - 1);
+
+    final response =
+        incrementQuantityUseCase(QuantityParams(cartItem: cartItem));
+    response.fold((l) {}, (r) {
+      emit(state.copyWith(cartItems: updatedList));
+    });
   }
 }

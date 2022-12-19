@@ -108,6 +108,9 @@ class HomeProductCard extends StatelessWidget {
                                     children: [
                                       const Spacer(),
                                       CartQuantityRow(
+                                          onDecrement: () {},
+                                          onDelete: () {},
+                                          onIncrement: () {},
                                           quantity: cartItem.quantity!),
                                       const Spacer()
                                     ],

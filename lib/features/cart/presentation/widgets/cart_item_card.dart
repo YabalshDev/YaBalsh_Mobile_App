@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
-import 'package:yabalash_mobile_app/core/widgets/custom_svg_icon.dart';
+import 'package:yabalash_mobile_app/core/widgets/cart_quantity_row.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/cart_item.dart';
 
+import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
-import '../../../../core/theme/light/light_theme.dart';
 import '../../../../core/widgets/custom_card.dart';
 import '../../../../core/widgets/custom_dialog.dart';
+import '../../../../core/widgets/custom_svg_icon.dart';
 import '../blocs/cubit/cart_cubit.dart';
 
 class CartItemCard extends StatelessWidget {
@@ -37,9 +37,20 @@ class CartItemCard extends StatelessWidget {
         );
       },
       background: Container(
-          decoration: const BoxDecoration(
-        color: AppColorsLight.kErrorColor,
-      )),
+        alignment: Alignment.centerRight,
+        decoration: const BoxDecoration(
+          color: AppColorsLight.kErrorColor,
+        ),
+        padding: kDefaultPadding,
+        child: Row(
+          children: const [
+            CustomSvgIcon(
+              iconPath: AppAssets.binIcon,
+              color: Colors.white,
+            )
+          ],
+        ),
+      ),
       child: Container(
         margin: EdgeInsets.only(top: 10.h),
         child: Row(
@@ -80,35 +91,24 @@ class CartItemCard extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            Row(
-              children: [
-                cartItem.quantity == 1
-                    ? const CustomSvgIcon(
-                        iconPath: AppAssets.binIcon,
-                        color: Colors.red,
-                      )
-                    : Icon(
-                        Icons.remove,
-                        color: Colors.red,
-                        size: 18.h,
-                      ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5.w),
-                  decoration: kDefaultBoxDecoration.copyWith(
-                      borderRadius: kSecondaryBorderRaduis),
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(
-                    '${cartItem.quantity}',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontSize: 13.sp, fontWeight: FontWeight.w600),
-                  ),
-                ),
-                Icon(
-                  Icons.add,
-                  color: Colors.green.shade400,
-                  size: 18.h,
-                ),
-              ],
+            CartQuantityRow(
+              quantity: cartItem.quantity!,
+              onDecrement: () {
+                getIt<CartCubit>().decrementQuantity(cartItem.product!);
+              },
+              onDelete: () {
+                yaBalashCustomDialog(
+                  buttonTitle: 'تاكيد',
+                  isWithEmoji: false,
+                  title: 'ملاحظة',
+                  mainContent: 'هل انت متاكد من حذف المنتج',
+                  onConfirm: () =>
+                      getIt<CartCubit>().deleteItemFromCart(cartItem.product!),
+                );
+              },
+              onIncrement: () {
+                getIt<CartCubit>().incrementQuantity(cartItem.product!);
+              },
             )
           ],
         ),
