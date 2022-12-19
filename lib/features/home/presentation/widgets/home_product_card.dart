@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
@@ -9,6 +10,8 @@ import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/depedencies.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/theme/light/light_theme.dart';
+import '../../../../core/widgets/cart_quantity_row.dart';
+import '../../../cart/domain/entities/cart_item.dart';
 import '../../../cart/presentation/blocs/cubit/cart_cubit.dart';
 
 class HomeProductCard extends StatelessWidget {
@@ -85,23 +88,53 @@ class HomeProductCard extends StatelessWidget {
                             top: 0,
                             left: 0,
                             child: SavingCard(percentage: '20')),
-                        Positioned(
-                          top: 100.h,
-                          left: 0,
-                          child: InkWell(
-                            onTap: () =>
-                                getIt<CartCubit>().addItemToCart(product),
-                            child: Container(
-                                padding: EdgeInsets.all(5.w),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.purple.shade700),
-                                child: Icon(
-                                  Icons.add,
-                                  color: Colors.white,
-                                  size: 20.sp,
-                                )),
-                          ),
+                        BlocBuilder<CartCubit, CartState>(
+                          builder: (context, state) {
+                            CartItem? cartItem;
+                            bool isExist =
+                                getIt<CartCubit>().checkIfItemisInCart(product);
+
+                            if (isExist) {
+                              cartItem = state.cartItems!.firstWhere(
+                                  (element) =>
+                                      element.product!.id == product.id);
+                              return Positioned(
+                                top: 100.h,
+                                child: Container(
+                                  height: 40.h,
+                                  width: 120.w,
+                                  color: Colors.white.withOpacity(0.8),
+                                  child: Row(
+                                    children: [
+                                      const Spacer(),
+                                      CartQuantityRow(
+                                          quantity: cartItem.quantity!),
+                                      const Spacer()
+                                    ],
+                                  ),
+                                ),
+                              );
+                            } else {
+                              return Positioned(
+                                top: 100.h,
+                                left: 0,
+                                child: InkWell(
+                                  onTap: () =>
+                                      getIt<CartCubit>().addItemToCart(product),
+                                  child: Container(
+                                      padding: EdgeInsets.all(5.w),
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.purple.shade700),
+                                      child: Icon(
+                                        Icons.add,
+                                        color: Colors.white,
+                                        size: 20.sp,
+                                      )),
+                                ),
+                              );
+                            }
+                          },
                         )
                       ],
                     ),

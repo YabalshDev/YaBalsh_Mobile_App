@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
+import 'package:yabalash_mobile_app/core/depedencies.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_svg_icon.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/cart_item.dart';
 
@@ -10,6 +11,7 @@ import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/theme/light/light_theme.dart';
 import '../../../../core/widgets/custom_card.dart';
 import '../../../../core/widgets/custom_dialog.dart';
+import '../blocs/cubit/cart_cubit.dart';
 
 class CartItemCard extends StatelessWidget {
   final CartItem cartItem;
@@ -25,14 +27,13 @@ class CartItemCard extends StatelessWidget {
           buttonTitle: 'تاكيد',
           isWithEmoji: false,
           onClose: () {
-            // BlocProvider.of<AddressCubit>(context, listen: false)
-            //     .handleDeleteDialogClose();
+            getIt<CartCubit>().handleDeleteDialogOnClose();
             Get.back();
           },
           title: 'ملاحظة',
-          mainContent: 'هل انت متاكد من حذف العنوان',
-          // onConfirm: () => BlocProvider.of<AddressCubit>(context, listen: false)
-          //     .deleteAddress(id: address!.id!, address: address!),
+          mainContent: 'هل انت متاكد من حذف المنتج',
+          onConfirm: () =>
+              getIt<CartCubit>().deleteItemFromCart(cartItem.product!),
         );
       },
       background: Container(
@@ -56,7 +57,7 @@ class CartItemCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ConstrainedBox(
-                      constraints: BoxConstraints(maxWidth: 174.w),
+                      constraints: BoxConstraints(maxWidth: 180.w),
                       child: Text(
                         cartItem.product!.name ?? '',
                         overflow: TextOverflow.ellipsis,

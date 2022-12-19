@@ -5,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
 import 'package:yabalash_mobile_app/core/utils/app_bloc_observer.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/cart_item.dart';
+import 'package:yabalash_mobile_app/features/home/domain/entities/price_model.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/product.dart';
 
 import 'app.dart';
@@ -17,6 +18,7 @@ void main() async {
   setupDependecies();
   await Hive.initFlutter();
   Hive.registerAdapter(SubZoneAdapter());
+  Hive.registerAdapter(PriceModelAdapter());
   Hive.registerAdapter(ProductAdapter());
   Hive.registerAdapter(CartItemAdapter());
   await Hive.openBox(AppStrings.isFirstTimeVisitKey);

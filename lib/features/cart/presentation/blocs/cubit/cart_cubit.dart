@@ -41,6 +41,11 @@ class CartCubit extends Cubit<CartState> {
     emit(state.copyWith(cartStepIndex: value));
   }
 
+  void handleDeleteDialogOnClose() {
+    emit(state.copyWith(errorMessage: 'error'));
+    emit(state.copyWith(errorMessage: ''));
+  }
+
   bool checkIfItemisInCart(Product product) {
     bool isExist = false;
     CartItem? cartItem = state.cartItems!.firstWhere(

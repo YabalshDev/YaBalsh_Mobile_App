@@ -20,12 +20,8 @@ class YaBalashApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) => Directionality(
         textDirection: TextDirection.rtl,
-        child: MultiBlocProvider(
-          providers: [
-            BlocProvider<CartCubit>(
-              create: (context) => getIt<CartCubit>()..fetchCartItems(),
-            )
-          ],
+        child: BlocProvider<CartCubit>(
+          create: (context) => getIt<CartCubit>()..fetchCartItems(),
           child: GetMaterialApp(
             key: UniqueKey(),
             textDirection: TextDirection.rtl,
