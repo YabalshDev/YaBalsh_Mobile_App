@@ -3,17 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/widgets/basket_list.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/widgets/cart_stepper.dart';
+import 'package:yabalash_mobile_app/features/cart/presentation/widgets/supermarkets_list.dart';
 
 import '../../../../core/widgets/custom_header.dart';
 import '../../../../core/widgets/empty_indicator.dart';
 import '../blocs/cubit/cart_cubit.dart';
 
-final PageController _pageController = PageController();
-
-final List<Widget> cartSteps = [const BasketList()];
+final List<Widget> cartSteps = [const BasketList(), const SuperMarketLists()];
 
 class CartBody extends StatelessWidget {
-  const CartBody({super.key});
+  final PageController pageController;
+  const CartBody({super.key, required this.pageController});
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +21,13 @@ class CartBody extends StatelessWidget {
         child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const CustomHeader(
-          isWithNotification: false,
-          title: 'السلة',
+        BlocBuilder<CartCubit, CartState>(
+          builder: (context, state) {
+            return const CustomHeader(
+              isWithNotification: false,
+              title: 'السلة',
+            );
+          },
         ),
         smallVerticalSpace,
         BlocBuilder<CartCubit, CartState>(
@@ -43,7 +47,7 @@ class CartBody extends StatelessWidget {
                         child: Padding(
                       padding: kDefaultPadding,
                       child: PageView.builder(
-                        controller: _pageController,
+                        controller: pageController,
                         itemCount: cartSteps.length,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) => cartSteps[index],
