@@ -6,8 +6,10 @@ import 'package:yabalash_mobile_app/features/home/domain/entities/product.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/saving_card.dart';
 
 import '../../../../core/constants/app_layouts.dart';
+import '../../../../core/depedencies.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/theme/light/light_theme.dart';
+import '../../../cart/presentation/blocs/cubit/cart_cubit.dart';
 
 class HomeProductCard extends StatelessWidget {
   final Product product;
@@ -86,16 +88,20 @@ class HomeProductCard extends StatelessWidget {
                         Positioned(
                           top: 100.h,
                           left: 0,
-                          child: Container(
-                              padding: EdgeInsets.all(5.w),
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.purple.shade700),
-                              child: Icon(
-                                Icons.add,
-                                color: Colors.white,
-                                size: 20.sp,
-                              )),
+                          child: InkWell(
+                            onTap: () =>
+                                getIt<CartCubit>().addItemToCart(product),
+                            child: Container(
+                                padding: EdgeInsets.all(5.w),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.purple.shade700),
+                                child: Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                  size: 20.sp,
+                                )),
+                          ),
                         )
                       ],
                     ),

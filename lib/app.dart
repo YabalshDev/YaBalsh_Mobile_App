@@ -20,24 +20,25 @@ class YaBalashApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) => Directionality(
         textDirection: TextDirection.rtl,
-        child: BlocProvider<CartCubit>(
-          create: (context) => getIt<CartCubit>()..fetchCartItems(),
-          child: BlocBuilder<CartCubit, CartState>(
-            builder: (context, state) {
-              return GetMaterialApp(
-                textDirection: TextDirection.rtl,
-                supportedLocales: const [Locale('ar'), Locale('en')],
-                navigatorKey: Get.key,
-                debugShowCheckedModeBanner: false,
-                localizationsDelegates: const [
-                  FormBuilderLocalizations.delegate,
-                ],
-                getPages: RouteHelper.routes,
-                initialRoute: RouteHelper.getIntialRoute(),
-                title: AppStrings.appName,
-                theme: lightTheme,
-              );
-            },
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider<CartCubit>(
+              create: (context) => getIt<CartCubit>()..fetchCartItems(),
+            )
+          ],
+          child: GetMaterialApp(
+            key: UniqueKey(),
+            textDirection: TextDirection.rtl,
+            supportedLocales: const [Locale('ar'), Locale('en')],
+            navigatorKey: Get.key,
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: const [
+              FormBuilderLocalizations.delegate,
+            ],
+            getPages: RouteHelper.routes,
+            initialRoute: RouteHelper.getIntialRoute(),
+            title: AppStrings.appName,
+            theme: lightTheme,
           ),
         ),
       ),
