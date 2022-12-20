@@ -30,97 +30,114 @@ class SuperMarketCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          InkWell(
-            onTap: () => BlocProvider.of<SuperMarketsCubit>(context)
-                .setSuperMarketIndex(index: index),
-            child: Container(
-              width: 18.w,
-              height: 18.w,
-              decoration: BoxDecoration(
-                  color: selectedSupermarketIndex == index
-                      ? AppColorsLight.kAppPrimaryColorLight
-                      : Colors.transparent,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.grey.shade400, width: 2)),
+          isAvailable
+              ? InkWell(
+                  onTap: () => BlocProvider.of<SuperMarketsCubit>(context)
+                      .setSuperMarketIndex(index: index),
+                  child: Container(
+                    width: 18.w,
+                    height: 18.w,
+                    decoration: BoxDecoration(
+                        color: selectedSupermarketIndex == index
+                            ? AppColorsLight.kAppPrimaryColorLight
+                            : Colors.transparent,
+                        shape: BoxShape.circle,
+                        border:
+                            Border.all(color: Colors.grey.shade400, width: 2)),
+                  ),
+                )
+              : SizedBox(
+                  width: 18.w,
+                ),
+          mediumHorizontalSpace,
+          SizedBox(
+            width: 201.w,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomCard(
+                  isAssetImage: false,
+                  withBorder: true,
+                  imagePath: superMarket.store!.cardImagePath,
+                ),
+                mediumHorizontalSpace,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          superMarket.store!.name!,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColorsLight.kAppPrimaryColorLight),
+                        ),
+                        SizedBox(
+                          width: 20.w,
+                          height: 11.h,
+                          child: Image.asset(
+                            isAvailable
+                                ? AppAssets.inStockIcon
+                                : AppAssets.outOfStockIcon,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      ],
+                    ),
+                    mediumVerticalSpace,
+                    Row(
+                      children: [
+                        const CustomSvgIcon(
+                          iconPath: AppAssets.clockIcon,
+                          color: AppColorsLight.kAppPrimaryColorLight,
+                        ),
+                        smallHorizontalSpace,
+                        Text(
+                          superMarket.store!.locations![0].deliveryTime != null
+                              ? '${superMarket.store!.locations![0].deliveryTime} دقيقة'
+                              : '30 دقيقة',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColorsLight.kAppPrimaryColorLight
+                                      .withOpacity(0.6)),
+                        ),
+                        largeHorizontalSpace,
+                        CustomSvgIcon(
+                          iconPath: AppAssets.truckIcon,
+                          height: 15.h,
+                          width: 15.w,
+                          color: AppColorsLight.kAppPrimaryColorLight,
+                        ),
+                        smallHorizontalSpace,
+                        Text(
+                          superMarket.store!.locations![0].deliveryTime != null
+                              ? '${superMarket.store!.locations![0].deliveryTime} دقيقة'
+                              : '30 جنيه',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColorsLight.kAppPrimaryColorLight
+                                      .withOpacity(0.6)),
+                        )
+                      ],
+                    ),
+                  ],
+                )
+              ],
             ),
           ),
           mediumHorizontalSpace,
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomCard(
-                isAssetImage: false,
-                withBorder: true,
-                imagePath: superMarket.store!.cardImagePath,
-              ),
-              mediumHorizontalSpace,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        superMarket.store!.name!,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: AppColorsLight.kAppPrimaryColorLight),
-                      ),
-                      SizedBox(
-                        width: 20.w,
-                        height: 11.h,
-                        child: Image.asset(
-                          isAvailable
-                              ? AppAssets.inStockIcon
-                              : AppAssets.outOfStockIcon,
-                          fit: BoxFit.cover,
-                        ),
-                      )
-                    ],
-                  ),
-                  mediumVerticalSpace,
-                  Row(
-                    children: [
-                      const CustomSvgIcon(
-                        iconPath: AppAssets.clockIcon,
-                        color: AppColorsLight.kAppPrimaryColorLight,
-                      ),
-                      smallHorizontalSpace,
-                      Text(
-                        superMarket.store!.locations![0].deliveryTime != null
-                            ? '${superMarket.store!.locations![0].deliveryTime} دقيقة'
-                            : '30 دقيقة',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w700,
-                            color: AppColorsLight.kAppPrimaryColorLight
-                                .withOpacity(0.6)),
-                      ),
-                      largeHorizontalSpace,
-                      CustomSvgIcon(
-                        iconPath: AppAssets.truckIcon,
-                        height: 15.h,
-                        width: 15.w,
-                        color: AppColorsLight.kAppPrimaryColorLight,
-                      ),
-                      smallHorizontalSpace,
-                      Text(
-                        superMarket.store!.locations![0].deliveryTime != null
-                            ? '${superMarket.store!.locations![0].deliveryTime} دقيقة'
-                            : '30 جنيه',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w700,
-                            color: AppColorsLight.kAppPrimaryColorLight
-                                .withOpacity(0.6)),
-                      )
-                    ],
-                  ),
-                ],
-              )
-            ],
-          ),
-          largeHorizontalSpace,
-          const Spacer(),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

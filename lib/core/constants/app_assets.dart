@@ -65,4 +65,5 @@ class AppAssets {
   static const String clockIcon = 'assets/icons/clock.svg';
   static const String truckIcon = 'assets/icons/truck.svg';
   static const String backIcon = 'assets/icons/back.svg';
+  static const String notAvailable = 'assets/icons/not_available.svg';
 }

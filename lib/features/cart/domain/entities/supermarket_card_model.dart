@@ -11,6 +11,5 @@ class SuperMarketCardModel extends Equatable {
   const SuperMarketCardModel(
       {this.isAvailable, this.store, this.price, this.saving});
   @override
-  // TODO: implement props
   List<Object?> get props => [store, saving, price, isAvailable];
 }
