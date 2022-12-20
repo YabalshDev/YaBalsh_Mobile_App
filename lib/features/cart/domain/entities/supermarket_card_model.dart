@@ -6,9 +6,11 @@ class SuperMarketCardModel extends Equatable {
   final Store? store;
   final double? price;
   final double? saving;
+  final bool? isAvailable;
 
-  const SuperMarketCardModel({this.store, this.price, this.saving});
+  const SuperMarketCardModel(
+      {this.isAvailable, this.store, this.price, this.saving});
   @override
   // TODO: implement props
-  List<Object?> get props => [store, saving, price];
+  List<Object?> get props => [store, saving, price, isAvailable];
 }
