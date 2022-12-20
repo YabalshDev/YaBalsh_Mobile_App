@@ -10,7 +10,6 @@ import 'package:yabalash_mobile_app/features/cart/domain/usecases/clear_cart_use
 import 'package:yabalash_mobile_app/features/cart/domain/usecases/decrement_quantity_usecase.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/usecases/delete_cartItem.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/usecases/fetch_cart_items_usecase.dart';
-import 'package:yabalash_mobile_app/features/cart/domain/usecases/get_store_usecase.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/usecases/increment_quantity.dart';
 
 import '../../../../home/domain/entities/product.dart';
@@ -20,7 +19,6 @@ import '../../../domain/entities/cart_item.dart';
 part 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
-  final GetStoreUseCase getStoreUseCase;
   final FetchCartItemsUseCase fetchCartItemsUseCase;
   final IncrementQuantityUseCase incrementQuantityUseCase;
   final DecrementQuantityUseCase decrementQuantityUseCase;
@@ -28,14 +26,16 @@ class CartCubit extends Cubit<CartState> {
   final DeleteCartItemUseCase deleteCartItemUseCase;
   final ClearCartUseCase clearCartUseCase;
   CartCubit(
-      {required this.getStoreUseCase,
-      required this.fetchCartItemsUseCase,
+      {required this.fetchCartItemsUseCase,
       required this.incrementQuantityUseCase,
       required this.decrementQuantityUseCase,
       required this.addCartItemUseCase,
       required this.deleteCartItemUseCase,
       required this.clearCartUseCase})
       : super(const CartState());
+
+  List<CartItem> _cart = [];
+  List<CartItem> get cart => _cart;
 
   void changeCurrentCartStep(int value) {
     emit(state.copyWith(cartStepIndex: value));
@@ -65,7 +65,8 @@ class CartCubit extends Cubit<CartState> {
     response.fold((failure) {
       emit(state.copyWith(errorMessage: failure.message));
     }, (cartItems) {
-      emit(state.copyWith(cartItems: cartItems));
+      _cart = cartItems;
+      emit(state.copyWith(cartItems: _cart));
     });
   }
 
@@ -85,8 +86,8 @@ class CartCubit extends Cubit<CartState> {
     response.fold((failure) {
       emit(state.copyWith(errorMessage: failure.message));
     }, (success) {
-      emit(state.copyWith(
-          cartItems: List.from(state.cartItems!)..add(cartItem!)));
+      _cart = List.from(state.cartItems!)..add(cartItem!);
+      emit(state.copyWith(cartItems: _cart));
       yaBalashCustomDialog(
         isWithEmoji: false,
         buttonTitle: 'حسنا',
@@ -117,8 +118,8 @@ class CartCubit extends Cubit<CartState> {
       emit(state.copyWith(errorMessage: failure.message));
       emit(state.copyWith(errorMessage: ''));
     }, (success) {
-      emit(state.copyWith(
-          cartItems: List.from(state.cartItems!)..remove(cartItem)));
+      _cart = List.from(state.cartItems!)..remove(cartItem);
+      emit(state.copyWith(cartItems: _cart));
       Get.back();
     });
   }
@@ -135,6 +136,7 @@ class CartCubit extends Cubit<CartState> {
     final response =
         incrementQuantityUseCase(QuantityParams(cartItem: cartItem));
     response.fold((l) {}, (r) {
+      _cart = List.from(updatedList);
       emit(state.copyWith(cartItems: updatedList));
     });
   }
@@ -151,6 +153,7 @@ class CartCubit extends Cubit<CartState> {
     final response =
         incrementQuantityUseCase(QuantityParams(cartItem: cartItem));
     response.fold((l) {}, (r) {
+      _cart = List.from(updatedList);
       emit(state.copyWith(cartItems: updatedList));
     });
   }

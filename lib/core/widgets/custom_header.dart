@@ -10,8 +10,10 @@ class CustomHeader extends StatelessWidget {
   final bool isWithNotification;
   final String title;
   final String? iconPath;
+  final VoidCallback? onIconTap;
   const CustomHeader(
       {super.key,
+      this.onIconTap,
       required this.isWithNotification,
       required this.title,
       this.iconPath});
@@ -23,7 +25,7 @@ class CustomHeader extends StatelessWidget {
       children: [
         isWithNotification
             ? InkWell(
-                onTap: iconPath != null ? () => Get.back() : () {},
+                onTap: onIconTap ?? () => Get.back(),
                 child: CustomSvgIcon(
                   iconPath: iconPath ?? AppAssets.notificationIcon,
                   color: AppColorsLight.kAppPrimaryColorLight,

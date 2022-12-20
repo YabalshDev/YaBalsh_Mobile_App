@@ -8,15 +8,20 @@ class StoreModel extends Store {
       String? cardImagePath,
       String? logoImagePath,
       List<LocationModel>? locations})
-      : super(cardImagePath: cardImagePath);
+      : super(
+            cardImagePath: cardImagePath,
+            id: id,
+            locations: locations,
+            logoImagePath: logoImagePath,
+            name: name);
 
   factory StoreModel.fromJson(Map<String, dynamic> json) {
     return StoreModel(
-        id: json['id'],
-        name: json['name'],
-        cardImagePath: json['cardImagePath'],
-        logoImagePath: json['logoImagePath'],
-        locations: (json['locations'] as List<dynamic>)
+        id: json["id"],
+        name: json["name"],
+        cardImagePath: json["cardImagePath"],
+        logoImagePath: json["logoImagePath"],
+        locations: (json["locations"] as List<dynamic>)
             .map((e) => LocationModel.fromJson(e))
             .toList());
   }

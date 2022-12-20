@@ -16,6 +16,6 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
   Future<Store> getStoreById({required int id}) async {
     final resposne = await restApiProvider.get(getStoreEndPointById(id));
 
-    return (resposne as StoreResponseModel).data as Store;
+    return StoreResponseModel.fromJson(resposne).data as Store;
   }
 }

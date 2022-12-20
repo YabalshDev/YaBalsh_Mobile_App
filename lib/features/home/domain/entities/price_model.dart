@@ -4,9 +4,9 @@ part 'price_model.g.dart';
 
 @HiveType(typeId: 6)
 class PriceModel extends Equatable {
-  @HiveField(12)
-  final String? storeId;
-  @HiveField(13)
+  @HiveField(20)
+  final int? storeId;
+  @HiveField(16)
   final String? storeImagePath;
   @HiveField(14)
   final bool? isAvailable;
@@ -14,7 +14,7 @@ class PriceModel extends Equatable {
   final double? price;
 
   const PriceModel(
-      {this.storeId = '',
+      {this.storeId = 0,
       this.storeImagePath = '',
       this.isAvailable = false,
       this.price = 0});

@@ -60,4 +60,9 @@ class AppAssets {
   static const String closeIcon = 'assets/icons/close.svg';
   static const String pencilIcon = 'assets/icons/pencil.svg';
   static const String binIcon = 'assets/icons/bin.svg';
+
+  static const String priceTagIcon = 'assets/icons/price_tag.svg';
+  static const String clockIcon = 'assets/icons/clock.svg';
+  static const String truckIcon = 'assets/icons/truck.svg';
+  static const String backIcon = 'assets/icons/back.svg';
 }

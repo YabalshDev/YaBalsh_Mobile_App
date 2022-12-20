@@ -17,11 +17,10 @@ class ProductAdapter extends TypeAdapter<Product> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Product(
-      id: fields[8] as String?,
+      id: fields[18] as int?,
       name: fields[9] as String?,
       imagePath: fields[10] as String?,
-      size: fields[11] as double?,
-      sizeType: fields[12] as String?,
+      size: fields[19] as String?,
       prices: (fields[13] as Map?)?.cast<String, PriceModel>(),
     );
   }
@@ -29,17 +28,15 @@ class ProductAdapter extends TypeAdapter<Product> {
   @override
   void write(BinaryWriter writer, Product obj) {
     writer
-      ..writeByte(6)
-      ..writeByte(8)
+      ..writeByte(5)
+      ..writeByte(18)
       ..write(obj.id)
       ..writeByte(9)
       ..write(obj.name)
       ..writeByte(10)
       ..write(obj.imagePath)
-      ..writeByte(11)
+      ..writeByte(19)
       ..write(obj.size)
-      ..writeByte(12)
-      ..write(obj.sizeType)
       ..writeByte(13)
       ..write(obj.prices);
   }

@@ -36,6 +36,7 @@ import 'package:yabalash_mobile_app/features/cart/domain/usecases/fetch_cart_ite
 import 'package:yabalash_mobile_app/features/cart/domain/usecases/get_store_usecase.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/usecases/increment_quantity.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/cart_cubit.dart';
+import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/super_markets_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/data/datasources/home_mock_datasource.dart';
 import 'package:yabalash_mobile_app/features/home/data/repositories/home_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/home/domain/repositories/home_repository.dart';
@@ -197,11 +198,14 @@ setupDependecies() {
       ));
 
   getIt.registerLazySingleton(() => CartCubit(
-      getStoreUseCase: getIt(),
       fetchCartItemsUseCase: getIt(),
       incrementQuantityUseCase: getIt(),
       decrementQuantityUseCase: getIt(),
       addCartItemUseCase: getIt(),
       deleteCartItemUseCase: getIt(),
       clearCartUseCase: getIt()));
+
+  getIt.registerFactory(() => SuperMarketsCubit(
+        getStoreUseCase: getIt(),
+      ));
 }

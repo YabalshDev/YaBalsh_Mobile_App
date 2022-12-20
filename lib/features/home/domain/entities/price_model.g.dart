@@ -17,8 +17,8 @@ class PriceModelAdapter extends TypeAdapter<PriceModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return PriceModel(
-      storeId: fields[12] as String?,
-      storeImagePath: fields[13] as String?,
+      storeId: fields[20] as int?,
+      storeImagePath: fields[16] as String?,
       isAvailable: fields[14] as bool?,
       price: fields[15] as double?,
     );
@@ -28,9 +28,9 @@ class PriceModelAdapter extends TypeAdapter<PriceModel> {
   void write(BinaryWriter writer, PriceModel obj) {
     writer
       ..writeByte(4)
-      ..writeByte(12)
+      ..writeByte(20)
       ..write(obj.storeId)
-      ..writeByte(13)
+      ..writeByte(16)
       ..write(obj.storeImagePath)
       ..writeByte(14)
       ..write(obj.isAvailable)

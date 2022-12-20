@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
+import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/super_markets_cubit.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/widgets/basket_list.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/widgets/cart_stepper.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/widgets/supermarkets_list.dart';
 
+import '../../../../core/depedencies.dart';
 import '../../../../core/widgets/custom_header.dart';
 import '../../../../core/widgets/empty_indicator.dart';
 import '../blocs/cubit/cart_cubit.dart';
 
-final List<Widget> cartSteps = [const BasketList(), const SuperMarketLists()];
+List<Widget> cartSteps = [
+  const BasketList(),
+  BlocProvider<SuperMarketsCubit>(
+    create: (context) => getIt<SuperMarketsCubit>()..getSuperMarkets(),
+    child: const SuperMarketLists(),
+  )
+];
 
 class CartBody extends StatelessWidget {
   final PageController pageController;
@@ -23,9 +32,17 @@ class CartBody extends StatelessWidget {
       children: [
         BlocBuilder<CartCubit, CartState>(
           builder: (context, state) {
-            return const CustomHeader(
-              isWithNotification: false,
+            return CustomHeader(
+              isWithNotification: true,
               title: 'السلة',
+              onIconTap: () {
+                getIt<CartCubit>()
+                    .changeCurrentCartStep(state.cartStepIndex! - 1);
+                pageController.animateToPage(state.cartStepIndex! - 1,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut);
+              },
+              iconPath: state.cartStepIndex! > 0 ? AppAssets.backIcon : null,
             );
           },
         ),
@@ -50,7 +67,8 @@ class CartBody extends StatelessWidget {
                         controller: pageController,
                         itemCount: cartSteps.length,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) => cartSteps[index],
+                        itemBuilder: (context, index) =>
+                            cartSteps[state.cartStepIndex!],
                       ),
                     ))
                   ],
