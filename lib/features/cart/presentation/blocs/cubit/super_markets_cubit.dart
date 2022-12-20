@@ -21,6 +21,15 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
   void setSuperMarketIndex({required int index}) =>
       emit(state.copyWith(selectedSupermarketIndex: index));
 
+  Map<String, StorePrice> _sortStoresPrices(Map<String, StorePrice> prices) {
+    List<MapEntry<String, StorePrice>> entries = prices.entries.toList();
+    entries.sort(
+      (a, b) => a.value.price!.compareTo(b.value.price!),
+    );
+
+    return Map.fromEntries(entries);
+  }
+
   Map<String, dynamic> _getSupermarketsPrices() {
     final cartProducts = getIt<CartCubit>().cart;
     Map<String, StorePrice> storesTotalPrices = {};
@@ -68,7 +77,9 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
       storeIds.add(element.key);
     }
 
-    return {'storeIds': storeIds, 'storePrices': storesTotalPrices};
+    final sortedPrices = _sortStoresPrices(storesTotalPrices);
+
+    return {'storeIds': storeIds, 'storePrices': sortedPrices};
   }
 
   void getSuperMarkets() async {
