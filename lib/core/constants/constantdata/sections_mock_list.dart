@@ -17,7 +17,7 @@ const List<Section> sectionsMock = [
               storeId: 1,
               storeImagePath: AppAssets.carefour),
           'جورميه': PriceModel(
-              isAvailable: true,
+              isAvailable: false,
               price: 133,
               storeId: 2,
               storeImagePath: AppAssets.gourmet),

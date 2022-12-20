@@ -12,6 +12,9 @@ class CartStepper extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, state) {
+        if (state.cartItems!.isEmpty) {
+          return const SizedBox();
+        }
         return SizedBox(
             height: 40.h,
             child: Row(

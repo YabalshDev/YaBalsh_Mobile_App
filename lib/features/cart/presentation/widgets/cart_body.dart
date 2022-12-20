@@ -9,13 +9,14 @@ import 'package:yabalash_mobile_app/features/cart/presentation/widgets/supermark
 
 import '../../../../core/depedencies.dart';
 import '../../../../core/widgets/custom_header.dart';
-import '../../../../core/widgets/empty_indicator.dart';
 import '../blocs/cubit/cart_cubit.dart';
 
-List<Widget> cartSteps = [
+final List<Widget> cartSteps = [
   const BasketList(),
   BlocProvider<SuperMarketsCubit>(
-    create: (context) => getIt<SuperMarketsCubit>()..getSuperMarkets(),
+    create: (context) {
+      return getIt<SuperMarketsCubit>()..getSuperMarkets();
+    },
     child: const SuperMarketLists(),
   )
 ];
@@ -27,57 +28,35 @@ class CartBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        BlocBuilder<CartCubit, CartState>(
-          builder: (context, state) {
-            return CustomHeader(
-              isWithNotification: true,
-              title: 'السلة',
-              onIconTap: () {
-                getIt<CartCubit>()
-                    .changeCurrentCartStep(state.cartStepIndex! - 1);
-                pageController.animateToPage(state.cartStepIndex! - 1,
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.easeInOut);
-              },
-              iconPath: state.cartStepIndex! > 0 ? AppAssets.backIcon : null,
-            );
-          },
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      BlocBuilder<CartCubit, CartState>(
+        builder: (context, state) {
+          return CustomHeader(
+            isWithNotification: true,
+            title: 'السلة',
+            onIconTap: () {
+              getIt<CartCubit>()
+                  .changeCurrentCartStep(state.cartStepIndex! - 1);
+              pageController.animateToPage(state.cartStepIndex! - 1,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeInOut);
+            },
+            iconPath: state.cartStepIndex! > 0 ? AppAssets.backIcon : null,
+          );
+        },
+      ),
+      smallVerticalSpace,
+      const CartStepper(),
+      Expanded(
+          child: Padding(
+        padding: kDefaultPadding,
+        child: PageView.builder(
+          controller: pageController,
+          itemCount: cartSteps.length,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) => cartSteps[index],
         ),
-        smallVerticalSpace,
-        BlocBuilder<CartCubit, CartState>(
-          builder: (context, state) {
-            if (state.cartItems!.isEmpty) {
-              return const Expanded(
-                child: Center(
-                  child: EmptyIndicator(title: 'دور و قارن بين أسعار المنتجات'),
-                ),
-              );
-            } else {
-              return Expanded(
-                child: Column(
-                  children: [
-                    const CartStepper(),
-                    Expanded(
-                        child: Padding(
-                      padding: kDefaultPadding,
-                      child: PageView.builder(
-                        controller: pageController,
-                        itemCount: cartSteps.length,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) =>
-                            cartSteps[state.cartStepIndex!],
-                      ),
-                    ))
-                  ],
-                ),
-              );
-            }
-          },
-        )
-      ],
-    ));
+      ))
+    ]));
   }
 }
