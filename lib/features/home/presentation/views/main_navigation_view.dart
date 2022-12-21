@@ -118,10 +118,10 @@ final List<Widget> screens = [
   ),
   const CustomAnimatedWidget(child: CategoriesScreen()),
   CustomAnimatedWidget(
-      child: BlocProvider.value(
-    value: getIt<CartCubit>(),
-    child: const CartView(),
-  )),
+    child: MultiBlocProvider(providers: [
+      BlocProvider.value(value: getIt<CartCubit>()),
+    ], child: const CartView()),
+  ),
   const CustomAnimatedWidget(child: CategoriesScreen()),
   const CustomAnimatedWidget(child: SettingsView()),
 ];

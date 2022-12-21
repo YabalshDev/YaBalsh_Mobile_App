@@ -9,12 +9,14 @@ class CustomNavBar extends StatelessWidget {
   final void Function()? mainButtonTap;
   final String title;
   final bool? isDisabled;
+  final String? iconPath;
 
   final bool isButtonSecondary;
   const CustomNavBar(
       {super.key,
       this.height,
       this.isDisabled = false,
+      this.iconPath,
       this.mainButtonTap,
       required this.isButtonSecondary,
       required this.title});
@@ -26,6 +28,8 @@ class CustomNavBar extends StatelessWidget {
       padding: kDefaultPadding,
       child: YaBalashCustomButton(
         isDisabled: isDisabled,
+        isWithIcon: iconPath != null,
+        iconPath: iconPath,
         isSecondaryButton: isButtonSecondary,
         onTap: mainButtonTap ?? () {},
         child: Text(title),

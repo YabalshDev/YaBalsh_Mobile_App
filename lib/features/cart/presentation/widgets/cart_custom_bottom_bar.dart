@@ -86,11 +86,29 @@ class CartCustomNavBar extends StatelessWidget {
                 ],
               ),
             );
+          } else if (state.cartStepIndex == 1) {
+            return CustomNavBar(
+                isButtonSecondary: false,
+                mainButtonTap: () {
+                  // second step handle
+                  if (state.isSupermatketSelected!) {
+                    pageController.animateToPage(2,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOut);
+                    getIt<CartCubit>().changeCurrentCartStep(2);
+                  }
+                  // third step handle
+                },
+                title: 'خلص الطلب',
+                isDisabled: !state.isSupermatketSelected!);
           } else {
-            return const CustomNavBar(
+            return CustomNavBar(
               isButtonSecondary: false,
-              title: 'خلص الطلب',
-              isDisabled: false,
+              mainButtonTap: () {
+                // third step handle
+              },
+              title: '✔  خلص الطلب',
+              isDisabled: !state.canConfirmOrder!,
             );
           }
         }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
-import 'package:yabalash_mobile_app/features/cart/domain/entities/supermarket_card_model.dart';
+import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/order_summary_cubit.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/super_markets_cubit.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/widgets/basket_list.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/widgets/cart_stepper.dart';
@@ -13,15 +13,16 @@ import '../../../../core/depedencies.dart';
 import '../../../../core/widgets/custom_header.dart';
 import '../blocs/cubit/cart_cubit.dart';
 
-final List<Widget> cartSteps = [
+List<Widget> cartSteps = [
   const BasketList(),
   BlocProvider<SuperMarketsCubit>(
-    create: (context) {
-      return getIt<SuperMarketsCubit>()..getSuperMarkets();
-    },
+    create: (context) => getIt<SuperMarketsCubit>()..getSuperMarkets(),
     child: const SuperMarketLists(),
   ),
-  const OrderSummary(superMarketCardModel: SuperMarketCardModel())
+  BlocProvider<OrderSummaryCubit>(
+    create: (context) => getIt<OrderSummaryCubit>()..getUserAddress(),
+    child: const OrderSummary(),
+  )
 ];
 
 class CartBody extends StatelessWidget {
@@ -43,6 +44,8 @@ class CartBody extends StatelessWidget {
               pageController.animateToPage(state.cartStepIndex! - 1,
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.easeInOut);
+              getIt<CartCubit>().changeCanConfirmOrder(false);
+              getIt<CartCubit>().changeIsSupermarketSelected(false);
             },
             iconPath: state.cartStepIndex! > 0 ? AppAssets.backIcon : null,
           );
@@ -57,7 +60,8 @@ class CartBody extends StatelessWidget {
           controller: pageController,
           itemCount: cartSteps.length,
           physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) => cartSteps[index],
+          itemBuilder: (context, index) =>
+              cartSteps[getIt<CartCubit>().state.cartStepIndex!],
         ),
       ))
     ]));

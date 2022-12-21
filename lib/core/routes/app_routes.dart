@@ -163,7 +163,10 @@ class RouteHelper {
             child: BlocProvider<UpdateAddressCubit>(
               create: (context) => getIt<UpdateAddressCubit>(),
               child: UpdateAddress(
-                  isfromEdit: Get.arguments[0], address: Get.arguments[1]),
+                isfromEdit: Get.arguments[0],
+                address: Get.arguments[1],
+                fromRoute: Get.arguments[2],
+              ),
             ),
           ));
         })

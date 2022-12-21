@@ -6,6 +6,7 @@ import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/features/addresses/domain/entities/address_request.dart';
 import 'package:yabalash_mobile_app/features/addresses/presentation/widgets/update_address_body.dart';
 
+import '../../../../core/routes/app_routes.dart';
 import '../../../../core/widgets/ya_balash_custom_button.dart';
 import '../../domain/entities/address.dart';
 import '../blocs/cubit/update_address_cubit.dart';
@@ -15,13 +16,19 @@ final _formKey = GlobalKey<FormBuilderState>();
 class UpdateAddress extends StatelessWidget {
   final bool isfromEdit;
   final Address? address;
-  const UpdateAddress({super.key, required this.isfromEdit, this.address});
+  final String fromRoute;
+  const UpdateAddress(
+      {super.key,
+      required this.isfromEdit,
+      this.address,
+      required this.fromRoute});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: UpdateAddressBody(
         isFromEdit: isfromEdit,
+        fromRoute: RouteHelper.getAddressesRoute(),
         formkey: _formKey,
         address: address,
       ),
@@ -52,10 +59,12 @@ class UpdateAddress extends StatelessWidget {
 
                     if (isfromEdit) {
                       BlocProvider.of<UpdateAddressCubit>(context).editAddress(
-                          id: address!.id!, addressRequest: addressBody);
+                          id: address!.id!,
+                          addressRequest: addressBody,
+                          fromRoute: fromRoute);
                     } else {
-                      BlocProvider.of<UpdateAddressCubit>(context)
-                          .addAddress(addressRequest: addressBody);
+                      BlocProvider.of<UpdateAddressCubit>(context).addAddress(
+                          addressRequest: addressBody, fromRoute: fromRoute);
                     }
                   }
                 }

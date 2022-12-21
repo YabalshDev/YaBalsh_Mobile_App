@@ -41,6 +41,14 @@ class CartCubit extends Cubit<CartState> {
     emit(state.copyWith(cartStepIndex: value));
   }
 
+  void changeIsSupermarketSelected(bool value) {
+    emit(state.copyWith(isSupermatketSelected: value));
+  }
+
+  void changeCanConfirmOrder(bool value) {
+    emit(state.copyWith(canConfirmOrder: value));
+  }
+
   void handleDeleteDialogOnClose() {
     emit(state.copyWith(errorMessage: 'error'));
     emit(state.copyWith(errorMessage: ''));

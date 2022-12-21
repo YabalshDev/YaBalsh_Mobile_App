@@ -6,8 +6,12 @@ class CartState extends Equatable {
   final RequestState? storeRequestState;
   final List<Store>? superMarkets;
   final int? cartStepIndex;
+  final bool? isSupermatketSelected;
+  final bool? canConfirmOrder;
   const CartState(
       {this.cartItems = const [],
+      this.canConfirmOrder = false,
+      this.isSupermatketSelected = false,
       this.errorMessage = '',
       this.cartStepIndex = 0,
       this.storeRequestState = RequestState.loading,
@@ -18,9 +22,14 @@ class CartState extends Equatable {
       String? errorMessage,
       RequestState? storeRequestState,
       int? cartStepIndex,
+      bool? isSupermatketSelected,
+      bool? canConfirmOrder,
       List<Store>? superMarkets}) {
     return CartState(
         cartItems: cartItems ?? this.cartItems,
+        canConfirmOrder: canConfirmOrder ?? this.canConfirmOrder,
+        isSupermatketSelected:
+            isSupermatketSelected ?? this.isSupermatketSelected,
         errorMessage: errorMessage ?? this.errorMessage,
         storeRequestState: storeRequestState ?? this.storeRequestState,
         cartStepIndex: cartStepIndex ?? this.cartStepIndex,
@@ -34,6 +43,8 @@ class CartState extends Equatable {
         storeRequestState!,
         cartItems!,
         errorMessage!,
-        superMarkets!
+        superMarkets!,
+        isSupermatketSelected!,
+        canConfirmOrder!
       ];
 }

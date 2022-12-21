@@ -73,7 +73,7 @@ class AddressForm extends StatelessWidget {
                       ),
                       name: 'district',
                       intialValue: address != null
-                          ? address!.fullAddress!.split(',')[0]
+                          ? address!.fullAddress!.split(',')[1]
                           : '',
                       onChanged: (value) {
                         validateOnChanged(value!);
@@ -138,7 +138,8 @@ class AddressForm extends StatelessWidget {
                     ?.copyWith(fontWeight: FontWeight.w600, fontSize: 13.sp),
               ),
               name: 'street',
-              intialValue: address != null ? address!.fullAddress : '',
+              intialValue:
+                  address != null ? address!.fullAddress!.split(',')[2] : '',
               onChanged: (value) {
                 validateOnChanged(value!);
               },

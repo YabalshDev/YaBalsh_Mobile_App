@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/theme/light/light_theme.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_svg_icon.dart';
 
 class YaBalashCustomButton extends StatelessWidget {
   final Widget child;
+  final String? title;
   final VoidCallback onTap;
   final bool? isWithIcon;
   final String? iconPath;
@@ -14,6 +16,7 @@ class YaBalashCustomButton extends StatelessWidget {
       {super.key,
       required this.child,
       required this.onTap,
+      this.title = '',
       this.isDisabled = false,
       this.iconPath,
       this.isSecondaryButton = false,
@@ -30,9 +33,15 @@ class YaBalashCustomButton extends StatelessWidget {
       onPressed: onTap,
       child: !isWithIcon!
           ? child
-          : CustomSvgIcon(
-              iconPath: iconPath!,
-              color: Colors.white,
+          : Row(
+              children: [
+                Text(title!),
+                smallHorizontalSpace,
+                CustomSvgIcon(
+                  iconPath: iconPath!,
+                  color: Colors.white,
+                ),
+              ],
             ),
     );
   }

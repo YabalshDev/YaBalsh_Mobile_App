@@ -21,7 +21,9 @@ class UpdateAddressCubit extends Cubit<UpdateAddressState> {
     emit(state.copyWith(isButtonDisabled: value));
   }
 
-  void addAddress({required AddressRequest addressRequest}) async {
+  void addAddress(
+      {required AddressRequest addressRequest,
+      required String fromRoute}) async {
     final response = await addAddressUseCase(
         AddAddressParams(addressRequest: addressRequest));
     response.fold((failure) {
@@ -36,16 +38,19 @@ class UpdateAddressCubit extends Cubit<UpdateAddressState> {
       );
     },
         (address) => yaBalashCustomDialog(
-              buttonTitle: 'حسنا',
-              isWithEmoji: false,
-              title: 'ملاحظة',
-              mainContent: 'تمت اضافة العنوان بنجاح',
-              onConfirm: () => Get.back(),
-            ));
+            buttonTitle: 'حسنا',
+            isWithEmoji: false,
+            title: 'ملاحظة',
+            mainContent: 'تمت اضافة العنوان بنجاح',
+            onConfirm: () => Get
+              ..back()
+              ..back()));
   }
 
   void editAddress(
-      {required int id, required AddressRequest addressRequest}) async {
+      {required int id,
+      required AddressRequest addressRequest,
+      required String fromRoute}) async {
     final response = await editAddressUseCase(
         EditAddressParams(addressRequest: addressRequest, id: id));
     response.fold((failure) {
@@ -60,11 +65,14 @@ class UpdateAddressCubit extends Cubit<UpdateAddressState> {
       );
     },
         (address) => yaBalashCustomDialog(
-              buttonTitle: 'حسنا',
-              isWithEmoji: false,
-              title: 'ملاحظة',
-              mainContent: 'تم تعديل العنوان بنجاح',
-              onConfirm: () => Get.back(),
-            ));
+            buttonTitle: 'حسنا',
+            isWithEmoji: false,
+            title: 'ملاحظة',
+            mainContent: 'تم تعديل العنوان بنجاح',
+            onConfirm: () {
+              Get
+                ..back()
+                ..back();
+            }));
   }
 }

@@ -16,7 +16,7 @@ class AddressesView extends StatelessWidget {
             isButtonSecondary: false,
             title: '+ اضف عنوانا',
             mainButtonTap: () => Get.toNamed(RouteHelper.getUpdateAddress(),
-                arguments: [false, null]))
+                arguments: [false, null, RouteHelper.getAddressesRoute()]))
         //         arguments: [false, null]) ,),
         // bottomNavigationBar: Container(
         //   height: 70.h,

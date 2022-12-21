@@ -5,6 +5,7 @@ import 'package:yabalash_mobile_app/features/cart/domain/entities/store_price.da
 import 'package:yabalash_mobile_app/features/cart/domain/entities/supermarket_card_model.dart';
 
 import '../../../../../core/depedencies.dart';
+import '../../../../../core/services/order_service.dart';
 import '../../../../../core/utils/enums/request_state.dart';
 import '../../../../../core/widgets/custom_dialog.dart';
 import '../../../domain/usecases/get_store_usecase.dart';
@@ -18,8 +19,12 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
     required this.getStoreUseCase,
   }) : super(const SuperMarketsState());
 
-  void setSuperMarketIndex({required int index}) =>
-      emit(state.copyWith(selectedSupermarketIndex: index));
+  void setSuperMarketIndex({required int index}) {
+    getIt<OrderService>().setSelectedSuperMarket(
+        supermarket: state.availableSupermarkets![index]);
+    getIt<CartCubit>().changeIsSupermarketSelected(true);
+    emit(state.copyWith(selectedSupermarketIndex: index));
+  }
 
   Map<String, StorePrice> _sortStoresPrices(Map<String, StorePrice> prices) {
     List<MapEntry<String, StorePrice>> entries = prices.entries.toList();

@@ -5,6 +5,7 @@ import 'package:yabalash_mobile_app/core/api/local_data_api/local_storage_provid
 import 'package:yabalash_mobile_app/core/api/remote_data_api/dio_consumer.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/interceptors.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/rest_api_provider.dart';
+import 'package:yabalash_mobile_app/core/services/addresses_service.dart';
 import 'package:yabalash_mobile_app/core/services/order_service.dart';
 import 'package:yabalash_mobile_app/core/services/user_service.dart';
 import 'package:yabalash_mobile_app/core/services/zone_service.dart';
@@ -37,6 +38,7 @@ import 'package:yabalash_mobile_app/features/cart/domain/usecases/fetch_cart_ite
 import 'package:yabalash_mobile_app/features/cart/domain/usecases/get_store_usecase.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/usecases/increment_quantity.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/cart_cubit.dart';
+import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/order_summary_cubit.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/super_markets_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/data/datasources/home_mock_datasource.dart';
 import 'package:yabalash_mobile_app/features/home/data/repositories/home_repository_impl.dart';
@@ -75,6 +77,7 @@ setupDependecies() {
 
   getIt.registerLazySingleton(() => ZoneService());
   getIt.registerLazySingleton(() => OrderService());
+  getIt.registerLazySingleton(() => AddressService());
   getIt.registerLazySingleton(() => UserService(localStorageProvider: getIt()));
 
   getIt.registerLazySingleton<HomeDataSource>(() => HomeMockDataSourceImpl());
@@ -209,5 +212,8 @@ setupDependecies() {
 
   getIt.registerFactory(() => SuperMarketsCubit(
         getStoreUseCase: getIt(),
+      ));
+  getIt.registerFactory(() => OrderSummaryCubit(
+        getAllAddressUseCase: getIt(),
       ));
 }

@@ -19,9 +19,10 @@ class AddressesBody extends StatelessWidget {
       child: SingleChildScrollView(
           child: Column(
         children: [
-          const CustomHeader(
+          CustomHeader(
               isWithNotification: true,
               title: 'عناويني',
+              onIconTap: () => Get.back(),
               iconPath: AppAssets.closeIcon),
           largeVerticalSpace,
           BlocBuilder<AddressCubit, AddressState>(
