@@ -108,9 +108,18 @@ class HomeProductCard extends StatelessWidget {
                                     children: [
                                       const Spacer(),
                                       CartQuantityRow(
-                                          onDecrement: () {},
-                                          onDelete: () {},
-                                          onIncrement: () {},
+                                          onDecrement: () {
+                                            getIt<CartCubit>()
+                                                .decrementQuantity(product);
+                                          },
+                                          onDelete: () {
+                                            getIt<CartCubit>()
+                                                .deleteItemFromCart(product);
+                                          },
+                                          onIncrement: () {
+                                            getIt<CartCubit>()
+                                                .incrementQuantity(product);
+                                          },
                                           quantity: cartItem.quantity!),
                                       const Spacer()
                                     ],

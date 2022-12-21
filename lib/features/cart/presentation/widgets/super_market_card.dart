@@ -137,12 +137,12 @@ class SuperMarketCard extends StatelessWidget {
               ],
             ),
           ),
-          mediumHorizontalSpace,
+          const Spacer(),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${superMarket.price} جنيه',
+                '${superMarket.price!.toStringAsFixed(0)} جنيه',
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.w500,
                     fontSize: 18.sp,

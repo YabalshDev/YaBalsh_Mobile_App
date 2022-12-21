@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
+import 'package:yabalash_mobile_app/features/cart/domain/entities/supermarket_card_model.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/super_markets_cubit.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/widgets/basket_list.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/widgets/cart_stepper.dart';
+import 'package:yabalash_mobile_app/features/cart/presentation/widgets/order_summary.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/widgets/supermarkets_list.dart';
 
 import '../../../../core/depedencies.dart';
@@ -18,7 +20,8 @@ final List<Widget> cartSteps = [
       return getIt<SuperMarketsCubit>()..getSuperMarkets();
     },
     child: const SuperMarketLists(),
-  )
+  ),
+  const OrderSummary(superMarketCardModel: SuperMarketCardModel())
 ];
 
 class CartBody extends StatelessWidget {

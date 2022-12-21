@@ -58,8 +58,8 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
           } else {
             storesTotalPrices.update(
                 priceModel.key,
-                (value) =>
-                    storePrice.copyWith(price: totalPrice, isAvailable: true));
+                (value) => storePrice.copyWith(
+                    price: totalPrice, isAvailable: isAvailable));
           }
         } else {
           //first addition
@@ -83,38 +83,39 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
   }
 
   void getSuperMarkets() async {
-    if (state.superMarkets!.isEmpty) {
-      List<SuperMarketCardModel> supermarkets = [];
+    List<SuperMarketCardModel> supermarkets = [];
 
-      final supermarketPrices = _getSupermarketsPrices();
+    final supermarketPrices = _getSupermarketsPrices();
 
-      List<int> storeIds = supermarketPrices['storeIds'];
-      Map<String, StorePrice> storesPrices = supermarketPrices['storePrices'];
+    List<int> storeIds = supermarketPrices['storeIds'];
+    Map<String, StorePrice> storesPrices = supermarketPrices['storePrices'];
 
-      for (int id in storeIds) {
-        final response = await getStoreUseCase(GetStoreParams(id: id));
-        response.fold((fauilre) {
-          yaBalashCustomDialog(
-            isWithEmoji: false,
-            buttonTitle: 'حسنا',
-            mainContent: 'حدث مشكلة اثناء جلب المتجر',
-            title: 'خطأ',
-            onConfirm: () => Get.back(),
-          );
-          emit(state.copyWith(storeRequestState: RequestState.error));
-        }, (store) {
-          final storePriceModel = storesPrices[store.name];
-          supermarkets.add(SuperMarketCardModel(
-              store: store,
-              price: storePriceModel!.price,
-              saving:
-                  (storesPrices.values.last.price! - storePriceModel.price!),
-              isAvailable: storesPrices[store.name]!.isAvailable));
-        });
-      }
-
-      emit(state.copyWith(
-          superMarkets: supermarkets, storeRequestState: RequestState.loaded));
+    for (int id in storeIds) {
+      final response = await getStoreUseCase(GetStoreParams(id: id));
+      response.fold((fauilre) {
+        yaBalashCustomDialog(
+          isWithEmoji: false,
+          buttonTitle: 'حسنا',
+          mainContent: 'حدث مشكلة اثناء جلب المتجر',
+          title: 'خطأ',
+          onConfirm: () => Get.back(),
+        );
+        emit(state.copyWith(storeRequestState: RequestState.error));
+      }, (store) {
+        final storePriceModel = storesPrices[store.name];
+        supermarkets.add(SuperMarketCardModel(
+            store: store,
+            price: storePriceModel!.price,
+            saving: (storesPrices.values.last.price! - storePriceModel.price!),
+            isAvailable: storesPrices[store.name]!.isAvailable));
+      });
     }
+
+    emit(state.copyWith(
+        availableSupermarkets:
+            supermarkets.where((element) => element.isAvailable!).toList(),
+        storeRequestState: RequestState.loaded,
+        unAvailableSupermarkets:
+            supermarkets.where((element) => !element.isAvailable!).toList()));
   }
 }

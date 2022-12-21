@@ -28,29 +28,29 @@ class SuperMarketLists extends StatelessWidget {
             );
 
           case RequestState.loaded:
-            final unAvailableMarkets = state.superMarkets!
-                .where((element) => element.isAvailable == false)
-                .toList();
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'إختار السوبر ماركت',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w700, fontSize: 18.sp),
-                  ),
+                  state.availableSupermarkets!.isEmpty
+                      ? const SizedBox()
+                      : Text(
+                          'إختار السوبر ماركت',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(
+                                  fontWeight: FontWeight.w700, fontSize: 18.sp),
+                        ),
                   largeVerticalSpace,
                   ListView.builder(
                     key: UniqueKey(),
+                    padding: EdgeInsets.only(left: 5.w),
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: state.superMarkets!
-                        .where((element) => element.isAvailable!)
-                        .toList()
-                        .length,
+                    itemCount: state.availableSupermarkets!.length,
                     itemBuilder: (context, index) {
-                      final superMarket = state.superMarkets![index];
+                      final superMarket = state.availableSupermarkets![index];
 
                       return SuperMarketCard(
                           superMarket: superMarket,
@@ -61,7 +61,7 @@ class SuperMarketLists extends StatelessWidget {
                     },
                   ),
                   largeVerticalSpace,
-                  unAvailableMarkets.isEmpty
+                  state.unAvailableSupermarkets!.isEmpty
                       ? const SizedBox()
                       : Row(
                           children: [
@@ -86,10 +86,11 @@ class SuperMarketLists extends StatelessWidget {
                   ListView.builder(
                     key: UniqueKey(),
                     shrinkWrap: true,
+                    padding: EdgeInsets.only(left: 5.w),
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: unAvailableMarkets.length,
+                    itemCount: state.unAvailableSupermarkets!.length,
                     itemBuilder: (context, index) {
-                      final superMarket = unAvailableMarkets[index];
+                      final superMarket = state.unAvailableSupermarkets![index];
 
                       return SuperMarketCard(
                           superMarket: superMarket,
