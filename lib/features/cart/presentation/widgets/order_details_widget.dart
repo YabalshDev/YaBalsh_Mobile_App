@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/constants/app_layouts.dart';
@@ -7,7 +6,6 @@ import '../../../../core/depedencies.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/custom_card.dart';
 import '../blocs/cubit/cart_cubit.dart';
-import '../blocs/cubit/order_summary_cubit.dart';
 
 class OrderDetailsSection extends StatelessWidget {
   const OrderDetailsSection({super.key});
@@ -20,13 +18,8 @@ class OrderDetailsSection extends StatelessWidget {
       itemCount: getIt<CartCubit>().state.cartItems!.length,
       itemBuilder: (context, index) {
         final cartItem = getIt<CartCubit>().state.cartItems![index];
-        final productPrice = cartItem
-            .product!
-            .prices![BlocProvider.of<OrderSummaryCubit>(context)
-                .supermarket
-                .store!
-                .name]!
-            .price!;
+        final productPrice = cartItem.product!
+            .prices![getIt<CartCubit>().state.supermarket!.store!.name]!.price!;
         final totalprice = (cartItem.quantity! * productPrice);
         return Container(
           margin: EdgeInsets.only(top: 10.h),

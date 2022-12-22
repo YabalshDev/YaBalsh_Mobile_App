@@ -1,15 +1,25 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
 import 'package:yabalash_mobile_app/core/theme/light/app_colors_light.dart';
-import 'package:yabalash_mobile_app/core/theme/light/light_theme.dart';
 import 'package:yabalash_mobile_app/core/utils/date_time_utils.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_svg_icon.dart';
+import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/cart_cubit.dart';
+import 'package:yabalash_mobile_app/features/cart/presentation/widgets/order_subtotal_section.dart';
+import 'package:yabalash_mobile_app/features/cart/presentation/widgets/super_market_details_card.dart';
 
 import '../../../../core/constants/app_layouts.dart';
+import '../../../../core/depedencies.dart';
 import '../../../../core/routes/app_routes.dart';
+import '../../../../core/widgets/sub_heading.dart';
+import '../../../cart/presentation/widgets/order_details_widget.dart';
 import '../../domain/entities/order.dart';
+import '../blocs/cubit/order_success_cubit.dart';
+import 'delivery_details_section.dart';
+import 'status_card.dart';
 
 class OrderSuccessBody extends StatelessWidget {
   final Order order;
@@ -52,17 +62,74 @@ class OrderSuccessBody extends StatelessWidget {
                     color: Colors.black,
                     fontWeight: FontWeight.w400),
               ),
-              smallVerticalSpace,
               Text(
                 generateExpectedTime(order.orderDate!, 30),
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       fontSize: 17.sp,
                       color: AppColorsLight.kAppPrimaryColorLight,
                     ),
               ),
-              const SizedBox(
-                width: 500,
-              )
+              mediumVerticalSpace,
+              SupermarketDetailsCard(
+                  superMarketCardModel: getIt<CartCubit>().state.supermarket!,
+                  isFromOrderSuccess: true),
+              largeVerticalSpace,
+              const DeliveryDetailsSection(),
+              smallVerticalSpace,
+              const PaymentSection(),
+              smallVerticalSpace,
+              Row(
+                children: [
+                  const SubHeading(text: 'الاصناف'),
+                  smallHorizontalSpace,
+                  mediumHorizontalSpace,
+                  Text(
+                    '${getIt<CartCubit>().state.cartItems!.length} اصناف',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontSize: 13.sp,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400),
+                  ),
+                  const Spacer(),
+                  BlocBuilder<OrderSuccessCubit, OrderSuccessState>(
+                    builder: (context, state) {
+                      return InkWell(
+                        onTap: () {
+                          if (state.viewDetails!) {
+                            BlocProvider.of<OrderSuccessCubit>(context)
+                                .changeViewDetails(false);
+                          } else {
+                            BlocProvider.of<OrderSuccessCubit>(context)
+                                .changeViewDetails(true);
+                          }
+                        },
+                        child: Icon(
+                          !state.viewDetails!
+                              ? Icons.keyboard_arrow_down
+                              : Icons.keyboard_arrow_up,
+                          color: AppColorsLight.kAppPrimaryColorLight
+                              .withOpacity(0.6),
+                        ),
+                      );
+                    },
+                  )
+                ],
+              ),
+              BlocBuilder<OrderSuccessCubit, OrderSuccessState>(
+                builder: (context, state) {
+                  if (!state.viewDetails!) {
+                    return const SizedBox();
+                  } else {
+                    return FadeIn(
+                        duration: const Duration(milliseconds: 600),
+                        child: const OrderDetailsSection());
+                  }
+                },
+              ),
+              mediumVerticalSpace,
+              const SubHeading(text: 'تفاصيل الحساب'),
+              largeVerticalSpace,
+              const OrderSubTotalSection()
             ],
           ),
         ),
@@ -71,27 +138,40 @@ class OrderSuccessBody extends StatelessWidget {
   }
 }
 
-class StatusCard extends StatelessWidget {
-  final String status;
-  const StatusCard({
-    super.key,
-    required this.status,
-  });
+class PaymentSection extends StatelessWidget {
+  const PaymentSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: kDefaultBoxDecoration.copyWith(
-          color: AppColorsLight.warningColor,
-          border: Border.all(color: Colors.transparent)),
-      padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
-      child: Text(
-        status == 'pending' ? "قيد التوصيل" : '',
-        style: Theme.of(context)
-            .textTheme
-            .bodySmall
-            ?.copyWith(color: Colors.white),
-      ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SubHeading(text: 'الدفع'),
+        largeHorizontalSpace,
+        largeHorizontalSpace,
+        smallHorizontalSpace,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            smallVerticalSpace,
+            Text(
+              'طريقة الدفع',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontSize: 13.sp,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w400),
+            ),
+            Text(
+              'الدفع عند الاستلام',
+              maxLines: 2,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12.sp,
+                  color: AppColorsLight.kAppPrimaryColorLight.withOpacity(0.7)),
+            ),
+          ],
+        )
+      ],
     );
   }
 }

@@ -10,7 +10,11 @@ import '../../domain/entities/supermarket_card_model.dart';
 
 class SupermarketDetailsCard extends StatelessWidget {
   final SuperMarketCardModel superMarketCardModel;
-  const SupermarketDetailsCard({super.key, required this.superMarketCardModel});
+  final bool? isFromOrderSuccess;
+  const SupermarketDetailsCard(
+      {super.key,
+      required this.superMarketCardModel,
+      this.isFromOrderSuccess = false});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +55,9 @@ class SupermarketDetailsCard extends StatelessWidget {
                   color: AppColorsLight.kAppPrimaryColorLight,
                 ),
                 Text(
-                  'الطلب هيتم توصيله في خلال 32 دقيقة',
+                  isFromOrderSuccess!
+                      ? '${superMarketCardModel.store!.name} هيوصلك طلبك في الوقت المتوقع'
+                      : 'الطلب هيتم توصيله في خلال 32 دقيقة',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color:
                           AppColorsLight.kAppPrimaryColorLight.withOpacity(0.8),
