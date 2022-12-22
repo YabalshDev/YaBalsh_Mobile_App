@@ -19,8 +19,12 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
 
   @override
   Future<OrderModel> createOrder({required OrderRequest orderRequest}) async {
+    final OrderRequestModel orderRequestModel = OrderRequestModel(
+        addressId: orderRequest.addressId,
+        products: orderRequest.products,
+        storeId: orderRequest.storeId);
     final response = await restApiProvider.post(ordersEndpoint,
-        body: (orderRequest as OrderRequestModel).toJson(),
+        body: orderRequestModel.toJson(),
         headers: ApiHeaders.authorizationHeaders);
 
     return (OrderApiResponse.fromJson(response)).data as OrderModel;

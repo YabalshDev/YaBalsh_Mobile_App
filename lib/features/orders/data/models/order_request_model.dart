@@ -8,10 +8,9 @@ class OrderRequestModel extends OrderRequest {
 
   Map<String, dynamic> toJson() {
     return {
-      "products":
-          products!.map((e) => (e as OrderProductModel).toJson()).toList(),
-      "address_id": 1,
-      "store_id": 1
+      "products": products!.map((e) => e.toJson()).toList(),
+      "address_id": addressId,
+      "store_id": storeId
     };
   }
 }

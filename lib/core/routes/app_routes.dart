@@ -18,6 +18,7 @@ import 'package:yabalash_mobile_app/features/on_boaring/presentation/blocs/cubit
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/blocs/cubit/splash_cubit.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/views/on_boarding_view.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/views/splash_view.dart';
+import 'package:yabalash_mobile_app/features/orders/presentation/views/order_success_view.dart';
 import 'package:yabalash_mobile_app/features/product_details/presentation/views/product_details_view.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/main_zones_cubit.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/sub_zone_cubit.dart';
@@ -26,6 +27,7 @@ import 'package:yabalash_mobile_app/features/zones/presentation/views/sub_zones_
 
 import '../../features/home/domain/entities/product.dart';
 import '../../features/home/presentation/views/home_view.dart';
+import '../../features/orders/presentation/blocs/cubit/order_success_cubit.dart';
 import '../depedencies.dart';
 
 class RouteHelper {
@@ -43,6 +45,7 @@ class RouteHelper {
   static const String _subZonesRoutes = '/sub-zones';
   static const String _addressesRoute = '/addresses';
   static const String _updateAddressRoute = '/update-address';
+  static const String _orderSuccessRoute = '/order-success';
 
   static getIntialRoute() => _intialRoute;
   static getOnBoardingRoute() => _onBordingRoute;
@@ -56,6 +59,7 @@ class RouteHelper {
   static getPhoneNumberRoute() => _phoneNumberRoute;
   static getAddressesRoute() => _addressesRoute;
   static getUpdateAddress() => _updateAddressRoute;
+  static getOrderSuccessRoute() => _orderSuccessRoute;
 
   static final routes = [
     GetPage(
@@ -169,6 +173,16 @@ class RouteHelper {
               ),
             ),
           ));
+        }),
+    GetPage(
+        name: _orderSuccessRoute,
+        page: () {
+          return CustomAnimatedWidget(
+              child: BlocProvider<OrderSuccessCubit>(
+                  create: (context) => getIt<OrderSuccessCubit>(),
+                  child: OrderSuccessView(
+                    order: Get.arguments[0],
+                  )));
         })
   ];
 }

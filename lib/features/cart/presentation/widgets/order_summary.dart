@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
+import 'package:yabalash_mobile_app/core/widgets/sub_heading.dart';
 
 import '../../../../core/utils/enums/request_state.dart';
 import '../blocs/cubit/order_summary_cubit.dart';
@@ -36,11 +37,7 @@ class OrderSummary extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'مراجعة الطلب',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w700, fontSize: 17.sp),
-                  ),
+                  const SubHeading(text: 'مراجعة الطلب'),
                   mediumVerticalSpace,
                   SupermarketDetailsCard(
                     superMarketCardModel:
@@ -49,11 +46,7 @@ class OrderSummary extends StatelessWidget {
                   mediumVerticalSpace,
                   UserAddressCard(state: state),
                   smallVerticalSpace,
-                  Text(
-                    'تفاصيل الطلب',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w700, fontSize: 17.sp),
-                  ),
+                  const SubHeading(text: 'تفاصيل الطلب'),
                   const OrderDetailsSection(),
                   mediumVerticalSpace,
                   Divider(
@@ -68,11 +61,7 @@ class OrderSummary extends StatelessWidget {
                     thickness: 1,
                   ),
                   mediumHorizontalSpace,
-                  Text(
-                    'تفاصيل الحساب',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w700, fontSize: 17.sp),
-                  ),
+                  const SubHeading(text: 'تفاصيل الحساب'),
                   const OrderSubTotalSection()
                 ],
               ),

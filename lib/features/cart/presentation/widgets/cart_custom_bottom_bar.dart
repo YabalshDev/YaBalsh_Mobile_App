@@ -6,9 +6,12 @@ import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
 import 'package:yabalash_mobile_app/core/theme/light/app_colors_light.dart';
 import 'package:yabalash_mobile_app/core/theme/light/light_theme.dart';
+import 'package:yabalash_mobile_app/features/orders/data/models/order_product_model.dart';
 
 import '../../../../core/widgets/custom_bottom_nav_bar.dart';
+import '../../../orders/domain/entities/order_request.dart';
 import '../blocs/cubit/cart_cubit.dart';
+import '../blocs/cubit/order_summary_cubit.dart';
 
 class CartCustomNavBar extends StatelessWidget {
   final PageController pageController;
@@ -91,7 +94,7 @@ class CartCustomNavBar extends StatelessWidget {
                 isButtonSecondary: false,
                 mainButtonTap: () {
                   // second step handle
-                  if (state.isSupermatketSelected!) {
+                  if (state.supermarket?.store != null) {
                     pageController.animateToPage(2,
                         duration: const Duration(milliseconds: 500),
                         curve: Curves.easeInOut);
@@ -100,15 +103,25 @@ class CartCustomNavBar extends StatelessWidget {
                   // third step handle
                 },
                 title: 'خلص الطلب',
-                isDisabled: !state.isSupermatketSelected!);
+                isDisabled: state.supermarket?.store == null);
           } else {
             return CustomNavBar(
               isButtonSecondary: false,
               mainButtonTap: () {
-                // third step handle
+                final OrderRequest orderRequest = OrderRequest(
+                    addressId: state.userAddress?.id,
+                    storeId: state.supermarket?.store!.id,
+                    products: state.cartItems!
+                        .map((e) => OrderProductModel(
+                            id: e.product!.id, quantity: e.quantity))
+                        .toList());
+                if (state.userAddress?.id != null) {
+                  final order = getIt<OrderSummaryCubit>()
+                      .placeOrder(orderRequest: orderRequest);
+                }
               },
               title: '✔  خلص الطلب',
-              isDisabled: !state.canConfirmOrder!,
+              isDisabled: state.userAddress?.id == null,
             );
           }
         }

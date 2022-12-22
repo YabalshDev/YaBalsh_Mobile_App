@@ -10,7 +10,7 @@ class OrderResponseProductModel extends OrderResponseProduct {
       OrderResponseProductModel(
           id: json['id'],
           name: json['name'],
-          price: json['price'],
+          price: double.parse(json['price'] as String),
           quantity: json['quantity'],
-          total: json['total']);
+          total: double.parse(json['total'] as String));
 }

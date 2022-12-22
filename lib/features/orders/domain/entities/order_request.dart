@@ -1,9 +1,8 @@
 import 'package:equatable/equatable.dart';
-
-import 'order_product.dart';
+import 'package:yabalash_mobile_app/features/orders/data/models/order_product_model.dart';
 
 class OrderRequest extends Equatable {
-  final List<OrderProduct>? products;
+  final List<OrderProductModel>? products;
   final int? addressId;
   final int? storeId;
 

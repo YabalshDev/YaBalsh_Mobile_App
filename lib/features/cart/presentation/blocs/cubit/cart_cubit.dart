@@ -5,6 +5,8 @@ import 'package:yabalash_mobile_app/core/usecases/use_cases.dart';
 
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
+import 'package:yabalash_mobile_app/features/addresses/domain/entities/address.dart';
+import 'package:yabalash_mobile_app/features/cart/domain/entities/supermarket_card_model.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/usecases/add_cart_item_usecase.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/usecases/clear_cart_usecase.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/usecases/decrement_quantity_usecase.dart';
@@ -14,6 +16,7 @@ import 'package:yabalash_mobile_app/features/cart/domain/usecases/increment_quan
 
 import '../../../../home/domain/entities/product.dart';
 import '../../../../home/domain/entities/store.dart';
+import '../../../../orders/domain/entities/order_request.dart';
 import '../../../domain/entities/cart_item.dart';
 
 part 'cart_state.dart';
@@ -41,12 +44,12 @@ class CartCubit extends Cubit<CartState> {
     emit(state.copyWith(cartStepIndex: value));
   }
 
-  void changeIsSupermarketSelected(bool value) {
-    emit(state.copyWith(isSupermatketSelected: value));
+  void changeSupermarketSelected(SuperMarketCardModel value) {
+    emit(state.copyWith(supermarket: value));
   }
 
-  void changeCanConfirmOrder(bool value) {
-    emit(state.copyWith(canConfirmOrder: value));
+  void changeSelectedUserAddress(Address value) {
+    emit(state.copyWith(userAddress: value));
   }
 
   void handleDeleteDialogOnClose() {

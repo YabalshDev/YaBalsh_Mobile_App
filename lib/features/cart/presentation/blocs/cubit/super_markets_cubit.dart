@@ -22,7 +22,8 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
   void setSuperMarketIndex({required int index}) {
     getIt<OrderService>().setSelectedSuperMarket(
         supermarket: state.availableSupermarkets![index]);
-    getIt<CartCubit>().changeIsSupermarketSelected(true);
+    getIt<CartCubit>()
+        .changeSupermarketSelected(state.availableSupermarkets![index]);
     emit(state.copyWith(selectedSupermarketIndex: index));
   }
 

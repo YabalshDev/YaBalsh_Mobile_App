@@ -52,6 +52,12 @@ import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/main_
 import 'package:yabalash_mobile_app/features/on_boaring/data/repositories/splash_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/domain/repositories/splash_repository.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/blocs/cubit/splash_cubit.dart';
+import 'package:yabalash_mobile_app/features/orders/data/datasources/order_remote_datasource.dart';
+import 'package:yabalash_mobile_app/features/orders/data/repositories/order_repository_impl.dart';
+import 'package:yabalash_mobile_app/features/orders/domain/repositories/order_repository.dart';
+import 'package:yabalash_mobile_app/features/orders/domain/usecases/create_order_usecase.dart';
+import 'package:yabalash_mobile_app/features/orders/domain/usecases/get_past_orders_usecase.dart';
+import 'package:yabalash_mobile_app/features/orders/presentation/blocs/cubit/order_success_cubit.dart';
 import 'package:yabalash_mobile_app/features/zones/data/datasources/zone_remote_data_source.dart';
 import 'package:yabalash_mobile_app/features/zones/data/repositories/zones_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/zones/domain/repositories/zones_repositoriy.dart';
@@ -102,6 +108,8 @@ setupDependecies() {
   getIt.registerLazySingleton<CartLocalDataSource>(
       () => CartLocalDataSourceImpl());
 
+  getIt.registerLazySingleton<OrderRemoteDataSource>(
+      () => OrderRemoteDataSourceImpl(restApiProvider: getIt()));
   getIt.registerLazySingleton<SplashRepository>(
       () => SplashRepositoryImpl(localStorageProvider: getIt()));
 
@@ -118,6 +126,10 @@ setupDependecies() {
 
   getIt.registerLazySingleton<CartRepository>(() => CartRepositoryImpl(
       cartLocalDataSource: getIt(), cartRemoteDataSource: getIt()));
+
+  getIt.registerLazySingleton<OrderRepository>(() => OrderRepositoryImpl(
+        orderRemoteDataSource: getIt(),
+      ));
 
   // use cases
 
@@ -157,6 +169,11 @@ setupDependecies() {
       () => DecrementQuantityUseCase(cartRepository: getIt()));
   getIt.registerLazySingleton(() => ClearCartUseCase(cartRepository: getIt()));
   getIt.registerLazySingleton(() => GetStoreUseCase(cartRepository: getIt()));
+
+  getIt.registerLazySingleton(
+      () => CreateOrderUseCase(orderRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => GetPastOrdersUseCase(orderRepository: getIt()));
 
   getIt.registerFactory(
     () => HomeCubit(
@@ -214,6 +231,6 @@ setupDependecies() {
         getStoreUseCase: getIt(),
       ));
   getIt.registerFactory(() => OrderSummaryCubit(
-        getAllAddressUseCase: getIt(),
-      ));
+      getAllAddressUseCase: getIt(), createOrderUseCase: getIt()));
+  getIt.registerFactory(() => OrderSuccessCubit());
 }
