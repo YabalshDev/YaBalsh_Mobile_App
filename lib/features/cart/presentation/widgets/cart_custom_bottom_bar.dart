@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
+import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/core/theme/light/app_colors_light.dart';
 import 'package:yabalash_mobile_app/core/theme/light/light_theme.dart';
 import 'package:yabalash_mobile_app/features/orders/data/models/order_product_model.dart';
@@ -107,7 +108,7 @@ class CartCustomNavBar extends StatelessWidget {
           } else {
             return CustomNavBar(
               isButtonSecondary: false,
-              mainButtonTap: () {
+              mainButtonTap: () async {
                 final OrderRequest orderRequest = OrderRequest(
                     addressId: state.userAddress?.id,
                     storeId: state.supermarket?.store!.id,
@@ -116,8 +117,12 @@ class CartCustomNavBar extends StatelessWidget {
                             id: e.product!.id, quantity: e.quantity))
                         .toList());
                 if (state.userAddress?.id != null) {
-                  final order = getIt<OrderSummaryCubit>()
+                  final order = await getIt<OrderSummaryCubit>()
                       .placeOrder(orderRequest: orderRequest);
+                  if (order != null) {
+                    Get.toNamed(RouteHelper.getOrderSuccessRoute(),
+                        arguments: [order]);
+                  }
                 }
               },
               title: '✔  خلص الطلب',

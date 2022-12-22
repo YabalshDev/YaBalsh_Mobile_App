@@ -40,6 +40,10 @@ class CartCubit extends Cubit<CartState> {
   List<CartItem> _cart = [];
   List<CartItem> get cart => _cart;
 
+  void resetCart() {
+    emit(const CartState());
+  }
+
   void changeCurrentCartStep(int value) {
     emit(state.copyWith(cartStepIndex: value));
   }

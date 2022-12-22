@@ -8,12 +8,11 @@ class CartState extends Equatable {
   final int? cartStepIndex;
   final SuperMarketCardModel? supermarket;
   final Address? userAddress;
-  final OrderRequest? orderRequest;
+
   const CartState(
       {this.cartItems = const [],
       this.supermarket = const SuperMarketCardModel(),
       this.userAddress = const Address(),
-      this.orderRequest = const OrderRequest(),
       this.errorMessage = '',
       this.cartStepIndex = 0,
       this.storeRequestState = RequestState.loading,
@@ -35,7 +34,6 @@ class CartState extends Equatable {
         errorMessage: errorMessage ?? this.errorMessage,
         storeRequestState: storeRequestState ?? this.storeRequestState,
         cartStepIndex: cartStepIndex ?? this.cartStepIndex,
-        orderRequest: orderRequest ?? this.orderRequest,
         superMarkets: superMarkets ?? this.superMarkets);
   }
 
@@ -49,6 +47,5 @@ class CartState extends Equatable {
         superMarkets!,
         supermarket!,
         userAddress!,
-        orderRequest!
       ];
 }
