@@ -44,7 +44,7 @@ class UpdateAddressCubit extends Cubit<UpdateAddressState> {
             mainContent: 'تمت اضافة العنوان بنجاح',
             onConfirm: () => Get
               ..back()
-              ..back()));
+              ..offNamed(fromRoute)));
   }
 
   void editAddress(
@@ -72,7 +72,7 @@ class UpdateAddressCubit extends Cubit<UpdateAddressState> {
             onConfirm: () {
               Get
                 ..back()
-                ..back();
+                ..offNamed(fromRoute);
             }));
   }
 }

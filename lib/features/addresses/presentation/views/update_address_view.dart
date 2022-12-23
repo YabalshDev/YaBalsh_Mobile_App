@@ -6,7 +6,6 @@ import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/features/addresses/domain/entities/address_request.dart';
 import 'package:yabalash_mobile_app/features/addresses/presentation/widgets/update_address_body.dart';
 
-import '../../../../core/routes/app_routes.dart';
 import '../../../../core/widgets/ya_balash_custom_button.dart';
 import '../../domain/entities/address.dart';
 import '../blocs/cubit/update_address_cubit.dart';
@@ -28,7 +27,7 @@ class UpdateAddress extends StatelessWidget {
     return Scaffold(
       body: UpdateAddressBody(
         isFromEdit: isfromEdit,
-        fromRoute: RouteHelper.getAddressesRoute(),
+        fromRoute: fromRoute,
         formkey: _formKey,
         address: address,
       ),

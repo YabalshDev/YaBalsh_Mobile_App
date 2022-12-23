@@ -18,7 +18,9 @@ import 'package:yabalash_mobile_app/features/on_boaring/presentation/blocs/cubit
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/blocs/cubit/splash_cubit.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/views/on_boarding_view.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/views/splash_view.dart';
+import 'package:yabalash_mobile_app/features/orders/presentation/blocs/cubit/past_orders_cubit.dart';
 import 'package:yabalash_mobile_app/features/orders/presentation/views/order_success_view.dart';
+import 'package:yabalash_mobile_app/features/orders/presentation/views/past_orders_view.dart';
 import 'package:yabalash_mobile_app/features/product_details/presentation/views/product_details_view.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/main_zones_cubit.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/sub_zone_cubit.dart';
@@ -46,6 +48,7 @@ class RouteHelper {
   static const String _addressesRoute = '/addresses';
   static const String _updateAddressRoute = '/update-address';
   static const String _orderSuccessRoute = '/order-success';
+  static const String _pastOrdersRoute = '/past-orders';
 
   static getIntialRoute() => _intialRoute;
   static getOnBoardingRoute() => _onBordingRoute;
@@ -60,6 +63,7 @@ class RouteHelper {
   static getAddressesRoute() => _addressesRoute;
   static getUpdateAddress() => _updateAddressRoute;
   static getOrderSuccessRoute() => _orderSuccessRoute;
+  static getPastOrdersRoute() => _pastOrdersRoute;
 
   static final routes = [
     GetPage(
@@ -183,6 +187,15 @@ class RouteHelper {
                   child: OrderSuccessView(
                     order: Get.arguments[0],
                   )));
-        })
+        }),
+    GetPage(
+        name: _pastOrdersRoute,
+        page: () {
+          return CustomAnimatedWidget(
+              child: BlocProvider<PastOrdersCubit>(
+                  create: (context) =>
+                      getIt<PastOrdersCubit>()..getPastOrders(),
+                  child: const PastOrdersView()));
+        }),
   ];
 }

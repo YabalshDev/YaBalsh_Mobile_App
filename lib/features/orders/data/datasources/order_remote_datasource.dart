@@ -35,7 +35,7 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
     final response = await restApiProvider.get(ordersEndpoint,
         headers: ApiHeaders.authorizationHeaders);
 
-    return ((response.data['data']) as List<dynamic>)
+    return ((response['data']) as List<dynamic>)
         .map((e) => OrderModel.fromJson(e))
         .toList();
   }

@@ -29,5 +29,7 @@ class OrderModel extends Order {
           .map((e) => OrderResponseProductModel.fromJson(e))
           .toList(),
       status: json['status'],
-      subTotal: json['subTotal'].toDouble());
+      subTotal: json['subTotal'].runtimeType == int
+          ? json['subTotal'].toDouble()
+          : double.parse(json['subTotal']));
 }

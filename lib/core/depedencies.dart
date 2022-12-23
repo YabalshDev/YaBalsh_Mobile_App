@@ -58,6 +58,7 @@ import 'package:yabalash_mobile_app/features/orders/domain/repositories/order_re
 import 'package:yabalash_mobile_app/features/orders/domain/usecases/create_order_usecase.dart';
 import 'package:yabalash_mobile_app/features/orders/domain/usecases/get_past_orders_usecase.dart';
 import 'package:yabalash_mobile_app/features/orders/presentation/blocs/cubit/order_success_cubit.dart';
+import 'package:yabalash_mobile_app/features/orders/presentation/blocs/cubit/past_orders_cubit.dart';
 import 'package:yabalash_mobile_app/features/zones/data/datasources/zone_remote_data_source.dart';
 import 'package:yabalash_mobile_app/features/zones/data/repositories/zones_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/zones/domain/repositories/zones_repositoriy.dart';
@@ -233,4 +234,5 @@ setupDependecies() {
   getIt.registerFactory(() => OrderSummaryCubit(
       getAllAddressUseCase: getIt(), createOrderUseCase: getIt()));
   getIt.registerFactory(() => OrderSuccessCubit());
+  getIt.registerFactory(() => PastOrdersCubit(getPastOrdersUseCase: getIt()));
 }
