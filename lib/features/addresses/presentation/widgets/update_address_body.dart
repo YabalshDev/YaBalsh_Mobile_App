@@ -32,7 +32,10 @@ class UpdateAddressBody extends StatelessWidget {
             children: [
               AuthBackIcon(onTap: () {
                 if (fromRoute == RouteHelper.getAddressesRoute()) {
-                  Get.offNamed(fromRoute);
+                  Get.offNamedUntil(
+                    fromRoute,
+                    (route) => Get.currentRoute == fromRoute,
+                  );
                 } else {
                   Get.back();
                 }

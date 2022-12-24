@@ -35,8 +35,10 @@ class OrderSuccessBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               InkWell(
-                onTap: () =>
-                    Get.offAndToNamed(RouteHelper.getMainNavigationRoute()),
+                onTap: () {
+                  getIt<CartCubit>().resetCart();
+                  Get.offAllNamed(RouteHelper.getMainNavigationRoute());
+                },
                 child: const CustomSvgIcon(
                   iconPath: AppAssets.closeIcon,
                   color: AppColorsLight.kAppPrimaryColorLight,

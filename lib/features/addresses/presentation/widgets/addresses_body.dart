@@ -22,9 +22,7 @@ class AddressesBody extends StatelessWidget {
           CustomHeader(
               isWithNotification: true,
               title: 'عناويني',
-              onIconTap: () => Get
-                ..back()
-                ..back(),
+              onIconTap: () => Get.back(),
               iconPath: AppAssets.closeIcon),
           largeVerticalSpace,
           BlocBuilder<AddressCubit, AddressState>(

@@ -4,7 +4,7 @@ import '../../services/zone_service.dart';
 
 class ApiHeaders {
   static Map<String, dynamic> zoneHeaders = {
-    'zone': getIt<ZoneService>().getCurrentSubZone()!.id,
+    'zone': getIt<ZoneService>().currentSubZone!.id,
     'authorization': 'Bearer ${getIt<UserService>().token}'
   };
 
