@@ -4,7 +4,7 @@ import 'package:yabalash_mobile_app/features/shopping_lists/domain/entities/shop
 import '../../../../core/errors/faliures.dart';
 
 abstract class ShoppingListRepository {
-  Either<Failure, List<ShoppingList>> getAllShoppingList();
+  Future<Either<Failure, List<ShoppingList>>> getAllShoppingList();
   Either<Failure, void> renameShoppingList(
       {required ShoppingList renamedShoppingList});
   Either<Failure, void> addShoppingList({required ShoppingList shoppingList});

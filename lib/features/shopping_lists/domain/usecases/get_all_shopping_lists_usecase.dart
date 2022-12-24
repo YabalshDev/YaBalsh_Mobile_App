@@ -5,11 +5,11 @@ import 'package:yabalash_mobile_app/features/shopping_lists/domain/entities/shop
 import 'package:yabalash_mobile_app/features/shopping_lists/domain/repositories/shopping_list_repository.dart';
 
 class GetAllShoppingListsUseCase
-    implements SynchornousUseCase<List<ShoppingList>, NoParams> {
+    implements UseCase<List<ShoppingList>, NoParams> {
   final ShoppingListRepository shoppingListRepository;
 
   GetAllShoppingListsUseCase({required this.shoppingListRepository});
   @override
-  Either<Failure, List<ShoppingList>> call(NoParams params) =>
+  Future<Either<Failure, List<ShoppingList>>> call(NoParams params) =>
       shoppingListRepository.getAllShoppingList();
 }
