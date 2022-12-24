@@ -14,4 +14,5 @@ class AppStrings {
   static const String token = 'token';
   static const String zones = 'zones';
   static const String cartKey = 'cart';
+  static const String shoppingListKey = 'shopping-list';
 }
