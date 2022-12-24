@@ -13,6 +13,8 @@ import 'package:yabalash_mobile_app/features/cart/domain/usecases/decrement_quan
 import 'package:yabalash_mobile_app/features/cart/domain/usecases/delete_cartItem.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/usecases/fetch_cart_items_usecase.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/usecases/increment_quantity.dart';
+import 'package:yabalash_mobile_app/features/shopping_lists/domain/entities/shopping_list.dart';
+import 'package:yabalash_mobile_app/features/shopping_lists/domain/usecases/add_shopping_list_usecase.dart';
 
 import '../../../../home/domain/entities/product.dart';
 import '../../../../home/domain/entities/store.dart';
@@ -28,8 +30,10 @@ class CartCubit extends Cubit<CartState> {
   final AddCartItemUseCase addCartItemUseCase;
   final DeleteCartItemUseCase deleteCartItemUseCase;
   final ClearCartUseCase clearCartUseCase;
+  final AddShoppingListUseCase addShoppingListUseCase;
   CartCubit(
       {required this.fetchCartItemsUseCase,
+      required this.addShoppingListUseCase,
       required this.incrementQuantityUseCase,
       required this.decrementQuantityUseCase,
       required this.addCartItemUseCase,
@@ -42,6 +46,73 @@ class CartCubit extends Cubit<CartState> {
 
   void resetCart() {
     emit(const CartState());
+  }
+
+  void addShoppingList({required String shoppingListName}) {
+    final ShoppingList shoppingList =
+        ShoppingList(name: shoppingListName, products: state.cartItems);
+
+    final response = addShoppingListUseCase(ShoppingListParams(shoppingList));
+
+    response.fold(
+        (failure) => yaBalashCustomDialog(
+              isWithEmoji: false,
+              buttonTitle: 'حسنا',
+              mainContent: failure.message,
+              title: 'خطأ',
+              onConfirm: () => Get.back(),
+            ),
+        (success) => yaBalashCustomDialog(
+              isWithEmoji: false,
+              buttonTitle: 'حسنا',
+              mainContent: 'تمت اضافة قائمة التسوق',
+              title: 'ملاحظة',
+              onConfirm: () => Get.back(),
+            ));
+  }
+
+  void clearCart() {
+    bool isSuccess = false;
+    final response = clearCartUseCase(NoParams());
+    response.fold(
+        (failure) => yaBalashCustomDialog(
+              isWithEmoji: false,
+              buttonTitle: 'حسنا',
+              mainContent: failure.message,
+              title: 'خطأ',
+              onConfirm: () => Get
+                ..back()
+                ..back(),
+            ),
+        (r) => isSuccess = true);
+
+    if (isSuccess) {
+      emit(state.copyWith(cartItems: []));
+      // Get.back();
+    }
+    // if (!getIt<CartCubit>().isClosed) {
+    //   // yaBalashCustomDialog(
+    //   //   isWithEmoji: false,
+    //   //   buttonTitle: 'حسنا',
+    //   //   mainContent: 'هل انت متاكد من ازالة السلة؟',
+    //   //   title: 'ملاحظة',
+    //   //   onConfirm: () {
+    //   //     final response = clearCartUseCase(NoParams());
+    //   //     response.fold(
+    //   //         (failure) => yaBalashCustomDialog(
+    //   //               isWithEmoji: false,
+    //   //               buttonTitle: 'حسنا',
+    //   //               mainContent: failure.message,
+    //   //               title: 'خطأ',
+    //   //               onConfirm: () => Get
+    //   //                 ..back()
+    //   //                 ..back(),
+    //   //             ),
+    //   //         (r) => );
+    //   //     Get.back();
+    //   //   },
+    //   // );
+    // }
   }
 
   void changeCurrentCartStep(int value) {

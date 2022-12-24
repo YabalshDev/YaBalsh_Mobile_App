@@ -59,6 +59,12 @@ import 'package:yabalash_mobile_app/features/orders/domain/usecases/create_order
 import 'package:yabalash_mobile_app/features/orders/domain/usecases/get_past_orders_usecase.dart';
 import 'package:yabalash_mobile_app/features/orders/presentation/blocs/cubit/order_success_cubit.dart';
 import 'package:yabalash_mobile_app/features/orders/presentation/blocs/cubit/past_orders_cubit.dart';
+import 'package:yabalash_mobile_app/features/shopping_lists/data/datasources/shopping_list_local_datasource.dart';
+import 'package:yabalash_mobile_app/features/shopping_lists/data/repositories/shopping_list_repository_impl.dart';
+import 'package:yabalash_mobile_app/features/shopping_lists/domain/repositories/shopping_list_repository.dart';
+import 'package:yabalash_mobile_app/features/shopping_lists/domain/usecases/add_shopping_list_usecase.dart';
+import 'package:yabalash_mobile_app/features/shopping_lists/domain/usecases/get_all_shopping_lists_usecase.dart';
+import 'package:yabalash_mobile_app/features/shopping_lists/domain/usecases/rename_shopping_list_usecase.dart';
 import 'package:yabalash_mobile_app/features/zones/data/datasources/zone_remote_data_source.dart';
 import 'package:yabalash_mobile_app/features/zones/data/repositories/zones_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/zones/domain/repositories/zones_repositoriy.dart';
@@ -111,6 +117,10 @@ setupDependecies() {
 
   getIt.registerLazySingleton<OrderRemoteDataSource>(
       () => OrderRemoteDataSourceImpl(restApiProvider: getIt()));
+  getIt.registerLazySingleton<ShoppingListLocalDataSource>(
+      () => ShoppingListLocalDataSourceImpl());
+
+  //repos
   getIt.registerLazySingleton<SplashRepository>(
       () => SplashRepositoryImpl(localStorageProvider: getIt()));
 
@@ -131,6 +141,10 @@ setupDependecies() {
   getIt.registerLazySingleton<OrderRepository>(() => OrderRepositoryImpl(
         orderRemoteDataSource: getIt(),
       ));
+  getIt.registerLazySingleton<ShoppingListRepository>(
+      () => ShoppingListRepositoryImpl(
+            shoppingListLocalDataSource: getIt(),
+          ));
 
   // use cases
 
@@ -176,6 +190,15 @@ setupDependecies() {
   getIt.registerLazySingleton(
       () => GetPastOrdersUseCase(orderRepository: getIt()));
 
+  getIt.registerLazySingleton(
+      () => GetAllShoppingListsUseCase(shoppingListRepository: getIt()));
+
+  getIt.registerLazySingleton(
+      () => RenameShoppingListUseCase(shoppingListRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => AddShoppingListUseCase(shoppingListRepository: getIt()));
+
+//cubits/blocs
   getIt.registerFactory(
     () => HomeCubit(
         getLatestOffersUseCase: getIt(),
@@ -222,6 +245,7 @@ setupDependecies() {
 
   getIt.registerLazySingleton(() => CartCubit(
       fetchCartItemsUseCase: getIt(),
+      addShoppingListUseCase: getIt(),
       incrementQuantityUseCase: getIt(),
       decrementQuantityUseCase: getIt(),
       addCartItemUseCase: getIt(),

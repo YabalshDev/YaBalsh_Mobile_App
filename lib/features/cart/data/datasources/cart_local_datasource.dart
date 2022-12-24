@@ -27,7 +27,6 @@ class CartLocalDataSourceImpl implements CartLocalDataSource {
       }
       final box = Hive.box<CartItem>(AppStrings.cartKey);
       box.clear();
-      box.close();
     } catch (err) {
       throw CacheException();
     }

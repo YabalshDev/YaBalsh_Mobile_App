@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
@@ -7,12 +8,15 @@ import 'package:yabalash_mobile_app/core/depedencies.dart';
 import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/core/theme/light/app_colors_light.dart';
 import 'package:yabalash_mobile_app/core/theme/light/light_theme.dart';
+import 'package:yabalash_mobile_app/features/cart/presentation/widgets/shopping_list_bottom_modal.dart';
 import 'package:yabalash_mobile_app/features/orders/data/models/order_product_model.dart';
 
 import '../../../../core/widgets/custom_bottom_nav_bar.dart';
 import '../../../orders/domain/entities/order_request.dart';
 import '../blocs/cubit/cart_cubit.dart';
 import '../blocs/cubit/order_summary_cubit.dart';
+
+final formKey = GlobalKey<FormBuilderState>();
 
 class CartCustomNavBar extends StatelessWidget {
   final PageController pageController;
@@ -26,13 +30,14 @@ class CartCustomNavBar extends StatelessWidget {
           return SizedBox(
             height: 150.h,
             child: Column(
-              children: const [
+              children: [
                 CustomNavBar(
+                  mainButtonTap: () {},
                   isButtonSecondary: false,
                   title: 'حفظ كقائمة تسوق',
                   isDisabled: true,
                 ),
-                CustomNavBar(
+                const CustomNavBar(
                   isButtonSecondary: false,
                   title: 'اختار السوبر ماركت',
                   isDisabled: true,
@@ -55,23 +60,40 @@ class CartCustomNavBar extends StatelessWidget {
                   ),
                   Padding(
                     padding: kDefaultPadding,
-                    child: Container(
-                      width: Get.width,
-                      padding: kDefaultPadding,
-                      decoration: kDefaultBoxDecoration.copyWith(
-                          border: Border.all(
-                              color: AppColorsLight.kAppPrimaryColorLight,
-                              width: 2)),
-                      child: Center(
-                        child: Text(
-                          'حفظ كقائمة تسوق',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(
-                                  color: AppColorsLight.kAppPrimaryColorLight,
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.w700),
+                    child: InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                            context: context,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: kSecondaryBorderRaduis),
+                            builder: (context) => CustomBottomModal(
+                                  formKey: formKey,
+                                  onTap: () {
+                                    final shoppingListName = formKey
+                                        .currentState!.fields['name']!.value;
+                                    getIt<CartCubit>().addShoppingList(
+                                        shoppingListName: shoppingListName);
+                                  },
+                                ));
+                      },
+                      child: Container(
+                        width: Get.width,
+                        padding: kDefaultPadding,
+                        decoration: kDefaultBoxDecoration.copyWith(
+                            border: Border.all(
+                                color: AppColorsLight.kAppPrimaryColorLight,
+                                width: 2)),
+                        child: Center(
+                          child: Text(
+                            'حفظ كقائمة تسوق',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                    color: AppColorsLight.kAppPrimaryColorLight,
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w700),
+                          ),
                         ),
                       ),
                     ),
