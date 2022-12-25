@@ -9,6 +9,8 @@ import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/main_
 import 'package:yabalash_mobile_app/features/home/presentation/views/home_view.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/nav_icon.dart';
 import 'package:yabalash_mobile_app/features/settings/presentation/views/settings_view.dart';
+import 'package:yabalash_mobile_app/features/shopping_lists/presentation/blocs/cubit/shopping_list_cubit.dart';
+import 'package:yabalash_mobile_app/features/shopping_lists/presentation/views/shopping_lists_view.dart';
 
 import '../../../../core/depedencies.dart';
 import '../../../cart/presentation/blocs/cubit/cart_cubit.dart';
@@ -122,6 +124,11 @@ final List<Widget> screens = [
       BlocProvider.value(value: getIt<CartCubit>()),
     ], child: const CartView()),
   ),
-  const CustomAnimatedWidget(child: CategoriesScreen()),
+  CustomAnimatedWidget(
+      child: CustomAnimatedWidget(
+          child: BlocProvider<ShoppingListCubit>(
+    create: (context) => getIt<ShoppingListCubit>()..getAllShoppingList(),
+    child: const ShoppingListsView(),
+  ))),
   const CustomAnimatedWidget(child: SettingsView()),
 ];
