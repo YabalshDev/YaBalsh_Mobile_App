@@ -79,15 +79,15 @@ class ShoppingListDetailsCubit extends Cubit<ShoppingListDetailsState> {
     double saving = 0;
     for (var storeEntry in storesMap.entries) {
       double subTotal = 0;
-      storesSubTotal += subTotal;
+
       for (var item in storeEntry.value) {
         subTotal +=
             (item.quantity! * item.product!.prices!.entries.first.value.price!);
         saving += item.quantity! *
             (item.product!.prices!.entries.last.value.price! -
                 item.product!.prices!.entries.first.value.price!);
-        storesSubTotal += subTotal;
       }
+      storesSubTotal += subTotal;
       stores.add(ShoppingListStoreModel(
           items: storeEntry.value,
           storeImagePath: storeEntry.key,
