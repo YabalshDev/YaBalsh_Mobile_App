@@ -31,22 +31,23 @@ class ShoppingListCard extends StatelessWidget {
                 Container(
                     width: 65.h,
                     height: 65.h,
-                    padding: EdgeInsets.symmetric(vertical: 5.h),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 5.h, horizontal: 3.w),
                     decoration: kDefaultBoxDecoration.copyWith(
                         border: Border.all(color: Colors.transparent),
                         color: AppColorsLight.kDisabledButtonColor),
                     child: Wrap(
                       direction: Axis.horizontal,
                       alignment: WrapAlignment.start,
-                      spacing: 5,
-                      runSpacing: 5,
+                      spacing: 5.w,
+                      runSpacing: 5.h,
                       children: shoppingList.products!.length > 4
                           ? shoppingList.products!
                               .sublist(0, 4)
                               .map((cartItem) => CustomCard(
                                     withBorder: false,
                                     isAssetImage: true,
-                                    borderRadius: 8,
+                                    borderRadius: 6,
                                     backgroundColor: Colors.white,
                                     width: 25.w,
                                     height: 25.h,
@@ -57,10 +58,10 @@ class ShoppingListCard extends StatelessWidget {
                               .map((cartItem) => CustomCard(
                                     withBorder: false,
                                     isAssetImage: true,
-                                    borderRadius: 8,
+                                    borderRadius: 6,
                                     backgroundColor: Colors.white,
-                                    width: 25.w,
-                                    height: 25.h,
+                                    width: 23.w,
+                                    height: 23.h,
                                     imagePath: cartItem.product!.imagePath,
                                   ))
                               .toList(),
@@ -76,7 +77,7 @@ class ShoppingListCard extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                           color: AppColorsLight.kAppPrimaryColorLight),
                     ),
-                    mediumVerticalSpace,
+                    smallVerticalSpace,
                     Text(
                       '${shoppingList.products!.length} منتجات',
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(

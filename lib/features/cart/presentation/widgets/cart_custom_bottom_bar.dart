@@ -8,9 +8,11 @@ import 'package:yabalash_mobile_app/core/depedencies.dart';
 import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/core/theme/light/app_colors_light.dart';
 import 'package:yabalash_mobile_app/core/theme/light/light_theme.dart';
+import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/widgets/shopping_list_bottom_modal.dart';
 import 'package:yabalash_mobile_app/features/orders/data/models/order_product_model.dart';
 
+import '../../../../core/services/user_service.dart';
 import '../../../../core/widgets/custom_bottom_nav_bar.dart';
 import '../../../orders/domain/entities/order_request.dart';
 import '../blocs/cubit/cart_cubit.dart';
@@ -118,10 +120,21 @@ class CartCustomNavBar extends StatelessWidget {
                 mainButtonTap: () {
                   // second step handle
                   if (state.supermarket?.store != null) {
-                    pageController.animateToPage(2,
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.easeInOut);
-                    getIt<CartCubit>().changeCurrentCartStep(2);
+                    if (getIt<UserService>().token.isEmpty) {
+                      yaBalashCustomDialog(
+                        isWithEmoji: false,
+                        buttonTitle: 'تسجيل/مستخدم جديد',
+                        mainContent:
+                            'انت لست مسجلا سجل دخول لتتمكن من اتمام طلبك.',
+                        title: 'ملاحظة',
+                        onConfirm: () => Get.back(),
+                      );
+                    } else {
+                      pageController.animateToPage(2,
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeInOut);
+                      getIt<CartCubit>().changeCurrentCartStep(2);
+                    }
                   }
                   // third step handle
                 },
