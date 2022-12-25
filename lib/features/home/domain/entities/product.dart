@@ -18,7 +18,18 @@ class Product extends Equatable {
   final Map<String, PriceModel>? prices;
 
   const Product({this.id, this.name, this.imagePath, this.size, this.prices});
-
+  Product copyWith(
+          {int? id,
+          String? name,
+          String? imagePath,
+          Map<String, PriceModel>? prices,
+          String? size}) =>
+      Product(
+          id: id ?? this.id,
+          imagePath: imagePath ?? this.imagePath,
+          name: name ?? this.name,
+          prices: prices ?? this.prices,
+          size: size ?? this.size);
   @override
   List<Object?> get props => [id, name, imagePath, size, prices];
 }

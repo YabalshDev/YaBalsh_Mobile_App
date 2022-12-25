@@ -4,6 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
+import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_svg_icon.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/widgets/shopping_list_bottom_modal.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/blocs/cubit/cubit/shopping_list_details_cubit.dart';
@@ -34,7 +35,7 @@ class ShoppingListHeader extends StatelessWidget {
           child: Icon(
             Icons.arrow_back_ios,
             color: AppColorsLight.kAppPrimaryColorLight,
-            size: 15.h,
+            size: 20.h,
           ),
         ),
         const Spacer(),
@@ -51,10 +52,13 @@ class ShoppingListHeader extends StatelessWidget {
             ),
             child: Row(
               children: [
-                const CustomSvgIcon(
+                CustomSvgIcon(
                   iconPath: AppAssets.pencilIcon,
+                  height: 15.h,
+                  width: 15.w,
                   color: AppColorsLight.kAppPrimaryColorLight,
                 ),
+                smallHorizontalSpace,
                 Text(
                   state.shoppingListName ?? '',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(

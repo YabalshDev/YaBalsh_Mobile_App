@@ -10,7 +10,9 @@ import '../../../../core/widgets/empty_indicator.dart';
 import '../blocs/cubit/shopping_list_cubit.dart';
 
 class ShoppingListBody extends StatelessWidget {
-  const ShoppingListBody({super.key});
+  const ShoppingListBody({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -209,7 +209,9 @@ class RouteHelper {
           return CustomAnimatedWidget(
               child: BlocProvider<ShoppingListDetailsCubit>(
                   create: (context) => getIt<ShoppingListDetailsCubit>()
-                    ..setShoppingListName(shoppingList.name!),
+                    ..setShoppingListName(shoppingList.name!)
+                    ..getShoppingListStores(
+                        shoppingListItems: shoppingList.products!),
                   child: ShoppingListDetailsView(
                     shoppingList: shoppingList,
                   )));
