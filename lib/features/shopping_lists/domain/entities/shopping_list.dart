@@ -12,6 +12,10 @@ class ShoppingList extends Equatable {
   final List<CartItem>? products;
 
   const ShoppingList({this.name, this.products});
+
+  ShoppingList copyWith({String? name, List<CartItem>? products}) =>
+      ShoppingList(
+          name: name ?? this.name, products: products ?? this.products);
   @override
   List<Object?> get props => [name, products];
 }

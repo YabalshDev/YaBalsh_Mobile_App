@@ -32,10 +32,10 @@ class ShoppingListRepositoryImpl implements ShoppingListRepository {
 
   @override
   Either<Failure, void> renameShoppingList(
-      {required ShoppingList renamedShoppingList}) {
+      {required ShoppingList renamedShoppingList, String? key}) {
     try {
-      final response = shoppingListLocalDataSource.addShoppingList(
-          shoppingList: renamedShoppingList);
+      final response = shoppingListLocalDataSource.renameShoppingList(
+          renamedShoppingList: renamedShoppingList, key: key);
       return Right(response);
     } on CacheException {
       return const Left(CacheFailure(message: 'خطأ في تسمية القائمة'));

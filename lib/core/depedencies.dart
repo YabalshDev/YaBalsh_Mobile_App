@@ -65,6 +65,7 @@ import 'package:yabalash_mobile_app/features/shopping_lists/domain/repositories/
 import 'package:yabalash_mobile_app/features/shopping_lists/domain/usecases/add_shopping_list_usecase.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/domain/usecases/get_all_shopping_lists_usecase.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/domain/usecases/rename_shopping_list_usecase.dart';
+import 'package:yabalash_mobile_app/features/shopping_lists/presentation/blocs/cubit/cubit/shopping_list_details_cubit.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/blocs/cubit/shopping_list_cubit.dart';
 import 'package:yabalash_mobile_app/features/zones/data/datasources/zone_remote_data_source.dart';
 import 'package:yabalash_mobile_app/features/zones/data/repositories/zones_repository_impl.dart';
@@ -262,4 +263,7 @@ setupDependecies() {
   getIt.registerFactory(() => PastOrdersCubit(getPastOrdersUseCase: getIt()));
   getIt.registerFactory(() => ShoppingListCubit(
       getAllShoppingListsUseCase: getIt(), renameShoppingListUseCase: getIt()));
+
+  getIt.registerFactory(
+      () => ShoppingListDetailsCubit(renameShoppingListUseCase: getIt()));
 }

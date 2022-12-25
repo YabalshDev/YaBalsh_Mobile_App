@@ -22,6 +22,8 @@ import 'package:yabalash_mobile_app/features/orders/presentation/blocs/cubit/pas
 import 'package:yabalash_mobile_app/features/orders/presentation/views/order_success_view.dart';
 import 'package:yabalash_mobile_app/features/orders/presentation/views/past_orders_view.dart';
 import 'package:yabalash_mobile_app/features/product_details/presentation/views/product_details_view.dart';
+import 'package:yabalash_mobile_app/features/shopping_lists/presentation/blocs/cubit/cubit/shopping_list_details_cubit.dart';
+import 'package:yabalash_mobile_app/features/shopping_lists/presentation/views/shopping_list_details_view.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/main_zones_cubit.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/sub_zone_cubit.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/views/main_zones_view.dart';
@@ -30,6 +32,7 @@ import 'package:yabalash_mobile_app/features/zones/presentation/views/sub_zones_
 import '../../features/home/domain/entities/product.dart';
 import '../../features/home/presentation/views/home_view.dart';
 import '../../features/orders/presentation/blocs/cubit/order_success_cubit.dart';
+import '../../features/shopping_lists/domain/entities/shopping_list.dart';
 import '../depedencies.dart';
 
 class RouteHelper {
@@ -49,6 +52,7 @@ class RouteHelper {
   static const String _updateAddressRoute = '/update-address';
   static const String _orderSuccessRoute = '/order-success';
   static const String _pastOrdersRoute = '/past-orders';
+  static const String _shoppingListDetailsRoute = '/shopping-list-details';
 
   static getIntialRoute() => _intialRoute;
   static getOnBoardingRoute() => _onBordingRoute;
@@ -64,6 +68,7 @@ class RouteHelper {
   static getUpdateAddress() => _updateAddressRoute;
   static getOrderSuccessRoute() => _orderSuccessRoute;
   static getPastOrdersRoute() => _pastOrdersRoute;
+  static getShoppingListDetailsRoute() => _shoppingListDetailsRoute;
 
   static final routes = [
     GetPage(
@@ -196,6 +201,18 @@ class RouteHelper {
                   create: (context) =>
                       getIt<PastOrdersCubit>()..getPastOrders(),
                   child: const PastOrdersView()));
+        }),
+    GetPage(
+        name: _shoppingListDetailsRoute,
+        page: () {
+          final ShoppingList shoppingList = Get.arguments[0];
+          return CustomAnimatedWidget(
+              child: BlocProvider<ShoppingListDetailsCubit>(
+                  create: (context) => getIt<ShoppingListDetailsCubit>()
+                    ..setShoppingListName(shoppingList.name!),
+                  child: ShoppingListDetailsView(
+                    shoppingList: shoppingList,
+                  )));
         }),
   ];
 }

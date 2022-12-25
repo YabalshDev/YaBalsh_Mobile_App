@@ -6,6 +6,6 @@ import '../../../../core/errors/faliures.dart';
 abstract class ShoppingListRepository {
   Future<Either<Failure, List<ShoppingList>>> getAllShoppingList();
   Either<Failure, void> renameShoppingList(
-      {required ShoppingList renamedShoppingList});
+      {required ShoppingList renamedShoppingList, String? key});
   Either<Failure, void> addShoppingList({required ShoppingList shoppingList});
 }
