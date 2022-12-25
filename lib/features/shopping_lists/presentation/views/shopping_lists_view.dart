@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/theme/light/app_colors_light.dart';
+import 'package:yabalash_mobile_app/core/theme/light/light_theme.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_card.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_header.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/blocs/cubit/shopping_list_cubit.dart';
@@ -59,14 +59,39 @@ class ShoppingListsView extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          CustomCard(
-                                            height: 65.h,
-                                            withBorder: false,
-                                            isAssetImage: true,
-                                            backgroundColor: AppColorsLight
-                                                .kDisabledButtonColor,
-                                            imagePath: AppAssets.mix,
-                                          ),
+                                          Container(
+                                              width: 65.h,
+                                              height: 65.h,
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 3.w,
+                                                  vertical: 5.h),
+                                              decoration: kDefaultBoxDecoration
+                                                  .copyWith(
+                                                      border: Border.all(
+                                                          color: Colors
+                                                              .transparent),
+                                                      color: AppColorsLight
+                                                          .kDisabledButtonColor),
+                                              child: Wrap(
+                                                direction: Axis.horizontal,
+                                                alignment: WrapAlignment.start,
+                                                spacing: 3,
+                                                children: shoppingList.products!
+                                                    .map((cartItem) =>
+                                                        CustomCard(
+                                                          withBorder: false,
+                                                          isAssetImage: true,
+                                                          borderRadius: 8,
+                                                          backgroundColor:
+                                                              Colors.white,
+                                                          width: 30.w,
+                                                          height: 25.h,
+                                                          imagePath: cartItem
+                                                              .product!
+                                                              .imagePath,
+                                                        ))
+                                                    .toList(),
+                                              )),
                                           mediumHorizontalSpace,
                                           Column(
                                             crossAxisAlignment:
@@ -105,7 +130,7 @@ class ShoppingListsView extends StatelessWidget {
                                       const Spacer(),
                                       Icon(
                                         Icons.arrow_forward_ios,
-                                        size: 11.h,
+                                        size: 15.h,
                                         color: AppColorsLight
                                             .kAppPrimaryColorLight
                                             .withOpacity(0.8),

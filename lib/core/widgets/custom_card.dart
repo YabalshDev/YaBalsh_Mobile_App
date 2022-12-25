@@ -11,10 +11,12 @@ class CustomCard extends StatelessWidget {
   final double? width;
   final double? height;
   final bool? isAssetImage;
+  final double? borderRadius;
   const CustomCard(
       {super.key,
       this.withBorder = true,
       this.isAssetImage = true,
+      this.borderRadius,
       this.width,
       this.height,
       this.backgroundColor = Colors.transparent,
@@ -28,6 +30,9 @@ class CustomCard extends StatelessWidget {
       height: height ?? 60.h,
       decoration: kDefaultBoxDecoration.copyWith(
           color: backgroundColor,
+          borderRadius: borderRadius != null
+              ? BorderRadius.circular(borderRadius!)
+              : null,
           border: !withBorder! ? Border.all(color: Colors.transparent) : null),
       child: ClipRRect(
           borderRadius: kDefaultBorderRaduis,
