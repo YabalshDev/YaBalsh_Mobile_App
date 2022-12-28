@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:yabalash_mobile_app/core/errors/faliures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:yabalash_mobile_app/core/usecases/use_cases.dart';

@@ -20,6 +20,5 @@ class GetSectiosParams extends Equatable {
 
   const GetSectiosParams({required this.keword});
   @override
-  // TODO: implement props
   List<Object?> get props => [keword];
 }

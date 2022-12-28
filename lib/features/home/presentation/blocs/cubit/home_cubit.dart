@@ -83,11 +83,4 @@ class HomeCubit extends Cubit<HomeState> {
           firstSection: sections[0]));
     });
   }
-
-  @override
-  Future<void> close() {
-    // TODO: implement close
-
-    return super.close();
-  }
 }

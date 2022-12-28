@@ -11,6 +11,5 @@ class Location extends Equatable {
       {this.zone, this.address, this.lat, this.lon, this.deliveryTime});
 
   @override
-  // TODO: implement props
   List<Object?> get props => [zone, address, lat, lon, deliveryTime];
 }

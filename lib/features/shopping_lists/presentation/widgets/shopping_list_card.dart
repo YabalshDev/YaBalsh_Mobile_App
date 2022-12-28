@@ -21,7 +21,7 @@ class ShoppingListCard extends StatelessWidget {
             arguments: [shoppingList]);
       },
       child: Container(
-        margin: EdgeInsets.only(top: 8.h),
+        margin: EdgeInsets.only(top: 15.h),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -29,8 +29,8 @@ class ShoppingListCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                    width: 65.h,
-                    height: 65.h,
+                    width: 75.h,
+                    height: 75.h,
                     padding:
                         EdgeInsets.symmetric(vertical: 5.h, horizontal: 3.w),
                     decoration: kDefaultBoxDecoration.copyWith(
@@ -60,8 +60,8 @@ class ShoppingListCard extends StatelessWidget {
                                     isAssetImage: true,
                                     borderRadius: 6,
                                     backgroundColor: Colors.white,
-                                    width: 23.w,
-                                    height: 23.h,
+                                    width: 26.w,
+                                    height: 26.h,
                                     imagePath: cartItem.product!.imagePath,
                                   ))
                               .toList(),
