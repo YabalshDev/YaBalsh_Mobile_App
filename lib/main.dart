@@ -28,6 +28,7 @@ void main() async {
   await Hive.openBox<SubZone>(AppStrings.zones);
   await Hive.openBox<CartItem>(AppStrings.cartKey);
   await Hive.openBox<ShoppingList>(AppStrings.shoppingListKey);
+  await Hive.openBox<String>(AppStrings.searchHistoryKey);
   // intialize hive boxes
   Bloc.observer = AppBlocObserver();
   runApp(DevicePreview(builder: (context) => const YaBalashApp()));

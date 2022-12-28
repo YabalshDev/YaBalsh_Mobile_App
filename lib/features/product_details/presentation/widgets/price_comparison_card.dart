@@ -56,7 +56,7 @@ class PriceComparisonCard extends StatelessWidget {
                           width: 20.w,
                           height: 11.h,
                           child: Image.asset(
-                            priceModel.value.isAvailable!
+                            priceModel.value.isAvailable == 1
                                 ? AppAssets.inStockIcon
                                 : AppAssets.outOfStockIcon,
                             fit: BoxFit.cover,

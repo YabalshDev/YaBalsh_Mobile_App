@@ -12,12 +12,12 @@ const List<Section> sectionsMock = [
         size: '200 ملي',
         prices: {
           'كارفور': PriceModel(
-              isAvailable: true,
+              isAvailable: 1,
               price: 119.95,
               storeId: 1,
               storeImagePath: AppAssets.carefour),
           'جورميه': PriceModel(
-              isAvailable: false,
+              isAvailable: 0,
               price: 133,
               storeId: 2,
               storeImagePath: AppAssets.gourmet),
@@ -29,12 +29,12 @@ const List<Section> sectionsMock = [
         size: '400 جم',
         prices: {
           'كارفور': PriceModel(
-              isAvailable: true,
+              isAvailable: 1,
               price: 45.45,
               storeId: 1,
               storeImagePath: AppAssets.carefour),
           'جورميه': PriceModel(
-              isAvailable: true,
+              isAvailable: 0,
               price: 55.45,
               storeId: 2,
               storeImagePath: AppAssets.gourmet),

@@ -9,6 +9,6 @@ abstract class SearchRepository {
       {required String searchName});
   Future<Either<Failure, List<Product>>> productSearch(
       {required String searchName});
-  List<String> getSearchHistory();
-  void saveSearch({required String searchName});
+  Future<List<String>> getSearchHistory();
+  Either<Failure, void> saveSearch({required String searchName});
 }

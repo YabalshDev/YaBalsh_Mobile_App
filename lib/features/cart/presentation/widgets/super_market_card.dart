@@ -14,7 +14,7 @@ class SuperMarketCard extends StatelessWidget {
   final SuperMarketCardModel superMarket;
   final int index;
   final int selectedSupermarketIndex;
-  final bool isAvailable;
+  final int isAvailable;
   const SuperMarketCard({
     super.key,
     required this.superMarket,
@@ -30,7 +30,7 @@ class SuperMarketCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          isAvailable
+          isAvailable == 1
               ? InkWell(
                   onTap: () => BlocProvider.of<SuperMarketsCubit>(context)
                       .setSuperMarketIndex(index: index),
@@ -80,7 +80,7 @@ class SuperMarketCard extends StatelessWidget {
                           width: 20.w,
                           height: 11.h,
                           child: Image.asset(
-                            isAvailable
+                            isAvailable == 1
                                 ? AppAssets.inStockIcon
                                 : AppAssets.outOfStockIcon,
                             fit: BoxFit.cover,

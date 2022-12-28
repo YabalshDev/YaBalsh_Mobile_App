@@ -44,7 +44,7 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
       int quantity = cartProduct.quantity!;
       for (var priceModel in cartProduct.product!.prices!.entries) {
         double price = priceModel.value.price!;
-        bool isAvailable = priceModel.value.isAvailable!;
+        int isAvailable = priceModel.value.isAvailable!;
         if (supermarketsIds[priceModel.value.storeId!] != null) {
           supermarketsIds[priceModel.value.storeId!] =
               supermarketsIds[priceModel.value.storeId!]! + 1;
@@ -55,7 +55,7 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
         if (storesTotalPrices.containsKey(priceModel.key)) {
           StorePrice storePrice = storesTotalPrices[priceModel.key]!;
           double totalPrice = (storePrice.price! + (quantity * price));
-          if (!storePrice.isAvailable!) {
+          if (storePrice.isAvailable == 0) {
             storesTotalPrices.update(
                 priceModel.key,
                 (value) => storePrice.copyWith(
@@ -119,9 +119,10 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
 
     emit(state.copyWith(
         availableSupermarkets:
-            supermarkets.where((element) => element.isAvailable!).toList(),
+            supermarkets.where((element) => element.isAvailable == 1).toList(),
         storeRequestState: RequestState.loaded,
-        unAvailableSupermarkets:
-            supermarkets.where((element) => !element.isAvailable!).toList()));
+        unAvailableSupermarkets: supermarkets
+            .where((element) => element.isAvailable == 0)
+            .toList()));
   }
 }

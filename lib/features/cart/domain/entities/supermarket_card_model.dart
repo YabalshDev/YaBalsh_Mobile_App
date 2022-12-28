@@ -6,7 +6,7 @@ class SuperMarketCardModel extends Equatable {
   final Store? store;
   final double? price;
   final double? saving;
-  final bool? isAvailable;
+  final int? isAvailable;
 
   const SuperMarketCardModel(
       {this.isAvailable, this.store, this.price, this.saving});
