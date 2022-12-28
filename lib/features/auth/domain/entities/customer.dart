@@ -11,6 +11,5 @@ class Customer extends Equatable {
       {this.id, this.firstName, this.lastName, this.phoneNumber, this.email});
 
   @override
-  // TODO: implement props
   List<Object?> get props => [id!, firstName!, lastName!, phoneNumber!, email!];
 }

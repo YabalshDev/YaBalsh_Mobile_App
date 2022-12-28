@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
+import 'package:yabalash_mobile_app/core/depedencies.dart';
 import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/core/services/user_service.dart';
 import 'package:yabalash_mobile_app/core/services/zone_service.dart';
@@ -31,8 +32,9 @@ class SplashCubit extends Cubit<SplashState> {
   }
 
   void checkIfZoneExist() {
-    final result = zoneService.getCurrentSubZone();
-    if (result != null) {
+    zoneService.getCurrentSubZone();
+    final currentSubZone = getIt<ZoneService>().currentSubZone;
+    if (currentSubZone != null) {
       _isZoneExits = true;
     }
   }
@@ -58,18 +60,14 @@ class SplashCubit extends Cubit<SplashState> {
 
         if (_isFirstTimeVisit) {
           setIsFirstTimeVisit(false);
-          Get.offAndToNamed(RouteHelper.getOnBoardingRoute());
+          Get.offNamed(RouteHelper.getOnBoardingRoute());
         } else {
-          if (!_isUserLoggedIn) {
-            Get.offAndToNamed(
-              RouteHelper.getPhoneNumberRoute(),
-            );
-          } else if (!_isZoneExits) {
-            Get.offAndToNamed(
+          if (!_isZoneExits) {
+            Get.offNamed(
               RouteHelper.getMainZonesRoute(),
             );
           } else {
-            Get.offAndToNamed(
+            Get.offNamed(
               RouteHelper.getMainNavigationRoute(),
             );
           }

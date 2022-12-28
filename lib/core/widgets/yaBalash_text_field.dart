@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,10 +19,12 @@ class YaBalashTextField extends StatelessWidget {
   final bool? isWithBorder;
   final Function(String?)? onChanged;
   final FormFieldValidator<String>? validator;
+  final String? hintText;
 
   const YaBalashTextField(
       {super.key,
       this.isWithBorder = true,
+      this.hintText,
       this.validator,
       this.onChanged,
       this.fillColor = Colors.transparent,
@@ -48,6 +52,10 @@ class YaBalashTextField extends StatelessWidget {
           ?.copyWith(fontWeight: FontWeight.w600),
       cursorColor: AppColorsLight.kAppPrimaryColorLight,
       decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+            fontSize: 12.sp, color: AppColorsLight.kTextFieldBorderColor),
+        hintTextDirection: TextDirection.rtl,
         errorStyle: kErrorTextStyle,
         filled: fillColor != null ? true : false,
         floatingLabelBehavior: FloatingLabelBehavior.never,

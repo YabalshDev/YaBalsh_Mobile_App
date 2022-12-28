@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 import '../constants/app_assets.dart';
 import '../theme/light/app_colors_light.dart';
@@ -9,8 +10,10 @@ class CustomHeader extends StatelessWidget {
   final bool isWithNotification;
   final String title;
   final String? iconPath;
+  final VoidCallback? onIconTap;
   const CustomHeader(
       {super.key,
+      this.onIconTap,
       required this.isWithNotification,
       required this.title,
       this.iconPath});
@@ -21,11 +24,14 @@ class CustomHeader extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         isWithNotification
-            ? CustomSvgIcon(
-                iconPath: iconPath ?? AppAssets.notificationIcon,
-                color: AppColorsLight.kAppPrimaryColorLight,
-                height: 20.h,
-                width: 23.w,
+            ? InkWell(
+                onTap: onIconTap ?? () => Get.back(),
+                child: CustomSvgIcon(
+                  iconPath: iconPath ?? AppAssets.notificationIcon,
+                  color: AppColorsLight.kAppPrimaryColorLight,
+                  height: 20.h,
+                  width: 23.w,
+                ),
               )
             : const SizedBox(),
         const Spacer(),

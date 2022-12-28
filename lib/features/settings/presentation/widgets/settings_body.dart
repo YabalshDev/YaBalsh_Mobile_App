@@ -36,7 +36,9 @@ class SettingsBody extends StatelessWidget {
                   ),
                   largeVerticalSpace,
                   SettingsElementCard(
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed(RouteHelper.getPastOrdersRoute());
+                      },
                       iconPath: AppAssets.ordersIcon,
                       title: 'طلباتي'),
                   Divider(

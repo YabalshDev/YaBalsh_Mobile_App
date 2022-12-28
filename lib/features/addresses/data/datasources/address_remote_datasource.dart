@@ -26,7 +26,7 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDatasource {
   });
 
   final Map<String, dynamic> addressHeaders = {
-    'zone': getIt<ZoneService>().getCurrentSubZone()!.id,
+    'zone': getIt<ZoneService>().currentSubZone!.id,
     'authorization': 'Bearer ${getIt<UserService>().token}'
   };
 

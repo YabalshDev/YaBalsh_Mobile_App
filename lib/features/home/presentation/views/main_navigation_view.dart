@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
+import 'package:yabalash_mobile_app/features/cart/presentation/views/cart_view.dart';
 import 'package:yabalash_mobile_app/features/categories/presentation/views/category_view.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/main_navigation_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/views/home_view.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/nav_icon.dart';
 import 'package:yabalash_mobile_app/features/settings/presentation/views/settings_view.dart';
+import 'package:yabalash_mobile_app/features/shopping_lists/presentation/blocs/cubit/shopping_list_cubit.dart';
+import 'package:yabalash_mobile_app/features/shopping_lists/presentation/views/shopping_lists_view.dart';
 
 import '../../../../core/depedencies.dart';
+import '../../../cart/presentation/blocs/cubit/cart_cubit.dart';
 
 class MainNavigation extends StatelessWidget {
   MainNavigation({super.key});
@@ -115,7 +119,16 @@ final List<Widget> screens = [
     child: const CustomAnimatedWidget(child: HomeView()),
   ),
   const CustomAnimatedWidget(child: CategoriesScreen()),
-  const CustomAnimatedWidget(child: CategoriesScreen()),
-  const CustomAnimatedWidget(child: CategoriesScreen()),
+  CustomAnimatedWidget(
+    child: MultiBlocProvider(providers: [
+      BlocProvider.value(value: getIt<CartCubit>()),
+    ], child: const CartView()),
+  ),
+  CustomAnimatedWidget(
+      child: CustomAnimatedWidget(
+          child: BlocProvider<ShoppingListCubit>(
+    create: (context) => getIt<ShoppingListCubit>()..getAllShoppingList(),
+    child: const ShoppingListsView(),
+  ))),
   const CustomAnimatedWidget(child: SettingsView()),
 ];

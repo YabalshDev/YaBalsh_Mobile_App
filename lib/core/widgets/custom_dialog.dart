@@ -114,8 +114,8 @@ void yaBalashCustomDialog(
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            mediumVerticalSpace,
-            isWithEmoji!
+            isWithEmoji! ? mediumVerticalSpace : const SizedBox(),
+            isWithEmoji
                 ? Text(
                     '😔',
                     style: TextStyle(fontSize: 60.sp),
@@ -127,7 +127,6 @@ void yaBalashCustomDialog(
               style: Get.theme.textTheme.bodyMedium!
                   .copyWith(fontSize: 16.sp, fontWeight: FontWeight.w500),
             ),
-            mediumVerticalSpace,
             subContent != null
                 ? Text(
                     subContent,

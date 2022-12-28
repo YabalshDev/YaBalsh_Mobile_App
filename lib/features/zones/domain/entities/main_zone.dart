@@ -7,6 +7,5 @@ class MainZone extends Equatable {
   const MainZone({this.id, this.name});
 
   @override
-  // TODO: implement props
   List<Object?> get props => [id, name];
 }

@@ -25,7 +25,7 @@ class HiveLocalDataConsumer implements LocalStorageProvider {
         Hive.openBox(key);
       }
       final box = Hive.box(key);
-      final data = box.get(key)!;
+      final data = box.get(key);
 
       return data;
     } catch (err) {

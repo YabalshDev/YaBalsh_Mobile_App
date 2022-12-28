@@ -15,13 +15,19 @@ final _formKey = GlobalKey<FormBuilderState>();
 class UpdateAddress extends StatelessWidget {
   final bool isfromEdit;
   final Address? address;
-  const UpdateAddress({super.key, required this.isfromEdit, this.address});
+  final String fromRoute;
+  const UpdateAddress(
+      {super.key,
+      required this.isfromEdit,
+      this.address,
+      required this.fromRoute});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: UpdateAddressBody(
         isFromEdit: isfromEdit,
+        fromRoute: fromRoute,
         formkey: _formKey,
         address: address,
       ),
@@ -52,10 +58,12 @@ class UpdateAddress extends StatelessWidget {
 
                     if (isfromEdit) {
                       BlocProvider.of<UpdateAddressCubit>(context).editAddress(
-                          id: address!.id!, addressRequest: addressBody);
+                          id: address!.id!,
+                          addressRequest: addressBody,
+                          fromRoute: fromRoute);
                     } else {
-                      BlocProvider.of<UpdateAddressCubit>(context)
-                          .addAddress(addressRequest: addressBody);
+                      BlocProvider.of<UpdateAddressCubit>(context).addAddress(
+                          addressRequest: addressBody, fromRoute: fromRoute);
                     }
                   }
                 }

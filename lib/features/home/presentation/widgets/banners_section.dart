@@ -3,7 +3,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/constants/app_layouts.dart';
@@ -18,7 +17,6 @@ class BannersSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        print(state);
         switch (state.bannersRequestState) {
           case RequestState.loading:
             return SizedBox(
@@ -48,7 +46,7 @@ class BannersSection extends StatelessWidget {
                             padding: EdgeInsets.symmetric(horizontal: 2.w),
                             child: Image.asset(
                               banner.imagePath!,
-                              width: Get.size.width * 0.9,
+                              // width: Get.size.width * 0.9,
                               fit: BoxFit.contain,
                             ),
                           ),
@@ -58,7 +56,7 @@ class BannersSection extends StatelessWidget {
                           onPageChanged: (index, reason) =>
                               BlocProvider.of<HomeCubit>(context)
                                   .onBannerChanged(index),
-                          viewportFraction: 0.94,
+                          viewportFraction: 0.89,
                           autoPlay: false,
                           height: 150.h)),
                 ),
