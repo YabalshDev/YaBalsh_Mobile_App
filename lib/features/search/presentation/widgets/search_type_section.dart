@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/constants/app_layouts.dart';
@@ -8,7 +9,9 @@ import '../blocs/cubit/search_cubit.dart';
 
 class SearchTypeSection extends StatelessWidget {
   final PageController pageController;
-  const SearchTypeSection({super.key, required this.pageController});
+  final GlobalKey<FormBuilderState> searchFormKey;
+  const SearchTypeSection(
+      {super.key, required this.pageController, required this.searchFormKey});
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +23,9 @@ class SearchTypeSection extends StatelessWidget {
               InkWell(
                 onTap: () {
                   BlocProvider.of<SearchCubit>(context).changeSearchType(0);
+                  BlocProvider.of<SearchCubit>(context)
+                      .changeSearchIsEmpty(true);
+                  searchFormKey.currentState?.reset(); // reset search
                   pageController.animateToPage(0,
                       duration: const Duration(milliseconds: 500),
                       curve: Curves.easeInOut);
@@ -49,6 +55,9 @@ class SearchTypeSection extends StatelessWidget {
               InkWell(
                 onTap: () {
                   BlocProvider.of<SearchCubit>(context).changeSearchType(1);
+                  BlocProvider.of<SearchCubit>(context)
+                      .changeSearchIsEmpty(true);
+                  searchFormKey.currentState?.reset(); // reset search
                   pageController.animateToPage(1,
                       duration: const Duration(milliseconds: 500),
                       curve: Curves.easeInOut);

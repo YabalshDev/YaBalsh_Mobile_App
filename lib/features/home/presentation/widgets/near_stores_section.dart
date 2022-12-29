@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:yabalash_mobile_app/core/widgets/custom_card.dart';
+import 'package:yabalash_mobile_app/core/widgets/near_stores_list.dart';
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
@@ -41,37 +41,7 @@ class NearStoresSection extends StatelessWidget {
             ),
           );
         case RequestState.loaded:
-          return SizedBox(
-            height: 100.h,
-            child: ListView.builder(
-              padding: kScaffoldPadding,
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              itemCount: state.nearStores!.length,
-              itemBuilder: (context, index) {
-                final store = state.nearStores![index];
-                return Container(
-                  margin: EdgeInsets.only(left: 10.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      CustomCard(
-                        imagePath: store.cardImagePath,
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Text(
-                        store.name!,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.w700, color: Colors.black),
-                      )
-                    ],
-                  ),
-                );
-              },
-            ),
-          );
+          return NearStoresList(stores: state.nearStores!, isWithPadding: true);
 
         case RequestState.error:
           return SizedBox(

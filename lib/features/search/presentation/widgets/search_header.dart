@@ -9,11 +9,11 @@ import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/theme/light/light_theme.dart';
 
-final _formKey = GlobalKey<FormBuilderState>();
-
 class SearchHeader extends StatelessWidget {
   final String intialValue;
-  const SearchHeader({super.key, required this.intialValue});
+  final GlobalKey<FormBuilderState> searchFormKey;
+  const SearchHeader(
+      {super.key, required this.intialValue, required this.searchFormKey});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class SearchHeader extends StatelessWidget {
         Expanded(
             flex: 8,
             child: FormBuilder(
-              key: _formKey,
+              key: searchFormKey,
               child: SizedBox(
                 height: 32.h,
                 child: Container(
@@ -34,7 +34,7 @@ class SearchHeader extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: () {
-                          final searchValue = _formKey
+                          final searchValue = searchFormKey
                               .currentState?.fields['search']!.value as String;
                           if (searchValue.isNotEmpty) {
                             BlocProvider.of<SearchCubit>(context)
@@ -54,6 +54,15 @@ class SearchHeader extends StatelessWidget {
                           name: 'search',
                           initialValue: intialValue,
                           cursorHeight: 25.h,
+                          onChanged: (value) {
+                            if (value!.isEmpty) {
+                              BlocProvider.of<SearchCubit>(context)
+                                  .changeSearchIsEmpty(true);
+                            } else {
+                              BlocProvider.of<SearchCubit>(context)
+                                  .changeSearchIsEmpty(false);
+                            }
+                          },
                           cursorRadius: const Radius.circular(8),
                           style: Theme.of(context)
                               .textTheme

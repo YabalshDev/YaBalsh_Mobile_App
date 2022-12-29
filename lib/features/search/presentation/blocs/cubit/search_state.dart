@@ -2,6 +2,7 @@ part of 'search_cubit.dart';
 
 class SearchState extends Equatable {
   final int? searchTypeIndex;
+  final bool? isSearchEmpty;
   final List<String>? searchHistory;
   final List<Product>? searchProductsResult;
   final List<StoreSearch>? searchStoresResult;
@@ -12,6 +13,7 @@ class SearchState extends Equatable {
 
   const SearchState({
     this.searchTypeIndex = 0,
+    this.isSearchEmpty = true,
     this.searchHistory = const [],
     this.searchProductsResult = const [],
     this.searchStoresResult = const [],
@@ -29,9 +31,11 @@ class SearchState extends Equatable {
           RequestState? searchHistoryRequestState,
           RequestState? searchProductsRequestState,
           RequestState? searchStoresRequestState,
+          bool? isSearchEmpty,
           String? errorMessage}) =>
       SearchState(
           errorMessage: errorMessage ?? this.errorMessage,
+          isSearchEmpty: isSearchEmpty ?? this.isSearchEmpty,
           searchHistory: searchHistory ?? this.searchHistory,
           searchHistoryRequestState:
               searchHistoryRequestState ?? this.searchHistoryRequestState,
@@ -54,6 +58,7 @@ class SearchState extends Equatable {
         searchProductsRequestState!,
         searchStoresRequestState!,
         errorMessage!,
-        searchTypeIndex!
+        searchTypeIndex!,
+        isSearchEmpty!
       ];
 }

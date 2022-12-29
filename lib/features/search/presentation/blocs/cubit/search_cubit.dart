@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
@@ -23,14 +24,17 @@ class SearchCubit extends Cubit<SearchState> {
       required this.searchProductUsecase})
       : super(const SearchState());
 
+  void changeSearchIsEmpty(bool value) =>
+      emit(state.copyWith(isSearchEmpty: value));
+
   void changeSearchType(int index) =>
       emit(state.copyWith(searchTypeIndex: index));
 
   void saveSearch(String searchName) {
     final response = searchRepository.saveSearch(searchName: searchName.trim());
     response.fold((failure) {
-      print(failure.message);
-    }, (r) => print('saved search name'));
+      debugPrint(failure.message);
+    }, (r) => debugPrint('saved search name'));
   }
 
   void getSearchHistory() async {

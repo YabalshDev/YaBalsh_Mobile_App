@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
-import 'package:yabalash_mobile_app/features/search/presentation/blocs/cubit/search_cubit.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/widgets/products_search_section.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/widgets/search_header.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/widgets/super_markets_search_section.dart';
 
 import 'search_history_section.dart';
 import 'search_type_section.dart';
+
+final _searchFormKey = GlobalKey<FormBuilderState>();
 
 class SearchBody extends StatelessWidget {
   final PageController pageController;
@@ -27,18 +28,19 @@ class SearchBody extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SearchHeader(intialValue: intialValue!),
+            SearchHeader(
+                intialValue: intialValue!, searchFormKey: _searchFormKey),
             mediumVerticalSpace,
-            SearchTypeSection(pageController: pageController),
+            SearchTypeSection(
+                pageController: pageController, searchFormKey: _searchFormKey),
             mediumVerticalSpace,
             const SearchHistorySection(),
             mediumVerticalSpace,
             Expanded(
               child: PageView.builder(
+                physics: const NeverScrollableScrollPhysics(),
                 controller: pageController,
                 itemCount: searchPages.length,
-                onPageChanged: (value) => BlocProvider.of<SearchCubit>(context)
-                    .changeSearchType(value),
                 itemBuilder: (context, index) => searchPages[index],
               ),
             )
