@@ -7,6 +7,7 @@ import 'package:yabalash_mobile_app/core/api/remote_data_api/interceptors.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/rest_api_provider.dart';
 import 'package:yabalash_mobile_app/core/services/addresses_service.dart';
 import 'package:yabalash_mobile_app/core/services/order_service.dart';
+import 'package:yabalash_mobile_app/core/services/stores_service.dart';
 import 'package:yabalash_mobile_app/core/services/user_service.dart';
 import 'package:yabalash_mobile_app/core/services/zone_service.dart';
 import 'package:yabalash_mobile_app/features/addresses/data/datasources/address_remote_datasource.dart';
@@ -59,6 +60,12 @@ import 'package:yabalash_mobile_app/features/orders/domain/usecases/create_order
 import 'package:yabalash_mobile_app/features/orders/domain/usecases/get_past_orders_usecase.dart';
 import 'package:yabalash_mobile_app/features/orders/presentation/blocs/cubit/order_success_cubit.dart';
 import 'package:yabalash_mobile_app/features/orders/presentation/blocs/cubit/past_orders_cubit.dart';
+import 'package:yabalash_mobile_app/features/search/data/datasources/search_local_datasource.dart';
+import 'package:yabalash_mobile_app/features/search/data/datasources/search_remote_datasource.dart';
+import 'package:yabalash_mobile_app/features/search/data/repositories/search_repository_impl.dart';
+import 'package:yabalash_mobile_app/features/search/domain/repositories/search_repository.dart';
+import 'package:yabalash_mobile_app/features/search/domain/usecases/search_product_usecase.dart';
+import 'package:yabalash_mobile_app/features/search/presentation/blocs/cubit/search_cubit.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/data/datasources/shopping_list_local_datasource.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/data/repositories/shopping_list_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/domain/repositories/shopping_list_repository.dart';
@@ -77,6 +84,7 @@ import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/sub_
 
 import '../features/auth/presentation/blocs/cubit/register_cubit.dart';
 import '../features/on_boaring/presentation/blocs/cubit/on_boarding_cubit.dart';
+import '../features/search/domain/usecases/search_store_usecase.dart';
 import '../features/zones/data/datasources/zone_local_data_source.dart';
 
 final getIt = GetIt.instance;
@@ -94,6 +102,7 @@ setupDependecies() {
   getIt.registerLazySingleton(() => OrderService());
   getIt.registerLazySingleton(() => AddressService());
   getIt.registerLazySingleton(() => UserService(localStorageProvider: getIt()));
+  getIt.registerLazySingleton(() => StoreService());
 
   getIt.registerLazySingleton<HomeDataSource>(() => HomeMockDataSourceImpl());
 
@@ -122,6 +131,10 @@ setupDependecies() {
   getIt.registerLazySingleton<ShoppingListLocalDataSource>(
       () => ShoppingListLocalDataSourceImpl());
 
+  getIt.registerLazySingleton<SearchLocalDataSource>(
+      () => SearchLocalDataSourceImpl());
+  getIt.registerLazySingleton<SearchRemoteDataSource>(
+      () => SearchRemoteDataSourceImpl(restApiProvider: getIt()));
   //repos
   getIt.registerLazySingleton<SplashRepository>(
       () => SplashRepositoryImpl(localStorageProvider: getIt()));
@@ -147,6 +160,11 @@ setupDependecies() {
       () => ShoppingListRepositoryImpl(
             shoppingListLocalDataSource: getIt(),
           ));
+
+  getIt.registerLazySingleton<SearchRepository>(() => SearchRepositoryImpl(
+        searchLocalDataSource: getIt(),
+        searchRemoteDataSource: getIt(),
+      ));
 
   // use cases
 
@@ -199,6 +217,11 @@ setupDependecies() {
       () => RenameShoppingListUseCase(shoppingListRepository: getIt()));
   getIt.registerLazySingleton(
       () => AddShoppingListUseCase(shoppingListRepository: getIt()));
+
+  getIt.registerLazySingleton(
+      () => SearchProductUsecase(searchRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => SearchStoreUsecase(searchRepository: getIt()));
 
 //cubits/blocs
   getIt.registerFactory(
@@ -266,4 +289,9 @@ setupDependecies() {
 
   getIt.registerFactory(
       () => ShoppingListDetailsCubit(renameShoppingListUseCase: getIt()));
+
+  getIt.registerFactory(() => SearchCubit(
+      searchStoreUsecase: getIt(),
+      searchProductUsecase: getIt(),
+      searchRepository: getIt()));
 }

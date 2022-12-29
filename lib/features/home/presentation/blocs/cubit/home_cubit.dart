@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:yabalash_mobile_app/core/depedencies.dart';
+import 'package:yabalash_mobile_app/core/services/stores_service.dart';
 import 'package:yabalash_mobile_app/core/usecases/use_cases.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/banner.dart';
@@ -19,6 +21,7 @@ class HomeCubit extends Cubit<HomeState> {
   final GetBannersUseCase getBannersUseCase;
   final GetNearStoresUseCase getNearStoresUseCase;
   final GetSectiosUseCase getSectiosUseCase;
+
   HomeCubit(
       {required this.getLatestOffersUseCase,
       required this.getBannersUseCase,
@@ -64,6 +67,7 @@ class HomeCubit extends Cubit<HomeState> {
           nearStoreRequestState: RequestState.error,
           nearStoresError: failure.message));
     }, (stores) {
+      getIt<StoreService>().setNearStores(stores);
       emit(state.copyWith(
           bannersRequestState: RequestState.loaded, nearStores: stores));
     });

@@ -15,5 +15,5 @@ class AppStrings {
   static const String zones = 'zones';
   static const String cartKey = 'cart';
   static const String shoppingListKey = 'shopping-list';
-  static const String searchHistoryKey = 'shopping-list';
+  static const String searchHistoryKey = 'search_key';
 }

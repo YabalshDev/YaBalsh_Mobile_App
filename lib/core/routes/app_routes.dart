@@ -22,6 +22,7 @@ import 'package:yabalash_mobile_app/features/orders/presentation/blocs/cubit/pas
 import 'package:yabalash_mobile_app/features/orders/presentation/views/order_success_view.dart';
 import 'package:yabalash_mobile_app/features/orders/presentation/views/past_orders_view.dart';
 import 'package:yabalash_mobile_app/features/product_details/presentation/views/product_details_view.dart';
+import 'package:yabalash_mobile_app/features/search/presentation/views/search_view.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/blocs/cubit/cubit/shopping_list_details_cubit.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/views/shopping_list_details_view.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/main_zones_cubit.dart';
@@ -32,6 +33,7 @@ import 'package:yabalash_mobile_app/features/zones/presentation/views/sub_zones_
 import '../../features/home/domain/entities/product.dart';
 import '../../features/home/presentation/views/home_view.dart';
 import '../../features/orders/presentation/blocs/cubit/order_success_cubit.dart';
+import '../../features/search/presentation/blocs/cubit/search_cubit.dart';
 import '../../features/shopping_lists/domain/entities/shopping_list.dart';
 import '../depedencies.dart';
 
@@ -53,6 +55,7 @@ class RouteHelper {
   static const String _orderSuccessRoute = '/order-success';
   static const String _pastOrdersRoute = '/past-orders';
   static const String _shoppingListDetailsRoute = '/shopping-list-details';
+  static const String _searchRoute = '/search';
 
   static getIntialRoute() => _intialRoute;
   static getOnBoardingRoute() => _onBordingRoute;
@@ -69,6 +72,7 @@ class RouteHelper {
   static getOrderSuccessRoute() => _orderSuccessRoute;
   static getPastOrdersRoute() => _pastOrdersRoute;
   static getShoppingListDetailsRoute() => _shoppingListDetailsRoute;
+  static getSearchRoute() => _searchRoute;
 
   static final routes = [
     GetPage(
@@ -215,6 +219,21 @@ class RouteHelper {
                   child: ShoppingListDetailsView(
                     shoppingList: shoppingList,
                   )));
+        }),
+    GetPage(
+        name: _searchRoute,
+        page: () {
+          final String searchName = Get.arguments[1];
+          final bool fromCategory = Get.arguments[0];
+          return CustomAnimatedWidget(
+            child: BlocProvider<SearchCubit>(
+              create: (context) => getIt<SearchCubit>()..getSearchHistory(),
+              child: KeyboardDissmisable(
+                child: SearchView(
+                    fromCategory: fromCategory, intialValue: searchName),
+              ),
+            ),
+          );
         }),
   ];
 }

@@ -18,4 +18,5 @@ class AppColorsLight {
   static const Color kErrorColor = Color(0xffFE3A30);
   static const Color kAddressBorderColor = Color(0xffD8DAE8);
   static const Color kAddressBackgroundColor = Color(0xffFCFCFC);
+  static const Color kCancelColor = Color(0xffBCBDBF);
 }

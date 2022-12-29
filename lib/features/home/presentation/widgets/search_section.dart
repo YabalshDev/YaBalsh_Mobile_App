@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
@@ -19,7 +21,10 @@ class SearchSection extends StatelessWidget {
           Expanded(
             flex: 4,
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(RouteHelper.getSearchRoute(),
+                    arguments: [false, '']);
+              },
               child: Card(
                   child: Container(
                 padding: EdgeInsets.symmetric(vertical: 7.h, horizontal: 5.w),
