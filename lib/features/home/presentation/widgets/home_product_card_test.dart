@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
+import 'package:yabalash_mobile_app/core/widgets/custom_network_image.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/product.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/saving_card.dart';
 
@@ -14,12 +15,13 @@ import '../../../../core/widgets/cart_quantity_row.dart';
 import '../../../cart/domain/entities/cart_item.dart';
 import '../../../cart/presentation/blocs/cubit/cart_cubit.dart';
 
-class HomeProductCard extends StatelessWidget {
+class HomeProductCardTest extends StatelessWidget {
   final Product product;
-  const HomeProductCard({super.key, required this.product});
+  const HomeProductCardTest({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
+    print(getIt<CartCubit>().isClosed);
     return InkWell(
       onTap: () =>
           Get.toNamed(RouteHelper.getProductDetailsRoute(), arguments: product),
@@ -46,7 +48,7 @@ class HomeProductCard extends StatelessWidget {
                         Expanded(
                           flex: 2,
                           child: Text(
-                            'جنيه ${product.prices!['كارفور']!.price!}',
+                            'جنيه ${product.prices!.entries.first.value.price}',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodySmall
@@ -59,8 +61,11 @@ class HomeProductCard extends StatelessWidget {
                         ),
                         Expanded(
                             flex: 1,
-                            child: Image.asset(
-                                product.prices!['كارفور']!.storeImagePath!)),
+                            child: AppImage(
+                              path: product.prices!.entries.first.value
+                                      .storeImagePath ??
+                                  '',
+                            )),
                       ],
                     ),
                   )
@@ -82,7 +87,9 @@ class HomeProductCard extends StatelessWidget {
                         SizedBox(
                             height: 140.h,
                             width: 133.h,
-                            child: Image.asset(product.imagePath!)),
+                            child: AppImage(
+                              path: product.imagePath!,
+                            )),
                         const Positioned(
                             top: 0,
                             left: 0,
@@ -166,7 +173,7 @@ class HomeProductCard extends StatelessWidget {
                         Expanded(
                           flex: 2,
                           child: Text(
-                            'جنيه ${product.prices!['كارفور']!.price!}',
+                            'جنيه ${product.prices!.entries.last.value.price}',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodySmall
@@ -178,8 +185,11 @@ class HomeProductCard extends StatelessWidget {
                         ),
                         Expanded(
                             flex: 1,
-                            child: Image.asset(
-                                product.prices!['كارفور']!.storeImagePath!)),
+                            child: AppImage(
+                              path: product.prices!.entries.first.value
+                                      .storeImagePath ??
+                                  '',
+                            )),
                       ],
                     )
                   ],

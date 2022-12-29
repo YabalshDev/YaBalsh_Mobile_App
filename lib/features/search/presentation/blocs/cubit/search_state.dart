@@ -16,8 +16,8 @@ class SearchState extends Equatable {
     this.searchProductsResult = const [],
     this.searchStoresResult = const [],
     this.searchHistoryRequestState = RequestState.loading,
-    this.searchProductsRequestState = RequestState.loading,
-    this.searchStoresRequestState = RequestState.loading,
+    this.searchProductsRequestState = RequestState.idle,
+    this.searchStoresRequestState = RequestState.idle,
     this.errorMessage = '',
   });
 

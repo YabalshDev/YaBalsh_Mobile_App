@@ -243,4 +243,10 @@ class CartCubit extends Cubit<CartState> {
       emit(state.copyWith(cartItems: updatedList));
     });
   }
+
+  @override
+  Future<void> close() {
+    print('cart closed');
+    return super.close();
+  }
 }

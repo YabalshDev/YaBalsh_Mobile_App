@@ -27,7 +27,7 @@ class SearchCubit extends Cubit<SearchState> {
       emit(state.copyWith(searchTypeIndex: index));
 
   void saveSearch(String searchName) {
-    final response = searchRepository.saveSearch(searchName: searchName);
+    final response = searchRepository.saveSearch(searchName: searchName.trim());
     response.fold((failure) {
       print(failure.message);
     }, (r) => print('saved search name'));
@@ -36,8 +36,8 @@ class SearchCubit extends Cubit<SearchState> {
   void getSearchHistory() async {
     final searchHistory = await searchRepository.getSearchHistory();
     emit(state.copyWith(
-        searchHistory: searchHistory,
-        searchStoresRequestState: RequestState.loaded));
+        searchHistory: searchHistory.toSet().toList(),
+        searchHistoryRequestState: RequestState.loaded));
   }
 
   void onSearchInit(String? searchName) async {

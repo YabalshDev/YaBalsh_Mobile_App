@@ -6,6 +6,7 @@ import 'package:yabalash_mobile_app/features/search/presentation/widgets/product
 import 'package:yabalash_mobile_app/features/search/presentation/widgets/search_header.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/widgets/super_markets_search_section.dart';
 
+import 'search_history_section.dart';
 import 'search_type_section.dart';
 
 class SearchBody extends StatelessWidget {
@@ -29,6 +30,9 @@ class SearchBody extends StatelessWidget {
             SearchHeader(intialValue: intialValue!),
             mediumVerticalSpace,
             SearchTypeSection(pageController: pageController),
+            mediumVerticalSpace,
+            const SearchHistorySection(),
+            mediumVerticalSpace,
             Expanded(
               child: PageView.builder(
                 controller: pageController,

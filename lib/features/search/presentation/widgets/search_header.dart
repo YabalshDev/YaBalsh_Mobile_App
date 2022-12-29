@@ -39,6 +39,8 @@ class SearchHeader extends StatelessWidget {
                           if (searchValue.isNotEmpty) {
                             BlocProvider.of<SearchCubit>(context)
                                 .saveSearch(searchValue);
+                            BlocProvider.of<SearchCubit>(context)
+                                .search(searchValue);
                           }
                         },
                         child: const Icon(
