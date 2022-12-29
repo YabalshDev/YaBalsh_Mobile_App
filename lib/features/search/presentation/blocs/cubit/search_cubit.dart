@@ -35,7 +35,9 @@ class SearchCubit extends Cubit<SearchState> {
 
   void getSearchHistory() async {
     final searchHistory = await searchRepository.getSearchHistory();
-    emit(state.copyWith(searchHistory: searchHistory));
+    emit(state.copyWith(
+        searchHistory: searchHistory,
+        searchStoresRequestState: RequestState.loaded));
   }
 
   void onSearchInit(String? searchName) async {
@@ -64,11 +66,14 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   void _productSearch(String searchName) async {
+    emit(state.copyWith(searchProductsRequestState: RequestState.loading));
     final response =
         await searchProductUsecase(SearchParams(searchName: searchName));
 
     response.fold((failure) {
-      emit(state.copyWith(errorMessage: failure.message));
+      emit(state.copyWith(
+          errorMessage: failure.message,
+          searchProductsRequestState: RequestState.error));
       yaBalashCustomDialog(
         buttonTitle: 'حسنا',
         isWithEmoji: false,
@@ -86,11 +91,14 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   void _storeSearch(String searchName) async {
+    emit(state.copyWith(searchStoresRequestState: RequestState.loading));
     final response =
         await searchStoreUsecase(SearchParams(searchName: searchName));
 
     response.fold((failure) {
-      emit(state.copyWith(errorMessage: failure.message));
+      emit(state.copyWith(
+          errorMessage: failure.message,
+          searchStoresRequestState: RequestState.error));
       yaBalashCustomDialog(
         buttonTitle: 'حسنا',
         isWithEmoji: false,
