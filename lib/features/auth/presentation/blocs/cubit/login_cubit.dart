@@ -36,7 +36,7 @@ class LoginCubit extends Cubit<LoginState> {
       authRepository.saveUserToken(token: data.token!);
       // get user data
       // navigate to home
-      Get.offNamed(RouteHelper.getMainNavigationRoute());
+      Get.offAllNamed(RouteHelper.getMainNavigationRoute(), arguments: 0);
     });
   }
 

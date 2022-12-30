@@ -90,12 +90,15 @@ class RouteHelper {
       ),
     ),
     GetPage(
-      name: _mainNavigationRoute,
-      page: () => BlocProvider<MainNavigationCubit>(
-        create: (context) => getIt<MainNavigationCubit>(),
-        child: MainNavigation(),
-      ),
-    ),
+        name: _mainNavigationRoute,
+        page: () {
+          int index = Get.arguments;
+          return BlocProvider<MainNavigationCubit>(
+            create: (context) =>
+                getIt<MainNavigationCubit>()..setPageIndex(index),
+            child: MainNavigation(pageIndex: index),
+          );
+        }),
     GetPage(
       name: _homeRoute,
       page: () => const HomeView(),

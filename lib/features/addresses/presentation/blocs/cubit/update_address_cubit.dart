@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 
 import '../../../../../core/utils/enums/request_state.dart';
 import '../../../../../core/widgets/custom_dialog.dart';
@@ -42,9 +43,9 @@ class UpdateAddressCubit extends Cubit<UpdateAddressState> {
             isWithEmoji: false,
             title: 'ملاحظة',
             mainContent: 'تمت اضافة العنوان بنجاح',
-            onConfirm: () => Get
-              ..back()
-              ..offNamed(fromRoute)));
+            onConfirm: () {
+              _handleNavigationAfterUpdate(fromRoute);
+            }));
   }
 
   void editAddress(
@@ -70,9 +71,17 @@ class UpdateAddressCubit extends Cubit<UpdateAddressState> {
             title: 'ملاحظة',
             mainContent: 'تم تعديل العنوان بنجاح',
             onConfirm: () {
-              Get
-                ..back()
-                ..offNamed(fromRoute);
+              _handleNavigationAfterUpdate(fromRoute);
             }));
+  }
+}
+
+void _handleNavigationAfterUpdate(String fromRoute) {
+  Get.back();
+  //from cart navigate to cart page
+  if (fromRoute == RouteHelper.getMainNavigationRoute()) {
+    Get.offAllNamed(fromRoute, arguments: 2);
+  } else {
+    Get.offNamed(fromRoute);
   }
 }

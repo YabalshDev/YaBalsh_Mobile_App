@@ -31,7 +31,7 @@ class RegisterCubit extends Cubit<RegisterState> {
           mainContent: failure.message);
     }, (customer) {
       emit(state.copyWith(registerState: RequestState.loaded));
-      Get.toNamed(RouteHelper.getMainZonesRoute());
+      Get.offAllNamed(RouteHelper.getMainZonesRoute(), arguments: 0);
     });
   }
 

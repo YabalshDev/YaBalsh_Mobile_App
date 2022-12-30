@@ -40,7 +40,12 @@ class ShoppingListBody extends StatelessWidget {
 
                     case RequestState.loaded:
                       return state.shoppingLists!.isEmpty
-                          ? const EmptyIndicator(title: 'لا يوجد قوائم مختارة')
+                          ? SizedBox(
+                              height: Get.height * 0.6,
+                              child: const Center(
+                                  child: EmptyIndicator(
+                                      title: 'لا يوجد قوائم مختارة')),
+                            )
                           : ListView.builder(
                               shrinkWrap: true,
                               padding: kDefaultPadding,
