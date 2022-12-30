@@ -23,29 +23,24 @@ class SearchBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Padding(
-        padding: kDefaultPadding,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SearchHeader(
-                intialValue: intialValue!, searchFormKey: _searchFormKey),
-            mediumVerticalSpace,
-            SearchTypeSection(
-                pageController: pageController, searchFormKey: _searchFormKey),
-            mediumVerticalSpace,
-            const SearchHistorySection(),
-            mediumVerticalSpace,
-            Expanded(
-              child: PageView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                controller: pageController,
-                itemCount: searchPages.length,
-                itemBuilder: (context, index) => searchPages[index],
-              ),
-            )
-          ],
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SearchHeader(
+              intialValue: intialValue!, searchFormKey: _searchFormKey),
+          SearchTypeSection(
+              pageController: pageController, searchFormKey: _searchFormKey),
+          const SearchHistorySection(),
+          smallVerticalSpace,
+          Expanded(
+            child: PageView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: pageController,
+              itemCount: searchPages.length,
+              itemBuilder: (context, index) => searchPages[index],
+            ),
+          )
+        ],
       ),
     );
   }

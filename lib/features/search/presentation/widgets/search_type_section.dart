@@ -16,72 +16,75 @@ class SearchTypeSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SearchCubit, SearchState>(builder: (context, state) {
-      return Row(
-        children: [
-          Column(
-            children: [
-              InkWell(
-                onTap: () {
-                  BlocProvider.of<SearchCubit>(context).changeSearchType(0);
-                  BlocProvider.of<SearchCubit>(context)
-                      .changeSearchIsEmpty(true);
-                  searchFormKey.currentState?.reset(); // reset search
-                  pageController.animateToPage(0,
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.easeInOut);
-                },
-                child: Text(
-                  'منتجات',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: state.searchTypeIndex == 0
-                          ? Colors.black
-                          : AppColorsLight.kCancelColor),
+      return Padding(
+        padding: kDefaultPadding,
+        child: Row(
+          children: [
+            Column(
+              children: [
+                InkWell(
+                  onTap: () {
+                    BlocProvider.of<SearchCubit>(context).changeSearchType(0);
+                    BlocProvider.of<SearchCubit>(context)
+                        .changeSearchIsEmpty(true);
+                    searchFormKey.currentState?.reset(); // reset search
+                    pageController.animateToPage(0,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOut);
+                  },
+                  child: Text(
+                    'منتجات',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: state.searchTypeIndex == 0
+                            ? Colors.black
+                            : AppColorsLight.kCancelColor),
+                  ),
                 ),
-              ),
-              smallVerticalSpace,
-              state.searchTypeIndex == 0
-                  ? Container(
-                      color: AppColorsLight.kAppPrimaryColorLight,
-                      height: 3.h,
-                      width: 19.w,
-                    )
-                  : const SizedBox()
-            ],
-          ),
-          largeHorizontalSpace,
-          Column(
-            children: [
-              InkWell(
-                onTap: () {
-                  BlocProvider.of<SearchCubit>(context).changeSearchType(1);
-                  BlocProvider.of<SearchCubit>(context)
-                      .changeSearchIsEmpty(true);
-                  searchFormKey.currentState?.reset(); // reset search
-                  pageController.animateToPage(1,
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.easeInOut);
-                },
-                child: Text(
-                  'سوبر ماركت',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: state.searchTypeIndex == 1
-                          ? Colors.black
-                          : AppColorsLight.kCancelColor),
+                smallVerticalSpace,
+                state.searchTypeIndex == 0
+                    ? Container(
+                        color: AppColorsLight.kAppPrimaryColorLight,
+                        height: 3.h,
+                        width: 19.w,
+                      )
+                    : const SizedBox()
+              ],
+            ),
+            largeHorizontalSpace,
+            Column(
+              children: [
+                InkWell(
+                  onTap: () {
+                    BlocProvider.of<SearchCubit>(context).changeSearchType(1);
+                    BlocProvider.of<SearchCubit>(context)
+                        .changeSearchIsEmpty(true);
+                    searchFormKey.currentState?.reset(); // reset search
+                    pageController.animateToPage(1,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOut);
+                  },
+                  child: Text(
+                    'سوبر ماركت',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: state.searchTypeIndex == 1
+                            ? Colors.black
+                            : AppColorsLight.kCancelColor),
+                  ),
                 ),
-              ),
-              smallVerticalSpace,
-              state.searchTypeIndex == 1
-                  ? Container(
-                      color: AppColorsLight.kAppPrimaryColorLight,
-                      height: 3.h,
-                      width: 19.w,
-                    )
-                  : const SizedBox()
-            ],
-          )
-        ],
+                smallVerticalSpace,
+                state.searchTypeIndex == 1
+                    ? Container(
+                        color: AppColorsLight.kAppPrimaryColorLight,
+                        height: 3.h,
+                        width: 19.w,
+                      )
+                    : const SizedBox()
+              ],
+            )
+          ],
+        ),
       );
     });
   }

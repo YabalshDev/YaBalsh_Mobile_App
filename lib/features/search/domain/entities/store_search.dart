@@ -6,17 +6,16 @@ class StoreSearch extends Equatable {
   final int? id;
   final String? name;
   final String? cardImagePath;
-  final String? logoImagePath;
 
   final Location? location;
 
-  const StoreSearch(
-      {this.id,
-      this.name,
-      this.cardImagePath,
-      this.location,
-      this.logoImagePath});
+  const StoreSearch({
+    this.id,
+    this.name,
+    this.cardImagePath,
+    this.location,
+  });
 
   @override
-  List<Object?> get props => [id, name, cardImagePath, logoImagePath, location];
+  List<Object?> get props => [id, name, cardImagePath, location];
 }

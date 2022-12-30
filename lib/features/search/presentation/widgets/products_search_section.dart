@@ -9,6 +9,8 @@ import 'package:yabalash_mobile_app/core/widgets/product_loading_shimmer.dart';
 import 'package:yabalash_mobile_app/core/widgets/sub_heading.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/home_product_card_test.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/blocs/cubit/search_cubit.dart';
+import 'package:yabalash_mobile_app/features/search/presentation/widgets/search_error_indicator.dart';
+import 'package:yabalash_mobile_app/features/search/presentation/widgets/search_no_results.dart';
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/utils/enums/request_state.dart';
@@ -46,8 +48,7 @@ class ProductsSearchSection extends StatelessWidget {
                   return state.searchProductsResult!.isEmpty
                       ? SizedBox(
                           height: Get.height * 0.6,
-                          child: const Center(
-                              child: EmptyIndicator(title: 'لا يوجد نتائج ')))
+                          child: const SearchEmptyResult())
                       : Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -91,8 +92,7 @@ class ProductsSearchSection extends StatelessWidget {
                 case RequestState.error:
                   return SizedBox(
                       height: Get.height * 0.6,
-                      child: const EmptyIndicator(
-                          title: 'خطا اثناء البحث حاول مرة اخرى'));
+                      child: const SearchErrorIndicator());
 
                 default:
                   return const SizedBox();
