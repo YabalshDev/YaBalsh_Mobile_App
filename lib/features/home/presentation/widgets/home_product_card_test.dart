@@ -21,7 +21,6 @@ class HomeProductCardTest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(getIt<CartCubit>().isClosed);
     return InkWell(
       onTap: () =>
           Get.toNamed(RouteHelper.getProductDetailsRoute(), arguments: product),
@@ -30,18 +29,17 @@ class HomeProductCardTest extends StatelessWidget {
         child: Stack(
           children: [
             Container(
-              width: 133.w,
-              height: 290.h,
-              decoration: kDefaultBoxDecoration,
+              width: 156.w,
+              height: 295.h,
+              decoration: kDefaultBoxDecoration.copyWith(
+                color: AppColorsLight.kOffwhiteColor,
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
-                    height: 44.h,
-                    width: 133.w,
                     padding: kDefaultPadding,
                     decoration: kDefaultBoxDecoration.copyWith(
-                        color: AppColorsLight.kOffwhiteColor,
                         border: Border.all(color: Colors.transparent)),
                     child: Row(
                       children: [
@@ -75,9 +73,9 @@ class HomeProductCardTest extends StatelessWidget {
             Positioned(
               top: 0,
               child: Container(
-                width: 133.w,
+                width: 156.w,
                 padding: kDefaultPadding,
-                decoration: kDefaultBoxDecoration,
+                decoration: kDefaultBoxDecoration.copyWith(color: Colors.white),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,9 +83,10 @@ class HomeProductCardTest extends StatelessWidget {
                     Stack(
                       children: [
                         SizedBox(
-                            height: 140.h,
-                            width: 133.h,
+                            height: 163.h,
+                            width: 137.w,
                             child: AppImage(
+                              fit: BoxFit.fill,
                               path: product.imagePath!,
                             )),
                         const Positioned(
@@ -105,7 +104,7 @@ class HomeProductCardTest extends StatelessWidget {
                                   (element) =>
                                       element.product!.id == product.id);
                               return Positioned(
-                                top: 100.h,
+                                top: 120.h,
                                 child: Container(
                                   height: 40.h,
                                   width: 120.w,
@@ -134,7 +133,7 @@ class HomeProductCardTest extends StatelessWidget {
                               );
                             } else {
                               return Positioned(
-                                top: 100.h,
+                                top: 120.h,
                                 left: 0,
                                 child: InkWell(
                                   onTap: () =>
@@ -157,13 +156,15 @@ class HomeProductCardTest extends StatelessWidget {
                       ],
                     ),
                     SizedBox(
-                      height: 5.h,
-                    ),
-                    Text(
-                      product.name!,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: AppColorsLight.kAppPrimaryColorLight,
-                          fontWeight: FontWeight.w600),
+                      height: 40.h,
+                      child: Text(
+                        product.name!,
+                        maxLines: 2,
+                        // overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: AppColorsLight.kAppPrimaryColorLight,
+                            fontWeight: FontWeight.w600),
+                      ),
                     ),
                     SizedBox(
                       height: 5.h,
