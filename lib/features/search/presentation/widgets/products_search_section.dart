@@ -121,6 +121,7 @@ class _ProductsSearchSectionState extends State<ProductsSearchSection> {
             ],
           ),
         ),
+        // back to top
         BlocBuilder<SearchCubit, SearchState>(
           builder: (context, state) {
             return state.searchProductsResult!.isEmpty
