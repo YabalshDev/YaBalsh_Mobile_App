@@ -5,5 +5,5 @@ import '../../../../core/errors/faliures.dart';
 
 abstract class ProductDetailsRepository {
   Future<Either<Failure, Product>> getProductDetails(
-      {required String productId});
+      {required int productId, required bool withNearStores});
 }

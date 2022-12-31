@@ -8,3 +8,4 @@ const String productSearchEndpoint = '/api/v1/products/search';
 const String storesSearchEndpoint = '/api/v1/stores/search';
 String getAddressEndPointById(int id) => '/api/v1/addresses/$id';
 String getStoreEndPointById(int id) => '/api/v1/stores/$id';
+String getProductEndPointById(int id) => '/api/v1/products/$id';

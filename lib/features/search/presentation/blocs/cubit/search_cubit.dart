@@ -121,8 +121,10 @@ class SearchCubit extends Cubit<SearchState> {
 
   void search(String searchName) async {
     if (state.searchTypeIndex == 0) {
+      // if in products section
       _productSearch(searchName);
     } else {
+      // if in stores section
       _storeSearch(searchName);
     }
   }
