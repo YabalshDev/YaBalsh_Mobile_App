@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yabalash_mobile_app/core/widgets/custom_shimmer.dart';
 
 import '../../../../core/theme/light/app_colors_light.dart';
 
@@ -34,6 +35,27 @@ class ProductKewordCards extends StatelessWidget {
                       color: AppColorsLight.kDisabledButtonTextColor),
                 ),
               ),
+            );
+          },
+        ));
+  }
+}
+
+class ProductKewordsSectionLoading extends StatelessWidget {
+  const ProductKewordsSectionLoading({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        height: 50.h,
+        child: ListView.builder(
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          itemCount: 4,
+          itemBuilder: (context, index) {
+            return CustomShimmer(
+              width: 60.w,
+              height: 24.h,
             );
           },
         ));

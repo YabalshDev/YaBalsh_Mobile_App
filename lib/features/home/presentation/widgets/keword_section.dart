@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/widgets/kew_word_products.dart';
 import 'package:yabalash_mobile_app/core/widgets/product_loading_shimmer.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_cubit.dart';
 
-import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/utils/enums/request_state.dart';
 import 'Title_row.dart';
 

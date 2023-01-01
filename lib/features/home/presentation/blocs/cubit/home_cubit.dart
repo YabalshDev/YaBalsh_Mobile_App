@@ -10,7 +10,9 @@ import 'package:yabalash_mobile_app/features/home/domain/usecases/get_banners_us
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_latest_offers_use_case.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_near_stores_use_case.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_sections_use_case.dart';
+import 'package:yabalash_mobile_app/features/zones/domain/usecases/get_past_subzones_usecase.dart';
 
+import '../../../../zones/domain/entities/sub_zone.dart';
 import '../../../domain/entities/section.dart';
 import '../../../domain/entities/store.dart';
 
@@ -21,9 +23,11 @@ class HomeCubit extends Cubit<HomeState> {
   final GetBannersUseCase getBannersUseCase;
   final GetNearStoresUseCase getNearStoresUseCase;
   final GetSectiosUseCase getSectiosUseCase;
+  final GetPastSubZonesUseCase getPastSubZonesUseCase;
 
   HomeCubit(
       {required this.getLatestOffersUseCase,
+      required this.getPastSubZonesUseCase,
       required this.getBannersUseCase,
       required this.getNearStoresUseCase,
       required this.getSectiosUseCase})
@@ -86,5 +90,15 @@ class HomeCubit extends Cubit<HomeState> {
           firstSectionRequestState: RequestState.loaded,
           firstSection: sections[0]));
     });
+  }
+
+  List<SubZone> getSubZoneHistory() {
+    List<SubZone> subZones = [];
+    final response = getPastSubZonesUseCase(NoParams());
+
+    response.fold((l) {}, (result) {
+      subZones = result;
+    });
+    return subZones;
   }
 }

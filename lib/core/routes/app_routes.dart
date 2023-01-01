@@ -21,6 +21,7 @@ import 'package:yabalash_mobile_app/features/on_boaring/presentation/views/splas
 import 'package:yabalash_mobile_app/features/orders/presentation/blocs/cubit/past_orders_cubit.dart';
 import 'package:yabalash_mobile_app/features/orders/presentation/views/order_success_view.dart';
 import 'package:yabalash_mobile_app/features/orders/presentation/views/past_orders_view.dart';
+import 'package:yabalash_mobile_app/features/product_details/presentation/blocs/cubit/product_details_cubit.dart';
 import 'package:yabalash_mobile_app/features/product_details/presentation/views/product_details_view.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/views/search_view.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/blocs/cubit/cubit/shopping_list_details_cubit.dart';
@@ -108,8 +109,12 @@ class RouteHelper {
         page: () {
           final Product product = Get.arguments;
           return CustomAnimatedWidget(
-              child: ProductDetailsView(
-            product: product,
+              child: BlocProvider<ProductDetailsCubit>(
+            create: (context) => getIt<ProductDetailsCubit>()
+              ..getProductDetails(productId: product.id!, withNearStores: true),
+            child: ProductDetailsView(
+              product: product,
+            ),
           ));
         }),
     GetPage(

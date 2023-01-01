@@ -44,7 +44,7 @@ class ShoppingListHeader extends StatelessWidget {
           return InkWell(
             onTap: () => showModalBottomSheet(
               context: context,
-              builder: (context) => CustomBottomModal(
+              builder: (context) => ShoppingListBottomModal(
                   onTap: () {
                     handleRenameShoppingList();
                   },

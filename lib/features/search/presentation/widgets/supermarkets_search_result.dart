@@ -29,7 +29,7 @@ class SuperMarketsSearchResult extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) => CustomShimmer(
             height: 84.h,
-            widht: Get.width,
+            width: Get.width,
           ),
         );
       case RequestState.loaded:

@@ -42,10 +42,10 @@ final ButtonStyle kSecondaryButtonStyle = ButtonStyle(
     backgroundColor:
         MaterialStateProperty.all(AppColorsLight.kAppPrimaryColorLight),
     textStyle: MaterialStateProperty.all(
-        kActivebuttonTextStyle.copyWith(fontSize: 13.sp)),
+        kActivebuttonTextStyle.copyWith(fontSize: 12.sp)),
     elevation: MaterialStateProperty.all(1),
     fixedSize: MaterialStateProperty.all(
-      Size(290.w, 30.h),
+      Size(290.w, 40.h),
     ));
 
 final BoxDecoration kDefaultBoxDecoration = BoxDecoration(

@@ -68,7 +68,7 @@ class CartCustomNavBar extends StatelessWidget {
                             context: context,
                             shape: RoundedRectangleBorder(
                                 borderRadius: kSecondaryBorderRaduis),
-                            builder: (context) => CustomBottomModal(
+                            builder: (context) => ShoppingListBottomModal(
                                   formKey: formKey,
                                   onTap: () {
                                     final shoppingListName = formKey

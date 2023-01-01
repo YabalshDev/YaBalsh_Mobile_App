@@ -7,9 +7,9 @@ import '../theme/light/app_colors_light.dart';
 
 class CustomShimmer extends StatelessWidget {
   final double? height;
-  final double? widht;
+  final double? width;
 
-  const CustomShimmer({super.key, this.height, this.widht});
+  const CustomShimmer({super.key, this.height, this.width});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class CustomShimmer extends StatelessWidget {
       baseColor: Colors.grey[800]!,
       highlightColor: Colors.grey[850]!,
       child: Container(
-        width: widht ?? 60.w,
+        width: width ?? 60.w,
         height: height ?? 60.h,
         margin: EdgeInsets.only(left: 10.w, top: 10.h),
         decoration: BoxDecoration(

@@ -60,6 +60,10 @@ import 'package:yabalash_mobile_app/features/orders/domain/usecases/create_order
 import 'package:yabalash_mobile_app/features/orders/domain/usecases/get_past_orders_usecase.dart';
 import 'package:yabalash_mobile_app/features/orders/presentation/blocs/cubit/order_success_cubit.dart';
 import 'package:yabalash_mobile_app/features/orders/presentation/blocs/cubit/past_orders_cubit.dart';
+import 'package:yabalash_mobile_app/features/product_details/data/datasources/product_details_remotedatasource.dart';
+import 'package:yabalash_mobile_app/features/product_details/data/repositories/product_details_repository_impl.dart';
+import 'package:yabalash_mobile_app/features/product_details/domain/usecases/get_product_details_usecase.dart';
+import 'package:yabalash_mobile_app/features/product_details/presentation/blocs/cubit/product_details_cubit.dart';
 import 'package:yabalash_mobile_app/features/search/data/datasources/search_local_datasource.dart';
 import 'package:yabalash_mobile_app/features/search/data/datasources/search_remote_datasource.dart';
 import 'package:yabalash_mobile_app/features/search/data/repositories/search_repository_impl.dart';
@@ -84,6 +88,7 @@ import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/sub_
 
 import '../features/auth/presentation/blocs/cubit/register_cubit.dart';
 import '../features/on_boaring/presentation/blocs/cubit/on_boarding_cubit.dart';
+import '../features/product_details/domain/repositories/product_details_repository.dart';
 import '../features/search/domain/usecases/search_store_usecase.dart';
 import '../features/zones/data/datasources/zone_local_data_source.dart';
 
@@ -97,7 +102,7 @@ setupDependecies() {
       () => DioConsumer(client: getIt()));
   getIt.registerLazySingleton<LocalStorageProvider>(
       () => HiveLocalDataConsumer());
-
+//services
   getIt.registerLazySingleton(() => ZoneService());
   getIt.registerLazySingleton(() => OrderService());
   getIt.registerLazySingleton(() => AddressService());
@@ -135,6 +140,9 @@ setupDependecies() {
       () => SearchLocalDataSourceImpl());
   getIt.registerLazySingleton<SearchRemoteDataSource>(
       () => SearchRemoteDataSourceImpl(restApiProvider: getIt()));
+  getIt.registerLazySingleton<ProductDetailsRemoteDataSource>(
+      () => ProductDetailsRemoteDataSourceImpl(restApiProvider: getIt()));
+
   //repos
   getIt.registerLazySingleton<SplashRepository>(
       () => SplashRepositoryImpl(localStorageProvider: getIt()));
@@ -166,6 +174,10 @@ setupDependecies() {
         searchRemoteDataSource: getIt(),
       ));
 
+  getIt.registerLazySingleton<ProductDetailsRepository>(
+      () => ProductDetailsRepositoryImpl(
+            productDetailsRemoteDataSource: getIt(),
+          ));
   // use cases
 
   getIt.registerLazySingleton(
@@ -222,10 +234,13 @@ setupDependecies() {
       () => SearchProductUsecase(searchRepository: getIt()));
   getIt.registerLazySingleton(
       () => SearchStoreUsecase(searchRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => GetProductDetailsUseCase(productDetailsRepository: getIt()));
 
 //cubits/blocs
   getIt.registerFactory(
     () => HomeCubit(
+        getPastSubZonesUseCase: getIt(),
         getLatestOffersUseCase: getIt(),
         getBannersUseCase: getIt(),
         getNearStoresUseCase: getIt(),
@@ -294,4 +309,9 @@ setupDependecies() {
       searchStoreUsecase: getIt(),
       searchProductUsecase: getIt(),
       searchRepository: getIt()));
+
+  getIt.registerFactory(() => ProductDetailsCubit(
+        getProductDetailsUseCase: getIt(),
+        searchProductUsecase: getIt(),
+      ));
 }
