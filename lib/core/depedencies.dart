@@ -23,6 +23,7 @@ import 'package:yabalash_mobile_app/features/auth/data/datasources/auth_local_da
 import 'package:yabalash_mobile_app/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:yabalash_mobile_app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:yabalash_mobile_app/features/auth/domain/usecases/get_current_customer_usecase.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/register_usecase.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/login_cubit.dart';
@@ -189,6 +190,9 @@ setupDependecies() {
 
   getIt.registerLazySingleton(() => RegisterUseCase(authRepository: getIt()));
   getIt.registerLazySingleton(() => LoginUseCase(authRepository: getIt()));
+  getIt.registerLazySingleton(() => GetCurrentCustomerUseCase(
+        authRepository: getIt(),
+      ));
 
   getIt.registerLazySingleton(
       () => GetSubZonesUseCase(zonesRepository: getIt()));
@@ -258,7 +262,10 @@ setupDependecies() {
         splashRepository: getIt(), userService: getIt(), zoneService: getIt()),
   );
   getIt.registerLazySingleton(
-    () => LoginCubit(loginUseCase: getIt(), authRepository: getIt()),
+    () => LoginCubit(
+        loginUseCase: getIt(),
+        authRepository: getIt(),
+        getCurrentCustomerUseCase: getIt()),
   );
   getIt.registerLazySingleton(
     () => RegisterCubit(registerUseCase: getIt()),

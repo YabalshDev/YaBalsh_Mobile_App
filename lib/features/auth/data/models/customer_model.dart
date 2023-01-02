@@ -18,8 +18,8 @@ class CustomerModel extends Customer {
     return CustomerModel(
         id: json['id'],
         email: json['email'],
-        firstName: json['firstName'],
-        lastName: json['lastName'],
-        phoneNumber: json['phoneNumber']);
+        firstName: json['firstName'] ?? json['first_name'],
+        lastName: json['lastName'] ?? json['first_name'],
+        phoneNumber: json['phoneNumber'] ?? json['phone_number']);
   }
 }
