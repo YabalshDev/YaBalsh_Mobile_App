@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:yabalash_mobile_app/core/services/user_service.dart';
 
 import '../../../../core/constants/app_layouts.dart';
+import '../../../../core/depedencies.dart';
 
 class WelcomeSection extends StatelessWidget {
   const WelcomeSection({super.key});
@@ -13,7 +15,7 @@ class WelcomeSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "اهلا بيك ,",
+            "اهلا بيك ${getIt<UserService>().currentCustomer!.firstName ?? ''},",
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge

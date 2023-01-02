@@ -30,20 +30,18 @@ class RegisterCubit extends Cubit<RegisterState> {
           onConfirm: () => Get.back(),
           mainContent: failure.message);
     }, (customer) {
+      //TODO: authenticate user
+      //TODO : save token
       emit(state.copyWith(registerState: RequestState.loaded));
       Get.offAllNamed(RouteHelper.getMainZonesRoute(), arguments: 0);
     });
   }
 
-  void changeObsecure(bool value) {
-    emit(state.copyWith(obsecure: value));
-  }
+  void changeObsecure(bool value) => emit(state.copyWith(obsecure: value));
 
-  void changeButtonDisabled(bool value) {
-    emit(state.copyWith(isButtonDisabled: value));
-  }
+  void changeButtonDisabled(bool value) =>
+      emit(state.copyWith(isButtonDisabled: value));
 
-  void changeFormFieldError(bool value) {
-    emit(state.copyWith(formValidationError: value));
-  }
+  void changeFormFieldError(bool value) =>
+      emit(state.copyWith(formValidationError: value));
 }
