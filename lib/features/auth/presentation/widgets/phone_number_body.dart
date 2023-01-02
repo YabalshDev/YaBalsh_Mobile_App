@@ -2,17 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/constants/text_styles.dart';
-import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/core/widgets/phone_number_text_field.dart';
 import 'package:yabalash_mobile_app/core/widgets/ya_balash_custom_button.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/phone_number_cubit.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/widgets/auth_back_icon.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/widgets/auth_title_widget.dart';
-
-import '../../../../core/depedencies.dart';
 
 final _formKey = GlobalKey<FormBuilderState>();
 
@@ -58,10 +54,10 @@ class PhoneNumberBody extends StatelessWidget {
                           hintText: '1012222222',
                           onChanged: (value) {
                             if (value!.isEmpty) {
-                              getIt<PhoneNumberCubit>()
+                              BlocProvider.of<PhoneNumberCubit>(context)
                                   .changeButtonDisabled(true);
                             } else {
-                              getIt<PhoneNumberCubit>()
+                              BlocProvider.of<PhoneNumberCubit>(context)
                                   .changeButtonDisabled(false);
                             }
                           },
@@ -87,16 +83,13 @@ class PhoneNumberBody extends StatelessWidget {
                 return YaBalashCustomButton(
                   isDisabled: state.isButtonDisabled,
                   child: const Text('متابعة'),
-                  onTap: () {
+                  onTap: () async {
                     if (!state.isButtonDisabled!) {
-                      final formValue = _formKey
+                      final phoneNumber = _formKey
                           .currentState!.fields['phoneNumber']!.value as String;
-                      final hasError =
-                          getIt<PhoneNumberCubit>().isFormHasError(formValue);
-                      if (!hasError) {
-                        Get.toNamed(RouteHelper.getLoginRoute(),
-                            arguments: formValue);
-                      }
+
+                      BlocProvider.of<PhoneNumberCubit>(context)
+                          .handlePhoneFormSubmission(phoneNumber: phoneNumber);
                     }
                   },
                 );

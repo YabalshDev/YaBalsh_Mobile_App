@@ -14,6 +14,8 @@ abstract class AuthRemoteDataSource {
       {required RegisterRequestModel requestModel});
 
   Future<RegisterResponseModel> getCurrentCustomer();
+
+  Future<bool> checkUserRegistered({required String phoneNumber});
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -40,9 +42,17 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<RegisterResponseModel> getCurrentCustomer() async {
-    final response = await restApiProvider.post(registerEndPoint,
+    final response = await restApiProvider.get(registerEndPoint,
         headers: ApiHeaders.authorizationHeaders);
 
     return RegisterResponseModel.fromJson(response);
+  }
+
+  @override
+  Future<bool> checkUserRegistered({required String phoneNumber}) async {
+    final response = await restApiProvider
+        .post(registerEndPoint, body: {'phone_number': phoneNumber});
+
+    return response['data'] as bool;
   }
 }

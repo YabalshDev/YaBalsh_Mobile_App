@@ -23,6 +23,7 @@ import 'package:yabalash_mobile_app/features/auth/data/datasources/auth_local_da
 import 'package:yabalash_mobile_app/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:yabalash_mobile_app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:yabalash_mobile_app/features/auth/domain/usecases/check_user_registered_usecase.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/get_current_customer_usecase.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/register_usecase.dart';
@@ -193,6 +194,9 @@ setupDependecies() {
   getIt.registerLazySingleton(() => GetCurrentCustomerUseCase(
         authRepository: getIt(),
       ));
+  getIt.registerLazySingleton(() => CheckUserRegisteredUseCase(
+        authRepository: getIt(),
+      ));
 
   getIt.registerLazySingleton(
       () => GetSubZonesUseCase(zonesRepository: getIt()));
@@ -276,8 +280,8 @@ setupDependecies() {
   getIt.registerFactory(
     () => SubZoneCubit(getSubZonesUseCase: getIt(), zonesRepository: getIt()),
   );
-  getIt.registerLazySingleton(
-    () => PhoneNumberCubit(),
+  getIt.registerFactory(
+    () => PhoneNumberCubit(checkUserRegisteredUseCase: getIt()),
   );
 
   getIt.registerFactory(

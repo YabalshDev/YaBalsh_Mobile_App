@@ -58,4 +58,17 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(ServerFailure(message: err.errorModel.message!));
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> checkUserRegistered(
+      {required String phoneNumber}) async {
+    try {
+      final result = await authRemoteDataSource.checkUserRegistered(
+          phoneNumber: phoneNumber);
+      return Right(result);
+    } on ServerException {
+      return const Left(
+          ServerFailure(message: 'خطا اثناء التحقق من رقم الهاتف'));
+    }
+  }
 }

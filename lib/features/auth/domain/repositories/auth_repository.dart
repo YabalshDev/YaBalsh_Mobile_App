@@ -14,6 +14,9 @@ abstract class AuthRepository {
 
   Future<Either<Failure, Customer>> getCurrentCustomer();
 
+  Future<Either<Failure, bool>> checkUserRegistered(
+      {required String phoneNumber});
+
   bool checkUserLoggedIn();
   void saveUserToken({required String token});
 }
