@@ -47,7 +47,8 @@ class SettingsBody extends StatelessWidget {
                   ),
                   SettingsElementCard(
                       onTap: () {
-                        Get.toNamed(RouteHelper.getAddressesRoute());
+                        Get.toNamed(RouteHelper.getAddressesRoute(),
+                            arguments: RouteHelper.getSettingsRoute());
                       },
                       iconPath: AppAssets.addressesIcon,
                       title: 'عناويني'),

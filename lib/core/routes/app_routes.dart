@@ -57,6 +57,8 @@ class RouteHelper {
   static const String _pastOrdersRoute = '/past-orders';
   static const String _shoppingListDetailsRoute = '/shopping-list-details';
   static const String _searchRoute = '/search';
+  static const String _settingsRoute = '/settings';
+  static const String _cartRoute = '/cart';
 
   static getIntialRoute() => _intialRoute;
   static getOnBoardingRoute() => _onBordingRoute;
@@ -74,6 +76,8 @@ class RouteHelper {
   static getPastOrdersRoute() => _pastOrdersRoute;
   static getShoppingListDetailsRoute() => _shoppingListDetailsRoute;
   static getSearchRoute() => _searchRoute;
+  static getCartRoute() => _cartRoute;
+  static getSettingsRoute() => _settingsRoute;
 
   static final routes = [
     GetPage(
@@ -174,10 +178,11 @@ class RouteHelper {
     GetPage(
         name: _addressesRoute,
         page: () {
+          final String fromRoute = Get.arguments;
           return CustomAnimatedWidget(
               child: BlocProvider<AddressCubit>(
             create: (context) => getIt<AddressCubit>()..getAllAddress(),
-            child: const AddressesView(),
+            child: AddressesView(fromRoute: fromRoute),
           ));
         }),
     GetPage(

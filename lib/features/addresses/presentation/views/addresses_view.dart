@@ -6,28 +6,17 @@ import 'package:yabalash_mobile_app/features/addresses/presentation/widgets/addr
 import '../../../../core/routes/app_routes.dart';
 
 class AddressesView extends StatelessWidget {
-  const AddressesView({super.key});
+  final String fromRoute;
+  const AddressesView({super.key, required this.fromRoute});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: const AddressesBody(),
+        body: AddressesBody(fromRoute: fromRoute),
         bottomNavigationBar: CustomNavBar(
             isButtonSecondary: false,
             title: '+ اضف عنوانا',
             mainButtonTap: () => Get.toNamed(RouteHelper.getUpdateAddress(),
-                arguments: [false, null, RouteHelper.getAddressesRoute()]))
-        //         arguments: [false, null]) ,),
-        // bottomNavigationBar: Container(
-        //   height: 70.h,
-        //   padding: kDefaultPadding,
-        //   child: YaBalashCustomButton(
-        //     isSecondaryButton: false,
-        //     onTap: () => Get.toNamed(RouteHelper.getUpdateAddress(),
-        //         arguments: [false, null]),
-        //     child: const Text('+ اضف عنوانا'),
-        //   ),
-        // ),
-        );
+                arguments: [false, null, fromRoute])));
   }
 }

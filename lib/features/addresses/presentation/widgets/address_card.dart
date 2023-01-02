@@ -19,8 +19,13 @@ class AddressCard extends StatelessWidget {
   final Address? address;
   final int index;
   final bool? isPrimary;
+  final String fromRoute;
   const AddressCard(
-      {super.key, this.address, required this.index, this.isPrimary = false});
+      {super.key,
+      this.address,
+      required this.index,
+      this.isPrimary = false,
+      required this.fromRoute});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +64,7 @@ class AddressCard extends StatelessWidget {
         ),
         child: AddressContainer(
           address: address!,
-          fromRoute: RouteHelper.getAddressesRoute(),
+          fromRoute: fromRoute,
           isWithPrimary: true,
           isPrimary: isPrimary!,
           index: index,
@@ -191,9 +196,27 @@ class AddressContainer extends StatelessWidget {
                         ),
                       )
                     : const SizedBox(),
+                //  if (fromRoute == RouteHelper.getCartRoute()) {
+                //   Get.toNamed(RouteHelper.getAddressesRoute(),
+                //       arguments: RouteHelper.getCartRoute()); // navigate addresses page
+                // }else{
+
+                // }
                 InkWell(
-                  onTap: () => Get.toNamed(RouteHelper.getUpdateAddress(),
-                      arguments: [true, address, fromRoute]),
+                  onTap: () {
+                    if (fromRoute == RouteHelper.getCartRoute()) {
+                      Get.toNamed(RouteHelper.getAddressesRoute(),
+                          arguments: RouteHelper
+                              .getCartRoute()); // navigate addresses page
+                    } else {
+                      // navigate to edit address page
+                      Get.toNamed(RouteHelper.getUpdateAddress(), arguments: [
+                        true,
+                        address,
+                        RouteHelper.getAddressesRoute()
+                      ]);
+                    }
+                  },
                   child: Row(
                     children: [
                       const CustomSvgIcon(

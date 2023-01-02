@@ -30,16 +30,10 @@ class UpdateAddressBody extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AuthBackIcon(onTap: () {
-                if (fromRoute == RouteHelper.getAddressesRoute()) {
-                  Get.offNamedUntil(
-                    fromRoute,
-                    (route) => Get.currentRoute == fromRoute,
-                  );
-                } else {
-                  Get.back();
-                }
-              }),
+              AuthBackIcon(
+                onTap: () => Get.offAllNamed(RouteHelper.getAddressesRoute(),
+                    arguments: fromRoute),
+              ),
               largeVerticalSpace,
               const AuthTitleWidget(
                 title: 'حابب نوصلك فين؟',

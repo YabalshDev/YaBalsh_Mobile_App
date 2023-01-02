@@ -76,12 +76,5 @@ class UpdateAddressCubit extends Cubit<UpdateAddressState> {
   }
 }
 
-void _handleNavigationAfterUpdate(String fromRoute) {
-  Get.back();
-  //from cart navigate to cart page
-  if (fromRoute == RouteHelper.getMainNavigationRoute()) {
-    Get.offAllNamed(fromRoute, arguments: 2);
-  } else {
-    Get.offNamed(fromRoute);
-  }
-}
+void _handleNavigationAfterUpdate(String fromRoute) =>
+    Get.offAllNamed(RouteHelper.getAddressesRoute(), arguments: fromRoute);
