@@ -127,7 +127,10 @@ class CartCustomNavBar extends StatelessWidget {
                         mainContent:
                             'انت لست مسجلا سجل دخول لتتمكن من اتمام طلبك.',
                         title: 'ملاحظة',
-                        onConfirm: () => Get.back(),
+                        onConfirm: () => Get
+                          ..back()
+                          ..offNamed(RouteHelper.getPhoneNumberRoute(),
+                              arguments: RouteHelper.getCartRoute()),
                       );
                     } else {
                       pageController.animateToPage(2,

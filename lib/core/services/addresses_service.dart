@@ -13,6 +13,7 @@ abstract class AddressService {
   void setAddresses(List<Address> addresses);
   void addAddress(Address address);
   void removeAddress(Address address);
+  void setPrimaryAddress(Address address);
 }
 
 class AddressServiceImpl implements AddressService {
@@ -28,6 +29,7 @@ class AddressServiceImpl implements AddressService {
   @override
   List<Address> get addresses => _addresses;
 
+  @override
   void setPrimaryAddress(Address address) => _primaryAddress = address;
 
   @override

@@ -2,9 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
-import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/core/usecases/use_cases.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
+import 'package:yabalash_mobile_app/core/utils/navigation_after_auth.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
 import 'package:yabalash_mobile_app/features/auth/data/models/login_request_model.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/repositories/auth_repository.dart';
@@ -26,10 +26,13 @@ class LoginCubit extends Cubit<LoginState> {
       required this.loginUseCase})
       : super(const LoginState());
 
-  void loginUser({required LoginRequestModel loginCredentials}) async {
+  void loginUser(
+      {required LoginRequestModel loginCredentials,
+      required String fromRoute}) async {
     emit(state.copyWith(loginState: RequestState.loading));
     final response =
         await loginUseCase(LoginParams(loginRequest: loginCredentials));
+
     response.fold((faiulre) {
       // show error message to user
       emit(state.copyWith(
@@ -48,8 +51,8 @@ class LoginCubit extends Cubit<LoginState> {
       final customer = await getCurrentCustomer();
       if (customer.id != null) {
         getIt<UserService>().setCurrentCustomer(customer);
-        // navigate to home
-        Get.offAllNamed(RouteHelper.getMainNavigationRoute(), arguments: 0);
+        // navigation
+        handleSuccessfullAuthNavigation(fromRoute);
       } else {
         emit(state.copyWith(
             errorMessage: 'فشل اثناء جلب بيانات المستخدم .. حاول مرة اخرى',

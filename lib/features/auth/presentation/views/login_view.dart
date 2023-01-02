@@ -5,7 +5,9 @@ import '../widgets/login_body.dart';
 
 class LoginView extends StatelessWidget {
   final String phoneNumber;
-  const LoginView({super.key, required this.phoneNumber});
+  final String fromRoute;
+  const LoginView(
+      {super.key, required this.phoneNumber, required this.fromRoute});
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +15,7 @@ class LoginView extends StatelessWidget {
       body: SafeArea(
           child: LoginBody(
         phoneNumber: phoneNumber,
+        fromRoute: fromRoute,
       )),
       bottomNavigationBar: const AccountProblemBottomBar(),
     );

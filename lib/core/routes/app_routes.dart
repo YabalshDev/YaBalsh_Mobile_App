@@ -129,7 +129,8 @@ class RouteHelper {
             create: (context) => getIt<LoginCubit>(),
             child: KeyboardDissmisable(
                 child: LoginView(
-              phoneNumber: Get.arguments,
+              phoneNumber: Get.arguments[0],
+              fromRoute: Get.arguments[1],
             )),
           ));
         }),
@@ -141,7 +142,8 @@ class RouteHelper {
             create: (context) => getIt<RegisterCubit>(),
             child: KeyboardDissmisable(
                 child: RegisterView(
-              phoneNumber: Get.arguments,
+              phoneNumber: Get.arguments[0],
+              fromRoute: Get.arguments[1],
             )),
           ));
         }),
@@ -168,11 +170,12 @@ class RouteHelper {
     GetPage(
         name: _phoneNumberRoute,
         page: () {
+          final String fromRoute = Get.arguments;
           return CustomAnimatedWidget(
               child: KeyboardDissmisable(
                   child: BlocProvider<PhoneNumberCubit>(
             create: (context) => getIt<PhoneNumberCubit>(),
-            child: const PhoneNumberView(),
+            child: PhoneNumberView(fromRoute: fromRoute),
           )));
         }),
     GetPage(

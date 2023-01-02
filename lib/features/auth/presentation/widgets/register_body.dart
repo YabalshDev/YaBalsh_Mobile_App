@@ -16,7 +16,9 @@ final _formKey = GlobalKey<FormBuilderState>();
 
 class RegisterBody extends StatelessWidget {
   final String phoneNumber;
-  const RegisterBody({super.key, required this.phoneNumber});
+  final String fromRoute;
+  const RegisterBody(
+      {super.key, required this.phoneNumber, required this.fromRoute});
 
   @override
   Widget build(BuildContext context) {
@@ -75,10 +77,9 @@ class RegisterBody extends StatelessWidget {
                                     .fields['phoneNumber']!.value);
                           }
 
-                          print(registerBody);
-
-                          getIt<RegisterCubit>()
-                              .registerUser(registerCredntials: registerBody);
+                          getIt<RegisterCubit>().registerUser(
+                              registerCredntials: registerBody,
+                              fromRoute: fromRoute);
                         } else if (!_formKey
                             .currentState!.fields['password']!.isValid) {
                           getIt<RegisterCubit>().changeFormFieldError(true);

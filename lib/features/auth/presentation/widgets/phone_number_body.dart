@@ -13,7 +13,8 @@ import 'package:yabalash_mobile_app/features/auth/presentation/widgets/auth_titl
 final _formKey = GlobalKey<FormBuilderState>();
 
 class PhoneNumberBody extends StatelessWidget {
-  const PhoneNumberBody({super.key});
+  final String fromRoute;
+  const PhoneNumberBody({super.key, required this.fromRoute});
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +90,8 @@ class PhoneNumberBody extends StatelessWidget {
                           .currentState!.fields['phoneNumber']!.value as String;
 
                       BlocProvider.of<PhoneNumberCubit>(context)
-                          .handlePhoneFormSubmission(phoneNumber: phoneNumber);
+                          .handlePhoneFormSubmission(
+                              phoneNumber: phoneNumber, fromRoute: fromRoute);
                     }
                   },
                 );

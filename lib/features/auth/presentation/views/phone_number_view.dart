@@ -4,13 +4,14 @@ import 'package:yabalash_mobile_app/features/auth/presentation/widgets/account_p
 import '../widgets/phone_number_body.dart';
 
 class PhoneNumberView extends StatelessWidget {
-  const PhoneNumberView({super.key});
+  final String fromRoute;
+  const PhoneNumberView({super.key, required this.fromRoute});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: PhoneNumberBody(),
-      bottomNavigationBar: AccountProblemBottomBar(),
+    return Scaffold(
+      body: PhoneNumberBody(fromRoute: fromRoute),
+      bottomNavigationBar: const AccountProblemBottomBar(),
     );
   }
 }

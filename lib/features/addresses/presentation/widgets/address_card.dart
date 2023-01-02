@@ -8,6 +8,7 @@ import 'package:yabalash_mobile_app/features/addresses/presentation/blocs/cubit/
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
+import '../../../../core/services/addresses_service.dart';
 import '../../../../core/services/zone_service.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/theme/light/light_theme.dart';
@@ -164,8 +165,11 @@ class AddressContainer extends StatelessWidget {
               children: [
                 isWithPrimary
                     ? InkWell(
-                        onTap: () => BlocProvider.of<AddressCubit>(context)
-                            .setIsPrimary(index!),
+                        onTap: () {
+                          BlocProvider.of<AddressCubit>(context)
+                              .setIsPrimary(index!);
+                          getIt<AddressService>().setPrimaryAddress(address);
+                        },
                         child: Row(
                           children: [
                             Container(
@@ -196,12 +200,6 @@ class AddressContainer extends StatelessWidget {
                         ),
                       )
                     : const SizedBox(),
-                //  if (fromRoute == RouteHelper.getCartRoute()) {
-                //   Get.toNamed(RouteHelper.getAddressesRoute(),
-                //       arguments: RouteHelper.getCartRoute()); // navigate addresses page
-                // }else{
-
-                // }
                 InkWell(
                   onTap: () {
                     if (fromRoute == RouteHelper.getCartRoute()) {
