@@ -105,11 +105,12 @@ setupDependecies() {
   getIt.registerLazySingleton<LocalStorageProvider>(
       () => HiveLocalDataConsumer());
 //services
-  getIt.registerLazySingleton(() => ZoneService());
-  getIt.registerLazySingleton(() => OrderService());
-  getIt.registerLazySingleton(() => AddressService());
-  getIt.registerLazySingleton(() => UserService(localStorageProvider: getIt()));
-  getIt.registerLazySingleton(() => StoreService());
+  getIt.registerLazySingleton<ZoneService>(() => ZoneServiceImpl());
+  getIt.registerLazySingleton<OrderService>(() => OrderServiceImpl());
+  getIt.registerLazySingleton<AddressService>(() => AddressServiceImpl());
+  getIt.registerLazySingleton<UserService>(
+      () => UserServiceImpl(localStorageProvider: getIt()));
+  getIt.registerLazySingleton<StoreService>(() => StoreServiceImpl());
 
   getIt.registerLazySingleton<HomeDataSource>(() => HomeMockDataSourceImpl());
 
