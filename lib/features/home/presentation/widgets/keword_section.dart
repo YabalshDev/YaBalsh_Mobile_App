@@ -7,65 +7,87 @@ import 'package:yabalash_mobile_app/core/widgets/product_loading_shimmer.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_cubit.dart';
 
 import '../../../../core/utils/enums/request_state.dart';
+import '../../domain/entities/product.dart';
 import 'Title_row.dart';
 
-class KewordSection extends StatelessWidget {
+class HomeSections extends StatelessWidget {
   // final Section section;
-  final int order;
-  const KewordSection({super.key, required this.order});
+
+  const HomeSections({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        switch (order) {
-          case 1:
-            switch (state.firstSectionRequestState) {
-              case RequestState.loading:
-                return Column(
-                  children: [
-                    SizedBox(height: 10.h),
-                    SizedBox(
-                      height: 200.h,
-                      child: ListView.builder(
-                        padding: kScaffoldPadding,
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount: 3,
-                        itemBuilder: (context, index) {
-                          return const ProductLoadingShimmer();
-                        },
-                      ),
-                    ),
-                  ],
-                );
+        switch (state.firstSectionRequestState) {
+          case RequestState.loading:
+            return const SectionLoading();
 
-              case RequestState.loaded:
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TitleRow(title: state.firstSection!.keyWord!),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    SizedBox(
-                        height: 280.h,
-                        child: KewordProducts(
-                            products: state.firstSection!.products!))
-                  ],
-                );
+          case RequestState.loaded:
+            return SectionLoaded(
+                sectionName: state.firstSection!.keyWord!,
+                sectionProducts: state.firstSection!.products!);
 
-              case RequestState.error:
-                return const SizedBox();
-
-              default:
-                return const SizedBox.shrink();
-            }
+          case RequestState.error:
+            return const SizedBox();
 
           default:
-            return const SizedBox();
+            return const SizedBox.shrink();
         }
       },
+    );
+  }
+}
+
+class SectionLoaded extends StatelessWidget {
+  const SectionLoaded({
+    Key? key,
+    required this.sectionName,
+    required this.sectionProducts,
+  }) : super(key: key);
+
+  final String sectionName;
+  final List<Product> sectionProducts;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TitleRow(title: sectionName),
+        SizedBox(
+          height: 10.h,
+        ),
+        SizedBox(
+            height: 280.h, child: KewordProducts(products: sectionProducts))
+      ],
+    );
+  }
+}
+
+class SectionLoading extends StatelessWidget {
+  const SectionLoading({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: 10.h),
+        SizedBox(
+          height: 200.h,
+          child: ListView.builder(
+            padding: kScaffoldPadding,
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            itemCount: 3,
+            itemBuilder: (context, index) {
+              return const ProductLoadingShimmer();
+            },
+          ),
+        ),
+      ],
     );
   }
 }

@@ -26,7 +26,7 @@ class HomeBody extends StatelessWidget {
         const SliverToBoxAdapter(child: TitleRow(title: 'اكتشف ارخص العروض')),
         SliverToBoxAdapter(child: mediumVerticalSpace),
         const SliverToBoxAdapter(child: LastOfferSection()),
-        SliverToBoxAdapter(child: BannersSection()),
+        const SliverToBoxAdapter(child: BannersSection()),
         SliverToBoxAdapter(child: mediumVerticalSpace),
         const SliverToBoxAdapter(
             child: TitleRow(title: 'السوبر ماركتس القريبة منك  🏠')),
@@ -34,19 +34,13 @@ class HomeBody extends StatelessWidget {
         const SliverToBoxAdapter(child: NearStoresSection()),
         SliverToBoxAdapter(child: mediumVerticalSpace),
         SliverToBoxAdapter(
-            child: AddSection(
+            child: AdSection(
           adImagePath: bannersMockData[0].imagePath!,
         )),
         SliverToBoxAdapter(child: mediumVerticalSpace),
-        const SliverToBoxAdapter(
-            child: KewordSection(
-          order: 1,
-        )),
+        const SliverToBoxAdapter(child: HomeSections()),
         SliverToBoxAdapter(child: mediumVerticalSpace),
-        const SliverToBoxAdapter(
-            child: KewordSection(
-          order: 1,
-        )),
+        const SliverToBoxAdapter(child: HomeSections()),
         SliverToBoxAdapter(child: mediumVerticalSpace),
       ],
     );
