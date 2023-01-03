@@ -18,6 +18,7 @@ abstract class HomeDataSource {
   Future<List<Store>> getNearStores();
   Future<List<Product>> getSectionProducts({required int sectionId});
   Future<List<Section>> getSections();
+  Future<List<MainCategory>> getAllMainCategories();
 }
 
 class HomeMockDataSourceImpl implements HomeDataSource {
@@ -87,6 +88,20 @@ class HomeMockDataSourceImpl implements HomeDataSource {
         () => products = productsMock,
       );
       return products;
+    } catch (err) {
+      throw const ServerException(errorModel: ApiErrorModel());
+    }
+  }
+
+  @override
+  Future<List<MainCategory>> getAllMainCategories() async {
+    try {
+      List<MainCategory> categories = [];
+      await Future.delayed(
+        const Duration(seconds: 2),
+        () => categories = mainCategoriesMock,
+      );
+      return categories;
     } catch (err) {
       throw const ServerException(errorModel: ApiErrorModel());
     }

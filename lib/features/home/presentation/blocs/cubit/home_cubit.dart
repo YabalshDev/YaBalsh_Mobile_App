@@ -77,7 +77,7 @@ class HomeCubit extends Cubit<HomeState> {
     });
   }
 
-  void getFirstSection() async {
+  void getHomeSections() async {
     final response = await getSectiosUseCase(NoParams());
 
     response.fold((failure) {

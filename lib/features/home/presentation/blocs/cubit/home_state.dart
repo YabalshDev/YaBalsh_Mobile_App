@@ -7,6 +7,9 @@ class HomeState extends Equatable {
   final String? bannersError;
   final List<Banner>? banners;
   final RequestState? bannersRequestState;
+  final String? categoriesError;
+  final List<Banner>? mainCategories;
+  final RequestState? categoriesRequestState;
   final String? nearStoresError;
   final List<Store>? nearStores;
   final RequestState? nearStoreRequestState;
@@ -18,6 +21,9 @@ class HomeState extends Equatable {
   const HomeState(
       {this.lastOffersError = '',
       this.currentBannerIndex = 0,
+      this.categoriesError = '',
+      this.mainCategories = const [],
+      this.categoriesRequestState = RequestState.loading,
       this.lastOffers = const [],
       this.lastOfferrequestState = RequestState.loading,
       this.bannersError = '',

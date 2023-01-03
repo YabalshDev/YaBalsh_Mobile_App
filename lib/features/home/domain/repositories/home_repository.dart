@@ -10,5 +10,6 @@ abstract class HomeRepository {
   Future<Either<Failure, List<MainCategory>>> getLatestOffers();
   Future<Either<Failure, List<Banner>>> getBanners();
   Future<Either<Failure, List<Store>>> getNearStores();
+  Future<Either<Failure, List<MainCategory>>> getMainCategories();
   Future<Either<Failure, List<HomeSection>>> getHomeSections();
 }

@@ -68,4 +68,15 @@ class HomeRepositoryImpl implements HomeRepository {
           message: 'something went wrong with getting near stores'));
     }
   }
+
+  @override
+  Future<Either<Failure, List<MainCategory>>> getMainCategories() async {
+    try {
+      final categories = await homeDataSource.getAllMainCategories();
+      return Right(categories);
+    } on ServerException {
+      return const Left(ServerFailure(
+          message: 'something went wrong with getting categories'));
+    }
+  }
 }

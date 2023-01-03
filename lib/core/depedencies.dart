@@ -48,6 +48,7 @@ import 'package:yabalash_mobile_app/features/home/data/repositories/home_reposit
 import 'package:yabalash_mobile_app/features/home/domain/repositories/home_repository.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_banners_use_case.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_latest_offers_use_case.dart';
+import 'package:yabalash_mobile_app/features/home/domain/usecases/get_maincategories_usecase.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_near_stores_use_case.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_sections_use_case.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_cubit.dart';
@@ -183,6 +184,8 @@ setupDependecies() {
           ));
   // use cases
 
+  getIt.registerLazySingleton(
+      () => GetMainCategoriesUseCase(homeRepository: getIt()));
   getIt.registerLazySingleton(
       () => GetLatestOffersUseCase(homeRepository: getIt()));
   getIt.registerLazySingleton(() => GetBannersUseCase(homeRepository: getIt()));

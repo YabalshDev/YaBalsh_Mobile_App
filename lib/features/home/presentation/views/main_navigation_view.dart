@@ -121,7 +121,7 @@ final List<Widget> screens = [
           ..getLastOffers()
           ..getBanners()
           ..getNearStores()
-          ..getFirstSection();
+          ..getHomeSections();
       }
 
       return getIt<HomeCubit>();
