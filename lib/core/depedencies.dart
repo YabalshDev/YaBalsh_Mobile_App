@@ -6,6 +6,7 @@ import 'package:yabalash_mobile_app/core/api/remote_data_api/dio_consumer.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/interceptors.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/rest_api_provider.dart';
 import 'package:yabalash_mobile_app/core/services/addresses_service.dart';
+import 'package:yabalash_mobile_app/core/services/categories_service.dart';
 import 'package:yabalash_mobile_app/core/services/order_service.dart';
 import 'package:yabalash_mobile_app/core/services/stores_service.dart';
 import 'package:yabalash_mobile_app/core/services/user_service.dart';
@@ -43,6 +44,10 @@ import 'package:yabalash_mobile_app/features/cart/domain/usecases/increment_quan
 import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/cart_cubit.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/order_summary_cubit.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/super_markets_cubit.dart';
+import 'package:yabalash_mobile_app/features/categories/data/repositories/categories_repository_impl.dart';
+import 'package:yabalash_mobile_app/features/categories/domain/repositories/categories_repository.dart';
+import 'package:yabalash_mobile_app/features/categories/domain/usecases/get_sub_categories_usecase.dart';
+import 'package:yabalash_mobile_app/features/categories/presentation/blocs/categories_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/data/datasources/home_mock_datasource.dart';
 import 'package:yabalash_mobile_app/features/home/data/repositories/home_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/home/domain/repositories/home_repository.dart';
@@ -112,6 +117,7 @@ setupDependecies() {
   getIt.registerLazySingleton<UserService>(
       () => UserServiceImpl(localStorageProvider: getIt()));
   getIt.registerLazySingleton<StoreService>(() => StoreServiceImpl());
+  getIt.registerLazySingleton<CategoriesService>(() => CategoriesServiceImpl());
 
   getIt.registerLazySingleton<HomeDataSource>(() => HomeMockDataSourceImpl());
 
@@ -156,6 +162,9 @@ setupDependecies() {
   getIt.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(
       authRemoteDataSource: getIt(), authLocalDataSource: getIt()));
 
+  getIt.registerLazySingleton<CategoriesRepository>(
+      () => CategoriesRepositoryImpl());
+
   getIt.registerLazySingleton<ZonesRepository>(() => ZonesRepositoryImpl(
       zonesLocalDataSource: getIt(), zonesRemoteDataSource: getIt()));
 
@@ -192,6 +201,9 @@ setupDependecies() {
   getIt.registerLazySingleton(
       () => GetNearStoresUseCase(homeRepository: getIt()));
   getIt.registerLazySingleton(() => GetSectiosUseCase(homeRepository: getIt()));
+
+  getIt.registerLazySingleton(
+      () => GetSubCategoriesUseCase(categoriesRepository: getIt()));
 
   getIt.registerLazySingleton(() => RegisterUseCase(authRepository: getIt()));
   getIt.registerLazySingleton(() => LoginUseCase(authRepository: getIt()));
@@ -261,6 +273,10 @@ setupDependecies() {
 
   getIt.registerFactory(
     () => MainNavigationCubit(),
+  );
+
+  getIt.registerFactory(
+    () => CategoriesCubit(getSubCategoriesUseCase: getIt()),
   );
   getIt.registerLazySingleton(
     () => OnBoardingCubit(),

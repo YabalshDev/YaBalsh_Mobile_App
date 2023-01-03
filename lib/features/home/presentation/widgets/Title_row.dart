@@ -34,7 +34,7 @@ class TitleRow extends StatelessWidget {
             ),
             Text(
               "عرض الكل",
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: AppColorsLight.kAppPrimaryColorLight,
                   ),
             ),

@@ -28,7 +28,6 @@ class CategoriesBody extends StatelessWidget {
           ),
           mediumVerticalSpace,
           CategoriesSection(
-              height: 220.h,
               subCategories: subCategories
                   .where((element) => element.mainCategory == "مشروبات")
                   .toList()),
@@ -44,7 +43,6 @@ class CategoriesBody extends StatelessWidget {
             subCategories: subCategories
                 .where((element) => element.mainCategory == "منتجات الالبان")
                 .toList(),
-            height: 220.h,
           )
         ],
       ),
@@ -54,26 +52,27 @@ class CategoriesBody extends StatelessWidget {
 
 class CategoriesSection extends StatelessWidget {
   final List<SubCategory> subCategories;
-  final double height;
-  const CategoriesSection(
-      {super.key, required this.subCategories, required this.height});
+
+  const CategoriesSection({
+    super.key,
+    required this.subCategories,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: height,
-      child: GridView.builder(
-        itemCount: subCategories.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4,
-            crossAxisSpacing: 20.w,
-            mainAxisSpacing: 5.h,
-            childAspectRatio: 0.6.w),
-        itemBuilder: (context, index) {
-          final subCategory = subCategories[index];
-          return SubCategoryCard(subCategory: subCategory);
-        },
-      ),
+    return GridView.builder(
+      itemCount: subCategories.length,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 4,
+          crossAxisSpacing: 20.w,
+          mainAxisSpacing: 5.h,
+          childAspectRatio: 0.6.w),
+      itemBuilder: (context, index) {
+        final subCategory = subCategories[index];
+        return SubCategoryCard(subCategory: subCategory);
+      },
     );
   }
 }

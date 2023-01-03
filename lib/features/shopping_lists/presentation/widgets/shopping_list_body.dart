@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/features/shopping_lists/presentation/widgets/recipies_section.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/widgets/shopping_list_card.dart';
 
 import '../../../../core/constants/app_layouts.dart';
@@ -46,17 +47,24 @@ class ShoppingListBody extends StatelessWidget {
                                   child: EmptyIndicator(
                                       title: 'لا يوجد قوائم مختارة')),
                             )
-                          : ListView.builder(
-                              shrinkWrap: true,
-                              padding: kDefaultPadding,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: state.shoppingLists!.length,
-                              itemBuilder: (context, index) {
-                                final shoppingList =
-                                    state.shoppingLists![index];
-                                return ShoppingListCard(
-                                    shoppingList: shoppingList);
-                              },
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  padding: kDefaultPadding,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: state.shoppingLists!.length,
+                                  itemBuilder: (context, index) {
+                                    final shoppingList =
+                                        state.shoppingLists![index];
+                                    return ShoppingListCard(
+                                        shoppingList: shoppingList);
+                                  },
+                                ),
+                                mediumVerticalSpace,
+                                const RecipiesSection()
+                              ],
                             );
                     case RequestState.error:
                       return EmptyIndicator(title: state.errorMessage!);
