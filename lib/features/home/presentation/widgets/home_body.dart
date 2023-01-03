@@ -5,7 +5,7 @@ import 'package:yabalash_mobile_app/features/home/presentation/widgets/Title_row
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/ad_section.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/banners_section.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/home_header.dart';
-import 'package:yabalash_mobile_app/features/home/presentation/widgets/keword_section.dart';
+import 'package:yabalash_mobile_app/features/home/presentation/widgets/home_sections.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/last_offers_section.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/near_stores_section.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/search_section.dart';

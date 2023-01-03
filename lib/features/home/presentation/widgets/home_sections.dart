@@ -19,14 +19,19 @@ class HomeSections extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        switch (state.firstSectionRequestState) {
+        switch (state.homeSectionsRequestState) {
           case RequestState.loading:
-            return const SectionLoading();
+            return Column(
+                children: List.generate(3, (index) => const SectionLoading()));
 
           case RequestState.loaded:
-            return SectionLoaded(
-                sectionName: state.firstSection!.keyWord!,
-                sectionProducts: state.firstSection!.products!);
+            return Column(
+              children: state.homeSections!
+                  .map((homeSection) => SectionLoaded(
+                      sectionName: homeSection.section!.keyWord!,
+                      sectionProducts: homeSection.products!))
+                  .toList(),
+            );
 
           case RequestState.error:
             return const SizedBox();
@@ -54,10 +59,9 @@ class SectionLoaded extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        mediumVerticalSpace,
         TitleRow(title: sectionName),
-        SizedBox(
-          height: 10.h,
-        ),
+        mediumVerticalSpace,
         SizedBox(
             height: 280.h, child: KewordProducts(products: sectionProducts))
       ],

@@ -21,7 +21,7 @@ class _BannersSectionState extends State<BannersSection> {
   late CarouselController carouselController;
   @override
   void initState() {
-    carouselController == CarouselController();
+    carouselController = CarouselController();
     super.initState();
   }
 

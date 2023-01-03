@@ -5,6 +5,7 @@ import 'package:yabalash_mobile_app/core/services/stores_service.dart';
 import 'package:yabalash_mobile_app/core/usecases/use_cases.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/banner.dart';
+import 'package:yabalash_mobile_app/features/home/domain/entities/home_section.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/main_category.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_banners_use_case.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_latest_offers_use_case.dart';
@@ -13,7 +14,6 @@ import 'package:yabalash_mobile_app/features/home/domain/usecases/get_sections_u
 import 'package:yabalash_mobile_app/features/zones/domain/usecases/get_past_subzones_usecase.dart';
 
 import '../../../../zones/domain/entities/sub_zone.dart';
-import '../../../domain/entities/section.dart';
 import '../../../domain/entities/store.dart';
 
 part 'home_state.dart';
@@ -78,17 +78,16 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void getFirstSection() async {
-    final response = await getSectiosUseCase(
-        const GetSectiosParams(keword: 'ارخص الاسعار للمنتجات'));
+    final response = await getSectiosUseCase(NoParams());
 
     response.fold((failure) {
       emit(state.copyWith(
-          firstSectionRequestState: RequestState.error,
-          firstSectionError: failure.message));
+          homeSectionsRequestState: RequestState.error,
+          sectionsError: failure.message));
     }, (sections) {
       emit(state.copyWith(
-          firstSectionRequestState: RequestState.loaded,
-          firstSection: sections[0]));
+          homeSectionsRequestState: RequestState.loaded,
+          homeSections: sections));
     });
   }
 
