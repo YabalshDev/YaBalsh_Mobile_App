@@ -243,7 +243,16 @@ class RouteHelper {
           final bool fromCategory = Get.arguments[0];
           return CustomAnimatedWidget(
             child: BlocProvider<SearchCubit>(
-              create: (context) => getIt<SearchCubit>()..getSearchHistory(),
+              create: (context) {
+                if (searchName.isNotEmpty) {
+                  return getIt<SearchCubit>()
+                    ..changeSearchIsEmpty(false)
+                    ..getSearchHistory()
+                    ..search(searchName);
+                } else {
+                  return getIt<SearchCubit>()..getSearchHistory();
+                }
+              },
               child: KeyboardDissmisable(
                 child: SearchView(
                     fromCategory: fromCategory, intialValue: searchName),

@@ -20,23 +20,26 @@ class TitleRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: padding ?? kScaffoldPadding,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge
-                ?.copyWith(fontWeight: fontWeight),
-          ),
-          Text(
-            "عرض الكل",
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: AppColorsLight.kAppPrimaryColorLight,
-                ),
-          ),
-        ],
+      child: InkWell(
+        onTap: onSelectAll,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              title,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge
+                  ?.copyWith(fontWeight: fontWeight),
+            ),
+            Text(
+              "عرض الكل",
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: AppColorsLight.kAppPrimaryColorLight,
+                  ),
+            ),
+          ],
+        ),
       ),
     );
   }

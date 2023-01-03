@@ -40,8 +40,6 @@ class HomeBody extends StatelessWidget {
         SliverToBoxAdapter(child: mediumVerticalSpace),
         const SliverToBoxAdapter(child: HomeSections()),
         SliverToBoxAdapter(child: mediumVerticalSpace),
-        const SliverToBoxAdapter(child: HomeSections()),
-        SliverToBoxAdapter(child: mediumVerticalSpace),
       ],
     );
   }
