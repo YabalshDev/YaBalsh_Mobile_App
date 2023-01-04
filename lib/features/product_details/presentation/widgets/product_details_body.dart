@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -90,14 +93,20 @@ class ProductDetailsBody extends StatelessWidget {
                         smallVerticalSpace,
                         ProductKewordCards(productName: product.name!),
                         mediumVerticalSpace,
-                        Text(
-                          AppStrings.discoverComparePrices,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge
-                              ?.copyWith(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w700),
+                        Row(
+                          children: [
+                            Text(
+                              AppStrings.discoverComparePrices,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w700),
+                            ),
+                            const Spacer(),
+                            const NearYouSection()
+                          ],
                         ),
                         PriceComparisonSection(product: product),
                         mediumVerticalSpace,
@@ -154,6 +163,48 @@ class ProductDetailsBody extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class NearYouSection extends StatelessWidget {
+  const NearYouSection({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
+      builder: (context, state) {
+        return Row(
+          children: [
+            Text(
+              'القريب منك',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w700,
+                  color: state.withNearStores!
+                      ? Colors.green.shade400
+                      : Colors.grey.shade300),
+            ),
+            Platform.isAndroid
+                ? Switch(
+                    value: state.withNearStores!,
+                    activeColor: Colors.green.shade400,
+                    onChanged: (value) =>
+                        BlocProvider.of<ProductDetailsCubit>(context)
+                            .changeWithNearStores(value),
+                  )
+                : CupertinoSwitch(
+                    value: state.withNearStores!,
+                    activeColor: Colors.green.shade400,
+                    onChanged: (value) =>
+                        BlocProvider.of<ProductDetailsCubit>(context)
+                            .changeWithNearStores(value),
+                  )
+          ],
+        );
+      },
     );
   }
 }

@@ -23,7 +23,7 @@ class PriceModel extends Equatable {
       isAvailable: json['isAvailable'],
       price: double.parse(json['price'] as String),
       storeId: json['storeId'],
-      storeImagePath: json['storeImagePath']);
+      storeImagePath: json['cardImagePath']);
 
   @override
   List<Object?> get props => [storeId, storeImagePath, isAvailable, price];

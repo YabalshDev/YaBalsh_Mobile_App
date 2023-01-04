@@ -15,9 +15,9 @@ import '../../../../core/widgets/cart_quantity_row.dart';
 import '../../../cart/domain/entities/cart_item.dart';
 import '../../../cart/presentation/blocs/cubit/cart_cubit.dart';
 
-class HomeProductCardTest extends StatelessWidget {
+class SearchProductCard extends StatelessWidget {
   final Product product;
-  const HomeProductCardTest({super.key, required this.product});
+  const SearchProductCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -43,27 +43,26 @@ class HomeProductCardTest extends StatelessWidget {
                         border: Border.all(color: Colors.transparent)),
                     child: Row(
                       children: [
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            'جنيه ${product.prices!.entries.first.value.price}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(
-                                    fontSize: 11.sp,
-                                    decoration: TextDecoration.lineThrough,
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.w600),
-                          ),
+                        Text(
+                          'جنيه ${product.prices!.entries.first.value.price}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                  fontSize: 11.sp,
+                                  decoration: TextDecoration.lineThrough,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w600),
                         ),
-                        Expanded(
-                            flex: 1,
-                            child: AppImage(
-                              path: product.prices!.entries.first.value
-                                      .storeImagePath ??
-                                  '',
-                            )),
+                        const Spacer(),
+                        AppImage(
+                          height: 25.h,
+                          width: 60.w,
+                          fit: BoxFit.contain,
+                          path: product
+                                  .prices!.entries.first.value.storeImagePath ??
+                              '',
+                        ),
                       ],
                     ),
                   )
@@ -171,26 +170,25 @@ class HomeProductCardTest extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            'جنيه ${product.prices!.entries.last.value.price}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(
-                                    fontSize: 13.sp,
-                                    color: AppColorsLight.kAppPrimaryColorLight,
-                                    fontWeight: FontWeight.w700),
-                          ),
+                        Text(
+                          'جنيه ${product.prices!.entries.last.value.price}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                  fontSize: 13.sp,
+                                  color: AppColorsLight.kAppPrimaryColorLight,
+                                  fontWeight: FontWeight.w700),
                         ),
-                        Expanded(
-                            flex: 1,
-                            child: AppImage(
-                              path: product.prices!.entries.first.value
-                                      .storeImagePath ??
-                                  '',
-                            )),
+                        const Spacer(),
+                        AppImage(
+                          height: 25.h,
+                          width: 60.w,
+                          fit: BoxFit.fill,
+                          path: product
+                                  .prices!.entries.last.value.storeImagePath ??
+                              '',
+                        ),
                       ],
                     )
                   ],
