@@ -12,39 +12,41 @@ class CategoriesBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: kDefaultPadding,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const CustomHeader(isWithNotification: true, title: "الاقسام"),
-          mediumVerticalSpace,
-          Text(
-            'مشروبات',
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge
-                ?.copyWith(fontWeight: FontWeight.w800),
-          ),
-          mediumVerticalSpace,
-          CategoriesSection(
+    return SingleChildScrollView(
+      child: Padding(
+        padding: kDefaultPadding,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const CustomHeader(isWithNotification: true, title: "الاقسام"),
+            mediumVerticalSpace,
+            Text(
+              'مشروبات',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge
+                  ?.copyWith(fontWeight: FontWeight.w800),
+            ),
+            mediumVerticalSpace,
+            CategoriesSection(
+                subCategories: subCategories
+                    .where((element) => element.mainCategory == "مشروبات")
+                    .toList()),
+            Text(
+              'منتجات الالبان',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge
+                  ?.copyWith(fontWeight: FontWeight.w800),
+            ),
+            mediumVerticalSpace,
+            CategoriesSection(
               subCategories: subCategories
-                  .where((element) => element.mainCategory == "مشروبات")
-                  .toList()),
-          Text(
-            'منتجات الالبان',
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge
-                ?.copyWith(fontWeight: FontWeight.w800),
-          ),
-          mediumVerticalSpace,
-          CategoriesSection(
-            subCategories: subCategories
-                .where((element) => element.mainCategory == "منتجات الالبان")
-                .toList(),
-          )
-        ],
+                  .where((element) => element.mainCategory == "منتجات الالبان")
+                  .toList(),
+            )
+          ],
+        ),
       ),
     );
   }
