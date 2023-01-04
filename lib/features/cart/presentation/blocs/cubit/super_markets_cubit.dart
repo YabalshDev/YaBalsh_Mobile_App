@@ -55,7 +55,7 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
         if (storesTotalPrices.containsKey(priceModel.key)) {
           StorePrice storePrice = storesTotalPrices[priceModel.key]!;
           double totalPrice = (storePrice.price! + (quantity * price));
-          if (storePrice.isAvailable!) {
+          if (!storePrice.isAvailable!) {
             storesTotalPrices.update(
                 priceModel.key,
                 (value) => storePrice.copyWith(

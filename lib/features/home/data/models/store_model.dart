@@ -19,10 +19,12 @@ class StoreModel extends Store {
     return StoreModel(
         id: json["id"],
         name: json["name"],
-        cardImagePath: json["cardImagePath"],
-        logoImagePath: json["logoImagePath"],
-        locations: (json["locations"] as List<dynamic>)
-            .map((e) => LocationModel.fromJson(e))
-            .toList());
+        cardImagePath: json["cardImagePath"] ?? '',
+        logoImagePath: json["logoImagePath"] ?? '',
+        locations: json['locations'] != null
+            ? (json["locations"] as List<dynamic>)
+                .map((e) => LocationModel.fromJson(e))
+                .toList()
+            : []);
   }
 }

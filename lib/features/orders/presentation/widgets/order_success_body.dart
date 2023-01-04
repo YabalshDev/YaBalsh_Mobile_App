@@ -37,7 +37,8 @@ class OrderSuccessBody extends StatelessWidget {
               InkWell(
                 onTap: () {
                   getIt<CartCubit>().resetCart();
-                  Get.offAllNamed(RouteHelper.getMainNavigationRoute());
+                  Get.offAllNamed(RouteHelper.getMainNavigationRoute(),
+                      arguments: 0);
                 },
                 child: const CustomSvgIcon(
                   iconPath: AppAssets.closeIcon,

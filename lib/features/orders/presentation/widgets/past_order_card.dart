@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:yabalash_mobile_app/features/orders/domain/entities/order.dart';
 
-import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/theme/light/light_theme.dart';
@@ -28,10 +27,10 @@ class PastOrderCard extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const CustomCard(
+                  CustomCard(
                     withBorder: true,
-                    isAssetImage: true,
-                    imagePath: AppAssets.carefour,
+                    isAssetImage: false,
+                    imagePath: order.store!.cardImagePath,
                   ),
                   smallHorizontalSpace,
                   Column(
@@ -47,7 +46,7 @@ class PastOrderCard extends StatelessWidget {
                                   ?.copyWith(
                                       color: Colors.black, fontSize: 10.sp)),
                           TextSpan(
-                              text: 'كارفور',
+                              text: order.store!.name ?? '',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium

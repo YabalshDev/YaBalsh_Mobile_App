@@ -15,7 +15,7 @@ const productsMock = [
             storeId: 1,
             storeImagePath: AppAssets.carefour),
         'جورميه': PriceModel(
-            isAvailable: false,
+            isAvailable: true,
             price: 133,
             storeId: 2,
             storeImagePath: AppAssets.gourmet),
