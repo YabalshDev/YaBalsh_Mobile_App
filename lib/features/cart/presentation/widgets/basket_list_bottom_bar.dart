@@ -71,9 +71,7 @@ class BascketListBottomBar extends StatelessWidget {
               ),
             ),
           ),
-          mediumVerticalSpace,
           CustomNavBar(
-            height: 51.h,
             mainButtonTap: () {
               pageController.animateToPage(1,
                   duration: const Duration(milliseconds: 500),

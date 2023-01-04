@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
-import 'package:yabalash_mobile_app/core/depedencies.dart';
 import 'package:yabalash_mobile_app/core/usecases/use_cases.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
 import 'package:yabalash_mobile_app/core/utils/navigation_after_auth.dart';
@@ -11,7 +10,6 @@ import 'package:yabalash_mobile_app/features/auth/domain/repositories/auth_repos
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/get_current_customer_usecase.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/login_usecase.dart';
 
-import '../../../../../core/services/user_service.dart';
 import '../../../domain/entities/customer.dart';
 
 part 'login_state.dart';
@@ -48,16 +46,16 @@ class LoginCubit extends Cubit<LoginState> {
       // save user token
       authRepository.saveUserToken(token: data.token!);
       // get user data
-      final customer = await getCurrentCustomer();
-      if (customer.id != null) {
-        getIt<UserService>().setCurrentCustomer(customer);
-        // navigation
-        handleSuccessfullAuthNavigation(fromRoute);
-      } else {
-        emit(state.copyWith(
-            errorMessage: 'فشل اثناء جلب بيانات المستخدم .. حاول مرة اخرى',
-            loginState: RequestState.error));
-      }
+      handleSuccessfullAuthNavigation(fromRoute);
+      // final customer = await getCurrentCustomer();
+      // if (customer.id != null) {
+      //   getIt<UserService>().setCurrentCustomer(customer);
+      //   // navigation
+      // } else {
+      //   emit(state.copyWith(
+      //       errorMessage: 'فشل اثناء جلب بيانات المستخدم .. حاول مرة اخرى',
+      //       loginState: RequestState.error));
+      // }
     });
   }
 

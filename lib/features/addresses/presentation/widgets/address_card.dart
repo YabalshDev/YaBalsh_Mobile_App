@@ -92,7 +92,6 @@ class AddressContainer extends StatelessWidget {
     return Container(
       decoration: kDefaultBoxDecoration.copyWith(
           border: Border.all(color: Colors.transparent)),
-      height: 200.h,
       padding: kDefaultPadding,
       child: Container(
         padding: kDefaultPadding,

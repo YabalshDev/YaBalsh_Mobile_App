@@ -21,7 +21,7 @@ class UserAddressCard extends StatelessWidget {
         ? AddressContainer(
             isWithPrimary: false,
             isPrimary: false,
-            fromRoute: RouteHelper.getMainNavigationRoute(),
+            fromRoute: RouteHelper.getCartRoute(),
             index: -1,
             address: state.userAddresses!.last,
           )
@@ -55,11 +55,7 @@ class UserAddressCard extends StatelessWidget {
                 const Spacer(),
                 InkWell(
                   onTap: () => Get.toNamed(RouteHelper.getUpdateAddress(),
-                      arguments: [
-                        false,
-                        null,
-                        RouteHelper.getMainNavigationRoute()
-                      ]),
+                      arguments: [false, null, RouteHelper.getCartRoute()]),
                   child: Row(
                     children: [
                       Icon(

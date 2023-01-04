@@ -8,15 +8,15 @@ class PriceModel extends Equatable {
   final int? storeId;
   @HiveField(16)
   final String? storeImagePath;
-  @HiveField(3)
-  final int? isAvailable;
+  @HiveField(5)
+  final bool? isAvailable;
   @HiveField(15)
   final double? price;
 
   const PriceModel(
       {this.storeId = 0,
       this.storeImagePath = '',
-      this.isAvailable = 0,
+      this.isAvailable = true,
       this.price = 0});
 
   factory PriceModel.fromJson(Map<String, dynamic> json) => PriceModel(

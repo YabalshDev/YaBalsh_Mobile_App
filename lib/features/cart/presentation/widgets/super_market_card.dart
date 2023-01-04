@@ -14,7 +14,7 @@ class SuperMarketCard extends StatelessWidget {
   final SuperMarketCardModel superMarket;
   final int index;
   final int selectedSupermarketIndex;
-  final int isAvailable;
+  final bool isAvailable;
   const SuperMarketCard({
     super.key,
     required this.superMarket,

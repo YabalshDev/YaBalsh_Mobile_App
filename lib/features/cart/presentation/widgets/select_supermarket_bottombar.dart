@@ -25,7 +25,6 @@ class SelectSupermarketBottom extends StatelessWidget {
     return Stack(
       children: [
         CustomNavBar(
-            height: 51.h,
             isButtonSecondary: false,
             mainButtonTap: () {
               // second step handle
@@ -55,7 +54,7 @@ class SelectSupermarketBottom extends StatelessWidget {
         state.supermarket!.store != null
             ? Positioned(
                 right: 35.w,
-                top: 10.h,
+                top: 20.h,
                 child: Container(
                   padding: kSecondaryPadding,
                   decoration: const BoxDecoration(
@@ -73,7 +72,7 @@ class SelectSupermarketBottom extends StatelessWidget {
         state.supermarket!.store != null
             ? Positioned(
                 right: Get.width * 0.7,
-                top: 51.h / 4.2,
+                top: 51.h / 2.4,
                 child: Text(
                   '${state.supermarket!.price!.toStringAsFixed(0)} جنيه',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(

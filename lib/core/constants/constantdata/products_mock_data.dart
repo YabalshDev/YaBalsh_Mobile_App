@@ -10,12 +10,12 @@ const productsMock = [
       size: '200 ملي',
       prices: {
         'كارفور': PriceModel(
-            isAvailable: 1,
+            isAvailable: true,
             price: 119.95,
             storeId: 1,
             storeImagePath: AppAssets.carefour),
         'جورميه': PriceModel(
-            isAvailable: 0,
+            isAvailable: false,
             price: 133,
             storeId: 2,
             storeImagePath: AppAssets.gourmet),
@@ -27,12 +27,12 @@ const productsMock = [
       size: '400 جم',
       prices: {
         'كارفور': PriceModel(
-            isAvailable: 1,
+            isAvailable: true,
             price: 45.45,
             storeId: 1,
             storeImagePath: AppAssets.carefour),
         'جورميه': PriceModel(
-            isAvailable: 0,
+            isAvailable: false,
             price: 55.45,
             storeId: 2,
             storeImagePath: AppAssets.gourmet),
