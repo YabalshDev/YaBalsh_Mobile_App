@@ -2,23 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
-import 'package:yabalash_mobile_app/core/depedencies.dart';
-import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
-import 'package:yabalash_mobile_app/core/theme/light/app_colors_light.dart';
-import 'package:yabalash_mobile_app/core/theme/light/light_theme.dart';
-import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
-import 'package:yabalash_mobile_app/features/cart/presentation/widgets/shopping_list_bottom_modal.dart';
-import 'package:yabalash_mobile_app/features/orders/data/models/order_product_model.dart';
 
-import '../../../../core/services/user_service.dart';
 import '../../../../core/widgets/custom_bottom_nav_bar.dart';
-import '../../../orders/domain/entities/order_request.dart';
 import '../blocs/cubit/cart_cubit.dart';
-import '../blocs/cubit/order_summary_cubit.dart';
+import 'basket_list_bottom_bar.dart';
+import 'confirm_order_bottom.dart';
+import 'select_supermarket_bottombar.dart';
 
-final formKey = GlobalKey<FormBuilderState>();
+final _formKey = GlobalKey<FormBuilderState>();
 
 class CartCustomNavBar extends StatelessWidget {
   final PageController pageController;
@@ -29,190 +20,56 @@ class CartCustomNavBar extends StatelessWidget {
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, state) {
         if (state.cartItems!.isEmpty) {
-          return SizedBox(
-            height: 155.h,
-            child: Column(
-              children: [
-                CustomNavBar(
-                  mainButtonTap: () {},
-                  isButtonSecondary: false,
-                  title: 'حفظ كقائمة تسوق',
-                  isDisabled: true,
-                ),
-                const CustomNavBar(
-                  isButtonSecondary: false,
-                  title: 'اختار السوبر ماركت',
-                  isDisabled: true,
-                )
-              ],
-            ),
-          );
+          return const EmptyCartBottomBar();
         } else {
           if (state.cartStepIndex == 0) {
-            return SizedBox(
-              height: 155.h,
-              child: Column(
-                children: [
-                  Text(
-                    'ملاحظة: مرر من اليمين للحذف',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(fontSize: 9.sp, fontWeight: FontWeight.w600),
-                  ),
-                  Padding(
-                    padding: kDefaultPadding,
-                    child: InkWell(
-                      onTap: () {
-                        showModalBottomSheet(
-                            context: context,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: kSecondaryBorderRaduis),
-                            builder: (context) => ShoppingListBottomModal(
-                                  formKey: formKey,
-                                  onTap: () {
-                                    final shoppingListName = formKey
-                                        .currentState!.fields['name']!.value;
-                                    getIt<CartCubit>().addShoppingList(
-                                        shoppingListName: shoppingListName);
-                                  },
-                                ));
-                      },
-                      child: Container(
-                        width: Get.width,
-                        height: 51.h,
-                        padding: kDefaultPadding,
-                        decoration: kDefaultBoxDecoration.copyWith(
-                            border: Border.all(
-                                color: AppColorsLight.kAppPrimaryColorLight,
-                                width: 2)),
-                        child: Center(
-                          child: Text(
-                            'حفظ كقائمة تسوق',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(
-                                    color: AppColorsLight.kAppPrimaryColorLight,
-                                    fontSize: 13.sp,
-                                    fontWeight: FontWeight.w700),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  mediumVerticalSpace,
-                  CustomNavBar(
-                    height: 51.h,
-                    mainButtonTap: () {
-                      pageController.animateToPage(1,
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.easeInOut);
-                      getIt<CartCubit>().changeCurrentCartStep(1);
-                    },
-                    isButtonSecondary: false,
-                    title: 'اختار السوبر ماركت',
-                    isDisabled: false,
-                  )
-                ],
-              ),
+            //first step cart bottom
+            return BascketListBottomBar(
+              pageController: pageController,
+              formKey: _formKey,
             );
           } else if (state.cartStepIndex == 1) {
-            return Stack(
-              children: [
-                CustomNavBar(
-                    height: 51.h,
-                    isButtonSecondary: false,
-                    mainButtonTap: () {
-                      // second step handle
-                      if (state.supermarket?.store != null) {
-                        if (getIt<UserService>().token.isEmpty) {
-                          yaBalashCustomDialog(
-                            isWithEmoji: false,
-                            buttonTitle: 'تسجيل/مستخدم جديد',
-                            mainContent:
-                                'انت لست مسجلا سجل دخول لتتمكن من اتمام طلبك.',
-                            title: 'ملاحظة',
-                            onConfirm: () => Get
-                              ..back()
-                              ..offNamed(RouteHelper.getPhoneNumberRoute(),
-                                  arguments: RouteHelper.getCartRoute()),
-                          );
-                        } else {
-                          pageController.animateToPage(2,
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.easeInOut);
-                          getIt<CartCubit>().changeCurrentCartStep(2);
-                        }
-                      }
-                      // third step handle
-                    },
-                    title: 'خلص الطلب',
-                    isDisabled: state.supermarket?.store == null),
-                state.supermarket!.store != null
-                    ? Positioned(
-                        right: 35.w,
-                        top: 10.h,
-                        child: Container(
-                          padding: kSecondaryPadding,
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle, color: Color(0xFF482C76)),
-                          child: Text(
-                            '${state.cartItems!.length}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(
-                                    color: Colors.white, fontSize: 13.sp),
-                          ),
-                        ),
-                      )
-                    : const Positioned(child: SizedBox()),
-                state.supermarket!.store != null
-                    ? Positioned(
-                        right: Get.width * 0.7,
-                        top: 51.h / 4.2,
-                        child: Text(
-                          '${state.supermarket!.price!.toStringAsFixed(0)} جنيه',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700),
-                        ),
-                      )
-                    : const Positioned(
-                        child: SizedBox(),
-                      )
-              ],
+            //second step cart bottom
+            return SelectSupermarketBottom(
+              pageController: pageController,
+              state: state,
             );
           } else {
-            return CustomNavBar(
-              isButtonSecondary: false,
-              mainButtonTap: () async {
-                final OrderRequest orderRequest = OrderRequest(
-                    addressId: state.userAddress?.id,
-                    storeId: state.supermarket?.store!.id,
-                    products: state.cartItems!
-                        .map((e) => OrderProductModel(
-                            id: e.product!.id, quantity: e.quantity))
-                        .toList());
-                if (state.userAddress?.id != null) {
-                  final order = await getIt<OrderSummaryCubit>()
-                      .placeOrder(orderRequest: orderRequest);
-                  if (order != null) {
-                    Get.toNamed(RouteHelper.getOrderSuccessRoute(),
-                        arguments: [order]);
-                  }
-                }
-              },
-              title: '✔  خلص الطلب',
-              isDisabled: state.userAddress?.id == null,
+            //third step cart bottom
+            return ConfirmOrderBottom(
+              state: state,
             );
           }
         }
       },
+    );
+  }
+}
+
+class EmptyCartBottomBar extends StatelessWidget {
+  const EmptyCartBottomBar({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 155.h,
+      child: Column(
+        children: [
+          CustomNavBar(
+            mainButtonTap: () {},
+            isButtonSecondary: false,
+            title: 'حفظ كقائمة تسوق',
+            isDisabled: true,
+          ),
+          const CustomNavBar(
+            isButtonSecondary: false,
+            title: 'اختار السوبر ماركت',
+            isDisabled: true,
+          )
+        ],
+      ),
     );
   }
 }
