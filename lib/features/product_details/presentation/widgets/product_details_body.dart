@@ -147,7 +147,8 @@ class ProductDetailsBody extends StatelessWidget {
                         mediumVerticalSpace,
                         SizedBox(
                             height: 280.h,
-                            child: KewordProducts(products: [product]))
+                            child: KewordProducts(
+                                products: state.popularProducts!))
                       ],
                     );
                   case RequestState.error:

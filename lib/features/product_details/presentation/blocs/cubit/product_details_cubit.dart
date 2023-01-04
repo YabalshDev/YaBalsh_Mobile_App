@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
+import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
 import 'package:yabalash_mobile_app/features/product_details/domain/usecases/get_product_details_usecase.dart';
 import 'package:yabalash_mobile_app/features/search/domain/usecases/search_product_usecase.dart';
 
@@ -31,5 +33,26 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     },
         (product) => emit(state.copyWith(
             product: product, productRequestState: RequestState.loaded)));
+  }
+
+  void getSimmilarProducts({required Product product}) async {
+    final response = await searchProductUsecase(
+        SearchParams(searchName: product.name!.split(' ')[0]));
+
+    response.fold((failure) {
+      emit(state.copyWith(popularProductsRequestState: RequestState.error));
+      yaBalashCustomDialog(
+          title: 'خطا',
+          isWithEmoji: false,
+          onConfirm: () => Get.back(),
+          buttonTitle: 'حسنا',
+          mainContent: "خطا اثناء جلب منتجات مشابهة");
+    }, (products) {
+      final simmilarProducts =
+          products.where((element) => element.id != product.id).toList();
+      emit(state.copyWith(
+          popularProductsRequestState: RequestState.loaded,
+          popularProducts: simmilarProducts));
+    });
   }
 }

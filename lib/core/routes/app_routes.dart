@@ -115,7 +115,8 @@ class RouteHelper {
           return CustomAnimatedWidget(
               child: BlocProvider<ProductDetailsCubit>(
             create: (context) => getIt<ProductDetailsCubit>()
-              ..getProductDetails(productId: product.id!, withNearStores: true),
+              ..getProductDetails(productId: product.id!, withNearStores: true)
+              ..getSimmilarProducts(product: product),
             child: ProductDetailsView(
               product: product,
             ),
