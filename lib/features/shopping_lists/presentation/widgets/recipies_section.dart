@@ -16,11 +16,11 @@ class RecipiesSection extends StatelessWidget {
       children: [
         TitleRow(
           title: 'طبختك علي اد ايدك !',
-          padding: kDefaultPadding,
+          padding: EdgeInsets.symmetric(horizontal: 10.w),
           fontWeight: FontWeight.w700,
         ),
         Padding(
-          padding: kDefaultPadding,
+          padding: EdgeInsets.symmetric(horizontal: 10.w),
           child: Text(
             'اختار الوصفة, مقادير باقل الاسعار',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(

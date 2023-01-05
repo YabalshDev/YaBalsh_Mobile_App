@@ -32,7 +32,8 @@ class ConfirmOrderBottom extends StatelessWidget {
           final order = await getIt<OrderSummaryCubit>()
               .placeOrder(orderRequest: orderRequest);
           if (order != null) {
-            Get.toNamed(RouteHelper.getOrderSuccessRoute(), arguments: [order]);
+            Get.toNamed(RouteHelper.getOrderSuccessRoute(),
+                arguments: [order, false]);
           }
         }
       },

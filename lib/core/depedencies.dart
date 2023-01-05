@@ -328,7 +328,8 @@ setupDependecies() {
       ));
   getIt.registerFactory(() => OrderSummaryCubit(
       getAllAddressUseCase: getIt(), createOrderUseCase: getIt()));
-  getIt.registerFactory(() => OrderSuccessCubit());
+  getIt.registerFactory(
+      () => OrderSuccessCubit(getProductDetailsUseCase: getIt()));
   getIt.registerFactory(() => PastOrdersCubit(getPastOrdersUseCase: getIt()));
   getIt.registerFactory(() => ShoppingListCubit(
       getAllShoppingListsUseCase: getIt(), renameShoppingListUseCase: getIt()));

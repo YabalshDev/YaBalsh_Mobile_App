@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:yabalash_mobile_app/features/orders/domain/entities/order.dart';
+import 'package:yabalash_mobile_app/features/orders/presentation/widgets/order_success_body.dart';
 
-import '../../domain/entities/order.dart';
-import '../widgets/order_success_body.dart';
-
-class OrderSuccessView extends StatelessWidget {
+class OrderDetailsView extends StatelessWidget {
   final Order order;
   final bool isFromOrderDetails;
-  const OrderSuccessView(
+
+  const OrderDetailsView(
       {super.key, required this.order, required this.isFromOrderDetails});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: OrderSuccessBody(
-      order: order,
       isFromOrderDetails: isFromOrderDetails,
+      order: order,
     ));
   }
 }

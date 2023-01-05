@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/features/addresses/domain/entities/address.dart';
 
 import '../../../../core/constants/app_layouts.dart';
-import '../../../../core/depedencies.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/sub_heading.dart';
-import '../../../cart/presentation/blocs/cubit/cart_cubit.dart';
 
 class DeliveryDetailsSection extends StatelessWidget {
-  const DeliveryDetailsSection({super.key});
+  final Address address;
+  const DeliveryDetailsSection({super.key, required this.address});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class DeliveryDetailsSection extends StatelessWidget {
             Container(
               constraints: BoxConstraints(maxWidth: Get.width * 0.5),
               child: Text(
-                '${getIt<CartCubit>().state.userAddress!.fullAddress}',
+                '${address.fullAddress}',
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -44,7 +44,7 @@ class DeliveryDetailsSection extends StatelessWidget {
               ),
             ),
             Text(
-              'رقم المبني ${getIt<CartCubit>().state.userAddress!.buildingNo}، رقم الدور ${getIt<CartCubit>().state.userAddress!.floor}, رقم الشقة ${getIt<CartCubit>().state.userAddress!.apartmentNo}',
+              'رقم المبني ${address.buildingNo}، رقم الدور ${address.floor}, رقم الشقة ${address.apartmentNo}',
               maxLines: 2,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   fontWeight: FontWeight.w600,

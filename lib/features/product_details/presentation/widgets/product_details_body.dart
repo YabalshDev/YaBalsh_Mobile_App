@@ -5,20 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:yabalash_mobile_app/core/constants/app_strings.dart';
 import 'package:yabalash_mobile_app/core/theme/light/app_colors_light.dart';
-import 'package:yabalash_mobile_app/core/widgets/custom_shimmer.dart';
-import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
-import 'package:yabalash_mobile_app/core/widgets/kew_word_products.dart';
+import 'package:yabalash_mobile_app/core/theme/light/light_theme.dart';
+import 'package:yabalash_mobile_app/core/widgets/custom_network_image.dart';
+import 'package:yabalash_mobile_app/core/widgets/sub_heading.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/product.dart';
-import 'package:yabalash_mobile_app/features/home/presentation/widgets/Title_row.dart';
 import 'package:yabalash_mobile_app/features/product_details/presentation/blocs/cubit/product_details_cubit.dart';
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/utils/enums/request_state.dart';
-import 'price_comparison_section.dart';
-import 'product_image_card.dart';
-import 'product_kewords_card.dart';
+import '../../../../core/widgets/custom_shimmer.dart';
+import '../../../../core/widgets/empty_indicator.dart';
+import 'popular_products_section.dart';
+import 'product_details_section.dart';
 
 class ProductDetailsBody extends StatelessWidget {
   final Product product;
@@ -26,144 +25,158 @@ class ProductDetailsBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: kDefaultPadding,
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 30.h,
-              child: Padding(
-                padding: kDefaultPadding,
-                child: IconButton(
-                  onPressed: () => Get.back(),
-                  icon: const Icon(
-                    Icons.arrow_back_ios,
-                    color: AppColorsLight.kAppPrimaryColorLight,
-                  ),
+    return SafeArea(
+      child: Padding(
+        padding: kDefaultPadding,
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              InkWell(
+                onTap: () => Get.back(),
+                child: const Icon(
+                  Icons.arrow_back_ios,
+                  color: AppColorsLight.kAppPrimaryColorLight,
                 ),
               ),
-            ),
-            BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
-              buildWhen: (previous, current) =>
-                  previous.productRequestState != current.productRequestState,
-              builder: (context, state) {
-                switch (state.productRequestState) {
-                  case RequestState.idle:
-                    return const SizedBox();
-                  case RequestState.loading:
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Center(
-                          child: CustomShimmer(
-                            height: 196.h,
-                            width: 164.w,
-                          ),
-                        ),
-                        smallVerticalSpace,
-                        CustomShimmer(
-                          height: 20.h,
-                          width: Get.width,
-                        ),
-                        smallVerticalSpace,
-                        const ProductKewordsSectionLoading(),
-                        mediumVerticalSpace,
-                        const PriceComparisonSectionLoading(),
-                        mediumVerticalSpace,
-                      ],
-                    );
-
-                  case RequestState.loaded:
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ProductImageCard(imagePath: product.imagePath!),
-                        Text(
-                          product.name!,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge
-                              ?.copyWith(
-                                  color: AppColorsLight.kAppPrimaryColorLight,
-                                  fontWeight: FontWeight.w700),
-                        ),
-                        smallVerticalSpace,
-                        ProductKewordCards(productName: product.name!),
-                        mediumVerticalSpace,
-                        Row(
-                          children: [
-                            Text(
-                              AppStrings.discoverComparePrices,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w700),
-                            ),
-                            const Spacer(),
-                            const NearYouSection()
-                          ],
-                        ),
-                        PriceComparisonSection(product: product),
-                        mediumVerticalSpace,
-                      ],
-                    );
-                  case RequestState.error:
-                    return SizedBox(
-                      height: Get.height * 0.6,
-                      child: const Center(
-                        child: EmptyIndicator(title: 'مشكلة في جلب المنتج '),
-                      ),
-                    );
-
-                  default:
-                    return const SizedBox();
-                }
-              },
-            ),
-
-            BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
-              builder: (context, state) {
-                switch (state.popularProductsRequestState) {
-                  case RequestState.idle:
-                    return const SizedBox();
-
-                  case RequestState.loading:
-                    return SizedBox(
-                        height: 280.h, child: const SimillarProductsLoading());
-                  case RequestState.loaded:
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TitleRow(
-                          title: 'ممكن كمان يعجبك',
-                          fontWeight: FontWeight.w800,
-                          padding: kDefaultPadding.copyWith(right: 2.w),
-                        ),
-                        mediumVerticalSpace,
-                        SizedBox(
-                            height: 280.h,
-                            child: KewordProducts(
-                                products: state.popularProducts!))
-                      ],
-                    );
-                  case RequestState.error:
-                    return const SizedBox();
-
-                  default:
-                    return const SizedBox();
-                }
-              },
-            )
-
-            // KewordSection(order: order)
-          ],
+              ProductDetailsSection(product: product),
+              const ProductVariantsSection(),
+              const PopularProductsSection()
+            ],
+          ),
         ),
       ),
+    );
+  }
+}
+
+class ProductVariantsSection extends StatelessWidget {
+  const ProductVariantsSection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
+      buildWhen: (previous, current) =>
+          previous.productVariationRequestState !=
+          current.productVariationRequestState,
+      builder: (context, state) {
+        switch (state.productVariationRequestState) {
+          case RequestState.idle:
+            return const SizedBox();
+          case RequestState.loading:
+            return SizedBox(
+                height: 80.h,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 4,
+                  itemBuilder: (context, index) {
+                    return CustomShimmer(
+                      width: 145.w,
+                      height: 45.h,
+                    );
+                  },
+                ));
+
+          case RequestState.loaded:
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SubHeading(text: 'انواع اخرى للمنتج'),
+                mediumVerticalSpace,
+                SizedBox(
+                  height: 60.h,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: state.productVaraiations!.length,
+                    itemBuilder: (context, index) {
+                      final variant = state.productVaraiations![index];
+                      return VariantCard(
+                        variant: variant,
+                        index: index,
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          case RequestState.error:
+            return SizedBox(
+              height: Get.height * 0.6,
+              child: const Center(
+                child: EmptyIndicator(title: 'مشكلة في جلب المنتج '),
+              ),
+            );
+
+          default:
+            return const SizedBox();
+        }
+      },
+    );
+  }
+}
+
+class VariantCard extends StatelessWidget {
+  const VariantCard({
+    Key? key,
+    required this.variant,
+    required this.index,
+  }) : super(key: key);
+
+  final Product variant;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
+      buildWhen: (previous, current) =>
+          previous.selectedVariantIndex != current.selectedVariantIndex,
+      builder: (context, state) {
+        return InkWell(
+          onTap: () => BlocProvider.of<ProductDetailsCubit>(context)
+              .selectVariant(index),
+          child: Container(
+            margin: EdgeInsets.only(left: 10.w),
+            padding: kDefaultPadding,
+            decoration: kDefaultBoxDecoration.copyWith(
+                border: state.selectedVariantIndex == index
+                    ? Border.all(
+                        color: AppColorsLight.kAppPrimaryColorLight, width: 2)
+                    : null),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                SizedBox(
+                  height: 35.h,
+                  width: 32.w,
+                  child: AppImage(
+                    path: variant.imagePath,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                smallHorizontalSpace,
+                Text(
+                  "${variant.prices!.entries.first.value.price} جنيه",
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 12.sp,
+                      color: AppColorsLight.kAppPrimaryColorLight),
+                ),
+                smallHorizontalSpace,
+                SizedBox(
+                  height: 24.h,
+                  width: 44.w,
+                  child: AppImage(
+                    path: variant.prices!.entries.first.value.storeImagePath,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

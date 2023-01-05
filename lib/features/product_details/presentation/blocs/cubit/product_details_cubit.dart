@@ -22,6 +22,8 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
       emit(state.copyWith(withNearStores: value));
 
   void changeShowMore(bool value) => emit(state.copyWith(showMore: value));
+  void selectVariant(int index) =>
+      emit(state.copyWith(selectedVariantIndex: index));
 
   void getProductDetails(
       {required int productId, required withNearStores}) async {
@@ -53,6 +55,29 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
       emit(state.copyWith(
           popularProductsRequestState: RequestState.loaded,
           popularProducts: simmilarProducts));
+    });
+  }
+
+  void getProductVariants({required Product product}) async {
+    final searchName =
+        '${product.name!.split(' ')[0]} ${product.name!.split(' ')[1]}';
+    final response =
+        await searchProductUsecase(SearchParams(searchName: searchName));
+
+    response.fold((failure) {
+      emit(state.copyWith(productVariationRequestState: RequestState.error));
+      yaBalashCustomDialog(
+          title: 'خطا',
+          isWithEmoji: false,
+          onConfirm: () => Get.back(),
+          buttonTitle: 'حسنا',
+          mainContent: "خطا اثناء جلب انواع اخرى للمنتج");
+    }, (products) {
+      final variants =
+          products.where((element) => element.id != product.id).toList();
+      emit(state.copyWith(
+          productVariationRequestState: RequestState.loaded,
+          productVaraiations: variants));
     });
   }
 }

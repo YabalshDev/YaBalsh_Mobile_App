@@ -6,15 +6,18 @@ import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/custom_card.dart';
 import '../../../../core/widgets/custom_svg_icon.dart';
+import '../../../home/domain/entities/store.dart';
 import '../../domain/entities/supermarket_card_model.dart';
 
 class SupermarketDetailsCard extends StatelessWidget {
-  final SuperMarketCardModel superMarketCardModel;
+  final SuperMarketCardModel? superMarketCardModel;
+  final Store? store;
   final bool? isFromOrderSuccess;
   const SupermarketDetailsCard(
       {super.key,
-      required this.superMarketCardModel,
-      this.isFromOrderSuccess = false});
+      this.superMarketCardModel,
+      this.isFromOrderSuccess = false,
+      this.store});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +27,9 @@ class SupermarketDetailsCard extends StatelessWidget {
         CustomCard(
           withBorder: true,
           isAssetImage: false,
-          imagePath: superMarketCardModel.store!.cardImagePath,
+          imagePath: superMarketCardModel != null
+              ? superMarketCardModel!.store!.cardImagePath
+              : store!.cardImagePath,
         ),
         smallHorizontalSpace,
         Column(
@@ -39,7 +44,9 @@ class SupermarketDetailsCard extends StatelessWidget {
                         .bodySmall
                         ?.copyWith(color: Colors.black, fontSize: 10.sp)),
                 TextSpan(
-                    text: superMarketCardModel.store!.name,
+                    text: superMarketCardModel != null
+                        ? superMarketCardModel!.store!.name
+                        : store!.name,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: AppColorsLight.kAppPrimaryColorLight,
                         fontWeight: FontWeight.w600,
@@ -56,7 +63,7 @@ class SupermarketDetailsCard extends StatelessWidget {
                 ),
                 Text(
                   isFromOrderSuccess!
-                      ? '${superMarketCardModel.store!.name} هيوصلك طلبك في الوقت المتوقع'
+                      ? '${superMarketCardModel != null ? superMarketCardModel!.store!.name : store!.name} هيوصلك طلبك في الوقت المتوقع'
                       : 'الطلب هيتم توصيله في خلال 32 دقيقة',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color:

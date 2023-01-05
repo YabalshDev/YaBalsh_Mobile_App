@@ -33,6 +33,7 @@ import 'package:yabalash_mobile_app/features/zones/presentation/views/sub_zones_
 
 import '../../features/home/domain/entities/product.dart';
 import '../../features/home/presentation/views/home_view.dart';
+import '../../features/orders/domain/entities/order.dart';
 import '../../features/orders/presentation/blocs/cubit/order_success_cubit.dart';
 import '../../features/search/presentation/blocs/cubit/search_cubit.dart';
 import '../../features/shopping_lists/domain/entities/shopping_list.dart';
@@ -116,6 +117,7 @@ class RouteHelper {
               child: BlocProvider<ProductDetailsCubit>(
             create: (context) => getIt<ProductDetailsCubit>()
               ..getProductDetails(productId: product.id!, withNearStores: true)
+              ..getProductVariants(product: product)
               ..getSimmilarProducts(product: product),
             child: ProductDetailsView(
               product: product,
@@ -207,11 +209,20 @@ class RouteHelper {
     GetPage(
         name: _orderSuccessRoute,
         page: () {
+          final Order order = Get.arguments[0];
+          final bool isFromOrderDetails = Get.arguments[1];
           return CustomAnimatedWidget(
               child: BlocProvider<OrderSuccessCubit>(
-                  create: (context) => getIt<OrderSuccessCubit>(),
+                  create: (context) {
+                    if (isFromOrderDetails) {
+                      return getIt<OrderSuccessCubit>()..calculateSaving(order);
+                    } else {
+                      return getIt<OrderSuccessCubit>();
+                    }
+                  },
                   child: OrderSuccessView(
-                    order: Get.arguments[0],
+                    order: order,
+                    isFromOrderDetails: isFromOrderDetails,
                   )));
         }),
     GetPage(

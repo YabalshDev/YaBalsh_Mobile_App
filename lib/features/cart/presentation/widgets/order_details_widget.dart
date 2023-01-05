@@ -1,26 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yabalash_mobile_app/features/orders/domain/entities/order_response_product.dart';
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/depedencies.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/custom_card.dart';
+import '../../domain/entities/cart_item.dart';
 import '../blocs/cubit/cart_cubit.dart';
 
 class OrderDetailsSection extends StatelessWidget {
-  const OrderDetailsSection({super.key});
+  final List<OrderResponseProduct>? orderProducts;
+  const OrderDetailsSection({super.key, this.orderProducts});
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: getIt<CartCubit>().state.cartItems!.length,
+      itemCount: orderProducts != null
+          ? orderProducts!.length
+          : getIt<CartCubit>().state.cartItems!.length,
       itemBuilder: (context, index) {
-        final cartItem = getIt<CartCubit>().state.cartItems![index];
-        final productPrice = cartItem.product!
-            .prices![getIt<CartCubit>().state.supermarket!.store!.name]!.price!;
-        final totalprice = (cartItem.quantity! * productPrice);
+        CartItem? cartItem;
+        double? productPrice;
+        double? totalPrice;
+        OrderResponseProduct? orderProduct;
+        if (orderProducts != null) {
+          orderProduct = orderProducts![index];
+        } else {
+          cartItem = getIt<CartCubit>().state.cartItems![index];
+          productPrice = cartItem
+              .product!
+              .prices![getIt<CartCubit>().state.supermarket!.store!.name]!
+              .price!;
+          totalPrice = (cartItem.quantity! * productPrice);
+        }
         return Container(
           margin: EdgeInsets.only(top: 10.h),
           child: Row(
@@ -28,8 +43,10 @@ class OrderDetailsSection extends StatelessWidget {
               // change to network when ready
               CustomCard(
                 withBorder: true,
-                isAssetImage: true,
-                imagePath: cartItem.product!.imagePath,
+                isAssetImage: false,
+                imagePath: orderProducts != null
+                    ? orderProduct!.imagePath
+                    : cartItem!.product!.imagePath,
               ),
               mediumHorizontalSpace,
               Column(
@@ -38,7 +55,9 @@ class OrderDetailsSection extends StatelessWidget {
                   ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 190.w),
                     child: Text(
-                      cartItem.product!.name ?? '',
+                      orderProducts != null
+                          ? orderProduct!.name!
+                          : cartItem!.product!.name!,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: AppColorsLight.kAppPrimaryColorLight,
@@ -62,7 +81,7 @@ class OrderDetailsSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    '${totalprice.toStringAsFixed(0)} جنيه',
+                    '${orderProducts != null ? orderProduct!.price! : totalPrice!.toStringAsFixed(0)} جنيه',
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.w500,
                         fontSize: 18.sp,
@@ -71,7 +90,7 @@ class OrderDetailsSection extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        '${cartItem.quantity}',
+                        '${orderProducts != null ? orderProduct!.quantity : cartItem!.quantity}',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               fontSize: 9.sp,
                               fontWeight: FontWeight.w600,
@@ -89,7 +108,7 @@ class OrderDetailsSection extends StatelessWidget {
                             ),
                       ),
                       Text(
-                        ' ${productPrice.toStringAsFixed(2)}',
+                        ' ${orderProducts != null ? orderProduct!.price : productPrice!.toStringAsFixed(2)}',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               fontSize: 9.sp,
                               fontWeight: FontWeight.w600,
