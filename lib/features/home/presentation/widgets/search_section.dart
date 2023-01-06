@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
+import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_cubit.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
@@ -52,15 +54,19 @@ class SearchSection extends StatelessWidget {
           ),
           Expanded(
             flex: 1,
-            child: Card(
-              child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 7.h, horizontal: 2.w),
-                  child: CustomSvgIcon(
-                    iconPath: AppAssets.barcodeIcon,
-                    height: 26.h,
-                    width: 20.h,
-                    color: AppColorsLight.kAppPrimaryColorLight,
-                  )),
+            child: InkWell(
+              onTap: () => BlocProvider.of<HomeCubit>(context).scanBarCode(),
+              child: Card(
+                child: Container(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 7.h, horizontal: 2.w),
+                    child: CustomSvgIcon(
+                      iconPath: AppAssets.barcodeIcon,
+                      height: 26.h,
+                      width: 20.h,
+                      color: AppColorsLight.kAppPrimaryColorLight,
+                    )),
+              ),
             ),
           )
         ],

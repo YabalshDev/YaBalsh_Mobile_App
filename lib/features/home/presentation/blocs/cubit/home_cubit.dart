@@ -1,9 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
 import 'package:yabalash_mobile_app/core/services/stores_service.dart';
 import 'package:yabalash_mobile_app/core/usecases/use_cases.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
+import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/banner.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/home_section.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/main_category.dart';
@@ -89,6 +93,35 @@ class HomeCubit extends Cubit<HomeState> {
           homeSectionsRequestState: RequestState.loaded,
           homeSections: sections));
     });
+  }
+
+  void scanBarCode() async {
+    String result = '';
+
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      result = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'الغاء', true, ScanMode.BARCODE);
+      print(result);
+
+      if (result == '-1') {
+        // in cancel
+        Get.back();
+      } else {
+        String barCode = result.substring(0, 4);
+        // call comparing api
+
+      }
+    } on PlatformException {
+      result = 'Failed to get platform version.';
+      Get.back();
+      yaBalashCustomDialog(
+        isWithEmoji: false,
+        buttonTitle: 'حسنا',
+        mainContent: 'عذرا المنتج ليس متوفر الان...جرب لاحقا',
+        onConfirm: () => Get.back(),
+      );
+    }
   }
 
   List<SubZone> getSubZoneHistory() {

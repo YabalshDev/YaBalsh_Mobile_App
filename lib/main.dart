@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
@@ -31,5 +32,6 @@ void main() async {
   await Hive.openBox<String>(AppStrings.searchHistoryKey);
   // intialize hive boxes
   Bloc.observer = AppBlocObserver();
-  runApp(DevicePreview(builder: (context) => const YaBalashApp()));
+  runApp(DevicePreview(
+      enabled: !kReleaseMode, builder: (context) => const YaBalashApp()));
 }
