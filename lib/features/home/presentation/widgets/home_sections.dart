@@ -71,7 +71,7 @@ class SectionLoaded extends StatelessWidget {
         ),
         mediumVerticalSpace,
         SizedBox(
-            height: 280.h, child: KewordProducts(products: sectionProducts))
+            height: 290.h, child: KewordProducts(products: sectionProducts))
       ],
     );
   }
