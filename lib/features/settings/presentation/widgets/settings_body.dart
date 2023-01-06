@@ -47,7 +47,8 @@ class SettingsBody extends StatelessWidget {
                   ),
                   SettingsElementCard(
                       onTap: () {
-                        Get.toNamed(RouteHelper.getAddressesRoute());
+                        Get.toNamed(RouteHelper.getAddressesRoute(),
+                            arguments: RouteHelper.getSettingsRoute());
                       },
                       iconPath: AppAssets.addressesIcon,
                       title: 'عناويني'),
@@ -88,7 +89,8 @@ class SettingsBody extends StatelessWidget {
                   builder: (context, setState) => SettingsElementCard(
                       onTap: () {
                         if (getIt<UserService>().token.isEmpty) {
-                          Get.toNamed(RouteHelper.getPhoneNumberRoute());
+                          Get.toNamed(RouteHelper.getPhoneNumberRoute(),
+                              arguments: RouteHelper.getSettingsRoute());
                         } else {
                           yaBalashCustomDialog(
                             isWithEmoji: false,

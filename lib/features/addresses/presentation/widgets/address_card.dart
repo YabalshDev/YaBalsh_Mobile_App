@@ -8,6 +8,7 @@ import 'package:yabalash_mobile_app/features/addresses/presentation/blocs/cubit/
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
+import '../../../../core/services/addresses_service.dart';
 import '../../../../core/services/zone_service.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/theme/light/light_theme.dart';
@@ -19,8 +20,13 @@ class AddressCard extends StatelessWidget {
   final Address? address;
   final int index;
   final bool? isPrimary;
+  final String fromRoute;
   const AddressCard(
-      {super.key, this.address, required this.index, this.isPrimary = false});
+      {super.key,
+      this.address,
+      required this.index,
+      this.isPrimary = false,
+      required this.fromRoute});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +65,7 @@ class AddressCard extends StatelessWidget {
         ),
         child: AddressContainer(
           address: address!,
-          fromRoute: RouteHelper.getAddressesRoute(),
+          fromRoute: fromRoute,
           isWithPrimary: true,
           isPrimary: isPrimary!,
           index: index,
@@ -86,7 +92,6 @@ class AddressContainer extends StatelessWidget {
     return Container(
       decoration: kDefaultBoxDecoration.copyWith(
           border: Border.all(color: Colors.transparent)),
-      height: 200.h,
       padding: kDefaultPadding,
       child: Container(
         padding: kDefaultPadding,
@@ -159,8 +164,11 @@ class AddressContainer extends StatelessWidget {
               children: [
                 isWithPrimary
                     ? InkWell(
-                        onTap: () => BlocProvider.of<AddressCubit>(context)
-                            .setIsPrimary(index!),
+                        onTap: () {
+                          BlocProvider.of<AddressCubit>(context)
+                              .setIsPrimary(index!);
+                          getIt<AddressService>().setPrimaryAddress(address);
+                        },
                         child: Row(
                           children: [
                             Container(
@@ -192,8 +200,20 @@ class AddressContainer extends StatelessWidget {
                       )
                     : const SizedBox(),
                 InkWell(
-                  onTap: () => Get.toNamed(RouteHelper.getUpdateAddress(),
-                      arguments: [true, address, fromRoute]),
+                  onTap: () {
+                    if (fromRoute == RouteHelper.getCartRoute()) {
+                      Get.toNamed(RouteHelper.getAddressesRoute(),
+                          arguments: RouteHelper
+                              .getCartRoute()); // navigate addresses page
+                    } else {
+                      // navigate to edit address page
+                      Get.toNamed(RouteHelper.getUpdateAddress(), arguments: [
+                        true,
+                        address,
+                        RouteHelper.getAddressesRoute()
+                      ]);
+                    }
+                  },
                   child: Row(
                     children: [
                       const CustomSvgIcon(

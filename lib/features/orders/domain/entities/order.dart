@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../addresses/domain/entities/address.dart';
+import '../../../home/domain/entities/store.dart';
 import 'order_response_product.dart';
 
 class Order extends Equatable {
@@ -10,10 +11,12 @@ class Order extends Equatable {
   final List<OrderResponseProduct>? products;
   final int? id;
   final double? subTotal;
+  final Store? store;
 
   const Order(
       {this.products,
       this.address,
+      this.store,
       this.status,
       this.orderDate,
       this.id,
@@ -21,5 +24,5 @@ class Order extends Equatable {
 
   @override
   List<Object?> get props =>
-      [address, status, orderDate, id, subTotal, products];
+      [address, status, orderDate, id, subTotal, products, store];
 }

@@ -32,8 +32,10 @@ class CartItemCard extends StatelessWidget {
           },
           title: 'ملاحظة',
           mainContent: 'هل انت متاكد من حذف المنتج',
-          onConfirm: () =>
-              getIt<CartCubit>().deleteItemFromCart(cartItem.product!),
+          onConfirm: () {
+            getIt<CartCubit>().deleteItemFromCart(cartItem.product!);
+            Get.back();
+          },
         );
       },
       background: Container(

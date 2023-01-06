@@ -37,7 +37,6 @@ class HomeProductCard extends StatelessWidget {
                   Container(
                     height: 44.h,
                     width: 133.w,
-                    // color: AppColorsLight.kOffwhiteColor,
                     padding: kDefaultPadding,
                     decoration: kDefaultBoxDecoration.copyWith(
                         color: AppColorsLight.kOffwhiteColor,

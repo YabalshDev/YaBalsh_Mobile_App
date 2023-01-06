@@ -148,24 +148,27 @@ class SuperMarketCard extends StatelessWidget {
                     fontSize: 18.sp,
                     color: AppColorsLight.kAppPrimaryColorLight),
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CustomSvgIcon(
-                    iconPath: AppAssets.priceTagIcon,
-                    color: Colors.green.shade500,
-                  ),
-                  smallHorizontalSpace,
-                  Text(
-                    'توفير ${superMarket.saving!.toStringAsFixed(0)} جنيه ',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontSize: 9.sp,
-                          fontWeight: FontWeight.w500,
+              superMarket.saving! > 0
+                  ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CustomSvgIcon(
+                          iconPath: AppAssets.priceTagIcon,
                           color: Colors.green.shade500,
                         ),
-                  ),
-                ],
-              )
+                        smallHorizontalSpace,
+                        Text(
+                          'توفير ${superMarket.saving!.toStringAsFixed(0)} جنيه ',
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    fontSize: 9.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.green.shade500,
+                                  ),
+                        ),
+                      ],
+                    )
+                  : const SizedBox()
             ],
           )
         ],

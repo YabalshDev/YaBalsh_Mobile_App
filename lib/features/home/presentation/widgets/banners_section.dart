@@ -10,9 +10,21 @@ import '../../../../core/utils/enums/request_state.dart';
 import '../../../on_boaring/presentation/widgets/dots_indicators.dart';
 import '../blocs/cubit/home_cubit.dart';
 
-class BannersSection extends StatelessWidget {
-  BannersSection({super.key});
-  final CarouselController carouselController = CarouselController();
+class BannersSection extends StatefulWidget {
+  const BannersSection({super.key});
+
+  @override
+  State<BannersSection> createState() => _BannersSectionState();
+}
+
+class _BannersSectionState extends State<BannersSection> {
+  late CarouselController carouselController;
+  @override
+  void initState() {
+    carouselController = CarouselController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(

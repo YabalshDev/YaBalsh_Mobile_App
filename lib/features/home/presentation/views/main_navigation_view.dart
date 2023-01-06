@@ -15,25 +15,35 @@ import 'package:yabalash_mobile_app/features/shopping_lists/presentation/views/s
 import '../../../../core/depedencies.dart';
 import '../../../cart/presentation/blocs/cubit/cart_cubit.dart';
 
-class MainNavigation extends StatelessWidget {
-  MainNavigation({super.key});
+class MainNavigation extends StatefulWidget {
+  final int pageIndex;
+  const MainNavigation({super.key, required this.pageIndex});
 
-  final PageController _pageController = PageController();
+  @override
+  State<MainNavigation> createState() => _MainNavigationState();
+}
+
+class _MainNavigationState extends State<MainNavigation> {
+  PageController? _pageController;
+  @override
+  void initState() {
+    _pageController = PageController(initialPage: widget.pageIndex);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: PageView.builder(
-            controller: _pageController,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: screens.length,
-            itemBuilder: ((context, index) {
-              return screens[index];
-            })),
-      ),
+          child: PageView.builder(
+              controller: _pageController,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: screens.length,
+              itemBuilder: ((context, index) {
+                return screens[index];
+              }))),
       bottomNavigationBar: MainBottomNavBar(
-        pageController: _pageController,
+        pageController: _pageController!,
       ),
     );
   }
@@ -111,7 +121,7 @@ final List<Widget> screens = [
           ..getLastOffers()
           ..getBanners()
           ..getNearStores()
-          ..getFirstSection();
+          ..getHomeSections();
       }
 
       return getIt<HomeCubit>();

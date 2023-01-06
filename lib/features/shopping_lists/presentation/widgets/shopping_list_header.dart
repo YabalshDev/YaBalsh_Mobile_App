@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
+import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_svg_icon.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/widgets/shopping_list_bottom_modal.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/blocs/cubit/cubit/shopping_list_details_cubit.dart';
@@ -31,7 +32,8 @@ class ShoppingListHeader extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         InkWell(
-          onTap: () => Get.back(),
+          onTap: () =>
+              Get.offNamed(RouteHelper.getMainNavigationRoute(), arguments: 3),
           child: Icon(
             Icons.arrow_back_ios,
             color: AppColorsLight.kAppPrimaryColorLight,
@@ -44,7 +46,7 @@ class ShoppingListHeader extends StatelessWidget {
           return InkWell(
             onTap: () => showModalBottomSheet(
               context: context,
-              builder: (context) => CustomBottomModal(
+              builder: (context) => ShoppingListBottomModal(
                   onTap: () {
                     handleRenameShoppingList();
                   },

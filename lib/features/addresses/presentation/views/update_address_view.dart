@@ -32,7 +32,7 @@ class UpdateAddress extends StatelessWidget {
         address: address,
       ),
       bottomNavigationBar: Container(
-        padding: kDefaultPadding,
+        padding: kDefaultPadding.copyWith(bottom: 10.h, top: 10.h),
         height: 70.h,
         child: BlocBuilder<UpdateAddressCubit, UpdateAddressState>(
           builder: (context, state) {

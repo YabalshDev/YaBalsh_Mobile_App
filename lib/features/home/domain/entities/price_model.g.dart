@@ -19,7 +19,7 @@ class PriceModelAdapter extends TypeAdapter<PriceModel> {
     return PriceModel(
       storeId: fields[20] as int?,
       storeImagePath: fields[16] as String?,
-      isAvailable: fields[14] as bool?,
+      isAvailable: fields[5] as bool?,
       price: fields[15] as double?,
     );
   }
@@ -32,7 +32,7 @@ class PriceModelAdapter extends TypeAdapter<PriceModel> {
       ..write(obj.storeId)
       ..writeByte(16)
       ..write(obj.storeImagePath)
-      ..writeByte(14)
+      ..writeByte(5)
       ..write(obj.isAvailable)
       ..writeByte(15)
       ..write(obj.price);

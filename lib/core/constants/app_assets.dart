@@ -21,6 +21,7 @@ class AppAssets {
   static const String tea = 'assets/images/tea.png';
   static const String pepsi = 'assets/images/pepsi.png';
   static const String juice = 'assets/images/orange_juice.png';
+  static const String recipieImage = 'assets/images/recipie.png';
 
   static const String homeIcon = 'assets/icons/home.svg';
 

@@ -18,8 +18,12 @@ class LocationModel extends Location {
     return LocationModel(
         zone: json['zone'],
         address: json['address'],
-        lat: json['lat'],
-        lon: json['lon'],
+        lat: json['lat'].runtimeType == String
+            ? double.parse(json['lat'] as String)
+            : json['lat'],
+        lon: json['lat'].runtimeType == String
+            ? double.parse(json['lon'] as String)
+            : json['lon'],
         deliveryTime: json['deliveryTime']);
   }
 }

@@ -7,11 +7,13 @@ import 'package:yabalash_mobile_app/features/addresses/presentation/blocs/cubit/
 import 'package:yabalash_mobile_app/features/addresses/presentation/widgets/address_card.dart';
 
 import '../../../../core/constants/app_layouts.dart';
+import '../../../../core/routes/app_routes.dart';
 import '../../../../core/utils/enums/request_state.dart';
 import '../../../../core/widgets/custom_header.dart';
 
 class AddressesBody extends StatelessWidget {
-  const AddressesBody({super.key});
+  final String fromRoute;
+  const AddressesBody({super.key, required this.fromRoute});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,11 @@ class AddressesBody extends StatelessWidget {
           CustomHeader(
               isWithNotification: true,
               title: 'عناويني',
-              onIconTap: () => Get.back(),
+              onIconTap: () => fromRoute == RouteHelper.getCartRoute()
+                  ? Get.offAllNamed(RouteHelper.getMainNavigationRoute(),
+                      arguments: 2) // close all and navigate to cart index
+                  : Get.offAllNamed(RouteHelper.getMainNavigationRoute(),
+                      arguments: 4), // close all and navigate to settings
               iconPath: AppAssets.closeIcon),
           largeVerticalSpace,
           BlocBuilder<AddressCubit, AddressState>(
@@ -46,6 +52,7 @@ class AddressesBody extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final address = state.addresses![index];
                         return AddressCard(
+                          fromRoute: fromRoute,
                           index: index,
                           address: address,
                           isPrimary: state.currentAddressIndex == index,
@@ -60,6 +67,7 @@ class AddressesBody extends StatelessWidget {
                   }
 
                 case RequestState.error:
+                  //TODO: implement errror and not logged in illustrators
                   return const SizedBox();
                 default:
                   return const SizedBox();

@@ -21,7 +21,9 @@ import 'package:yabalash_mobile_app/features/on_boaring/presentation/views/splas
 import 'package:yabalash_mobile_app/features/orders/presentation/blocs/cubit/past_orders_cubit.dart';
 import 'package:yabalash_mobile_app/features/orders/presentation/views/order_success_view.dart';
 import 'package:yabalash_mobile_app/features/orders/presentation/views/past_orders_view.dart';
+import 'package:yabalash_mobile_app/features/product_details/presentation/blocs/cubit/product_details_cubit.dart';
 import 'package:yabalash_mobile_app/features/product_details/presentation/views/product_details_view.dart';
+import 'package:yabalash_mobile_app/features/search/presentation/views/search_view.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/blocs/cubit/cubit/shopping_list_details_cubit.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/views/shopping_list_details_view.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/main_zones_cubit.dart';
@@ -31,7 +33,9 @@ import 'package:yabalash_mobile_app/features/zones/presentation/views/sub_zones_
 
 import '../../features/home/domain/entities/product.dart';
 import '../../features/home/presentation/views/home_view.dart';
+import '../../features/orders/domain/entities/order.dart';
 import '../../features/orders/presentation/blocs/cubit/order_success_cubit.dart';
+import '../../features/search/presentation/blocs/cubit/search_cubit.dart';
 import '../../features/shopping_lists/domain/entities/shopping_list.dart';
 import '../depedencies.dart';
 
@@ -53,6 +57,9 @@ class RouteHelper {
   static const String _orderSuccessRoute = '/order-success';
   static const String _pastOrdersRoute = '/past-orders';
   static const String _shoppingListDetailsRoute = '/shopping-list-details';
+  static const String _searchRoute = '/search';
+  static const String _settingsRoute = '/settings';
+  static const String _cartRoute = '/cart';
 
   static getIntialRoute() => _intialRoute;
   static getOnBoardingRoute() => _onBordingRoute;
@@ -69,6 +76,9 @@ class RouteHelper {
   static getOrderSuccessRoute() => _orderSuccessRoute;
   static getPastOrdersRoute() => _pastOrdersRoute;
   static getShoppingListDetailsRoute() => _shoppingListDetailsRoute;
+  static getSearchRoute() => _searchRoute;
+  static getCartRoute() => _cartRoute;
+  static getSettingsRoute() => _settingsRoute;
 
   static final routes = [
     GetPage(
@@ -86,12 +96,15 @@ class RouteHelper {
       ),
     ),
     GetPage(
-      name: _mainNavigationRoute,
-      page: () => BlocProvider<MainNavigationCubit>(
-        create: (context) => getIt<MainNavigationCubit>(),
-        child: MainNavigation(),
-      ),
-    ),
+        name: _mainNavigationRoute,
+        page: () {
+          int index = Get.arguments;
+          return BlocProvider<MainNavigationCubit>(
+            create: (context) =>
+                getIt<MainNavigationCubit>()..setPageIndex(index),
+            child: MainNavigation(pageIndex: index),
+          );
+        }),
     GetPage(
       name: _homeRoute,
       page: () => const HomeView(),
@@ -101,8 +114,14 @@ class RouteHelper {
         page: () {
           final Product product = Get.arguments;
           return CustomAnimatedWidget(
-              child: ProductDetailsView(
-            product: product,
+              child: BlocProvider<ProductDetailsCubit>(
+            create: (context) => getIt<ProductDetailsCubit>()
+              ..getProductDetails(productId: product.id!, withNearStores: true)
+              ..getProductVariants(product: product)
+              ..getSimmilarProducts(product: product),
+            child: ProductDetailsView(
+              product: product,
+            ),
           ));
         }),
     GetPage(
@@ -113,7 +132,8 @@ class RouteHelper {
             create: (context) => getIt<LoginCubit>(),
             child: KeyboardDissmisable(
                 child: LoginView(
-              phoneNumber: Get.arguments,
+              phoneNumber: Get.arguments[0],
+              fromRoute: Get.arguments[1],
             )),
           ));
         }),
@@ -125,7 +145,8 @@ class RouteHelper {
             create: (context) => getIt<RegisterCubit>(),
             child: KeyboardDissmisable(
                 child: RegisterView(
-              phoneNumber: Get.arguments,
+              phoneNumber: Get.arguments[0],
+              fromRoute: Get.arguments[1],
             )),
           ));
         }),
@@ -152,20 +173,22 @@ class RouteHelper {
     GetPage(
         name: _phoneNumberRoute,
         page: () {
+          final String fromRoute = Get.arguments;
           return CustomAnimatedWidget(
               child: KeyboardDissmisable(
                   child: BlocProvider<PhoneNumberCubit>(
             create: (context) => getIt<PhoneNumberCubit>(),
-            child: const PhoneNumberView(),
+            child: PhoneNumberView(fromRoute: fromRoute),
           )));
         }),
     GetPage(
         name: _addressesRoute,
         page: () {
+          final String fromRoute = Get.arguments;
           return CustomAnimatedWidget(
               child: BlocProvider<AddressCubit>(
             create: (context) => getIt<AddressCubit>()..getAllAddress(),
-            child: const AddressesView(),
+            child: AddressesView(fromRoute: fromRoute),
           ));
         }),
     GetPage(
@@ -186,11 +209,20 @@ class RouteHelper {
     GetPage(
         name: _orderSuccessRoute,
         page: () {
+          final Order order = Get.arguments[0];
+          final bool isFromOrderDetails = Get.arguments[1];
           return CustomAnimatedWidget(
               child: BlocProvider<OrderSuccessCubit>(
-                  create: (context) => getIt<OrderSuccessCubit>(),
+                  create: (context) {
+                    if (isFromOrderDetails) {
+                      return getIt<OrderSuccessCubit>()..calculateSaving(order);
+                    } else {
+                      return getIt<OrderSuccessCubit>();
+                    }
+                  },
                   child: OrderSuccessView(
-                    order: Get.arguments[0],
+                    order: order,
+                    isFromOrderDetails: isFromOrderDetails,
                   )));
         }),
     GetPage(
@@ -215,6 +247,30 @@ class RouteHelper {
                   child: ShoppingListDetailsView(
                     shoppingList: shoppingList,
                   )));
+        }),
+    GetPage(
+        name: _searchRoute,
+        page: () {
+          final String searchName = Get.arguments[1];
+          final bool fromCategory = Get.arguments[0];
+          return CustomAnimatedWidget(
+            child: BlocProvider<SearchCubit>(
+              create: (context) {
+                if (searchName.isNotEmpty) {
+                  return getIt<SearchCubit>()
+                    ..changeSearchIsEmpty(false)
+                    ..getSearchHistory()
+                    ..search(searchName);
+                } else {
+                  return getIt<SearchCubit>()..getSearchHistory();
+                }
+              },
+              child: KeyboardDissmisable(
+                child: SearchView(
+                    fromCategory: fromCategory, intialValue: searchName),
+              ),
+            ),
+          );
         }),
   ];
 }

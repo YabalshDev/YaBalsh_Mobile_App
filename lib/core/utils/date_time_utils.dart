@@ -9,6 +9,12 @@ String generateExpectedTime(DateTime date, int interval) {
   return '${formatDateToArabicIndex(originalDateString)} - ${formatDateToArabicIndex(updatedDateString)}';
 }
 
+String formatDateToPmAmFormat(DateTime date) {
+  final format = DateFormat().add_jm();
+
+  return format.format(date);
+}
+
 String formatDateToArabicIndex(String date) {
   final dateIndex = date.split(' ')[1];
 

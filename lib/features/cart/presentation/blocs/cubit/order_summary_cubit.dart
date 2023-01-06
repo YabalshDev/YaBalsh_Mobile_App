@@ -29,27 +29,37 @@ class OrderSummaryCubit extends Cubit<OrderSummaryState> {
       getIt<OrderService>().superMarketCardModel!;
 
   void getUserAddress() async {
-    final response = await getAllAddressUseCase(NoParams());
-
-    response.fold((failure) {
-      emit(state.copyWith(addressesRequestState: RequestState.error));
-      getIt<CartCubit>().changeSelectedUserAddress(const Address());
-      yaBalashCustomDialog(
-        isWithEmoji: false,
-        buttonTitle: 'حسنا',
-        mainContent: failure.message,
-        title: 'خطأ',
-        onConfirm: () => Get.back(),
-      );
-    }, (addresses) {
-      getIt<AddressService>()
-          .setAddresses(addresses); // set service for global use
-
-      getIt<CartCubit>().changeSelectedUserAddress(addresses.last);
+    // if primary address set load it
+    if (getIt<AddressService>().primaryAddress.id != null) {
       emit(state.copyWith(
           addressesRequestState: RequestState.loaded,
-          userAddresses: addresses));
-    });
+          userAddresses: [getIt<AddressService>().primaryAddress]));
+    } else {
+      //otherwise load all address for user
+      final response = await getAllAddressUseCase(NoParams());
+
+      response.fold((failure) {
+        emit(state.copyWith(addressesRequestState: RequestState.error));
+        getIt<CartCubit>().changeSelectedUserAddress(const Address());
+        yaBalashCustomDialog(
+          isWithEmoji: false,
+          buttonTitle: 'حسنا',
+          mainContent: failure.message,
+          title: 'خطأ',
+          onConfirm: () => Get.back(),
+        );
+      }, (addresses) {
+        if (addresses.isNotEmpty) {
+          getIt<AddressService>()
+              .setAddresses(addresses); // set service for global use
+
+          getIt<CartCubit>().changeSelectedUserAddress(addresses.last);
+        }
+        emit(state.copyWith(
+            addressesRequestState: RequestState.loaded,
+            userAddresses: addresses));
+      });
+    }
   }
 
   Future<Order>? placeOrder({required OrderRequest orderRequest}) async {

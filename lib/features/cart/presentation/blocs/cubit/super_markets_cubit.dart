@@ -109,11 +109,14 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
         emit(state.copyWith(storeRequestState: RequestState.error));
       }, (store) {
         final storePriceModel = storesPrices[store.name];
-        supermarkets.add(SuperMarketCardModel(
-            store: store,
-            price: storePriceModel!.price,
-            saving: (storesPrices.values.last.price! - storePriceModel.price!),
-            isAvailable: storesPrices[store.name]!.isAvailable));
+        if (storePriceModel != null) {
+          supermarkets.add(SuperMarketCardModel(
+              store: store,
+              price: storePriceModel.price,
+              saving:
+                  (storesPrices.values.last.price! - storePriceModel.price!),
+              isAvailable: storesPrices[store.name]!.isAvailable));
+        }
       });
     }
 

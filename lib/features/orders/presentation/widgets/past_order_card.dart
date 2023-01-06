@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/features/orders/domain/entities/order.dart';
 
-import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/theme/light/light_theme.dart';
@@ -15,83 +16,91 @@ class PastOrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 10.h),
-      padding: kDefaultPadding,
-      decoration: kDefaultBoxDecoration,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const CustomCard(
-                    withBorder: true,
-                    isAssetImage: true,
-                    imagePath: AppAssets.carefour,
-                  ),
-                  smallHorizontalSpace,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      RichText(
-                        text: TextSpan(children: [
-                          TextSpan(
-                              text: 'طلبك من  ',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(
-                                      color: Colors.black, fontSize: 10.sp)),
-                          TextSpan(
-                              text: 'كارفور',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(
-                                      color:
-                                          AppColorsLight.kAppPrimaryColorLight,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14.sp)),
-                        ]),
-                      ),
-                      mediumVerticalSpace,
-                      Text(
-                        '${order.products!.length} منتحات',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: AppColorsLight.kAppPrimaryColorLight
-                                .withOpacity(0.8),
-                            fontSize: 9.sp),
-                      )
-                    ],
-                  )
-                ],
-              ),
-              Icon(
-                Icons.arrow_forward_ios,
-                size: 11.h,
-                color: AppColorsLight.kAppPrimaryColorLight.withOpacity(0.8),
-              )
-            ],
-          ),
-          mediumVerticalSpace,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              PastOrderColumn(
-                  title: 'الاجمالي',
-                  subTitle: '${order.subTotal!.toStringAsFixed(0)} جنيه'),
-              PastOrderColumn(
-                  title: 'تاريخ الطلب',
-                  subTitle: DateFormat('dd-MM-yyyy').format(order.orderDate!)),
-              PastOrderColumn(
-                  title: 'رقم الطلب', subTitle: '#834555${order.id}'),
-            ],
-          )
-        ],
+    return InkWell(
+      onTap: () => Get.toNamed(RouteHelper.getOrderSuccessRoute(),
+          arguments: [order, true]),
+      child: Container(
+        margin: EdgeInsets.only(top: 10.h),
+        padding: kDefaultPadding,
+        decoration: kDefaultBoxDecoration,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomCard(
+                      withBorder: true,
+                      isAssetImage: false,
+                      imagePath: order.store!.cardImagePath,
+                    ),
+                    smallHorizontalSpace,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        RichText(
+                          text: TextSpan(children: [
+                            TextSpan(
+                                text: 'طلبك من  ',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
+                                        color: Colors.black, fontSize: 10.sp)),
+                            TextSpan(
+                                text: order.store!.name ?? '',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                        color: AppColorsLight
+                                            .kAppPrimaryColorLight,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14.sp)),
+                          ]),
+                        ),
+                        mediumVerticalSpace,
+                        Text(
+                          '${order.products!.length} منتحات',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                  color: AppColorsLight.kAppPrimaryColorLight
+                                      .withOpacity(0.8),
+                                  fontSize: 9.sp),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 11.h,
+                  color: AppColorsLight.kAppPrimaryColorLight.withOpacity(0.8),
+                )
+              ],
+            ),
+            mediumVerticalSpace,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                PastOrderColumn(
+                    title: 'الاجمالي',
+                    subTitle: '${order.subTotal!.toStringAsFixed(0)} جنيه'),
+                PastOrderColumn(
+                    title: 'تاريخ الطلب',
+                    subTitle:
+                        DateFormat('dd-MM-yyyy').format(order.orderDate!)),
+                PastOrderColumn(
+                    title: 'رقم الطلب', subTitle: '#834555${order.id}'),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

@@ -20,10 +20,17 @@ class OnBoardingView extends StatefulWidget {
 }
 
 class _OnBoardingViewState extends State<OnBoardingView> {
-  final PageController _pageController = PageController();
+  late PageController _pageController;
   @override
   void initState() {
+    _pageController = PageController();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -63,7 +70,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                         child: YaBalashCustomButton(
                           child: const Text('اختار المنطقة'),
                           onTap: () {
-                            Get.offAndToNamed(RouteHelper.getMainZonesRoute());
+                            Get.offAllNamed(RouteHelper.getMainZonesRoute());
                           },
                         ),
                       ),

@@ -17,7 +17,9 @@ final _formKey = GlobalKey<FormBuilderState>();
 
 class LoginBody extends StatelessWidget {
   final String phoneNumber;
-  const LoginBody({super.key, required this.phoneNumber});
+  final String fromRoute;
+  const LoginBody(
+      {super.key, required this.phoneNumber, required this.fromRoute});
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +57,9 @@ class LoginBody extends StatelessWidget {
                                 phoneNumber: _formKey.currentState!
                                     .fields['phoneNumber']!.value);
 
-                            getIt<LoginCubit>()
-                                .loginUser(loginCredentials: loginRequest);
+                            getIt<LoginCubit>().loginUser(
+                                loginCredentials: loginRequest,
+                                fromRoute: fromRoute);
                           }
                         }
                       },

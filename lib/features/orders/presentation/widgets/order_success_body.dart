@@ -19,11 +19,14 @@ import '../../../cart/presentation/widgets/order_details_widget.dart';
 import '../../domain/entities/order.dart';
 import '../blocs/cubit/order_success_cubit.dart';
 import 'delivery_details_section.dart';
+import 'payment_section.dart';
 import 'status_card.dart';
 
 class OrderSuccessBody extends StatelessWidget {
   final Order order;
-  const OrderSuccessBody({super.key, required this.order});
+  final bool isFromOrderDetails;
+  const OrderSuccessBody(
+      {super.key, required this.order, required this.isFromOrderDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +39,11 @@ class OrderSuccessBody extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  getIt<CartCubit>().resetCart();
-                  Get.offAllNamed(RouteHelper.getMainNavigationRoute());
+                  if (!isFromOrderDetails) {
+                    getIt<CartCubit>().resetCart();
+                  }
+                  Get.offAllNamed(RouteHelper.getMainNavigationRoute(),
+                      arguments: 0);
                 },
                 child: const CustomSvgIcon(
                   iconPath: AppAssets.closeIcon,
@@ -65,7 +71,11 @@ class OrderSuccessBody extends StatelessWidget {
                     fontWeight: FontWeight.w400),
               ),
               Text(
-                generateExpectedTime(order.orderDate!, 30),
+                isFromOrderDetails
+                    ? formatDateToArabicIndex(formatDateToPmAmFormat(
+                        order.orderDate!.add(const Duration(minutes: 30))))
+                    : generateExpectedTime(order.orderDate!,
+                        order.store!.locations!.last.deliveryTime!),
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       fontSize: 17.sp,
                       color: AppColorsLight.kAppPrimaryColorLight,
@@ -73,10 +83,9 @@ class OrderSuccessBody extends StatelessWidget {
               ),
               mediumVerticalSpace,
               SupermarketDetailsCard(
-                  superMarketCardModel: getIt<CartCubit>().state.supermarket!,
-                  isFromOrderSuccess: true),
+                  store: order.store!, isFromOrderSuccess: true),
               largeVerticalSpace,
-              const DeliveryDetailsSection(),
+              DeliveryDetailsSection(address: order.address!),
               smallVerticalSpace,
               const PaymentSection(),
               smallVerticalSpace,
@@ -86,7 +95,7 @@ class OrderSuccessBody extends StatelessWidget {
                   smallHorizontalSpace,
                   mediumHorizontalSpace,
                   Text(
-                    '${getIt<CartCubit>().state.cartItems!.length} اصناف',
+                    '${order.products!.length} اصناف',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontSize: 13.sp,
                         color: Colors.black,
@@ -124,56 +133,22 @@ class OrderSuccessBody extends StatelessWidget {
                   } else {
                     return FadeIn(
                         duration: const Duration(milliseconds: 600),
-                        child: const OrderDetailsSection());
+                        child: OrderDetailsSection(
+                          orderProducts: order.products!,
+                        ));
                   }
                 },
               ),
               mediumVerticalSpace,
               const SubHeading(text: 'تفاصيل الحساب'),
               largeVerticalSpace,
-              const OrderSubTotalSection()
+              OrderSubTotalSection(
+                order: order,
+              )
             ],
           ),
         ),
       ),
-    );
-  }
-}
-
-class PaymentSection extends StatelessWidget {
-  const PaymentSection({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SubHeading(text: 'الدفع'),
-        largeHorizontalSpace,
-        largeHorizontalSpace,
-        smallHorizontalSpace,
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            smallVerticalSpace,
-            Text(
-              'طريقة الدفع',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  fontSize: 13.sp,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w400),
-            ),
-            Text(
-              'الدفع عند الاستلام',
-              maxLines: 2,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 12.sp,
-                  color: AppColorsLight.kAppPrimaryColorLight.withOpacity(0.7)),
-            ),
-          ],
-        )
-      ],
     );
   }
 }

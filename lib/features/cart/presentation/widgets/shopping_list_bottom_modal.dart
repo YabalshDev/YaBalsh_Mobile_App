@@ -11,17 +11,18 @@ import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/custom_form_section.dart';
 import '../../../../core/widgets/custom_svg_icon.dart';
 
-class CustomBottomModal extends StatefulWidget {
+class ShoppingListBottomModal extends StatefulWidget {
   final VoidCallback onTap;
   final GlobalKey<FormBuilderState> formKey;
-  const CustomBottomModal(
+  const ShoppingListBottomModal(
       {super.key, required this.onTap, required this.formKey});
 
   @override
-  State<CustomBottomModal> createState() => _CustomBottomModalState();
+  State<ShoppingListBottomModal> createState() =>
+      _ShoppingListBottomModalState();
 }
 
-class _CustomBottomModalState extends State<CustomBottomModal> {
+class _ShoppingListBottomModalState extends State<ShoppingListBottomModal> {
   String name = '';
 
   @override

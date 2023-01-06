@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 final EdgeInsets kDefaultPadding =
-    EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w);
+    EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w);
+
+final EdgeInsets kSmallPadding =
+    EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w);
 
 final EdgeInsets kSecondaryPadding =
     EdgeInsets.symmetric(vertical: 5.h, horizontal: 10.w);
