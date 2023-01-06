@@ -9,6 +9,7 @@ class AppAssets {
   static const String dairyMilk = 'assets/images/dairy_milks.png';
   static const String beverages = 'assets/images/beverages.png';
   static const String vegatables = 'assets/images/vegetables.png';
+  static const String ulker = 'assets/images/ulker.png';
 
   static const String carefour = 'assets/images/carefour.png';
   static const String bonjourno = 'assets/images/bonjourno.png';

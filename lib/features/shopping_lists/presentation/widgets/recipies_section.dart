@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
@@ -18,6 +20,7 @@ class RecipiesSection extends StatelessWidget {
           title: 'طبختك علي اد ايدك !',
           padding: EdgeInsets.symmetric(horizontal: 10.w),
           fontWeight: FontWeight.w700,
+          onSelectAll: () => Get.toNamed(RouteHelper.getRecipiesRoute()),
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.w),
@@ -38,42 +41,53 @@ class RecipiesSection extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             key: UniqueKey(),
             itemBuilder: (context, index) {
-              return Container(
-                margin: EdgeInsets.only(left: 10.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 90.w,
-                      height: 90.h,
-                      child: ClipRRect(
-                        borderRadius: kSecondaryBorderRaduis,
-                        child: Image.asset(
-                          AppAssets.recipieImage,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      constraints: BoxConstraints(maxWidth: 90.w),
-                      child: Text(
-                        'سبرنج رول بالزعتر',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w700,
-                            color: AppColorsLight.kAppPrimaryColorLight),
-                        textAlign: TextAlign.center,
-                      ),
-                    )
-                  ],
-                ),
-              );
+              return const RecipieShoppingListCard();
             },
           ),
         )
       ],
+    );
+  }
+}
+
+class RecipieShoppingListCard extends StatelessWidget {
+  const RecipieShoppingListCard({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(left: 10.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 90.w,
+            height: 90.h,
+            child: ClipRRect(
+              borderRadius: kSecondaryBorderRaduis,
+              child: Image.asset(
+                AppAssets.recipieImage,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Container(
+            constraints: BoxConstraints(maxWidth: 90.w),
+            child: Text(
+              'سبرنج رول بالزعتر',
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w700,
+                  color: AppColorsLight.kAppPrimaryColorLight),
+              textAlign: TextAlign.center,
+            ),
+          )
+        ],
+      ),
     );
   }
 }
