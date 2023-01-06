@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
+import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_card.dart';
 import 'package:yabalash_mobile_app/core/widgets/sub_heading.dart';
 
@@ -24,7 +25,9 @@ class AllRecipiesSection extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             return InkWell(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(RouteHelper.getRecipieDetailsRoute());
+              },
               child: Container(
                 margin: EdgeInsets.only(top: 15.h),
                 child: Row(
