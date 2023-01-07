@@ -124,14 +124,17 @@ class _ProductsSearchSectionState extends State<ProductsSearchSection> {
         // back to top
         BlocBuilder<SearchCubit, SearchState>(
           builder: (context, state) {
-            return state.searchProductsResult!.isEmpty
-                ? const Positioned(child: SizedBox())
-                : Align(
+            return state.searchProductsResult!.isNotEmpty &&
+                    state.searchProductsRequestState == RequestState.loaded
+                ? Align(
                     alignment: Alignment.bottomCenter,
                     child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: BackToTopCard(
                             scrollController: _scrollController!)),
+                  )
+                : const Positioned(
+                    child: SizedBox(),
                   );
           },
         )

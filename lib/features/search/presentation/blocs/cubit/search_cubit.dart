@@ -24,6 +24,11 @@ class SearchCubit extends Cubit<SearchState> {
       required this.searchProductUsecase})
       : super(const SearchState());
 
+  void changeProductSearchState(RequestState searchState) =>
+      emit(state.copyWith(searchProductsRequestState: searchState));
+  void changeStoreSearchState(RequestState searchState) =>
+      emit(state.copyWith(searchStoresRequestState: searchState));
+
   void changeSearchIsEmpty(bool value) =>
       emit(state.copyWith(isSearchEmpty: value));
 

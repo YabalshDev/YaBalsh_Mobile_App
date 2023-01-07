@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 import '../widgets/search_body.dart';
+
+final _searchFormKey = GlobalKey<FormBuilderState>();
 
 class SearchView extends StatefulWidget {
   final String? intialValue;
@@ -16,6 +19,7 @@ class _SearchViewState extends State<SearchView> {
   @override
   void initState() {
     pageController = PageController();
+
     super.initState();
   }
 
@@ -30,6 +34,7 @@ class _SearchViewState extends State<SearchView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SearchBody(
+          searchFormKey: _searchFormKey,
           pageController: pageController,
           fromCategory: widget.fromCategory,
           intialValue: widget.intialValue),

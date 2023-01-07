@@ -8,17 +8,17 @@ import 'package:yabalash_mobile_app/features/search/presentation/widgets/super_m
 import 'search_history_section.dart';
 import 'search_type_section.dart';
 
-final _searchFormKey = GlobalKey<FormBuilderState>();
-
 class SearchBody extends StatelessWidget {
   final PageController pageController;
   final String? intialValue;
   final bool fromCategory;
+  final GlobalKey<FormBuilderState> searchFormKey;
   const SearchBody(
       {super.key,
       required this.pageController,
       this.intialValue,
-      required this.fromCategory});
+      required this.fromCategory,
+      required this.searchFormKey});
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +26,9 @@ class SearchBody extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SearchHeader(
-              intialValue: intialValue!, searchFormKey: _searchFormKey),
+          SearchHeader(intialValue: intialValue!, searchFormKey: searchFormKey),
           SearchTypeSection(
-              pageController: pageController, searchFormKey: _searchFormKey),
+              pageController: pageController, searchFormKey: searchFormKey),
           const SearchHistorySection(),
           smallVerticalSpace,
           Expanded(

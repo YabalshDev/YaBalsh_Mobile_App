@@ -16,7 +16,11 @@ class SearchHistoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => BlocProvider.of<SearchCubit>(context).search(searchName),
+      onTap: () {
+        BlocProvider.of<SearchCubit>(context)
+            .changeSearchIsEmpty(false); // change to searching state
+        BlocProvider.of<SearchCubit>(context).search(searchName);
+      },
       child: Container(
           decoration: kDefaultBoxDecoration.copyWith(
               border: Border.all(
