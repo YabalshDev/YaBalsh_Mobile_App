@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 
-import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/widgets/sub_heading.dart';
+import 'creator_card.dart';
 
 class CreatorsSection extends StatelessWidget {
   const CreatorsSection({super.key});
@@ -24,39 +26,9 @@ class CreatorsSection extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemCount: 4,
             itemBuilder: (context, index) {
-              return Container(
-                margin: EdgeInsets.only(left: 10.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 60.w,
-                      height: 60.h,
-                      child: ClipRRect(
-                        borderRadius: kSecondaryBorderRaduis,
-                        child: Image.asset(
-                          AppAssets.ulker,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    smallVerticalSpace,
-                    Container(
-                      constraints: BoxConstraints(maxWidth: 60.w),
-                      child: Text(
-                        'اولكر',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              fontSize: 11.sp,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w700,
-                            ),
-                        textAlign: TextAlign.center,
-                      ),
-                    )
-                  ],
-                ),
+              return InkWell(
+                onTap: () => Get.toNamed(RouteHelper.getCreatorDetailsRoute()),
+                child: const CreatorCard(),
               );
             },
           ),

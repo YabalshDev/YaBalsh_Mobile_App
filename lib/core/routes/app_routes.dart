@@ -23,6 +23,7 @@ import 'package:yabalash_mobile_app/features/orders/presentation/views/order_suc
 import 'package:yabalash_mobile_app/features/orders/presentation/views/past_orders_view.dart';
 import 'package:yabalash_mobile_app/features/product_details/presentation/blocs/cubit/product_details_cubit.dart';
 import 'package:yabalash_mobile_app/features/product_details/presentation/views/product_details_view.dart';
+import 'package:yabalash_mobile_app/features/reciepies/presentation/views/creator_details_view.dart';
 import 'package:yabalash_mobile_app/features/reciepies/presentation/views/recipie_details_view.dart';
 import 'package:yabalash_mobile_app/features/reciepies/presentation/views/recipies_view.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/views/search_view.dart';
@@ -64,6 +65,7 @@ class RouteHelper {
   static const String _cartRoute = '/cart';
   static const String _recipiesRoute = '/recipies';
   static const String _recipieDetailsRoute = '/recipie-details';
+  static const String _creatorDetailsRoute = '/creator-details';
 
   static getIntialRoute() => _intialRoute;
   static getOnBoardingRoute() => _onBordingRoute;
@@ -85,6 +87,7 @@ class RouteHelper {
   static getSettingsRoute() => _settingsRoute;
   static getRecipiesRoute() => _recipiesRoute;
   static getRecipieDetailsRoute() => _recipieDetailsRoute;
+  static getCreatorDetailsRoute() => _creatorDetailsRoute;
 
   static final routes = [
     GetPage(
@@ -290,6 +293,13 @@ class RouteHelper {
         page: () {
           return const CustomAnimatedWidget(
             child: RecipieDetailsView(),
+          );
+        }),
+    GetPage(
+        name: _creatorDetailsRoute,
+        page: () {
+          return const CustomAnimatedWidget(
+            child: CreatorDetailsView(),
           );
         }),
   ];
