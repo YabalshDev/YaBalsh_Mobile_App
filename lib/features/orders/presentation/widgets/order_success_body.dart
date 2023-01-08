@@ -74,8 +74,7 @@ class OrderSuccessBody extends StatelessWidget {
                 isFromOrderDetails
                     ? formatDateToArabicIndex(formatDateToPmAmFormat(
                         order.orderDate!.add(const Duration(minutes: 30))))
-                    : generateExpectedTime(order.orderDate!,
-                        order.store!.locations!.last.deliveryTime!),
+                    : generateExpectedTime(order.orderDate!, 30),
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       fontSize: 17.sp,
                       color: AppColorsLight.kAppPrimaryColorLight,
@@ -144,6 +143,7 @@ class OrderSuccessBody extends StatelessWidget {
               largeVerticalSpace,
               OrderSubTotalSection(
                 order: order,
+                isFromOrderDetails: isFromOrderDetails,
               )
             ],
           ),

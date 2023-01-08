@@ -13,7 +13,9 @@ import '../blocs/cubit/cart_cubit.dart';
 
 class OrderSubTotalSection extends StatelessWidget {
   final Order? order;
-  const OrderSubTotalSection({super.key, this.order});
+  final bool isFromOrderDetails;
+  const OrderSubTotalSection(
+      {super.key, this.order, required this.isFromOrderDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class OrderSubTotalSection extends StatelessWidget {
               ],
             ),
             mediumVerticalSpace,
-            order != null
+            order != null && isFromOrderDetails
                 ? BlocBuilder<OrderSuccessCubit, OrderSuccessState>(
                     builder: (context, state) {
                       switch (state.savingRequestState) {

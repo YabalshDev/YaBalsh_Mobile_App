@@ -61,7 +61,9 @@ class OrderSummary extends StatelessWidget {
                   ),
                   mediumHorizontalSpace,
                   const SubHeading(text: 'تفاصيل الحساب'),
-                  const OrderSubTotalSection()
+                  const OrderSubTotalSection(
+                    isFromOrderDetails: false,
+                  )
                 ],
               ),
             );

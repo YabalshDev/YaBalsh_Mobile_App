@@ -69,4 +69,5 @@ class AppAssets {
   static const String backIcon = 'assets/icons/back.svg';
   static const String notAvailable = 'assets/icons/not_available.svg';
   static const String recipieIcon = 'assets/icons/recipie_icon.svg';
+  static const String noWifiIcon = 'assets/icons/no_wifi.svg';
 }

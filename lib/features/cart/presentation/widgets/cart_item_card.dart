@@ -63,6 +63,7 @@ class CartItemCard extends StatelessWidget {
               children: [
                 CustomCard(
                   withBorder: true,
+                  isAssetImage: false,
                   imagePath: cartItem.product!.imagePath,
                 ),
                 mediumHorizontalSpace,

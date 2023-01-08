@@ -5,6 +5,7 @@ import 'package:yabalash_mobile_app/core/api/local_data_api/local_storage_provid
 import 'package:yabalash_mobile_app/core/api/remote_data_api/dio_consumer.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/interceptors.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/rest_api_provider.dart';
+import 'package:yabalash_mobile_app/core/cubits/cubit/connectivty_cubit.dart';
 import 'package:yabalash_mobile_app/core/services/addresses_service.dart';
 import 'package:yabalash_mobile_app/core/services/categories_service.dart';
 import 'package:yabalash_mobile_app/core/services/order_service.dart';
@@ -98,11 +99,14 @@ import '../features/auth/presentation/blocs/cubit/register_cubit.dart';
 import '../features/on_boaring/presentation/blocs/cubit/on_boarding_cubit.dart';
 import '../features/product_details/domain/repositories/product_details_repository.dart';
 import '../features/search/domain/usecases/search_store_usecase.dart';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import '../features/zones/data/datasources/zone_local_data_source.dart';
 
 final getIt = GetIt.instance;
 setupDependecies() {
   getIt.registerLazySingleton(() => Dio());
+  getIt.registerLazySingleton(() => Connectivity());
   getIt.registerLazySingleton(() => AppInterceptor());
   getIt.registerLazySingleton(() => LogInterceptor());
 
@@ -282,8 +286,14 @@ setupDependecies() {
     () => OnBoardingCubit(),
   );
   getIt.registerLazySingleton(
+    () => ConnectivtyCubit(connectivity: getIt()),
+  );
+  getIt.registerLazySingleton(
     () => SplashCubit(
-        splashRepository: getIt(), userService: getIt(), zoneService: getIt()),
+        splashRepository: getIt(),
+        userService: getIt(),
+        zoneService: getIt(),
+        connectivity: getIt()),
   );
   getIt.registerLazySingleton(
     () => LoginCubit(
