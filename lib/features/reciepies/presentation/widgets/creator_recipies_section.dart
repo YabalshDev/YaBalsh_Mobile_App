@@ -6,7 +6,8 @@ import '../../../../core/widgets/sub_heading.dart';
 import 'reciepie_card.dart';
 
 class CreatorRecipiesSection extends StatelessWidget {
-  const CreatorRecipiesSection({super.key});
+  final List<Recipie> recipies;
+  const CreatorRecipiesSection({super.key, required this.recipies});
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +17,12 @@ class CreatorRecipiesSection extends StatelessWidget {
         const SubHeading(text: 'جميع الوصفات'),
         smallVerticalSpace,
         ListView.builder(
-          itemCount: 9,
+          itemCount: recipies.length,
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemBuilder: (context, index) {
-            return const RecipieCard(
-              recipie: Recipie(),
+            return RecipieCard(
+              recipie: recipies[index],
             );
           },
         )

@@ -27,7 +27,9 @@ class CreatorDetailsBody extends StatelessWidget {
               ),
               largeVerticalSpace,
               CreatorDetailsSection(creator: creator),
-              const CreatorRecipiesSection()
+              CreatorRecipiesSection(
+                recipies: creator.recipies!,
+              )
             ],
           ),
         ),

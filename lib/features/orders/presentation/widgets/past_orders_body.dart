@@ -71,7 +71,11 @@ class PastOrdersBody extends StatelessWidget {
                                   ],
                                 );
                     case RequestState.error:
-                      return EmptyIndicator(title: state.errorMessage!);
+                      return SizedBox(
+                        height: Get.height * 0.6,
+                        child: Center(
+                            child: EmptyIndicator(title: state.errorMessage!)),
+                      );
 
                     default:
                       return const SizedBox();

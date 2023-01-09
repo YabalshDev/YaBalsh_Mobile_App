@@ -68,7 +68,10 @@ class AddressesBody extends StatelessWidget {
 
                 case RequestState.error:
                   //TODO: implement errror and not logged in illustrators
-                  return const SizedBox();
+                  return SizedBox(
+                      height: Get.height * 0.75,
+                      child:
+                          EmptyIndicator(title: state.errorMessage ?? 'جطا '));
                 default:
                   return const SizedBox();
               }

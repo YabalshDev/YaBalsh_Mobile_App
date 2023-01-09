@@ -10,6 +10,8 @@ import 'package:yabalash_mobile_app/features/auth/domain/repositories/auth_repos
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/get_current_customer_usecase.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/login_usecase.dart';
 
+import '../../../../../core/depedencies.dart';
+import '../../../../../core/services/user_service.dart';
 import '../../../domain/entities/customer.dart';
 
 part 'login_state.dart';
@@ -46,16 +48,16 @@ class LoginCubit extends Cubit<LoginState> {
       // save user token
       authRepository.saveUserToken(token: data.token!);
       // get user data
-      handleSuccessfullAuthNavigation(fromRoute);
-      // final customer = await getCurrentCustomer();
-      // if (customer.id != null) {
-      //   getIt<UserService>().setCurrentCustomer(customer);
-      //   // navigation
-      // } else {
-      //   emit(state.copyWith(
-      //       errorMessage: 'فشل اثناء جلب بيانات المستخدم .. حاول مرة اخرى',
-      //       loginState: RequestState.error));
-      // }
+      final customer = await getCurrentCustomer();
+      if (customer.id != null) {
+        getIt<UserService>().setCurrentCustomer(customer);
+        handleSuccessfullAuthNavigation(fromRoute);
+        // navigation
+      } else {
+        emit(state.copyWith(
+            errorMessage: 'فشل اثناء جلب بيانات المستخدم .. حاول مرة اخرى',
+            loginState: RequestState.error));
+      }
     });
   }
 

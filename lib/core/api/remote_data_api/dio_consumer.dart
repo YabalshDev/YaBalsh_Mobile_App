@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/api_error_model.dart';
 import 'package:yabalash_mobile_app/core/constants/app_strings.dart';
+import 'package:yabalash_mobile_app/core/errors/error_messages.dart';
 
 import '../../depedencies.dart';
 import '../../errors/exceptions.dart';
@@ -46,9 +47,7 @@ class DioConsumer implements RestApiProvider {
       if (response.statusCode == 200) {
         return response.data;
       } else {
-        throw ServerException(
-            errorModel: ApiErrorModel(
-                message: response.data['message'], success: false));
+        _handleStatusCodeError(response.statusCode!);
       }
     } on DioError catch (err) {
       return _handleDioError(err);
@@ -66,9 +65,7 @@ class DioConsumer implements RestApiProvider {
       if (response.statusCode == 200) {
         return response.data;
       } else {
-        throw ServerException(
-            errorModel: ApiErrorModel(
-                message: response.data['message'], success: false));
+        _handleStatusCodeError(response.statusCode!);
       }
     } on DioError catch (err) {
       return _handleDioError(err);
@@ -88,9 +85,7 @@ class DioConsumer implements RestApiProvider {
       if (response.statusCode == 200) {
         return response.data;
       } else {
-        throw ServerException(
-            errorModel: ApiErrorModel(
-                message: response.data['message'], success: false));
+        _handleStatusCodeError(response.statusCode!);
       }
     } on DioError catch (err) {
       return _handleDioError(err);
@@ -110,12 +105,45 @@ class DioConsumer implements RestApiProvider {
       if (response.statusCode == 200) {
         return response.data;
       } else {
-        throw ServerException(
-            errorModel: ApiErrorModel(
-                message: response.data['message'], success: false));
+        _handleStatusCodeError(response.statusCode!);
       }
     } on DioError catch (err) {
       return _handleDioError(err);
+    }
+  }
+
+  dynamic _handleStatusCodeError(int statusCode) {
+    switch (statusCode) {
+      case StatusCode.badRequest:
+        throw BadRequestException(
+            errorModel: ApiErrorModel(
+                message: AppErrorMessages.errorsMap[statusCode.toString()]));
+      case StatusCode.unauthorized:
+      case StatusCode.forbidden:
+        throw UnauthorizedException(
+            errorModel: ApiErrorModel(
+                message: AppErrorMessages.errorsMap[statusCode.toString()]));
+      case StatusCode.notFound:
+        throw NotFoundException(
+            errorModel: ApiErrorModel(
+                message: AppErrorMessages.errorsMap[statusCode.toString()]));
+      case StatusCode.confilct:
+        throw ConflictException(
+            errorModel: ApiErrorModel(
+                message: AppErrorMessages.errorsMap[statusCode.toString()]));
+      case StatusCode.test:
+        throw BadRequestException(
+            errorModel: ApiErrorModel(
+                message: AppErrorMessages.errorsMap[statusCode.toString()]));
+      case StatusCode.internalServerError:
+        throw InternalServerErrorException(
+            errorModel: ApiErrorModel(
+                message: AppErrorMessages.errorsMap[statusCode.toString()]));
+
+      case StatusCode.notAllowed:
+        throw NotAllowedException(
+            errorModel: ApiErrorModel(
+                message: AppErrorMessages.errorsMap[statusCode.toString()]));
     }
   }
 
@@ -124,36 +152,16 @@ class DioConsumer implements RestApiProvider {
       case DioErrorType.connectTimeout:
       case DioErrorType.sendTimeout:
       case DioErrorType.receiveTimeout:
-        throw FetchDataException(
-            errorModel: ApiErrorModel.fromJson(error.response!.data));
-      case DioErrorType.response:
-        switch (error.response?.statusCode) {
-          case StatusCode.badRequest:
-            throw BadRequestException(
-                errorModel: ApiErrorModel.fromJson(error.response!.data));
-          case StatusCode.unauthorized:
-          case StatusCode.forbidden:
-            throw UnauthorizedException(
-                errorModel: ApiErrorModel.fromJson(error.response!.data));
-          case StatusCode.notFound:
-            throw NotFoundException(
-                errorModel: ApiErrorModel.fromJson(error.response!.data));
-          case StatusCode.confilct:
-            throw ConflictException(
-                errorModel: ApiErrorModel.fromJson(error.response!.data));
-          case StatusCode.test:
-            throw BadRequestException(
-                errorModel: ApiErrorModel.fromJson(error.response!.data));
-          case StatusCode.internalServerError:
-            throw InternalServerErrorException(
-                errorModel: ApiErrorModel.fromJson(error.response!.data));
-        }
-        break;
       case DioErrorType.cancel:
+        throw const FetchDataException(
+            errorModel: ApiErrorModel(message: 'خطا اثناء جلب البيانات'));
+      case DioErrorType.response:
+        _handleStatusCodeError(error.response!.statusCode!);
         break;
+
       case DioErrorType.other:
-        throw NoInternetConnectionException(
-            errorModel: ApiErrorModel.fromJson(error.response!.data));
+        throw const NoInternetConnectionException(
+            errorModel: ApiErrorModel(message: 'خطا..لايوجد اتصال بالانترنت'));
     }
   }
 }

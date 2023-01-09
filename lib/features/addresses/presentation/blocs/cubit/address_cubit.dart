@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
-import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/core/usecases/use_cases.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
@@ -46,7 +45,7 @@ class AddressCubit extends Cubit<AddressState> {
         title: 'خطأ',
         mainContent: failure.message,
         onConfirm: () {
-          Get.offAndToNamed(RouteHelper.getAddressesRoute());
+          Get.back();
         },
       );
     },

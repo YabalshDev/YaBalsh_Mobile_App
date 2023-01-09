@@ -35,6 +35,11 @@ class UnauthorizedException extends ServerException {
       : super(errorModel: errorModel);
 }
 
+class NotAllowedException extends ServerException {
+  const NotAllowedException({required ApiErrorModel errorModel})
+      : super(errorModel: errorModel);
+}
+
 class NotFoundException extends ServerException {
   const NotFoundException({required ApiErrorModel errorModel})
       : super(errorModel: errorModel);

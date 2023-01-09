@@ -42,7 +42,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<RegisterResponseModel> getCurrentCustomer() async {
-    final response = await restApiProvider.get(registerEndPoint,
+    final response = await restApiProvider.get(getCurrentUserEndpoint,
         headers: ApiHeaders.authorizationHeaders);
 
     return RegisterResponseModel.fromJson(response);
