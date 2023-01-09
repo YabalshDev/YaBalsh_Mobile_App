@@ -67,9 +67,9 @@ class MainBottomNavBar extends StatelessWidget {
               BlocProvider.of<MainNavigationCubit>(context).currentPageIndex,
           onTap: (value) {
             BlocProvider.of<MainNavigationCubit>(context).setPageIndex(value);
-            pageController.animateToPage(value,
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.easeInOut);
+            pageController.jumpToPage(
+              value,
+            );
           },
           items: [
             BottomNavigationBarItem(

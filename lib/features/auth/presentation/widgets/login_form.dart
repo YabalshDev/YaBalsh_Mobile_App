@@ -6,7 +6,6 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
-import '../../../../core/depedencies.dart';
 import '../../../../core/widgets/custom_svg_icon.dart';
 import '../../../../core/widgets/phone_number_text_field.dart';
 import '../../../../core/widgets/yaBalash_text_field.dart';
@@ -59,9 +58,11 @@ class LoginForm extends StatelessWidget {
                   ]),
                   onChanged: (value) {
                     if (value!.isEmpty) {
-                      getIt<LoginCubit>().changeButtonDisabled(true);
+                      BlocProvider.of<LoginCubit>(context)
+                          .changeButtonDisabled(true);
                     } else {
-                      getIt<LoginCubit>().changeButtonDisabled(false);
+                      BlocProvider.of<LoginCubit>(context)
+                          .changeButtonDisabled(false);
                     }
                   },
                   obsecure: state.obsecure,
@@ -70,9 +71,11 @@ class LoginForm extends StatelessWidget {
                     child: InkWell(
                       onTap: () {
                         if (state.obsecure!) {
-                          getIt<LoginCubit>().changeObsecure(false);
+                          BlocProvider.of<LoginCubit>(context)
+                              .changeObsecure(false);
                         } else {
-                          getIt<LoginCubit>().changeObsecure(true);
+                          BlocProvider.of<LoginCubit>(context)
+                              .changeObsecure(true);
                         }
                       },
                       child: const CustomSvgIcon(

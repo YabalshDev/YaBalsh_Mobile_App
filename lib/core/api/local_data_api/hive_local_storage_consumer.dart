@@ -4,10 +4,10 @@ import 'package:yabalash_mobile_app/core/errors/exceptions.dart';
 
 class HiveLocalDataConsumer implements LocalStorageProvider {
   @override
-  void deleteData({required key, id}) {
+  void deleteData({required key, id}) async {
     try {
       if (!Hive.isBoxOpen(key)) {
-        Hive.openBox(key);
+        await Hive.openBox(key);
       }
       final box = Hive.box(key);
 

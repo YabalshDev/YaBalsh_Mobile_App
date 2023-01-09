@@ -9,7 +9,6 @@ import 'package:yabalash_mobile_app/features/auth/presentation/widgets/auth_titl
 import 'package:yabalash_mobile_app/features/auth/presentation/widgets/login_form.dart';
 
 import '../../../../core/constants/app_layouts.dart';
-import '../../../../core/depedencies.dart';
 import '../../../../core/widgets/ya_balash_custom_button.dart';
 import '../blocs/cubit/login_cubit.dart';
 
@@ -57,7 +56,7 @@ class LoginBody extends StatelessWidget {
                                 phoneNumber: _formKey.currentState!
                                     .fields['phoneNumber']!.value);
 
-                            getIt<LoginCubit>().loginUser(
+                            BlocProvider.of<LoginCubit>(context).loginUser(
                                 loginCredentials: loginRequest,
                                 fromRoute: fromRoute);
                           }

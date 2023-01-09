@@ -14,6 +14,7 @@ abstract class UserService {
   void setToken(String value);
   void setCurrentCustomer(Customer newCustomer);
   String getToken();
+  void logout();
 }
 
 class UserServiceImpl implements UserService {
@@ -50,5 +51,10 @@ class UserServiceImpl implements UserService {
     } on CacheException {
       return '';
     }
+  }
+
+  @override
+  void logout() {
+    localStorageProvider.deleteData(key: AppStrings.token);
   }
 }

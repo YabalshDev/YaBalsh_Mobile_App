@@ -174,14 +174,6 @@ class CartCubit extends Cubit<CartState> {
     }, (success) {
       _cart = List.from(state.cartItems!)..add(cartItem!);
       emit(state.copyWith(cartItems: _cart));
-      yaBalashCustomDialog(
-        isWithEmoji: false,
-        buttonTitle: 'حسنا',
-        mainContent:
-            !isProductExist ? 'تمت اضافة المنتج الى السلة' : 'تمت تحديث الكمية',
-        title: 'ملاحظة',
-        onConfirm: () => Get.back(),
-      );
     });
   }
 

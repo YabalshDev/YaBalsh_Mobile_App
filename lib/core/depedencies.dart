@@ -316,13 +316,13 @@ setupDependecies() {
         zoneService: getIt(),
         connectivity: getIt()),
   );
-  getIt.registerLazySingleton(
+  getIt.registerFactory(
     () => LoginCubit(
         loginUseCase: getIt(),
         authRepository: getIt(),
         getCurrentCustomerUseCase: getIt()),
   );
-  getIt.registerLazySingleton(
+  getIt.registerFactory(
     () => RegisterCubit(registerUseCase: getIt()),
   );
   getIt.registerFactory(
