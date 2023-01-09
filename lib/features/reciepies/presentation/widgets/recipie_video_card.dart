@@ -5,8 +5,11 @@ import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/theme/light/app_colors_light.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import '../../domain/entities/recipie.dart';
+
 class RecipieVideoCard extends StatefulWidget {
-  const RecipieVideoCard({super.key});
+  final Recipie recipie;
+  const RecipieVideoCard({super.key, required this.recipie});
 
   @override
   State<RecipieVideoCard> createState() => _RecipieVideoCardState();
@@ -17,10 +20,10 @@ class _RecipieVideoCardState extends State<RecipieVideoCard> {
 
   @override
   void initState() {
-    const url = "https://www.youtube.com/watch?v=_gspUQ11CuQ";
+    final url = widget.recipie.videoLink;
 
     youtubeController = YoutubePlayerController(
-        initialVideoId: YoutubePlayer.convertUrlToId(url)!,
+        initialVideoId: YoutubePlayer.convertUrlToId(url!)!,
         flags: const YoutubePlayerFlags(
           autoPlay: false,
           hideThumbnail: false,

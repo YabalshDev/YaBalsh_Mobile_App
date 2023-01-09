@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
+import '../../domain/entities/creator.dart';
 
 class CreatorCard extends StatelessWidget {
+  final Creator creator;
   const CreatorCard({
     Key? key,
+    required this.creator,
   }) : super(key: key);
 
   @override
@@ -22,7 +24,7 @@ class CreatorCard extends StatelessWidget {
             child: ClipRRect(
               borderRadius: kSecondaryBorderRaduis,
               child: Image.asset(
-                AppAssets.ulker,
+                creator.imagePath!,
                 fit: BoxFit.cover,
               ),
             ),
@@ -31,7 +33,7 @@ class CreatorCard extends StatelessWidget {
           Container(
             constraints: BoxConstraints(maxWidth: 60.w),
             child: Text(
-              'اولكر',
+              creator.name!,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(

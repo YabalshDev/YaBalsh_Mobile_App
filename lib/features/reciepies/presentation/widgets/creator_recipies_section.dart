@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yabalash_mobile_app/features/reciepies/domain/entities/recipie.dart';
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/widgets/sub_heading.dart';
@@ -19,7 +20,9 @@ class CreatorRecipiesSection extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemBuilder: (context, index) {
-            return const RecipieCard();
+            return const RecipieCard(
+              recipie: Recipie(),
+            );
           },
         )
       ],

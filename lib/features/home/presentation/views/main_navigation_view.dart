@@ -144,7 +144,9 @@ final List<Widget> screens = [
     child: CustomAnimatedWidget(
         child: CustomAnimatedWidget(
             child: BlocProvider<ShoppingListCubit>(
-      create: (context) => getIt<ShoppingListCubit>()..getAllShoppingList(),
+      create: (context) => getIt<ShoppingListCubit>()
+        ..getAllShoppingList()
+        ..getRecipies(),
       child: const ShoppingListsView(),
     ))),
   ),

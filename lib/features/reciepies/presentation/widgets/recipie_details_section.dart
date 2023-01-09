@@ -5,9 +5,11 @@ import 'package:yabalash_mobile_app/core/theme/light/app_colors_light.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/widgets/custom_svg_icon.dart';
+import '../../domain/entities/recipie.dart';
 
 class RecipieDetailsSection extends StatelessWidget {
-  const RecipieDetailsSection({super.key});
+  final Recipie recipie;
+  const RecipieDetailsSection({super.key, required this.recipie});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class RecipieDetailsSection extends StatelessWidget {
                 )),
             smallVerticalSpace,
             Text(
-              '60 دقيقة',
+              '${recipie.duration} دقيقة',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: AppColorsLight.kAppPrimaryColorLight,
                   fontSize: 12.sp,
@@ -50,7 +52,7 @@ class RecipieDetailsSection extends StatelessWidget {
                   color: AppColorsLight.kAppPrimaryColorLight,
                 )),
             smallVerticalSpace,
-            Text('4 منتجات',
+            Text('${recipie.products!.length} منتجات',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: AppColorsLight.kAppPrimaryColorLight,
                     fontSize: 12.sp,

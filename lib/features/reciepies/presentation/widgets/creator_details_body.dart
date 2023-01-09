@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/widgets/custom_header.dart';
+import '../../domain/entities/creator.dart';
 import 'creator_details_section.dart';
 import 'creator_recipies_section.dart';
 
 class CreatorDetailsBody extends StatelessWidget {
-  const CreatorDetailsBody({super.key});
+  final Creator creator;
+  const CreatorDetailsBody({super.key, required this.creator});
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +20,13 @@ class CreatorDetailsBody extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const CustomHeader(
+              CustomHeader(
                 isWithNotification: true,
-                title: 'وصفات النوتيلا',
+                title: 'وصفات ${creator.name}',
                 iconPath: AppAssets.backIcon,
               ),
               largeVerticalSpace,
-              const CreatorDetailsSection(),
+              CreatorDetailsSection(creator: creator),
               const CreatorRecipiesSection()
             ],
           ),

@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/features/reciepies/domain/entities/recipie.dart';
 
-import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/custom_card.dart';
 
 class RecipieCard extends StatelessWidget {
+  final Recipie recipie;
   const RecipieCard({
     Key? key,
+    required this.recipie,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.toNamed(RouteHelper.getRecipieDetailsRoute());
+        Get.toNamed(RouteHelper.getRecipieDetailsRoute(), arguments: recipie);
       },
       child: Container(
         margin: EdgeInsets.only(top: 15.h),
@@ -31,7 +33,7 @@ class RecipieCard extends StatelessWidget {
                   withBorder: false,
                   height: 70.h,
                   width: 70.w,
-                  imagePath: AppAssets.ulker,
+                  imagePath: recipie.imagePath,
                 ),
                 mediumHorizontalSpace,
                 Column(
@@ -40,7 +42,7 @@ class RecipieCard extends StatelessWidget {
                     Container(
                       constraints: BoxConstraints(maxWidth: Get.width * 0.4),
                       child: Text(
-                        'بروتين بان كيك',
+                        recipie.title!,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             fontSize: 15.sp,
@@ -52,7 +54,7 @@ class RecipieCard extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          '3 منتجات',
+                          '${recipie.products!.length} منتجات',
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium
@@ -76,7 +78,7 @@ class RecipieCard extends StatelessWidget {
                         ),
                         smallHorizontalSpace,
                         Text(
-                          'omar cooks',
+                          recipie.creatorName!,
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium

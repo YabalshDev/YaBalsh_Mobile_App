@@ -23,6 +23,8 @@ import 'package:yabalash_mobile_app/features/orders/presentation/views/order_suc
 import 'package:yabalash_mobile_app/features/orders/presentation/views/past_orders_view.dart';
 import 'package:yabalash_mobile_app/features/product_details/presentation/blocs/cubit/product_details_cubit.dart';
 import 'package:yabalash_mobile_app/features/product_details/presentation/views/product_details_view.dart';
+import 'package:yabalash_mobile_app/features/reciepies/domain/entities/recipie.dart';
+import 'package:yabalash_mobile_app/features/reciepies/presentation/blocs/cubit/recipies_cubit.dart';
 import 'package:yabalash_mobile_app/features/reciepies/presentation/views/creator_details_view.dart';
 import 'package:yabalash_mobile_app/features/reciepies/presentation/views/recipie_details_view.dart';
 import 'package:yabalash_mobile_app/features/reciepies/presentation/views/recipies_view.dart';
@@ -284,22 +286,31 @@ class RouteHelper {
     GetPage(
         name: _recipiesRoute,
         page: () {
-          return const CustomAnimatedWidget(
-            child: RecipiesView(),
+          final List<Recipie> recipies = Get.arguments;
+          return CustomAnimatedWidget(
+            child: BlocProvider<RecipiesCubit>(
+              create: (context) => getIt<RecipiesCubit>()..getCreators(),
+              child: RecipiesView(
+                recipies: recipies,
+              ),
+            ),
           );
         }),
     GetPage(
         name: _recipieDetailsRoute,
         page: () {
-          return const CustomAnimatedWidget(
-            child: RecipieDetailsView(),
+          final Recipie recipie = Get.arguments;
+          return CustomAnimatedWidget(
+            child: RecipieDetailsView(recipie: recipie),
           );
         }),
     GetPage(
         name: _creatorDetailsRoute,
         page: () {
-          return const CustomAnimatedWidget(
-            child: CreatorDetailsView(),
+          return CustomAnimatedWidget(
+            child: CreatorDetailsView(
+              creator: Get.arguments,
+            ),
           );
         }),
   ];

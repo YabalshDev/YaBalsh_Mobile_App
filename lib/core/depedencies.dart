@@ -73,6 +73,13 @@ import 'package:yabalash_mobile_app/features/product_details/data/datasources/pr
 import 'package:yabalash_mobile_app/features/product_details/data/repositories/product_details_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/product_details/domain/usecases/get_product_details_usecase.dart';
 import 'package:yabalash_mobile_app/features/product_details/presentation/blocs/cubit/product_details_cubit.dart';
+import 'package:yabalash_mobile_app/features/reciepies/data/datasources/recipie_mock_data_source.dart';
+import 'package:yabalash_mobile_app/features/reciepies/data/repositories/recipies_repository_impl.dart';
+import 'package:yabalash_mobile_app/features/reciepies/domain/repositories/recipies_repository.dart';
+import 'package:yabalash_mobile_app/features/reciepies/domain/usecases/get_all_creators_usecase.dart';
+import 'package:yabalash_mobile_app/features/reciepies/domain/usecases/get_all_recipies_usecase.dart';
+import 'package:yabalash_mobile_app/features/reciepies/domain/usecases/get_recipie_details_usecase.dart';
+import 'package:yabalash_mobile_app/features/reciepies/presentation/blocs/cubit/recipies_cubit.dart';
 import 'package:yabalash_mobile_app/features/search/data/datasources/search_local_datasource.dart';
 import 'package:yabalash_mobile_app/features/search/data/datasources/search_remote_datasource.dart';
 import 'package:yabalash_mobile_app/features/search/data/repositories/search_repository_impl.dart';
@@ -157,6 +164,9 @@ setupDependecies() {
   getIt.registerLazySingleton<ProductDetailsRemoteDataSource>(
       () => ProductDetailsRemoteDataSourceImpl(restApiProvider: getIt()));
 
+  getIt
+      .registerLazySingleton<RecipieDataSource>(() => RecipiesMockDataSource());
+
   //repos
   getIt.registerLazySingleton<SplashRepository>(
       () => SplashRepositoryImpl(localStorageProvider: getIt()));
@@ -195,6 +205,10 @@ setupDependecies() {
       () => ProductDetailsRepositoryImpl(
             productDetailsRemoteDataSource: getIt(),
           ));
+
+  getIt.registerLazySingleton<RecipiesRepository>(() => RecipiesRepositoryImpl(
+        recipieDataSource: getIt(),
+      ));
   // use cases
 
   getIt.registerLazySingleton(
@@ -264,6 +278,13 @@ setupDependecies() {
       () => SearchStoreUsecase(searchRepository: getIt()));
   getIt.registerLazySingleton(
       () => GetProductDetailsUseCase(productDetailsRepository: getIt()));
+
+  getIt.registerLazySingleton(
+      () => GetAllCreatorsUseCase(recipiesRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => GetAllRecpiesUseCase(recipiesRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => GetRecipieDetailsUseCase(recipiesRepository: getIt()));
 
 //cubits/blocs
   getIt.registerFactory(
@@ -342,7 +363,9 @@ setupDependecies() {
       () => OrderSuccessCubit(getProductDetailsUseCase: getIt()));
   getIt.registerFactory(() => PastOrdersCubit(getPastOrdersUseCase: getIt()));
   getIt.registerFactory(() => ShoppingListCubit(
-      getAllShoppingListsUseCase: getIt(), renameShoppingListUseCase: getIt()));
+      getAllRecpiesUseCase: getIt(),
+      getAllShoppingListsUseCase: getIt(),
+      renameShoppingListUseCase: getIt()));
 
   getIt.registerFactory(
       () => ShoppingListDetailsCubit(renameShoppingListUseCase: getIt()));
@@ -355,5 +378,9 @@ setupDependecies() {
   getIt.registerFactory(() => ProductDetailsCubit(
         getProductDetailsUseCase: getIt(),
         searchProductUsecase: getIt(),
+      ));
+
+  getIt.registerFactory(() => RecipiesCubit(
+        getAllCreatorsUseCase: getIt(),
       ));
 }
