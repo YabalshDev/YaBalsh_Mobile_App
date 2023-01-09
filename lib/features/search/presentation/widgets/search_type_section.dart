@@ -37,10 +37,6 @@ class SearchTypeSection extends StatelessWidget {
                         .isNotEmpty) {
                       searchFormKey.currentState!.fields['search']!
                           .setValue('');
-                      searchFormKey
-                          .currentState!.fields.entries.first.value.formState!
-                          .setInternalFieldValue('search', '',
-                              isSetState: true);
                     } else {
                       searchFormKey.currentState!.fields['search']!.reset();
                     }

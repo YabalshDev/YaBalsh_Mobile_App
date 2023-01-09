@@ -9,12 +9,17 @@ import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/theme/light/light_theme.dart';
 
-class SearchHeader extends StatelessWidget {
+class SearchHeader extends StatefulWidget {
   final String intialValue;
   final GlobalKey<FormBuilderState> searchFormKey;
   const SearchHeader(
       {super.key, required this.intialValue, required this.searchFormKey});
 
+  @override
+  State<SearchHeader> createState() => _SearchHeaderState();
+}
+
+class _SearchHeaderState extends State<SearchHeader> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -25,7 +30,7 @@ class SearchHeader extends StatelessWidget {
           Expanded(
               flex: 8,
               child: FormBuilder(
-                key: searchFormKey,
+                key: widget.searchFormKey,
                 child: SizedBox(
                   height: 32.h,
                   child: Container(
@@ -36,8 +41,11 @@ class SearchHeader extends StatelessWidget {
                       children: [
                         InkWell(
                           onTap: () {
-                            final searchValue = searchFormKey.currentState
-                                ?.fields['search']!.value as String;
+                            final searchValue = widget
+                                .searchFormKey
+                                .currentState
+                                ?.fields['search']!
+                                .value as String;
                             if (searchValue.isNotEmpty) {
                               BlocProvider.of<SearchCubit>(context)
                                   .saveSearch(searchValue);
@@ -54,12 +62,15 @@ class SearchHeader extends StatelessWidget {
                         Expanded(
                           child: FormBuilderTextField(
                             name: 'search',
-                            initialValue: intialValue,
+                            initialValue: widget.intialValue,
                             cursorHeight: 25.h,
                             onChanged: (value) {
                               if (value!.isEmpty) {
                                 BlocProvider.of<SearchCubit>(context)
                                     .changeSearchIsEmpty(true);
+                                widget.searchFormKey.currentState!
+                                    .fields['search']!
+                                    .setState(() {});
                               } else {
                                 BlocProvider.of<SearchCubit>(context)
                                     .changeSearchIsEmpty(false);
