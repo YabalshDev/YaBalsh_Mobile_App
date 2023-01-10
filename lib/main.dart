@@ -37,9 +37,9 @@ void main() async {
   OneSignal.shared.setAppId(AppStrings.oneSignalAppId);
 
 // The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
-  OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
-    print("Accepted permission: $accepted");
-  });
+  await OneSignal.shared
+      .promptUserForPushNotificationPermission(fallbackToSettings: true);
+
   runApp(DevicePreview(
       enabled: !kReleaseMode, builder: (context) => const YaBalashApp()));
 }
