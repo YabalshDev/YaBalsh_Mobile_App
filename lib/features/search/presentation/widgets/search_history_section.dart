@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/widgets/search_history_card.dart';
@@ -11,7 +12,8 @@ import '../../../../core/widgets/sub_heading.dart';
 import '../blocs/cubit/search_cubit.dart';
 
 class SearchHistorySection extends StatelessWidget {
-  const SearchHistorySection({super.key});
+  final GlobalKey<FormBuilderState> searchFormKey;
+  const SearchHistorySection({super.key, required this.searchFormKey});
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +26,12 @@ class SearchHistorySection extends StatelessWidget {
             case RequestState.loading:
               return const SearchHistoryLoading();
             case RequestState.loaded:
-              return SearchHistoryLoaded(
-                state: state,
-              );
+              return state.searchHistory!.isEmpty
+                  ? const SizedBox()
+                  : SearchHistoryLoaded(
+                      state: state,
+                      searchFormKey: searchFormKey,
+                    );
             case RequestState.error:
               return const SizedBox();
             default:
@@ -41,10 +46,12 @@ class SearchHistorySection extends StatelessWidget {
 }
 
 class SearchHistoryLoaded extends StatelessWidget {
+  final GlobalKey<FormBuilderState> searchFormKey;
   final SearchState state;
   const SearchHistoryLoaded({
     Key? key,
     required this.state,
+    required this.searchFormKey,
   }) : super(key: key);
 
   @override
@@ -62,7 +69,10 @@ class SearchHistoryLoaded extends StatelessWidget {
               direction: Axis.horizontal,
               key: UniqueKey(),
               children: state.searchHistory!
-                  .map((name) => SearchHistoryCard(searchName: name))
+                  .map((name) => SearchHistoryCard(
+                        searchName: name,
+                        searchFormKey: searchFormKey,
+                      ))
                   .toList())
         ],
       ),

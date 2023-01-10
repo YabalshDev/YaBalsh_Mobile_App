@@ -29,7 +29,9 @@ class SearchBody extends StatelessWidget {
           SearchHeader(intialValue: intialValue!, searchFormKey: searchFormKey),
           SearchTypeSection(
               pageController: pageController, searchFormKey: searchFormKey),
-          const SearchHistorySection(),
+          SearchHistorySection(
+            searchFormKey: searchFormKey,
+          ),
           smallVerticalSpace,
           Expanded(
             child: PageView.builder(

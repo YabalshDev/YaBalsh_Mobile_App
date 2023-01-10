@@ -13,8 +13,6 @@ import 'Title_row.dart';
 import 'section_loading.dart';
 
 class HomeSections extends StatelessWidget {
-  // final Section section;
-
   const HomeSections({super.key});
 
   @override

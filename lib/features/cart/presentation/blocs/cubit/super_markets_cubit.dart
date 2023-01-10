@@ -120,6 +120,10 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
       });
     }
 
+    supermarkets.sort(
+      (a, b) => a.price!.compareTo(b.price!),
+    );
+
     emit(state.copyWith(
         availableSupermarkets:
             supermarkets.where((element) => element.isAvailable!).toList(),

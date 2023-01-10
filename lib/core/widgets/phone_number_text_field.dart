@@ -77,7 +77,7 @@ class PhoneTextField extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                         color: AppColorsLight.kTextFieldBorderColor),
                     contentPadding:
-                        EdgeInsets.symmetric(vertical: 6.h, horizontal: 10.w),
+                        EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w),
                     border: InputBorder.none),
               ),
             )

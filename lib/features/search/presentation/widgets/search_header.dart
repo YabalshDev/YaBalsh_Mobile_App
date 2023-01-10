@@ -20,6 +20,20 @@ class SearchHeader extends StatefulWidget {
 }
 
 class _SearchHeaderState extends State<SearchHeader> {
+  late TextEditingController controller;
+  @override
+  void initState() {
+    controller = TextEditingController(text: widget.intialValue);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -62,7 +76,8 @@ class _SearchHeaderState extends State<SearchHeader> {
                         Expanded(
                           child: FormBuilderTextField(
                             name: 'search',
-                            initialValue: widget.intialValue,
+                            controller: controller,
+                            onSaved: (newValue) => controller.clear(),
                             cursorHeight: 25.h,
                             onChanged: (value) {
                               if (value!.isEmpty) {
@@ -91,7 +106,7 @@ class _SearchHeaderState extends State<SearchHeader> {
                                         fontWeight: FontWeight.w500,
                                         color: AppColorsLight.kCancelColor),
                                 contentPadding: EdgeInsets.symmetric(
-                                    vertical: 6.h, horizontal: 10.w),
+                                    vertical: 8.h, horizontal: 10.w),
                                 border: InputBorder.none),
                           ),
                         )

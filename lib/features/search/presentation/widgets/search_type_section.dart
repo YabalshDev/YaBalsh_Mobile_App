@@ -37,6 +37,7 @@ class SearchTypeSection extends StatelessWidget {
                         .isNotEmpty) {
                       searchFormKey.currentState!.fields['search']!
                           .setValue('');
+                      searchFormKey.currentState!.fields['search']!.save();
                     } else {
                       searchFormKey.currentState!.fields['search']!.reset();
                     }
@@ -80,6 +81,8 @@ class SearchTypeSection extends StatelessWidget {
                         .isNotEmpty) {
                       searchFormKey.currentState!.fields['search']!
                           .setValue('');
+
+                      searchFormKey.currentState!.fields['search']!.save();
                     } else {
                       searchFormKey.currentState!.fields['search']!.reset();
                     }

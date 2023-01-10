@@ -23,103 +23,117 @@ class _ItemDetailsCardState extends State<ItemDetailsCard> {
       child: Row(
         children: [
           // change to network when ready
-          Checkbox(
-            value: isChecked,
-            activeColor: Colors.green.shade400,
-            onChanged: (value) => setState(() {
-              isChecked = value!;
-            }),
-            side: const BorderSide(color: AppColorsLight.kDefaultBorderColor),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-          ),
-
-          Opacity(
-            opacity: isChecked ? 0.6 : 1,
-            child: CustomCard(
-              withBorder: true,
-              isAssetImage: true,
-              imagePath: widget.cartItem.product!.imagePath,
+          Expanded(
+            flex: 1,
+            child: Checkbox(
+              value: isChecked,
+              activeColor: Colors.green.shade400,
+              onChanged: (value) => setState(() {
+                isChecked = value!;
+              }),
+              side: const BorderSide(color: AppColorsLight.kDefaultBorderColor),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4)),
             ),
           ),
-          mediumHorizontalSpace,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 140.w),
-                child: Text(
-                  widget.cartItem.product!.name ?? '',
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColorsLight.kAppPrimaryColorLight,
-                      fontSize: 13.sp,
-                      decoration: isChecked ? TextDecoration.lineThrough : null,
-                      fontWeight: FontWeight.w600),
+
+          Expanded(
+            flex: 8,
+            child: Row(
+              children: [
+                Opacity(
+                  opacity: isChecked ? 0.6 : 1,
+                  child: CustomCard(
+                    withBorder: true,
+                    isAssetImage: true,
+                    imagePath: widget.cartItem.product!.imagePath,
+                  ),
                 ),
-              ),
-              mediumVerticalSpace,
-              Text(
-                '300 مل',
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    fontSize: 9.sp,
-                    decoration: isChecked ? TextDecoration.lineThrough : null,
-                    color: AppColorsLight.kAppPrimaryColorLight,
-                    fontWeight: FontWeight.w600),
-              ),
-            ],
+                mediumHorizontalSpace,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.cartItem.product!.name ?? '',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: AppColorsLight.kAppPrimaryColorLight,
+                          fontSize: 13.sp,
+                          decoration:
+                              isChecked ? TextDecoration.lineThrough : null,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    mediumVerticalSpace,
+                    Text(
+                      widget.cartItem.product!.size ?? '',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontSize: 9.sp,
+                          decoration:
+                              isChecked ? TextDecoration.lineThrough : null,
+                          color: AppColorsLight.kAppPrimaryColorLight,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-          const Spacer(),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                '${(widget.cartItem.quantity! * widget.cartItem.product!.prices!.entries.first.value.price!).toStringAsFixed(0)} جنيه',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18.sp,
-                    decoration: isChecked ? TextDecoration.lineThrough : null,
-                    color: AppColorsLight.kAppPrimaryColorLight),
-              ),
-              Row(
-                children: [
-                  Text(
-                    '${widget.cartItem.quantity}',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontSize: 9.sp,
-                          fontWeight: FontWeight.w600,
-                          decoration:
-                              isChecked ? TextDecoration.lineThrough : null,
-                          color: AppColorsLight.kAppPrimaryColorLight
-                              .withOpacity(0.7),
-                        ),
-                  ),
-                  Text(
-                    ' x ',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontSize: 9.sp,
-                          fontWeight: FontWeight.w600,
-                          decoration:
-                              isChecked ? TextDecoration.lineThrough : null,
-                          color: AppColorsLight.kAppPrimaryColorLight
-                              .withOpacity(0.7),
-                        ),
-                  ),
-                  Text(
-                    ' ${widget.cartItem.product!.prices!.entries.first.value.price!.toStringAsFixed(2)}',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontSize: 9.sp,
-                          fontWeight: FontWeight.w600,
-                          decoration:
-                              isChecked ? TextDecoration.lineThrough : null,
-                          color: AppColorsLight.kAppPrimaryColorLight
-                              .withOpacity(0.7),
-                        ),
-                  ),
-                ],
-              )
-            ],
+
+          Expanded(
+            flex: 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  '${(widget.cartItem.quantity! * widget.cartItem.product!.prices!.entries.first.value.price!).toStringAsFixed(2)} جنيه',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      overflow: TextOverflow.ellipsis,
+                      fontSize: 18.sp,
+                      decoration: isChecked ? TextDecoration.lineThrough : null,
+                      color: AppColorsLight.kAppPrimaryColorLight),
+                ),
+                Row(
+                  children: [
+                    const Spacer(),
+                    Text(
+                      '${widget.cartItem.quantity}',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            fontSize: 9.sp,
+                            fontWeight: FontWeight.w600,
+                            decoration:
+                                isChecked ? TextDecoration.lineThrough : null,
+                            color: AppColorsLight.kAppPrimaryColorLight
+                                .withOpacity(0.7),
+                          ),
+                    ),
+                    Text(
+                      ' x ',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            fontSize: 9.sp,
+                            fontWeight: FontWeight.w600,
+                            decoration:
+                                isChecked ? TextDecoration.lineThrough : null,
+                            color: AppColorsLight.kAppPrimaryColorLight
+                                .withOpacity(0.7),
+                          ),
+                    ),
+                    Text(
+                      ' ${widget.cartItem.product!.prices!.entries.first.value.price!.toStringAsFixed(2)}',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            fontSize: 9.sp,
+                            fontWeight: FontWeight.w600,
+                            decoration:
+                                isChecked ? TextDecoration.lineThrough : null,
+                            color: AppColorsLight.kAppPrimaryColorLight
+                                .withOpacity(0.7),
+                          ),
+                    ),
+                  ],
+                )
+              ],
+            ),
           )
         ],
       ),
