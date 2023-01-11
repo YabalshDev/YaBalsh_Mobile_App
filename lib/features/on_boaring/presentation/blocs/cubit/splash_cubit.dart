@@ -9,6 +9,7 @@ import 'package:yabalash_mobile_app/core/depedencies.dart';
 import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/core/services/user_service.dart';
 import 'package:yabalash_mobile_app/core/services/zone_service.dart';
+import 'package:yabalash_mobile_app/core/utils/notification_helper.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/domain/repositories/splash_repository.dart';
 
 import '../../../../../core/constants/app_strings.dart';
@@ -88,7 +89,7 @@ class SplashCubit extends Cubit<SplashState> {
       const Duration(seconds: 4),
       () {
         initConnectivityStream();
-        // initNotifications();
+        NotificationHelper.handleOnNotificationOpened();
         checkIsFirstTimeVisit();
         checkIfUserLoggedIn();
         checkIfZoneExist();
