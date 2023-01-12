@@ -8,6 +8,8 @@ import '../../../../../core/depedencies.dart';
 import '../../../../../core/services/order_service.dart';
 import '../../../../../core/utils/enums/request_state.dart';
 import '../../../../../core/widgets/custom_dialog.dart';
+import '../../../../home/domain/entities/price_model.dart';
+import '../../../domain/entities/cart_item.dart';
 import '../../../domain/usecases/get_store_usecase.dart';
 import 'cart_cubit.dart';
 
@@ -36,6 +38,29 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
     return Map.fromEntries(entries);
   }
 
+  void _updateAvaialbleSupermarketsMap(
+      PriceModel priceModel, Map<int, int> supermarketsIds) {
+    int superMarketId = priceModel.storeId!;
+
+    if (supermarketsIds[superMarketId] != null) {
+      supermarketsIds[superMarketId] = supermarketsIds[superMarketId]! + 1;
+    } else {
+      supermarketsIds[superMarketId] = 1;
+    }
+  }
+
+  List<int> _getAvailableSupermarketsIds(
+      Map<int, int> supermarketsIds, List<CartItem> cart) {
+    List<MapEntry<int, int>> entries = supermarketsIds.entries
+        .where((element) => element.value == cart.length)
+        .toList();
+    List<int> storeIds = [];
+    for (var element in entries) {
+      storeIds.add(element.key);
+    }
+    return storeIds;
+  }
+
   Map<String, dynamic> _getSupermarketsPrices() {
     final cartProducts = getIt<CartCubit>().cart;
     Map<String, StorePrice> storesTotalPrices = {};
@@ -45,12 +70,7 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
       for (var priceModel in cartProduct.product!.prices!.entries) {
         double price = priceModel.value.price!;
         bool isAvailable = priceModel.value.isAvailable!;
-        if (supermarketsIds[priceModel.value.storeId!] != null) {
-          supermarketsIds[priceModel.value.storeId!] =
-              supermarketsIds[priceModel.value.storeId!]! + 1;
-        } else {
-          supermarketsIds[priceModel.value.storeId!] = 1;
-        }
+        _updateAvaialbleSupermarketsMap(priceModel.value, supermarketsIds);
 
         if (storesTotalPrices.containsKey(priceModel.key)) {
           StorePrice storePrice = storesTotalPrices[priceModel.key]!;
@@ -75,14 +95,8 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
       }
     }
 
-    List<MapEntry<int, int>> entries = supermarketsIds.entries
-        .where((element) => element.value == cartProducts.length)
-        .toList();
-    List<int> storeIds = [];
-    for (var element in entries) {
-      storeIds.add(element.key);
-    }
-
+    final storeIds =
+        _getAvailableSupermarketsIds(supermarketsIds, cartProducts);
     final sortedPrices = _sortStoresPrices(storesTotalPrices);
 
     return {'storeIds': storeIds, 'storePrices': sortedPrices};
