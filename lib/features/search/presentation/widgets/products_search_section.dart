@@ -6,7 +6,7 @@ import 'package:yabalash_mobile_app/core/depedencies.dart';
 import 'package:yabalash_mobile_app/core/theme/light/app_colors_light.dart';
 import 'package:yabalash_mobile_app/core/widgets/product_loading_shimmer.dart';
 import 'package:yabalash_mobile_app/core/widgets/sub_heading.dart';
-import 'package:yabalash_mobile_app/features/home/presentation/widgets/search_product_card.dart';
+import 'package:yabalash_mobile_app/features/home/presentation/widgets/main_product_card.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/blocs/cubit/search_cubit.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/widgets/back_to_top_card.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/widgets/search_error_indicator.dart';
@@ -101,7 +101,7 @@ class _ProductsSearchSectionState extends State<ProductsSearchSection> {
                                       return BlocProvider.value(
                                         value: getIt<CartCubit>(),
                                         child:
-                                            SearchProductCard(product: product),
+                                            MainProductCard(product: product),
                                       );
                                     }).toList(),
                                   )

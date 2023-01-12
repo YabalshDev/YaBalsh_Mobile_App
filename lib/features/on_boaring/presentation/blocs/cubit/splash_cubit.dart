@@ -31,15 +31,9 @@ class SplashCubit extends Cubit<SplashState> {
       : super(SplashInitial());
 
   bool _isFirstTimeVisit = true;
-  bool _isUserLoggedIn = false;
+  // bool _isUserLoggedIn = false;
   bool _isZoneExits = false;
   late StreamSubscription<ConnectivityResult> _connectivityController;
-
-  @override
-  Future<void> close() {
-    // _connectivityController.cancel();
-    return super.close();
-  }
 
   void initConnectivityStream() {
     _connectivityController =
@@ -48,12 +42,12 @@ class SplashCubit extends Cubit<SplashState> {
     });
   }
 
-  void checkIfUserLoggedIn() async {
-    final result = userService.getToken();
-    if (result.isNotEmpty) {
-      _isUserLoggedIn = true;
-    }
-  }
+  // void checkIfUserLoggedIn() async {
+  //   final result = userService.getToken();
+  //   if (result.isNotEmpty) {
+  //     _isUserLoggedIn = true;
+  //   }
+  // }
 
   void checkIfZoneExist() {
     zoneService.getCurrentSubZone();
@@ -68,9 +62,8 @@ class SplashCubit extends Cubit<SplashState> {
     OneSignal.shared.setAppId(AppStrings.oneSignalAppId);
 
 // The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
-    OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
-      print("Accepted permission: $accepted");
-    });
+    OneSignal.shared
+        .promptUserForPushNotificationPermission(fallbackToSettings: true);
   }
 
   void checkIsFirstTimeVisit() {
@@ -91,7 +84,7 @@ class SplashCubit extends Cubit<SplashState> {
         initConnectivityStream();
         NotificationHelper.handleOnNotificationOpened();
         checkIsFirstTimeVisit();
-        checkIfUserLoggedIn();
+        // checkIfUserLoggedIn();
         checkIfZoneExist();
 
         if (_isFirstTimeVisit) {
