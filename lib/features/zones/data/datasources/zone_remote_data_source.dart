@@ -1,11 +1,12 @@
 import 'package:yabalash_mobile_app/core/api/remote_data_api/endpoints.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/rest_api_provider.dart';
+import 'package:yabalash_mobile_app/features/zones/data/models/main_zone_response_model.dart';
 import 'package:yabalash_mobile_app/features/zones/data/models/sub_zone_response_model.dart';
 
 abstract class ZonesRemoteDataSource {
   Future<SubZoneResponseModel> getMainZoneSubZones(
       {required int mainCategoryId});
-  Future<SubZoneResponseModel> getAllMainZones();
+  Future<MainZoneResponseModel> getAllMainZones();
 }
 
 class ZonesRemoteDataSourceImpl implements ZonesRemoteDataSource {
@@ -22,8 +23,8 @@ class ZonesRemoteDataSourceImpl implements ZonesRemoteDataSource {
   }
 
   @override
-  Future<SubZoneResponseModel> getAllMainZones() async {
+  Future<MainZoneResponseModel> getAllMainZones() async {
     final response = await restApiProvider.get(zonesEndPoint);
-    return SubZoneResponseModel.fromJson(response);
+    return MainZoneResponseModel.fromJson(response);
   }
 }

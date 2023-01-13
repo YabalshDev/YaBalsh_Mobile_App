@@ -13,6 +13,11 @@ class SubZone extends Equatable {
 
   const SubZone({this.id, this.name, this.mainZoneName});
 
+  SubZone copyWith({int? id, String? name, String? mainZoneName}) => SubZone(
+      id: id ?? this.id,
+      mainZoneName: mainZoneName ?? this.mainZoneName,
+      name: name ?? this.name);
+
   @override
   List<Object?> get props => [id, name, mainZoneName];
 }

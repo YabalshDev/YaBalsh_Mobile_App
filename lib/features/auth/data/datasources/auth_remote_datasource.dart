@@ -1,6 +1,7 @@
 import 'package:yabalash_mobile_app/core/api/remote_data_api/endpoints.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/headers.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/rest_api_provider.dart';
+import 'package:yabalash_mobile_app/features/auth/data/models/check_user_response_model.dart';
 import 'package:yabalash_mobile_app/features/auth/data/models/login_request_model.dart';
 import 'package:yabalash_mobile_app/features/auth/data/models/login_response_model.dart';
 import 'package:yabalash_mobile_app/features/auth/data/models/register_request_model.dart';
@@ -15,7 +16,8 @@ abstract class AuthRemoteDataSource {
 
   Future<RegisterResponseModel> getCurrentCustomer();
 
-  Future<bool> checkUserRegistered({required String phoneNumber});
+  Future<CheckUserRegisterdResponseModel> checkUserRegistered(
+      {required String phoneNumber});
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -49,10 +51,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<bool> checkUserRegistered({required String phoneNumber}) async {
+  Future<CheckUserRegisterdResponseModel> checkUserRegistered(
+      {required String phoneNumber}) async {
     final response = await restApiProvider
-        .post(registerEndPoint, body: {'phone_number': phoneNumber});
+        .get(registerEndPoint, queryParams: {'phoneNumber': phoneNumber});
 
-    return response['data'] as bool;
+    return CheckUserRegisterdResponseModel.fromJson(response);
   }
 }

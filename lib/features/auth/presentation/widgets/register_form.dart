@@ -6,7 +6,6 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
-import '../../../../core/depedencies.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/custom_form_section.dart';
 import '../../../../core/widgets/custom_svg_icon.dart';
@@ -20,15 +19,15 @@ class RegisterForm extends StatelessWidget {
   const RegisterForm(
       {super.key, required this.formKey, required this.phoneNumber});
 
-  void validateOnChanged(String value) {
+  void validateOnChanged(String value, BuildContext context) {
     if (value.isEmpty) {
-      getIt<RegisterCubit>().changeButtonDisabled(true);
+      BlocProvider.of<RegisterCubit>(context).changeButtonDisabled(true);
     }
 
     if (formKey.currentState!.fields['firstName']!.value != '' &&
         formKey.currentState!.fields['lastName']!.value != '' &&
         formKey.currentState!.fields['password']!.value != '') {
-      getIt<RegisterCubit>().changeButtonDisabled(false);
+      BlocProvider.of<RegisterCubit>(context).changeButtonDisabled(false);
     }
   }
 
@@ -64,7 +63,7 @@ class RegisterForm extends StatelessWidget {
                     ),
                     name: 'firstName',
                     onChanged: (value) {
-                      validateOnChanged(value!);
+                      validateOnChanged(value!, context);
                     },
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(
@@ -82,7 +81,7 @@ class RegisterForm extends StatelessWidget {
                     ),
                     name: 'lastName',
                     onChanged: (value) {
-                      validateOnChanged(value!);
+                      validateOnChanged(value!, context);
                     },
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(
@@ -132,7 +131,7 @@ class RegisterForm extends StatelessWidget {
             ]),
             obsecure: true,
             onChanged: (value) {
-              validateOnChanged(value!);
+              validateOnChanged(value!, context);
             },
             suffixIcon: BlocBuilder<RegisterCubit, RegisterState>(
               builder: (context, state) {
@@ -141,9 +140,11 @@ class RegisterForm extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
                       if (state.obsecure!) {
-                        getIt<RegisterCubit>().changeObsecure(false);
+                        BlocProvider.of<RegisterCubit>(context)
+                            .changeObsecure(false);
                       } else {
-                        getIt<RegisterCubit>().changeObsecure(true);
+                        BlocProvider.of<RegisterCubit>(context)
+                            .changeObsecure(true);
                       }
                     },
                     child: CustomSvgIcon(

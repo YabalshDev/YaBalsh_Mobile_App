@@ -54,19 +54,17 @@ class PhoneNumberCubit extends Cubit<PhoneNumberState> {
       {required String phoneNumber, required String fromRoute}) async {
     final hasError = isFormHasError(phoneNumber);
     if (!hasError) {
-      Get.toNamed(RouteHelper.getLoginRoute(),
-          arguments: [phoneNumber, fromRoute]);
-      // final isUserExist = await isUserRegistered(phoneNumber: phoneNumber);
+      final isUserExist = await isUserRegistered(phoneNumber: phoneNumber);
 
-      // if (state.hasError!) {
-      //   if (isUserExist) {
-      //     Get.toNamed(RouteHelper.getLoginRoute(),
-      //         arguments: [phoneNumber, fromRoute]);
-      //   } else {
-      //     Get.toNamed(RouteHelper.getRegisterRoute(),
-      //         arguments: [phoneNumber, fromRoute]);
-      //   }
-      // }
+      if (state.hasError!) {
+        if (isUserExist) {
+          Get.toNamed(RouteHelper.getLoginRoute(),
+              arguments: [phoneNumber, fromRoute]);
+        } else {
+          Get.toNamed(RouteHelper.getRegisterRoute(),
+              arguments: [phoneNumber, fromRoute]);
+        }
+      }
     }
   }
 }

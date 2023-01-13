@@ -7,7 +7,6 @@ import 'package:yabalash_mobile_app/features/auth/presentation/widgets/auth_titl
 import 'package:yabalash_mobile_app/features/auth/presentation/widgets/register_form.dart';
 
 import '../../../../core/constants/app_layouts.dart';
-import '../../../../core/depedencies.dart';
 import '../../../../core/widgets/ya_balash_custom_button.dart';
 import '../blocs/cubit/register_cubit.dart';
 import 'privacy_policy_text.dart';
@@ -49,7 +48,8 @@ class RegisterBody extends StatelessWidget {
                     onTap: () {
                       if (!state.isButtonDisabled!) {
                         if (_formKey.currentState!.validate()) {
-                          getIt<RegisterCubit>().changeFormFieldError(false);
+                          BlocProvider.of<RegisterCubit>(context)
+                              .changeFormFieldError(false);
                           RegisterRequestModel? registerBody;
 
                           if (_formKey.currentState!.fields['email']!.value !=
@@ -77,12 +77,13 @@ class RegisterBody extends StatelessWidget {
                                     .fields['phoneNumber']!.value);
                           }
 
-                          getIt<RegisterCubit>().registerUser(
+                          BlocProvider.of<RegisterCubit>(context).registerUser(
                               registerCredntials: registerBody,
                               fromRoute: fromRoute);
                         } else if (!_formKey
                             .currentState!.fields['password']!.isValid) {
-                          getIt<RegisterCubit>().changeFormFieldError(true);
+                          BlocProvider.of<RegisterCubit>(context)
+                              .changeFormFieldError(true);
                         }
                       }
                     },

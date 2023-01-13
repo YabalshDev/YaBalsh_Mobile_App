@@ -65,7 +65,7 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final result = await authRemoteDataSource.checkUserRegistered(
           phoneNumber: phoneNumber);
-      return Right(result);
+      return Right(result.data as bool);
     } on ServerException {
       return const Left(
           ServerFailure(message: 'خطا اثناء التحقق من رقم الهاتف'));
