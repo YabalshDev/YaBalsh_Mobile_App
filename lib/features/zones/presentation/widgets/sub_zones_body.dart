@@ -5,10 +5,11 @@ import 'package:yabalash_mobile_app/features/zones/presentation/widgets/sub_zone
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
+import '../../domain/entities/main_zone.dart';
 
 class SubZonesBody extends StatelessWidget {
-  final String? mainZone;
-  const SubZonesBody({super.key, this.mainZone});
+  final MainZone mainZone;
+  const SubZonesBody({super.key, required this.mainZone});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class SubZonesBody extends StatelessWidget {
                         fontSize: 20.sp,
                         fontWeight: FontWeight.w600)),
                 TextSpan(
-                    text: mainZone,
+                    text: mainZone.name,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                         fontSize: 20.sp,
                         color: AppColorsLight.kAppPrimaryColorLight)),

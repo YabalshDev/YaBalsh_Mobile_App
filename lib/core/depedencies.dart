@@ -97,7 +97,8 @@ import 'package:yabalash_mobile_app/features/shopping_lists/presentation/blocs/c
 import 'package:yabalash_mobile_app/features/zones/data/datasources/zone_remote_data_source.dart';
 import 'package:yabalash_mobile_app/features/zones/data/repositories/zones_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/zones/domain/repositories/zones_repositoriy.dart';
-import 'package:yabalash_mobile_app/features/zones/domain/usecases/get_all_subzones_usecase.dart';
+import 'package:yabalash_mobile_app/features/zones/domain/usecases/get_all_mainzones_usecase.dart';
+import 'package:yabalash_mobile_app/features/zones/domain/usecases/get_mainzone_subzones_usecase.dart';
 import 'package:yabalash_mobile_app/features/zones/domain/usecases/get_past_subzones_usecase.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/main_zones_cubit.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/sub_zone_cubit.dart';
@@ -233,7 +234,9 @@ setupDependecies() {
       ));
 
   getIt.registerLazySingleton(
-      () => GetSubZonesUseCase(zonesRepository: getIt()));
+      () => GetMainZoneSubZonesUseCase(zonesRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => GetMainZonesUseCase(zonesRepository: getIt()));
   getIt.registerLazySingleton(
       () => GetPastSubZonesUseCase(zonesRepository: getIt()));
 
@@ -326,10 +329,12 @@ setupDependecies() {
     () => RegisterCubit(registerUseCase: getIt()),
   );
   getIt.registerFactory(
-    () => MainZonesCubit(getPastSubZonesUseCase: getIt()),
+    () => MainZonesCubit(
+        getPastSubZonesUseCase: getIt(), getMainZonesUseCase: getIt()),
   );
   getIt.registerFactory(
-    () => SubZoneCubit(getSubZonesUseCase: getIt(), zonesRepository: getIt()),
+    () => SubZoneCubit(
+        getMainZoneSubZonesUseCase: getIt(), zonesRepository: getIt()),
   );
   getIt.registerFactory(
     () => PhoneNumberCubit(checkUserRegisteredUseCase: getIt()),

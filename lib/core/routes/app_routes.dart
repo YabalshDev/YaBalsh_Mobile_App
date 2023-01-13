@@ -31,6 +31,7 @@ import 'package:yabalash_mobile_app/features/reciepies/presentation/views/recipi
 import 'package:yabalash_mobile_app/features/search/presentation/views/search_view.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/blocs/cubit/cubit/shopping_list_details_cubit.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/views/shopping_list_details_view.dart';
+import 'package:yabalash_mobile_app/features/zones/domain/entities/main_zone.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/main_zones_cubit.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/sub_zone_cubit.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/views/main_zones_view.dart';
@@ -166,7 +167,9 @@ class RouteHelper {
         page: () {
           return CustomAnimatedWidget(
             child: BlocProvider<MainZonesCubit>(
-              create: (context) => getIt<MainZonesCubit>()..getZonesHistory(),
+              create: (context) => getIt<MainZonesCubit>()
+                ..getZonesHistory()
+                ..getMainZones(),
               child: const MainZonesView(),
             ),
           );
@@ -174,9 +177,11 @@ class RouteHelper {
     GetPage(
         name: _subZonesRoutes,
         page: () {
+          final MainZone mainZone = Get.arguments;
           return CustomAnimatedWidget(
             child: BlocProvider<SubZoneCubit>(
-              create: (context) => getIt<SubZoneCubit>()..getSubZones(),
+              create: (context) =>
+                  getIt<SubZoneCubit>()..getMainZoneSubZones(mainZone.id!),
               child: SubZonesView(mainZone: Get.arguments),
             ),
           );

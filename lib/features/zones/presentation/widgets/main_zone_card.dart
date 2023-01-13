@@ -23,7 +23,7 @@ class MainZoneCard extends StatelessWidget {
           child: ListTile(
               onTap: () {
                 Get.toNamed(RouteHelper.getSubZonesRoute(),
-                    arguments: mainZone.name);
+                    arguments: mainZone);
               },
               trailing: Icon(
                 Icons.arrow_forward_ios,
