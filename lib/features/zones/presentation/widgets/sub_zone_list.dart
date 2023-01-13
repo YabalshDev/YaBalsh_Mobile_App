@@ -4,10 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/utils/enums/request_state.dart';
+import '../../domain/entities/main_zone.dart';
 import '../blocs/cubit/sub_zone_cubit.dart';
 
 class SubZoneList extends StatelessWidget {
-  const SubZoneList({super.key});
+  final MainZone mainZone;
+  const SubZoneList({super.key, required this.mainZone});
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +34,12 @@ class SubZoneList extends StatelessWidget {
               itemBuilder: (context, index) {
                 final subZone = state.subZones![index];
                 return InkWell(
-                  onTap: () => BlocProvider.of<SubZoneCubit>(context)
-                      .onSubZoneSelect(subZone: subZone),
+                  onTap: () {
+                    final updatedSubZone =
+                        subZone.copyWith(mainZoneName: mainZone.name);
+                    BlocProvider.of<SubZoneCubit>(context)
+                        .onSubZoneSelect(subZone: updatedSubZone);
+                  },
                   child: Column(
                     children: [
                       SizedBox(

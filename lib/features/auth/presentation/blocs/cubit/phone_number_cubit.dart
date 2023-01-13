@@ -45,7 +45,10 @@ class PhoneNumberCubit extends Cubit<PhoneNumberState> {
           Get.back();
         },
       );
-    }, (result) => isRegistered = result);
+    }, (result) {
+      emit(state.copyWith(hasError: false));
+      isRegistered = result;
+    });
 
     return isRegistered;
   }
@@ -56,7 +59,7 @@ class PhoneNumberCubit extends Cubit<PhoneNumberState> {
     if (!hasError) {
       final isUserExist = await isUserRegistered(phoneNumber: phoneNumber);
 
-      if (state.hasError!) {
+      if (!state.hasError!) {
         if (isUserExist) {
           Get.toNamed(RouteHelper.getLoginRoute(),
               arguments: [phoneNumber, fromRoute]);

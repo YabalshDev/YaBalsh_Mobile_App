@@ -1,5 +1,6 @@
 const String loginEndpoint = '/api/v1/auth/login';
 const String registerEndPoint = '/api/v1/auth/register';
+const String checkUserRegisteredEndpoint = '/api/v1/auth/status';
 const String getCurrentUserEndpoint = '/api/v1/auth/me';
 const String zonesEndPoint = '/api/v1/main-zones';
 const String addressEndPoint = '/api/v1/addresses';

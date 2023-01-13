@@ -48,38 +48,7 @@ class RegisterBody extends StatelessWidget {
                     onTap: () {
                       if (!state.isButtonDisabled!) {
                         if (_formKey.currentState!.validate()) {
-                          BlocProvider.of<RegisterCubit>(context)
-                              .changeFormFieldError(false);
-                          RegisterRequestModel? registerBody;
-
-                          if (_formKey.currentState!.fields['email']!.value !=
-                              '') {
-                            registerBody = RegisterRequestModel(
-                                email: _formKey
-                                    .currentState!.fields['email']!.value,
-                                firstName: _formKey
-                                    .currentState!.fields['firstName']!.value,
-                                lastName: _formKey
-                                    .currentState!.fields['lastName']!.value,
-                                password: _formKey
-                                    .currentState!.fields['password']!.value,
-                                phoneNumber: _formKey.currentState!
-                                    .fields['phoneNumber']!.value);
-                          } else {
-                            registerBody = RegisterRequestModel(
-                                firstName: _formKey
-                                    .currentState!.fields['firstName']!.value,
-                                lastName: _formKey
-                                    .currentState!.fields['lastName']!.value,
-                                password: _formKey
-                                    .currentState!.fields['password']!.value,
-                                phoneNumber: _formKey.currentState!
-                                    .fields['phoneNumber']!.value);
-                          }
-
-                          BlocProvider.of<RegisterCubit>(context).registerUser(
-                              registerCredntials: registerBody,
-                              fromRoute: fromRoute);
+                          handleValidRegsiterRequest(context);
                         } else if (!_formKey
                             .currentState!.fields['password']!.isValid) {
                           BlocProvider.of<RegisterCubit>(context)
@@ -98,5 +67,21 @@ class RegisterBody extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void handleValidRegsiterRequest(BuildContext context) {
+    BlocProvider.of<RegisterCubit>(context).changeFormFieldError(false);
+    RegisterRequestModel? registerBody;
+
+    registerBody = RegisterRequestModel(
+        email: _formKey.currentState!.fields['email']!.value ??
+            'example@yabalash.net',
+        firstName: _formKey.currentState!.fields['firstName']!.value,
+        lastName: _formKey.currentState!.fields['lastName']!.value,
+        password: _formKey.currentState!.fields['password']!.value,
+        phoneNumber: _formKey.currentState!.fields['phoneNumber']!.value);
+
+    BlocProvider.of<RegisterCubit>(context)
+        .registerUser(registerCredntials: registerBody, fromRoute: fromRoute);
   }
 }

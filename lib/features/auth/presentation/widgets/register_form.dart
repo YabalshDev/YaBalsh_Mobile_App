@@ -115,48 +115,52 @@ class RegisterForm extends StatelessWidget {
                 [FormBuilderValidators.email(errorText: 'نسيت علامة @')]),
           ),
           mediumVerticalSpace,
-          CustomFormSection(
-            title: Text(
-              'كلمة المرور',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(fontWeight: FontWeight.w600, fontSize: 13.sp),
-            ),
-            name: 'password',
-            validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(errorText: 'كلمة السر مطلوبة'),
-              FormBuilderValidators.minLength(8,
-                  errorText: 'كلمة المرور لازم تكون أكثر من 8 حروف'),
-            ]),
-            obsecure: true,
-            onChanged: (value) {
-              validateOnChanged(value!, context);
+          BlocBuilder<RegisterCubit, RegisterState>(
+            builder: (context, state) {
+              return CustomFormSection(
+                title: Text(
+                  'كلمة المرور',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(fontWeight: FontWeight.w600, fontSize: 13.sp),
+                ),
+                name: 'password',
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(errorText: 'كلمة السر مطلوبة'),
+                  FormBuilderValidators.minLength(8,
+                      errorText: 'كلمة المرور لازم تكون أكثر من 8 حروف'),
+                ]),
+                obsecure: state.obsecure,
+                onChanged: (value) {
+                  validateOnChanged(value!, context);
+                },
+                suffixIcon: BlocBuilder<RegisterCubit, RegisterState>(
+                  builder: (context, state) {
+                    return Padding(
+                      padding: const EdgeInsets.all(13),
+                      child: InkWell(
+                        onTap: () {
+                          if (state.obsecure!) {
+                            BlocProvider.of<RegisterCubit>(context)
+                                .changeObsecure(false);
+                          } else {
+                            BlocProvider.of<RegisterCubit>(context)
+                                .changeObsecure(true);
+                          }
+                        },
+                        child: CustomSvgIcon(
+                          iconPath: AppAssets.eyeIcon,
+                          color: !state.formValidationError!
+                              ? const Color(0xffBCBDBF)
+                              : AppColorsLight.kErrorColor,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              );
             },
-            suffixIcon: BlocBuilder<RegisterCubit, RegisterState>(
-              builder: (context, state) {
-                return Padding(
-                  padding: const EdgeInsets.all(13),
-                  child: InkWell(
-                    onTap: () {
-                      if (state.obsecure!) {
-                        BlocProvider.of<RegisterCubit>(context)
-                            .changeObsecure(false);
-                      } else {
-                        BlocProvider.of<RegisterCubit>(context)
-                            .changeObsecure(true);
-                      }
-                    },
-                    child: CustomSvgIcon(
-                      iconPath: AppAssets.eyeIcon,
-                      color: !state.formValidationError!
-                          ? const Color(0xffBCBDBF)
-                          : AppColorsLight.kErrorColor,
-                    ),
-                  ),
-                );
-              },
-            ),
           )
         ],
       ),

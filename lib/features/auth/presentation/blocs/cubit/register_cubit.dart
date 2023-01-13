@@ -28,9 +28,9 @@ class RegisterCubit extends Cubit<RegisterState> {
       yaBalashCustomDialog(
           buttonTitle: 'حسنا',
           isWithEmoji: false,
-          title: 'مشكلة في انشاء الحساب',
+          title: 'ملاحظة',
           onConfirm: () => Get.back(),
-          mainContent: failure.message);
+          mainContent: "مشكلة في انشاء الحساب");
     }, (customer) {
       emit(state.copyWith(registerState: RequestState.loaded));
       Get.toNamed(RouteHelper.getLoginRoute(),

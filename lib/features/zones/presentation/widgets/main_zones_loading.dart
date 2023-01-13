@@ -18,7 +18,7 @@ class MainZonesLoading extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         return CustomShimmer(
           width: Get.width,
-          height: 30.h,
+          height: 50.h,
         );
       },
     );

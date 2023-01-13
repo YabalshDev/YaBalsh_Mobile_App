@@ -45,7 +45,9 @@ class SubZonesBody extends StatelessWidget {
               ]),
             ),
             smallVerticalSpace,
-            const SubZoneList()
+            SubZoneList(
+              mainZone: mainZone,
+            )
           ],
         ),
       ),

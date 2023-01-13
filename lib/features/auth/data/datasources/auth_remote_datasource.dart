@@ -53,8 +53,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<CheckUserRegisterdResponseModel> checkUserRegistered(
       {required String phoneNumber}) async {
-    final response = await restApiProvider
-        .get(registerEndPoint, queryParams: {'phoneNumber': phoneNumber});
+    final response = await restApiProvider.get(checkUserRegisteredEndpoint,
+        queryParams: {'phoneNumber': phoneNumber});
 
     return CheckUserRegisterdResponseModel.fromJson(response);
   }
