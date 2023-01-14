@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:yabalash_mobile_app/core/widgets/custom_card.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_cubit.dart';
 
 import '../../../../core/constants/app_layouts.dart';
@@ -55,37 +56,14 @@ class LastOfferSection extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Container(
-                            width: 60.w,
-                            height: 60.h,
-                            // margin: EdgeInsets.only(left: 10.w),
-                            decoration: BoxDecoration(
-                                color: AppColorsLight.kMainCategoryCardColor,
-                                borderRadius: kDefaultBorderRaduis),
-                            child: SizedBox(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Expanded(
-                                      flex: 1,
-                                      child: Image.asset(
-                                        mainCategory.imagePath!,
-                                        fit: BoxFit.cover,
-                                      )),
-                                  Expanded(
-                                      flex: 1,
-                                      child: Text(
-                                        'حتى 20% خصم',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.w900),
-                                      ))
-                                ],
-                              ),
-                            ),
+                          CustomCard(
+                            width: 65.w,
+                            height: 65.h,
+                            isAssetImage: false,
+                            imagePath: mainCategory.imagePath,
+                            backgroundColor:
+                                AppColorsLight.kSubCategoryCardColor,
+                            withBorder: false,
                           ),
                           SizedBox(
                             height: 5.h,

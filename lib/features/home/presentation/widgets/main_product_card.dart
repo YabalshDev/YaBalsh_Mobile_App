@@ -136,11 +136,13 @@ class MostExpensiveRow extends StatelessWidget {
               fontWeight: FontWeight.w600),
         ),
         const Spacer(),
-        AppImage(
+        SizedBox(
           height: 25.h,
           width: 60.w,
-          fit: BoxFit.contain,
-          path: product.prices!.entries.last.value.storeImagePath ?? '',
+          child: AppImage(
+            fit: BoxFit.contain,
+            path: product.prices!.entries.last.value.storeImagePath ?? '',
+          ),
         ),
       ],
     );
@@ -167,11 +169,13 @@ class CheapestPriceRow extends StatelessWidget {
               fontWeight: FontWeight.w700),
         ),
         const Spacer(),
-        AppImage(
+        SizedBox(
           height: 25.h,
           width: 60.w,
-          fit: BoxFit.fill,
-          path: product.prices!.entries.first.value.storeImagePath ?? '',
+          child: AppImage(
+            fit: BoxFit.contain,
+            path: product.prices!.entries.first.value.storeImagePath ?? '',
+          ),
         ),
       ],
     );

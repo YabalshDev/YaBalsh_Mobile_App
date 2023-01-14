@@ -30,7 +30,7 @@ class HomeSections extends StatelessWidget {
             return Column(
               children: state.homeSections!
                   .map((homeSection) => SectionLoaded(
-                      sectionName: homeSection.section!.keyWord!,
+                      sectionName: homeSection.section!.name!,
                       sectionProducts: homeSection.products!))
                   .toList(),
             );

@@ -32,7 +32,6 @@ class HomeRepositoryImpl implements HomeRepository {
       List<HomeSection> homeSections = [];
       final sections =
           await homeDataSource.getSections(); // get all high priority sections
-
       for (Section section in sections) {
         List<Product> sectionProducts = await homeDataSource.getSectionProducts(
             sectionId: section.id!); // get products for each section
@@ -44,17 +43,6 @@ class HomeRepositoryImpl implements HomeRepository {
     } on ServerException {
       return const Left(
           ServerFailure(message: 'something went wrong with sections'));
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<MainCategory>>> getLatestOffers() async {
-    try {
-      final offers = await homeDataSource.getLatestOffers();
-      return Right(offers);
-    } on ServerException {
-      return const Left(
-          ServerFailure(message: 'something went wrong with getting offers'));
     }
   }
 

@@ -3,7 +3,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:yabalash_mobile_app/core/widgets/custom_network_image.dart';
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/utils/enums/request_state.dart';
@@ -55,11 +57,11 @@ class _BannersSectionState extends State<BannersSection> {
                         return ClipRRect(
                           borderRadius: kDefaultBorderRaduis,
                           child: Container(
+                            width: Get.width * 0.94,
                             padding: EdgeInsets.symmetric(horizontal: 2.w),
-                            child: Image.asset(
-                              banner.imagePath!,
-                              // width: Get.size.width * 0.9,
-                              fit: BoxFit.contain,
+                            child: AppImage(
+                              path: banner.imagePath!,
+                              fit: BoxFit.fill,
                             ),
                           ),
                         );
@@ -68,14 +70,16 @@ class _BannersSectionState extends State<BannersSection> {
                           onPageChanged: (index, reason) =>
                               BlocProvider.of<HomeCubit>(context)
                                   .onBannerChanged(index),
-                          viewportFraction: 0.89,
-                          autoPlay: false,
-                          height: 150.h)),
+                          viewportFraction: 0.94,
+                          autoPlay: true,
+                          height: 133.h)),
                 ),
                 mediumVerticalSpace,
-                DotsIndicatorsCards(
-                    index: state.currentBannerIndex!,
-                    length: state.banners!.length)
+                state.banners!.isNotEmpty
+                    ? DotsIndicatorsCards(
+                        index: state.currentBannerIndex!,
+                        length: state.banners!.length)
+                    : const SizedBox()
               ],
             );
 

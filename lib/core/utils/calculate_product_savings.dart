@@ -16,5 +16,5 @@ double calculateSavingsPercentage(Product product) {
   double saving =
       (productPrices.last.value.price! - productPrices.first.value.price!);
 
-  return (saving / productPrices.first.value.price!) * 100;
+  return (saving / productPrices.last.value.price!) * 100;
 }

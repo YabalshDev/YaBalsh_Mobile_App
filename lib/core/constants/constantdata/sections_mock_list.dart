@@ -3,11 +3,11 @@ import 'package:yabalash_mobile_app/features/home/domain/entities/section.dart';
 const List<Section> sectionsMock = [
   Section(
     id: 1,
-    keyWord: 'ارخص الاسعار للمنتجات',
+    name: 'ارخص الاسعار للمنتجات',
   ),
   Section(
     id: 2,
-    keyWord: 'عروض الشتاء',
+    name: 'عروض الشتاء',
   )
 ];
 

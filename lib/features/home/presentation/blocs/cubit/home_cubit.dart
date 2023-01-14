@@ -12,25 +12,26 @@ import 'package:yabalash_mobile_app/features/home/domain/entities/banner.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/home_section.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/main_category.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_banners_use_case.dart';
-import 'package:yabalash_mobile_app/features/home/domain/usecases/get_latest_offers_use_case.dart';
+
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_near_stores_use_case.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_sections_use_case.dart';
 import 'package:yabalash_mobile_app/features/zones/domain/usecases/get_past_subzones_usecase.dart';
 
 import '../../../../zones/domain/entities/sub_zone.dart';
 import '../../../domain/entities/store.dart';
+import '../../../domain/usecases/get_maincategories_usecase.dart';
 
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  final GetLatestOffersUseCase getLatestOffersUseCase;
+  final GetMainCategoriesUseCase getMainCategoriesUseCase;
   final GetBannersUseCase getBannersUseCase;
   final GetNearStoresUseCase getNearStoresUseCase;
   final GetSectiosUseCase getSectiosUseCase;
   final GetPastSubZonesUseCase getPastSubZonesUseCase;
 
   HomeCubit(
-      {required this.getLatestOffersUseCase,
+      {required this.getMainCategoriesUseCase,
       required this.getPastSubZonesUseCase,
       required this.getBannersUseCase,
       required this.getNearStoresUseCase,
@@ -42,7 +43,7 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void getLastOffers() async {
-    final response = await getLatestOffersUseCase(NoParams());
+    final response = await getMainCategoriesUseCase(NoParams());
 
     response.fold((failure) {
       emit(state.copyWith(

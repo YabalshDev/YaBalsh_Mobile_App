@@ -1,11 +1,14 @@
 import 'package:equatable/equatable.dart';
 
+import 'section.dart';
+
 class Banner extends Equatable {
   final String? imagePath;
-  final String? keyword;
+  final int? id;
+  final Section? section;
 
-  const Banner({this.imagePath, this.keyword});
+  const Banner({this.imagePath, this.id, this.section});
 
   @override
-  List<Object?> get props => [imagePath, keyword];
+  List<Object?> get props => [imagePath, id, section];
 }

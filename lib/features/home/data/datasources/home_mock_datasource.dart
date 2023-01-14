@@ -13,7 +13,6 @@ import '../../domain/entities/section.dart';
 import '../../domain/entities/store.dart';
 
 abstract class HomeDataSource {
-  Future<List<MainCategory>> getLatestOffers();
   Future<List<Banner>> getBanners();
   Future<List<Store>> getNearStores();
   Future<List<Product>> getSectionProducts({required int sectionId});
@@ -46,20 +45,6 @@ class HomeMockDataSourceImpl implements HomeDataSource {
         () => sections = sectionsMock,
       );
       return sections;
-    } catch (err) {
-      throw const ServerException(errorModel: ApiErrorModel());
-    }
-  }
-
-  @override
-  Future<List<MainCategory>> getLatestOffers() async {
-    try {
-      List<MainCategory> mainCategories = [];
-      await Future.delayed(
-        const Duration(seconds: 2),
-        () => mainCategories = mainCategoriesMock,
-      );
-      return mainCategories;
     } catch (err) {
       throw const ServerException(errorModel: ApiErrorModel());
     }

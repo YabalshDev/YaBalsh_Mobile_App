@@ -29,6 +29,7 @@ class NearStoresList extends StatelessWidget {
                   children: [
                     CustomCard(
                       imagePath: store.cardImagePath,
+                      isAssetImage: false,
                     ),
                     SizedBox(
                       height: 5.h,

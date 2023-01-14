@@ -50,10 +50,11 @@ import 'package:yabalash_mobile_app/features/categories/domain/repositories/cate
 import 'package:yabalash_mobile_app/features/categories/domain/usecases/get_sub_categories_usecase.dart';
 import 'package:yabalash_mobile_app/features/categories/presentation/blocs/categories_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/data/datasources/home_mock_datasource.dart';
+import 'package:yabalash_mobile_app/features/home/data/datasources/home_remote_datasource.dart';
 import 'package:yabalash_mobile_app/features/home/data/repositories/home_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/home/domain/repositories/home_repository.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_banners_use_case.dart';
-import 'package:yabalash_mobile_app/features/home/domain/usecases/get_latest_offers_use_case.dart';
+
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_maincategories_usecase.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_near_stores_use_case.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_sections_use_case.dart';
@@ -131,7 +132,8 @@ setupDependecies() {
   getIt.registerLazySingleton<StoreService>(() => StoreServiceImpl());
   getIt.registerLazySingleton<CategoriesService>(() => CategoriesServiceImpl());
 
-  getIt.registerLazySingleton<HomeDataSource>(() => HomeMockDataSourceImpl());
+  getIt.registerLazySingleton<HomeDataSource>(
+      () => HomeRemoteDataSourceImpl(restApiProvider: getIt()));
 
   getIt.registerLazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(restApiProvider: getIt()));
@@ -214,8 +216,7 @@ setupDependecies() {
 
   getIt.registerLazySingleton(
       () => GetMainCategoriesUseCase(homeRepository: getIt()));
-  getIt.registerLazySingleton(
-      () => GetLatestOffersUseCase(homeRepository: getIt()));
+
   getIt.registerLazySingleton(() => GetBannersUseCase(homeRepository: getIt()));
   getIt.registerLazySingleton(
       () => GetNearStoresUseCase(homeRepository: getIt()));
@@ -293,7 +294,7 @@ setupDependecies() {
   getIt.registerFactory(
     () => HomeCubit(
         getPastSubZonesUseCase: getIt(),
-        getLatestOffersUseCase: getIt(),
+        getMainCategoriesUseCase: getIt(),
         getBannersUseCase: getIt(),
         getNearStoresUseCase: getIt(),
         getSectiosUseCase: getIt()),

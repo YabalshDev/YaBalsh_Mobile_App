@@ -55,38 +55,6 @@ class NearStoresSection extends StatelessWidget {
           return SizedBox(
             height: 100.h,
           );
-
-        // return SizedBox(
-        //   height: 100.h,
-        //   child: ListView.builder(
-        //     padding: kScaffoldPadding,
-        //     scrollDirection: Axis.horizontal,
-        //     shrinkWrap: true,
-        //     itemCount: storesMock.length,
-        //     itemBuilder: (context, index) {
-        //       final store = storesMock[index];
-        //       return Container(
-        //         margin: EdgeInsets.only(left: 10.w),
-        //         child: Column(
-        //           crossAxisAlignment: CrossAxisAlignment.center,
-        //           children: [
-        //             CustomCard(
-        //               imagePath: store.imagePath,
-        //             ),
-        //             SizedBox(
-        //               height: 5.h,
-        //             ),
-        //             Text(
-        //               store.name!,
-        //               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-        //                   fontWeight: FontWeight.w700, color: Colors.black),
-        //             )
-        //           ],
-        //         ),
-        //       );
-        //     },
-        //   ),
-        // );
       }
     });
   }
