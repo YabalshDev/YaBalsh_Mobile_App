@@ -31,7 +31,7 @@ class SplashCubit extends Cubit<SplashState> {
       : super(SplashInitial());
 
   bool _isFirstTimeVisit = true;
-  // bool _isUserLoggedIn = false;
+  bool _isUserLoggedIn = false;
   bool _isZoneExits = false;
   late StreamSubscription<ConnectivityResult> _connectivityController;
 
@@ -42,12 +42,12 @@ class SplashCubit extends Cubit<SplashState> {
     });
   }
 
-  // void checkIfUserLoggedIn() async {
-  //   final result = userService.getToken();
-  //   if (result.isNotEmpty) {
-  //     _isUserLoggedIn = true;
-  //   }
-  // }
+  void checkIfUserLoggedIn() async {
+    final result = userService.getToken();
+    if (result.isNotEmpty) {
+      _isUserLoggedIn = true;
+    }
+  }
 
   void checkIfZoneExist() {
     zoneService.getCurrentSubZone();
@@ -77,6 +77,10 @@ class SplashCubit extends Cubit<SplashState> {
     response.fold((l) {}, (result) {});
   }
 
+  void getCurrentCustomer() {
+    getIt<UserService>().getCurrentCustomer();
+  }
+
   void splashInit() async {
     await Future.delayed(
       const Duration(seconds: 4),
@@ -84,7 +88,8 @@ class SplashCubit extends Cubit<SplashState> {
         initConnectivityStream();
         NotificationHelper.handleOnNotificationOpened();
         checkIsFirstTimeVisit();
-        // checkIfUserLoggedIn();
+        checkIfUserLoggedIn();
+        getCurrentCustomer();
         checkIfZoneExist();
 
         if (_isFirstTimeVisit) {

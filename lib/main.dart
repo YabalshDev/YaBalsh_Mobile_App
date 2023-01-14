@@ -6,6 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
 import 'package:yabalash_mobile_app/core/utils/app_bloc_observer.dart';
 import 'package:yabalash_mobile_app/core/utils/notification_helper.dart';
+import 'package:yabalash_mobile_app/features/auth/domain/entities/customer.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/cart_item.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/price_model.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/product.dart';
@@ -25,12 +26,14 @@ void main() async {
   Hive.registerAdapter(PriceModelAdapter());
   Hive.registerAdapter(ProductAdapter());
   Hive.registerAdapter(CartItemAdapter());
+  Hive.registerAdapter(CustomerAdapter());
   await Hive.openBox(AppStrings.isFirstTimeVisitKey);
   await Hive.openBox(AppStrings.token);
   await Hive.openBox<SubZone>(AppStrings.zones);
   await Hive.openBox<CartItem>(AppStrings.cartKey);
   await Hive.openBox<ShoppingList>(AppStrings.shoppingListKey);
   await Hive.openBox<String>(AppStrings.searchHistoryKey);
+  await Hive.openBox<Customer>(AppStrings.customerKey);
   // intialize hive boxes
   Bloc.observer = AppBlocObserver();
   NotificationHelper.initNotificationsPlatform();

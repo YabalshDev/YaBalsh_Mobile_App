@@ -3,12 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/features/search/domain/entities/store_search.dart';
 
-import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/theme/light/light_theme.dart';
 import '../../../../core/widgets/custom_card.dart';
-import '../../../../core/widgets/custom_svg_icon.dart';
 
 class SuperMarketSearchCard extends StatelessWidget {
   final StoreSearch store;
@@ -39,7 +37,7 @@ class SuperMarketSearchCard extends StatelessWidget {
                   Container(
                     constraints: BoxConstraints(maxWidth: Get.width * 0.4),
                     child: Text(
-                      '${store.name}- ${store.location!.zone}',
+                      '${store.name}-${store.location!.address!.split('-')[0]}',
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           fontSize: 13.sp,
@@ -51,10 +49,10 @@ class SuperMarketSearchCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      CustomSvgIcon(
-                        iconPath: AppAssets.addressesIcon,
+                      Icon(
+                        Icons.place,
                         color: AppColorsLight.kAppPrimaryColorLight,
-                        height: 18.h,
+                        size: 18.h,
                       ),
                       Container(
                         constraints: BoxConstraints(maxWidth: Get.width * 0.4),

@@ -17,4 +17,5 @@ class AppStrings {
   static const String cartKey = 'cart';
   static const String shoppingListKey = 'shopping-list';
   static const String searchHistoryKey = 'search_key';
+  static const String customerKey = 'customer_key';
 }

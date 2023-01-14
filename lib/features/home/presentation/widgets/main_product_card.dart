@@ -26,28 +26,21 @@ class MainProductCard extends StatelessWidget {
       onTap: () =>
           Get.toNamed(RouteHelper.getProductDetailsRoute(), arguments: product),
       child: Container(
+        width: 156.w,
+        decoration: kDefaultBoxDecoration.copyWith(
+          color: AppColorsLight.kOffwhiteColor,
+        ),
         margin: EdgeInsets.only(left: 20.w),
-        child: Stack(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
-              width: 156.w,
-              height: 295.h,
-              decoration: kDefaultBoxDecoration.copyWith(
-                color: AppColorsLight.kOffwhiteColor,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    padding: kDefaultPadding,
-                    decoration: kDefaultBoxDecoration.copyWith(
-                        border: Border.all(color: Colors.transparent)),
-                    child: MostExpensiveRow(product: product),
-                  )
-                ],
-              ),
-            ),
             ProductDetailsCard(product: product),
+            Container(
+              padding: kDefaultPadding,
+              decoration: kDefaultBoxDecoration.copyWith(
+                  border: Border.all(color: Colors.transparent)),
+              child: MostExpensiveRow(product: product),
+            )
           ],
         ),
       ),
@@ -65,51 +58,58 @@ class ProductDetailsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: 0,
-      child: Container(
-        width: 156.w,
-        padding: kDefaultPadding,
-        decoration: kDefaultBoxDecoration.copyWith(color: Colors.white),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
-              children: [
-                SizedBox(
-                    height: 163.h,
-                    width: 137.w,
-                    child: AppImage(
-                      fit: BoxFit.fill,
-                      path: product.imagePath!,
-                    )),
-                Positioned(
-                    top: 0,
-                    left: 0,
-                    child: SavingCard(
-                        percentage: calculateSavingsPercentage(product)
-                            .toStringAsFixed(2))),
-                ProductQuantitySection(product: product)
-              ],
+    return Container(
+      width: 156.w,
+      padding: kDefaultPadding,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: kDefaultBorderRaduis,
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0xFFEEEEEE),
+            blurRadius: 0,
+            offset: Offset(0, 1),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            children: [
+              SizedBox(
+                  height: 163.h,
+                  width: 137.w,
+                  child: AppImage(
+                    fit: BoxFit.fill,
+                    path: product.imagePath!,
+                  )),
+              Positioned(
+                  top: 0,
+                  left: 0,
+                  child: SavingCard(
+                      percentage: calculateSavingsPercentage(product)
+                          .toStringAsFixed(2))),
+              ProductQuantitySection(product: product)
+            ],
+          ),
+          SizedBox(
+            height: 40.h,
+            child: Text(
+              product.name!,
+              maxLines: 2,
+              // overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: AppColorsLight.kAppPrimaryColorLight,
+                  fontWeight: FontWeight.w600),
             ),
-            SizedBox(
-              height: 40.h,
-              child: Text(
-                product.name!,
-                maxLines: 2,
-                // overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: AppColorsLight.kAppPrimaryColorLight,
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
-            SizedBox(
-              height: 5.h,
-            ),
-            CheapestPriceRow(product: product)
-          ],
-        ),
+          ),
+          SizedBox(
+            height: 5.h,
+          ),
+          CheapestPriceRow(product: product)
+        ],
       ),
     );
   }

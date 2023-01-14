@@ -26,8 +26,8 @@ class CustomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       clipBehavior: Clip.antiAlias,
-      width: width ?? 60.w,
-      height: height ?? 60.h,
+      width: width ?? 65.w,
+      height: height ?? 65.h,
       decoration: kDefaultBoxDecoration.copyWith(
           color: backgroundColor,
           borderRadius: borderRadius != null

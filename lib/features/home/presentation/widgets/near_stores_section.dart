@@ -8,6 +8,7 @@ import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/utils/enums/request_state.dart';
 import '../blocs/cubit/home_cubit.dart';
+import 'Title_row.dart';
 
 class NearStoresSection extends StatelessWidget {
   const NearStoresSection({super.key});
@@ -41,20 +42,20 @@ class NearStoresSection extends StatelessWidget {
             ),
           );
         case RequestState.loaded:
-          return NearStoresList(stores: state.nearStores!, isWithPadding: true);
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const TitleRow(title: 'السوبر ماركتس القريبة منك  🏠'),
+              mediumVerticalSpace,
+              NearStoresList(stores: state.nearStores!, isWithPadding: true),
+            ],
+          );
 
         case RequestState.error:
-          return SizedBox(
-            height: 100.h,
-            child: Center(
-              child: Text(state.lastOffersError!),
-            ),
-          );
+          return const SizedBox();
 
         default:
-          return SizedBox(
-            height: 100.h,
-          );
+          return const SizedBox();
       }
     });
   }

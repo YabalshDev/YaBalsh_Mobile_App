@@ -58,7 +58,7 @@ class _BannersSectionState extends State<BannersSection> {
                           borderRadius: kDefaultBorderRaduis,
                           child: Container(
                             width: Get.width * 0.94,
-                            padding: EdgeInsets.symmetric(horizontal: 2.w),
+                            padding: EdgeInsets.symmetric(horizontal: 4.w),
                             child: AppImage(
                               path: banner.imagePath!,
                               fit: BoxFit.fill,
