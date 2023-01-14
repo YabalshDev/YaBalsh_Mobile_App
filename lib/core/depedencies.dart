@@ -57,6 +57,7 @@ import 'package:yabalash_mobile_app/features/home/domain/usecases/get_banners_us
 
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_maincategories_usecase.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_near_stores_use_case.dart';
+import 'package:yabalash_mobile_app/features/home/domain/usecases/get_section_products_usecase.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_sections_use_case.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/main_navigation_cubit.dart';
@@ -219,6 +220,8 @@ setupDependecies() {
 
   getIt.registerLazySingleton(() => GetBannersUseCase(homeRepository: getIt()));
   getIt.registerLazySingleton(
+      () => GetSectionProductsUseCase(homeRepository: getIt()));
+  getIt.registerLazySingleton(
       () => GetNearStoresUseCase(homeRepository: getIt()));
   getIt.registerLazySingleton(() => GetSectiosUseCase(homeRepository: getIt()));
 
@@ -377,6 +380,7 @@ setupDependecies() {
       () => ShoppingListDetailsCubit(renameShoppingListUseCase: getIt()));
 
   getIt.registerFactory(() => SearchCubit(
+      getSectionProductsUseCase: getIt(),
       searchStoreUsecase: getIt(),
       searchProductUsecase: getIt(),
       searchRepository: getIt()));

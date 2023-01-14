@@ -2,13 +2,17 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/constants/constants.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
+import 'package:yabalash_mobile_app/features/home/domain/usecases/get_section_products_usecase.dart';
 import 'package:yabalash_mobile_app/features/search/domain/entities/store_search.dart';
 import 'package:yabalash_mobile_app/features/search/domain/repositories/search_repository.dart';
 import 'package:yabalash_mobile_app/features/search/domain/usecases/search_product_usecase.dart';
 import 'package:yabalash_mobile_app/features/search/domain/usecases/search_store_usecase.dart';
 
+import '../../../../../core/depedencies.dart';
+import '../../../../../core/services/stores_service.dart';
 import '../../../../home/domain/entities/product.dart';
 
 part 'search_state.dart';
@@ -17,9 +21,11 @@ class SearchCubit extends Cubit<SearchState> {
   final SearchRepository searchRepository;
   final SearchStoreUsecase searchStoreUsecase;
   final SearchProductUsecase searchProductUsecase;
+  final GetSectionProductsUseCase getSectionProductsUseCase;
 
   SearchCubit(
       {required this.searchRepository,
+      required this.getSectionProductsUseCase,
       required this.searchStoreUsecase,
       required this.searchProductUsecase})
       : super(const SearchState());
@@ -132,5 +138,43 @@ class SearchCubit extends Cubit<SearchState> {
       // if in stores section
       _storeSearch(searchName);
     }
+  }
+
+  void getAllNearStores() {
+    final nearStores = getIt<StoreService>().nearStores;
+    List<StoreSearch> allNearStores = [];
+    emit(state.copyWith(searchStoresRequestState: RequestState.loading));
+    allNearStores = nearStores
+        .map((e) => StoreSearch(
+            cardImagePath: e.cardImagePath,
+            id: e.id,
+            location: e.locations!.last,
+            name: e.name))
+        .toList();
+    emit(state.copyWith(
+        searchStoresRequestState: RequestState.loaded,
+        searchStoresResult: allNearStores));
+  }
+
+  void getMostSellingProducts() async {
+    final response = await getSectionProductsUseCase(
+        const GetSectionProductsParams(sectionId: mostSellingProductsId));
+
+    response.fold(
+        (failure) =>
+            emit(state.copyWith(mostSellingRequestState: RequestState.error)),
+        (products) => emit(state.copyWith(
+            mostSellingRequestState: RequestState.loaded,
+            mostSellingProducts: products)));
+  }
+
+  void getBestOffer() {
+    List<Product> searchProducts = List.from(state.searchProductsResult!);
+    searchProducts.sort(((a, b) => a.prices!.entries.first.value.price!
+        .compareTo(b.prices!.entries.first.value.price!)));
+    // sort products
+
+    emit(state.copyWith(
+        chepeastProduct: searchProducts[0])); //first element is cheapest
   }
 }

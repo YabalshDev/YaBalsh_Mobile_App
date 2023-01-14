@@ -5,19 +5,20 @@ import 'package:yabalash_mobile_app/features/search/presentation/widgets/product
 import 'package:yabalash_mobile_app/features/search/presentation/widgets/search_header.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/widgets/super_markets_search_section.dart';
 
+import '../../../../core/utils/enums/search_navigation_screens.dart';
 import 'search_history_section.dart';
 import 'search_type_section.dart';
 
 class SearchBody extends StatelessWidget {
   final PageController pageController;
   final String? intialValue;
-  final bool fromCategory;
+  final SearchNavigationScreens searchNavigationScreens;
   final GlobalKey<FormBuilderState> searchFormKey;
   const SearchBody(
       {super.key,
       required this.pageController,
       this.intialValue,
-      required this.fromCategory,
+      required this.searchNavigationScreens,
       required this.searchFormKey});
 
   @override

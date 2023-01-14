@@ -45,43 +45,44 @@ class _BannersSectionState extends State<BannersSection> {
             );
 
           case RequestState.loaded:
-            return Column(
-              children: [
-                FadeIn(
-                  duration: const Duration(milliseconds: 500),
-                  child: CarouselSlider.builder(
-                      carouselController: carouselController,
-                      itemCount: state.banners!.length,
-                      itemBuilder: (context, index, realIndex) {
-                        final banner = state.banners![index];
-                        return ClipRRect(
-                          borderRadius: kDefaultBorderRaduis,
-                          child: Container(
-                            width: Get.width * 0.94,
-                            padding: EdgeInsets.symmetric(horizontal: 4.w),
-                            child: AppImage(
-                              path: banner.imagePath!,
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                        );
-                      },
-                      options: CarouselOptions(
-                          onPageChanged: (index, reason) =>
-                              BlocProvider.of<HomeCubit>(context)
-                                  .onBannerChanged(index),
-                          viewportFraction: 0.94,
-                          autoPlay: true,
-                          height: 133.h)),
-                ),
-                mediumVerticalSpace,
-                state.banners!.isNotEmpty
-                    ? DotsIndicatorsCards(
-                        index: state.currentBannerIndex!,
-                        length: state.banners!.length)
-                    : const SizedBox()
-              ],
-            );
+            return state.banners!.isEmpty
+                ? const SizedBox()
+                : Column(
+                    children: [
+                      FadeIn(
+                        duration: const Duration(milliseconds: 500),
+                        child: CarouselSlider.builder(
+                            carouselController: carouselController,
+                            itemCount: state.banners!.length,
+                            itemBuilder: (context, index, realIndex) {
+                              final banner = state.banners![index];
+                              return ClipRRect(
+                                borderRadius: kDefaultBorderRaduis,
+                                child: Container(
+                                  width: Get.width * 0.94,
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 4.w),
+                                  child: AppImage(
+                                    path: banner.imagePath!,
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              );
+                            },
+                            options: CarouselOptions(
+                                onPageChanged: (index, reason) =>
+                                    BlocProvider.of<HomeCubit>(context)
+                                        .onBannerChanged(index),
+                                viewportFraction: 0.94,
+                                autoPlay: true,
+                                height: 133.h)),
+                      ),
+                      mediumVerticalSpace,
+                      DotsIndicatorsCards(
+                          index: state.currentBannerIndex!,
+                          length: state.banners!.length)
+                    ],
+                  );
 
           case RequestState.error:
             return SizedBox(

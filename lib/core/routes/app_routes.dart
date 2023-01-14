@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/utils/enums/search_navigation_screens.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/core/widgets/keyboard_dissmisable.dart';
 import 'package:yabalash_mobile_app/features/addresses/presentation/blocs/cubit/address_cubit.dart';
@@ -268,22 +269,35 @@ class RouteHelper {
         name: _searchRoute,
         page: () {
           final String searchName = Get.arguments[1];
-          final bool fromCategory = Get.arguments[0];
+          final SearchNavigationScreens searchNavigationScreens =
+              Get.arguments[0];
           return CustomAnimatedWidget(
             child: BlocProvider<SearchCubit>(
               create: (context) {
-                if (searchName.isNotEmpty) {
-                  return getIt<SearchCubit>()
-                    ..changeSearchIsEmpty(false)
-                    ..getSearchHistory()
-                    ..search(searchName);
-                } else {
-                  return getIt<SearchCubit>()..getSearchHistory();
+                switch (searchNavigationScreens) {
+                  case SearchNavigationScreens.homeScreen:
+                    return getIt<SearchCubit>()
+                      ..getSearchHistory()
+                      ..getMostSellingProducts();
+
+                  case SearchNavigationScreens.categoriesScreen:
+                    return getIt<SearchCubit>()
+                      ..changeSearchIsEmpty(false)
+                      ..getSearchHistory()
+                      ..search(searchName)
+                      ..getBestOffer();
+                  case SearchNavigationScreens.nearStoresScreen:
+                    return getIt<SearchCubit>()
+                      ..changeSearchType(1)
+                      ..changeSearchIsEmpty(false)
+                      ..getSearchHistory()
+                      ..getAllNearStores();
                 }
               },
               child: KeyboardDissmisable(
                 child: SearchView(
-                    fromCategory: fromCategory, intialValue: searchName),
+                    searchNavigationScreens: searchNavigationScreens,
+                    intialValue: searchName),
               ),
             ),
           );

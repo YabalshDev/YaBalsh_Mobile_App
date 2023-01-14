@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:yabalash_mobile_app/core/utils/enums/search_navigation_screens.dart';
+import 'package:yabalash_mobile_app/features/search/presentation/blocs/cubit/search_cubit.dart';
 
 import '../widgets/search_body.dart';
 
@@ -7,8 +10,9 @@ final _searchFormKey = GlobalKey<FormBuilderState>();
 
 class SearchView extends StatefulWidget {
   final String? intialValue;
-  final bool fromCategory;
-  const SearchView({super.key, this.intialValue, required this.fromCategory});
+  final SearchNavigationScreens searchNavigationScreens;
+  const SearchView(
+      {super.key, this.intialValue, required this.searchNavigationScreens});
 
   @override
   State<SearchView> createState() => _SearchViewState();
@@ -18,7 +22,10 @@ class _SearchViewState extends State<SearchView> {
   late PageController pageController;
   @override
   void initState() {
-    pageController = PageController();
+    final searchPageIndex =
+        BlocProvider.of<SearchCubit>(context).state.searchTypeIndex;
+    pageController = PageController(
+        initialPage: searchPageIndex != 0 ? searchPageIndex! : 0);
 
     super.initState();
   }
@@ -36,7 +43,7 @@ class _SearchViewState extends State<SearchView> {
       body: SearchBody(
           searchFormKey: _searchFormKey,
           pageController: pageController,
-          fromCategory: widget.fromCategory,
+          searchNavigationScreens: widget.searchNavigationScreens,
           intialValue: widget.intialValue),
     );
   }

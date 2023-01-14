@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
+import 'package:yabalash_mobile_app/core/utils/enums/search_navigation_screens.dart';
 import 'package:yabalash_mobile_app/core/widgets/kew_word_products.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_cubit.dart';
 
@@ -65,7 +66,7 @@ class SectionLoaded extends StatelessWidget {
         TitleRow(
           title: sectionName,
           onSelectAll: () => Get.toNamed(RouteHelper.getSearchRoute(),
-              arguments: [false, sectionName]),
+              arguments: [SearchNavigationScreens.homeScreen, sectionName]),
         ),
         mediumVerticalSpace,
         SizedBox(

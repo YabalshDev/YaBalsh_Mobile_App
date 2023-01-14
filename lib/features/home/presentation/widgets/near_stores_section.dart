@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:yabalash_mobile_app/core/depedencies.dart';
+import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/core/widgets/near_stores_list.dart';
 
 import '../../../../core/constants/app_layouts.dart';
+import '../../../../core/services/zone_service.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/utils/enums/request_state.dart';
+import '../../../../core/utils/enums/search_navigation_screens.dart';
 import '../blocs/cubit/home_cubit.dart';
 import 'Title_row.dart';
 
@@ -45,7 +50,16 @@ class NearStoresSection extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const TitleRow(title: 'السوبر ماركتس القريبة منك  🏠'),
+              TitleRow(
+                title: 'السوبر ماركتس القريبة منك  🏠',
+                onSelectAll: () {
+                  final zoneName = getIt<ZoneService>().currentSubZone!.name;
+                  Get.toNamed(RouteHelper.getSearchRoute(), arguments: [
+                    SearchNavigationScreens.nearStoresScreen,
+                    zoneName
+                  ]);
+                },
+              ),
               mediumVerticalSpace,
               NearStoresList(stores: state.nearStores!, isWithPadding: true),
             ],

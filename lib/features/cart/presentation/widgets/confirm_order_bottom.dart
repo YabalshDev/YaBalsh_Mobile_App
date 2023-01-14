@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/depedencies.dart';
 import '../../../../core/routes/app_routes.dart';
+import '../../../../core/services/addresses_service.dart';
 import '../../../../core/widgets/custom_bottom_nav_bar.dart';
 import '../../../orders/data/models/order_product_model.dart';
 import '../../../orders/domain/entities/order_request.dart';
@@ -38,7 +39,8 @@ class ConfirmOrderBottom extends StatelessWidget {
         }
       },
       title: '✔  خلص الطلب',
-      isDisabled: state.userAddress?.id == null,
+      isDisabled: state.userAddress?.id == null &&
+          getIt<AddressService>().primaryAddress.addressName == null,
     );
   }
 }
