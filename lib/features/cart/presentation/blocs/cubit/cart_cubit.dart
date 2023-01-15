@@ -46,6 +46,7 @@ class CartCubit extends Cubit<CartState> {
 
   void resetCart() {
     emit(const CartState());
+    clearCart();
   }
 
   void addShoppingList({required String shoppingListName}) {
@@ -88,31 +89,7 @@ class CartCubit extends Cubit<CartState> {
 
     if (isSuccess) {
       emit(state.copyWith(cartItems: []));
-      // Get.back();
     }
-    // if (!getIt<CartCubit>().isClosed) {
-    //   // yaBalashCustomDialog(
-    //   //   isWithEmoji: false,
-    //   //   buttonTitle: 'حسنا',
-    //   //   mainContent: 'هل انت متاكد من ازالة السلة؟',
-    //   //   title: 'ملاحظة',
-    //   //   onConfirm: () {
-    //   //     final response = clearCartUseCase(NoParams());
-    //   //     response.fold(
-    //   //         (failure) => yaBalashCustomDialog(
-    //   //               isWithEmoji: false,
-    //   //               buttonTitle: 'حسنا',
-    //   //               mainContent: failure.message,
-    //   //               title: 'خطأ',
-    //   //               onConfirm: () => Get
-    //   //                 ..back()
-    //   //                 ..back(),
-    //   //             ),
-    //   //         (r) => );
-    //   //     Get.back();
-    //   //   },
-    //   // );
-    // }
   }
 
   void changeCurrentCartStep(int value) {

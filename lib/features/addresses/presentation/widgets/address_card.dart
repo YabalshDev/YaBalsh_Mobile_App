@@ -113,7 +113,7 @@ class AddressContainer extends StatelessWidget {
                 ),
                 smallHorizontalSpace,
                 Text(
-                  address.fullAddress!.split(',')[0],
+                  address.fullAddress!.split('%')[0],
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w600,
                       color: AppColorsLight.kAppPrimaryColorLight),
@@ -132,7 +132,7 @@ class AddressContainer extends StatelessWidget {
                 ),
                 smallHorizontalSpace,
                 Text(
-                  '${address.fullAddress!.split(',')[1]},${getIt<ZoneService>().currentSubZone!.name},${getIt<ZoneService>().currentSubZone!.mainZoneName}',
+                  '${address.fullAddress!.split('%')[1]},${address.zone},${getIt<ZoneService>().currentSubZone!.mainZoneName}',
                   maxLines: 2,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w600,
@@ -143,7 +143,7 @@ class AddressContainer extends StatelessWidget {
             ),
             mediumVerticalSpace,
             Text(
-              '  ${address.fullAddress!}',
+              '  ${address.fullAddress!.split('%')[0]},${address.fullAddress!.split('%')[1]},${address.fullAddress!.split('%')[2]}',
               maxLines: 2,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   fontWeight: FontWeight.w600,

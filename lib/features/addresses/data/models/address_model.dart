@@ -35,6 +35,6 @@ class AddressModel extends Address {
         updatedAt: json['updated_at'] != null
             ? DateTime.parse(json['created_at'].toString())
             : DateTime.now(),
-        zone: json['zone']);
+        zone: json['subZone']);
   }
 }

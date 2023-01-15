@@ -25,6 +25,7 @@ class UpdateAddress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: UpdateAddressBody(
         isFromEdit: isfromEdit,
         fromRoute: fromRoute,
@@ -49,7 +50,7 @@ class UpdateAddress extends StatelessWidget {
                         _formKey.currentState!.fields['street']!.value;
 
                     final addressBody = AddressRequest(
-                        addressLine: '$name,$district,$street',
+                        addressLine: '$name%$district%$street',
                         apartmentNo:
                             _formKey.currentState!.fields['apartment']!.value,
                         buildingNo:
