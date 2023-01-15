@@ -2,11 +2,11 @@ import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
 
 import '../../../features/home/domain/entities/price_model.dart';
 import '../../../features/home/domain/entities/product.dart';
-import '../../../features/reciepies/domain/entities/creator.dart';
+import '../../../features/reciepies/domain/entities/brand.dart';
 import '../../../features/reciepies/domain/entities/recipie.dart';
 
-const List<Creator> creatorsMock = [
-  Creator(id: 1, imagePath: AppAssets.ulker, name: 'اولكر', recipies: [
+const List<Brand> creatorsMock = [
+  Brand(id: 1, imagePath: AppAssets.ulker, name: 'اولكر', recipies: [
     Recipie(
         id: 1,
         creatorImagePath: AppAssets.ulker,
@@ -110,7 +110,7 @@ const List<Creator> creatorsMock = [
         title: 'ليزي كيك',
         videoLink: "https://www.youtube.com/watch?v=_gspUQ11CuQ"),
   ]),
-  Creator(id: 1, imagePath: AppAssets.ulker, name: 'اولكر', recipies: [
+  Brand(id: 1, imagePath: AppAssets.ulker, name: 'اولكر', recipies: [
     Recipie(
         id: 1,
         creatorImagePath: AppAssets.ulker,

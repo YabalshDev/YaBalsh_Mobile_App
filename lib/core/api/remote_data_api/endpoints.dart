@@ -11,11 +11,15 @@ const String ordersEndpoint = '/api/v1/orders';
 const String productSearchEndpoint = '/api/v1/products/search';
 const String mainCategoriesEndpoint = '/api/v1/main-categories';
 const String bannersEndpoint = '/api/v1/banners';
+const String recipiesEndpoint = '/api/v1/recipes';
+const String brandsEndpoint = '/api/v1/brands';
 const String storesSearchEndpoint = '/api/v1/stores/search';
 String getAddressEndPointById(int id) => '/api/v1/addresses/$id';
+String getRecipieDetailsEndPointById(int id) => '$recipiesEndpoint$id';
 String getStoreEndPointById(int id) => '/api/v1/stores/$id';
 String getProductEndPointById(int id) => '/api/v1/products/$id';
 String getSubZonesEndPointById(int id) => '$zonesEndPoint/$id/sub-zones';
 String getSubCategoriesEndPointById(int id) =>
     '$mainCategoriesEndpoint/$id/sub-categories';
 String getSectionProductsEndpoint(int id) => '$sectionsEndpoint/$id/products';
+String getBrandsRecipiesEndpoint(int id) => '$brandsEndpoint/$id/recipes';

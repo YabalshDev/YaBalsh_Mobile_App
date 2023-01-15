@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/product.dart';
+import 'package:yabalash_mobile_app/features/reciepies/domain/entities/brand.dart';
 
 class Recipie extends Equatable {
   final int? id;
@@ -7,8 +8,7 @@ class Recipie extends Equatable {
   final String? title;
   final String? subTitle;
   final String? videoLink;
-  final String? creatorName;
-  final String? creatorImagePath;
+  final Brand? brand;
   final int? duration;
   final List<Product>? products;
 
@@ -18,22 +18,12 @@ class Recipie extends Equatable {
     this.title,
     this.subTitle,
     this.videoLink,
-    this.creatorName,
-    this.creatorImagePath,
+    this.brand,
     this.duration,
     this.products,
   });
 
   @override
-  List<Object?> get props => [
-        id,
-        imagePath,
-        title,
-        subTitle,
-        creatorImagePath,
-        creatorName,
-        videoLink,
-        duration,
-        products
-      ];
+  List<Object?> get props =>
+      [id, imagePath, title, subTitle, brand, videoLink, duration, products];
 }

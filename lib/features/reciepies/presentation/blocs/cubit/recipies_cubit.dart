@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
-import 'package:yabalash_mobile_app/features/reciepies/domain/entities/creator.dart';
+import 'package:yabalash_mobile_app/features/reciepies/domain/entities/brand.dart';
 import 'package:yabalash_mobile_app/features/reciepies/domain/usecases/get_all_creators_usecase.dart';
 
 import '../../../../../core/usecases/use_cases.dart';
@@ -11,17 +11,17 @@ import '../../../../../core/widgets/custom_dialog.dart';
 part 'recipies_state.dart';
 
 class RecipiesCubit extends Cubit<RecipiesState> {
-  final GetAllCreatorsUseCase getAllCreatorsUseCase;
-  RecipiesCubit({required this.getAllCreatorsUseCase})
+  final GetAllBrandsUseCase getAllBrandsUseCase;
+  RecipiesCubit({required this.getAllBrandsUseCase})
       : super(const RecipiesState());
 
   void getCreators() async {
-    final response = await getAllCreatorsUseCase(NoParams());
+    final response = await getAllBrandsUseCase(NoParams());
 
     response.fold((failure) {
       emit(state.copyWith(
           errorMessage: failure.message,
-          creatorsRequestState: RequestState.error));
+          brandsRequestState: RequestState.error));
       yaBalashCustomDialog(
         buttonTitle: 'حسنا',
         isWithEmoji: false,
@@ -31,6 +31,6 @@ class RecipiesCubit extends Cubit<RecipiesState> {
       );
     },
         (result) => emit(state.copyWith(
-            creatorsRequestState: RequestState.loaded, creators: result)));
+            brandsRequestState: RequestState.loaded, brands: result)));
   }
 }

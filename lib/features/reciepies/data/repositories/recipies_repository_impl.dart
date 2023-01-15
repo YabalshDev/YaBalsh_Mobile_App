@@ -1,7 +1,7 @@
 import 'package:yabalash_mobile_app/core/errors/exceptions.dart';
 import 'package:yabalash_mobile_app/features/reciepies/data/datasources/recipie_mock_data_source.dart';
 import 'package:yabalash_mobile_app/features/reciepies/domain/entities/recipie.dart';
-import 'package:yabalash_mobile_app/features/reciepies/domain/entities/creator.dart';
+import 'package:yabalash_mobile_app/features/reciepies/domain/entities/brand.dart';
 import 'package:yabalash_mobile_app/core/errors/faliures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:yabalash_mobile_app/features/reciepies/domain/repositories/recipies_repository.dart';
@@ -11,9 +11,9 @@ class RecipiesRepositoryImpl implements RecipiesRepository {
 
   RecipiesRepositoryImpl({required this.recipieDataSource});
   @override
-  Future<Either<Failure, List<Creator>>> getAllCreators() async {
+  Future<Either<Failure, List<Brand>>> getBrands() async {
     try {
-      final response = await recipieDataSource.getAllCreators();
+      final response = await recipieDataSource.getAllBrands();
 
       return Right(response);
     } on ServerException catch (err) {
@@ -35,6 +35,13 @@ class RecipiesRepositoryImpl implements RecipiesRepository {
   @override
   Future<Either<Failure, Recipie>> getRecipieById({required String id}) {
     // TODO: implement getRecipieById
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, List<Recipie>>> getBrandRecipies(
+      {required int brandId}) {
+    // TODO: implement getBrandRecipies
     throw UnimplementedError();
   }
 }

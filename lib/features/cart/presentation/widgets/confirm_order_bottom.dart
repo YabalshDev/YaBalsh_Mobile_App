@@ -23,7 +23,8 @@ class ConfirmOrderBottom extends StatelessWidget {
       isButtonSecondary: false,
       mainButtonTap: () async {
         final OrderRequest orderRequest = OrderRequest(
-            addressId: state.userAddress?.id,
+            addressId: state.userAddress?.id ??
+                getIt<AddressService>().primaryAddress.id,
             storeId: state.supermarket?.store!.id,
             products: state.cartItems!
                 .map((e) =>

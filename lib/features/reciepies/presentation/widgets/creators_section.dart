@@ -18,7 +18,7 @@ class CreatorsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RecipiesCubit, RecipiesState>(
       builder: (context, state) {
-        switch (state.creatorsRequestState) {
+        switch (state.brandsRequestState) {
           case RequestState.idle:
             return const SizedBox();
 
@@ -38,14 +38,14 @@ class CreatorsSection extends StatelessWidget {
                   height: 90.h,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: state.creators!.length,
+                    itemCount: state.brands!.length,
                     itemBuilder: (context, index) {
-                      final creator = state.creators![index];
+                      final brand = state.brands![index];
                       return InkWell(
                         onTap: () => Get.toNamed(
                             RouteHelper.getCreatorDetailsRoute(),
-                            arguments: creator),
-                        child: CreatorCard(creator: creator),
+                            arguments: brand),
+                        child: CreatorCard(brand: brand),
                       );
                     },
                   ),

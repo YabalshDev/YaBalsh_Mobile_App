@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/widgets/custom_header.dart';
-import '../../domain/entities/creator.dart';
+import '../../domain/entities/brand.dart';
 import 'creator_details_section.dart';
 import 'creator_recipies_section.dart';
 
 class CreatorDetailsBody extends StatelessWidget {
-  final Creator creator;
-  const CreatorDetailsBody({super.key, required this.creator});
+  final Brand brand;
+  const CreatorDetailsBody({super.key, required this.brand});
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +22,13 @@ class CreatorDetailsBody extends StatelessWidget {
             children: [
               CustomHeader(
                 isWithNotification: true,
-                title: 'وصفات ${creator.name}',
+                title: 'وصفات ${brand.name}',
                 iconPath: AppAssets.backIcon,
               ),
               largeVerticalSpace,
-              CreatorDetailsSection(creator: creator),
+              CreatorDetailsSection(brand: brand),
               CreatorRecipiesSection(
-                recipies: creator.recipies!,
+                recipies: brand.recipies!,
               )
             ],
           ),

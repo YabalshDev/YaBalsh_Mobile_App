@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '../../domain/entities/creator.dart';
+import '../../domain/entities/brand.dart';
 import 'creator_card.dart';
 
 class CreatorDetailsSection extends StatelessWidget {
-  final Creator creator;
-  const CreatorDetailsSection({super.key, required this.creator});
+  final Brand brand;
+  const CreatorDetailsSection({super.key, required this.brand});
 
   @override
   Widget build(BuildContext context) {
     return Center(
         child: CreatorCard(
-      creator: creator,
+      brand: brand,
     ));
   }
 }

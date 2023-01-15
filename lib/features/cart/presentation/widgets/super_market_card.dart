@@ -126,7 +126,7 @@ class SuperMarketCard extends StatelessWidget {
                         smallHorizontalSpace,
                         Text(
                           location.deliveryFees != null
-                              ? '${location.deliveryFees} جنيه'
+                              ? '${double.parse(location.deliveryFees!).round()} جنيه'
                               : '30 جنيه',
                           style: Theme.of(context)
                               .textTheme
@@ -147,13 +147,19 @@ class SuperMarketCard extends StatelessWidget {
           const Spacer(),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
-                '${superMarket.price!.toStringAsFixed(0)} جنيه',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18.sp,
-                    color: AppColorsLight.kAppPrimaryColorLight),
+              Container(
+                margin: superMarket.saving! <= 0
+                    ? EdgeInsets.only(left: 7.w)
+                    : null,
+                child: Text(
+                  '${superMarket.price!.toStringAsFixed(0)} جنيه',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18.sp,
+                      color: AppColorsLight.kAppPrimaryColorLight),
+                ),
               ),
               superMarket.saving! > 0
                   ? Row(

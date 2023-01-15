@@ -290,7 +290,7 @@ setupDependecies() {
       () => GetProductDetailsUseCase(productDetailsRepository: getIt()));
 
   getIt.registerLazySingleton(
-      () => GetAllCreatorsUseCase(recipiesRepository: getIt()));
+      () => GetAllBrandsUseCase(recipiesRepository: getIt()));
   getIt.registerLazySingleton(
       () => GetAllRecpiesUseCase(recipiesRepository: getIt()));
   getIt.registerLazySingleton(
@@ -394,6 +394,6 @@ setupDependecies() {
       ));
 
   getIt.registerFactory(() => RecipiesCubit(
-        getAllCreatorsUseCase: getIt(),
+        getAllBrandsUseCase: getIt(),
       ));
 }

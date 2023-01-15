@@ -1,24 +1,23 @@
 part of 'recipies_cubit.dart';
 
 class RecipiesState extends Equatable {
-  final RequestState? creatorsRequestState;
-  final List<Creator>? creators;
+  final RequestState? brandsRequestState;
+  final List<Brand>? brands;
   final String? errorMessage;
   const RecipiesState(
-      {this.creatorsRequestState = RequestState.loading,
-      this.creators = const [],
+      {this.brandsRequestState = RequestState.loading,
+      this.brands = const [],
       this.errorMessage = ''});
 
   RecipiesState copyWith(
-          {RequestState? creatorsRequestState,
-          List<Creator>? creators,
+          {RequestState? brandsRequestState,
+          List<Brand>? brands,
           String? errorMessage}) =>
       RecipiesState(
-          creators: creators ?? this.creators,
-          creatorsRequestState:
-              creatorsRequestState ?? this.creatorsRequestState,
+          brands: brands ?? this.brands,
+          brandsRequestState: brandsRequestState ?? this.brandsRequestState,
           errorMessage: errorMessage ?? this.errorMessage);
 
   @override
-  List<Object> get props => [creatorsRequestState!, creators!, errorMessage!];
+  List<Object> get props => [brandsRequestState!, brands!, errorMessage!];
 }

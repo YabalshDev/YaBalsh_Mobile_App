@@ -78,7 +78,7 @@ class RecipieCard extends StatelessWidget {
                         ),
                         smallHorizontalSpace,
                         Text(
-                          recipie.creatorName!,
+                          recipie.brand!.name!,
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium

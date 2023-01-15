@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/constants/constants.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/search_navigation_screens.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/core/widgets/keyboard_dissmisable.dart';
@@ -225,6 +226,8 @@ class RouteHelper {
         }),
     GetPage(
         name: _orderSuccessRoute,
+        transition: navigationTransition,
+        transitionDuration: const Duration(milliseconds: 500),
         page: () {
           final Order order = Get.arguments[0];
           final bool isFromOrderDetails = Get.arguments[1];
@@ -328,7 +331,7 @@ class RouteHelper {
         page: () {
           return CustomAnimatedWidget(
             child: CreatorDetailsView(
-              creator: Get.arguments,
+              brand: Get.arguments,
             ),
           );
         }),

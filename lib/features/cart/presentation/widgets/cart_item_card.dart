@@ -101,13 +101,14 @@ class CartItemCard extends StatelessWidget {
               },
               onDelete: () {
                 yaBalashCustomDialog(
-                  buttonTitle: 'تاكيد',
-                  isWithEmoji: false,
-                  title: 'ملاحظة',
-                  mainContent: 'هل انت متاكد من حذف المنتج',
-                  onConfirm: () =>
-                      getIt<CartCubit>().deleteItemFromCart(cartItem.product!),
-                );
+                    buttonTitle: 'تاكيد',
+                    isWithEmoji: false,
+                    title: 'ملاحظة',
+                    mainContent: 'هل انت متاكد من حذف المنتج',
+                    onConfirm: () {
+                      getIt<CartCubit>().deleteItemFromCart(cartItem.product!);
+                      Get.back();
+                    });
               },
               onIncrement: () {
                 getIt<CartCubit>().incrementQuantity(cartItem.product!);
