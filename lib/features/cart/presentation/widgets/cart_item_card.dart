@@ -82,7 +82,7 @@ class CartItemCard extends StatelessWidget {
                     ),
                     mediumVerticalSpace,
                     Text(
-                      '300 مل',
+                      cartItem.product!.size ?? '',
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           fontSize: 9.sp,

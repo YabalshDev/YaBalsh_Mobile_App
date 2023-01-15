@@ -45,6 +45,7 @@ import 'package:yabalash_mobile_app/features/cart/domain/usecases/increment_quan
 import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/cart_cubit.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/order_summary_cubit.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/super_markets_cubit.dart';
+import 'package:yabalash_mobile_app/features/categories/data/datasources/categories_remote_datasource.dart';
 import 'package:yabalash_mobile_app/features/categories/data/repositories/categories_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/categories/domain/repositories/categories_repository.dart';
 import 'package:yabalash_mobile_app/features/categories/domain/usecases/get_sub_categories_usecase.dart';
@@ -144,6 +145,8 @@ setupDependecies() {
 
   getIt.registerLazySingleton<ZonesRemoteDataSource>(
       () => ZonesRemoteDataSourceImpl(restApiProvider: getIt()));
+  getIt.registerLazySingleton<CategoriesDataSource>(
+      () => CategoriesRemoteDataSourceImpl(restApiProvider: getIt()));
   getIt.registerLazySingleton<ZonesLocalDataSource>(() =>
       ZoneLocalDataSourceImpl(
           localStorageProvider: getIt(), zoneService: getIt()));
@@ -181,7 +184,7 @@ setupDependecies() {
       authRemoteDataSource: getIt(), authLocalDataSource: getIt()));
 
   getIt.registerLazySingleton<CategoriesRepository>(
-      () => CategoriesRepositoryImpl());
+      () => CategoriesRepositoryImpl(categoriesDataSource: getIt()));
 
   getIt.registerLazySingleton<ZonesRepository>(() => ZonesRepositoryImpl(
       zonesLocalDataSource: getIt(), zonesRemoteDataSource: getIt()));

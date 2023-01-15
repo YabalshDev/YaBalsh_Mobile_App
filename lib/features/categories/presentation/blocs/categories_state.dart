@@ -5,9 +5,9 @@ class CategoriesState extends Equatable {
   final RequestState? categorySectionsRequestState;
   final String? categoriesError;
   const CategoriesState(
-      {this.categorySections,
-      this.categorySectionsRequestState,
-      this.categoriesError});
+      {this.categorySections = const [],
+      this.categorySectionsRequestState = RequestState.loading,
+      this.categoriesError = ''});
 
   CategoriesState copyWith(
           {List<CategorySectionData>? categorySections,

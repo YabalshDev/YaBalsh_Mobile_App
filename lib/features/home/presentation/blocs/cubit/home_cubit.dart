@@ -17,6 +17,7 @@ import 'package:yabalash_mobile_app/features/home/domain/usecases/get_near_store
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_sections_use_case.dart';
 import 'package:yabalash_mobile_app/features/zones/domain/usecases/get_past_subzones_usecase.dart';
 
+import '../../../../../core/services/categories_service.dart';
 import '../../../../zones/domain/entities/sub_zone.dart';
 import '../../../domain/entities/store.dart';
 import '../../../domain/usecases/get_maincategories_usecase.dart';
@@ -50,6 +51,7 @@ class HomeCubit extends Cubit<HomeState> {
           lastOfferrequestState: RequestState.error,
           lastOffersError: failure.message));
     }, (offers) {
+      getIt<CategoriesService>().setMainCategories(categories: offers);
       emit(state.copyWith(
           lastOfferrequestState: RequestState.loaded, lastOffers: offers));
     });

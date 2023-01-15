@@ -26,6 +26,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
 
       response.fold((faiulre) {
         // show error message
+        emit(state.copyWith(categoriesError: faiulre.message));
       },
           (subCategories) => categorySections.add(CategorySectionData(
               mainCategoryName: mainCategory.name,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yabalash_mobile_app/features/categories/domain/entities/sub_category.dart';
 
 import '../../../../core/constants/app_layouts.dart';
@@ -17,15 +18,22 @@ class SubCategoryCard extends StatelessWidget {
         CustomCard(
           imagePath: subCategory.imagePath,
           backgroundColor: AppColorsLight.kSubCategoryCardColor,
+          isAssetImage: false,
+          withBorder: false,
         ),
         smallVerticalSpace,
-        Text(
-          subCategory.name ?? '',
-          textAlign: TextAlign.center,
-          style: Theme.of(context)
-              .textTheme
-              .bodySmall
-              ?.copyWith(fontWeight: FontWeight.w700, color: Colors.black),
+        Container(
+          constraints: BoxConstraints(maxWidth: 80.w),
+          child: Text(
+            subCategory.name ?? '',
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context)
+                .textTheme
+                .bodySmall
+                ?.copyWith(fontWeight: FontWeight.w700, color: Colors.black),
+          ),
         )
       ],
     );

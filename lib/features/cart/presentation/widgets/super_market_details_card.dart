@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yabalash_mobile_app/features/home/data/models/location_model.dart';
+import 'package:yabalash_mobile_app/features/home/domain/entities/location.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
+import '../../../../core/depedencies.dart';
+import '../../../../core/services/zone_service.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/custom_card.dart';
 import '../../../../core/widgets/custom_svg_icon.dart';
@@ -21,6 +25,20 @@ class SupermarketDetailsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Location? storeLocation;
+    if (store != null) {
+      storeLocation = store!.locations!.firstWhere(
+        (element) =>
+            element.subZoneId == getIt<ZoneService>().currentSubZone!.id,
+        orElse: () => const LocationModel(),
+      );
+    } else {
+      storeLocation = superMarketCardModel!.store!.locations!.firstWhere(
+        (element) =>
+            element.subZoneId == getIt<ZoneService>().currentSubZone!.id,
+        orElse: () => const LocationModel(),
+      );
+    }
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -64,7 +82,7 @@ class SupermarketDetailsCard extends StatelessWidget {
                 Text(
                   isFromOrderSuccess!
                       ? '${superMarketCardModel != null ? superMarketCardModel!.store!.name : store!.name} هيوصلك طلبك في الوقت المتوقع'
-                      : 'الطلب هيتم توصيله في خلال 32 دقيقة',
+                      : 'الطلب هيتم توصيله في خلال ${storeLocation.deliveryTime} دقيقة',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color:
                           AppColorsLight.kAppPrimaryColorLight.withOpacity(0.8),

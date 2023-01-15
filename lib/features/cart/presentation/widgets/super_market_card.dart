@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yabalash_mobile_app/core/depedencies.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/supermarket_card_model.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/super_markets_cubit.dart';
+import 'package:yabalash_mobile_app/features/home/data/models/location_model.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
+import '../../../../core/services/zone_service.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/custom_card.dart';
 import '../../../../core/widgets/custom_svg_icon.dart';
@@ -25,10 +28,14 @@ class SuperMarketCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final location = superMarket.store!.locations!.firstWhere(
+      (element) => element.subZoneId == getIt<ZoneService>().currentSubZone!.id,
+      orElse: () => const LocationModel(),
+    );
     return Container(
       margin: EdgeInsets.only(top: 10.h),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           isAvailable
               ? InkWell(
@@ -37,6 +44,7 @@ class SuperMarketCard extends StatelessWidget {
                   child: Container(
                     width: 18.w,
                     height: 18.w,
+                    margin: EdgeInsets.only(top: 25.h),
                     decoration: BoxDecoration(
                         color: selectedSupermarketIndex == index
                             ? AppColorsLight.kAppPrimaryColorLight
@@ -51,7 +59,7 @@ class SuperMarketCard extends StatelessWidget {
                 ),
           mediumHorizontalSpace,
           SizedBox(
-            width: 201.w,
+            width: 210.w,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -88,7 +96,6 @@ class SuperMarketCard extends StatelessWidget {
                         )
                       ],
                     ),
-                    mediumVerticalSpace,
                     Row(
                       children: [
                         const CustomSvgIcon(
@@ -97,8 +104,8 @@ class SuperMarketCard extends StatelessWidget {
                         ),
                         smallHorizontalSpace,
                         Text(
-                          superMarket.store!.locations![0].deliveryTime != null
-                              ? '${superMarket.store!.locations![0].deliveryTime} دقيقة'
+                          location.deliveryTime != null
+                              ? '${location.deliveryTime} دقيقة'
                               : '30 دقيقة',
                           style: Theme.of(context)
                               .textTheme
@@ -118,8 +125,8 @@ class SuperMarketCard extends StatelessWidget {
                         ),
                         smallHorizontalSpace,
                         Text(
-                          superMarket.store!.locations![0].deliveryTime != null
-                              ? '${superMarket.store!.locations![0].deliveryTime} دقيقة'
+                          location.deliveryFees != null
+                              ? '${location.deliveryFees} جنيه'
                               : '30 جنيه',
                           style: Theme.of(context)
                               .textTheme
