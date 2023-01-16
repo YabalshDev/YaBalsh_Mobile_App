@@ -6,6 +6,7 @@ import 'package:yabalash_mobile_app/features/reciepies/domain/entities/recipie.d
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
+import '../../../../core/utils/add_recipie_products_to_cart.dart';
 import '../../../../core/widgets/custom_card.dart';
 
 class RecipieCard extends StatelessWidget {
@@ -95,10 +96,13 @@ class RecipieCard extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            Icon(
-              Icons.add,
-              size: 20.h,
-              color: AppColorsLight.kAppPrimaryColorLight.withOpacity(0.8),
+            InkWell(
+              onTap: () => addRecpieProductsToCart(recipie),
+              child: Icon(
+                Icons.add,
+                size: 20.h,
+                color: AppColorsLight.kAppPrimaryColorLight.withOpacity(0.8),
+              ),
             )
           ],
         ),
