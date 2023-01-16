@@ -46,7 +46,7 @@ class ShoppingListCard extends StatelessWidget {
                               .sublist(0, 4)
                               .map((cartItem) => CustomCard(
                                     withBorder: false,
-                                    isAssetImage: true,
+                                    isAssetImage: false,
                                     borderRadius: 6,
                                     backgroundColor: Colors.white,
                                     width: 25.w,
@@ -57,7 +57,7 @@ class ShoppingListCard extends StatelessWidget {
                           : shoppingList.products!
                               .map((cartItem) => CustomCard(
                                     withBorder: false,
-                                    isAssetImage: true,
+                                    isAssetImage: false,
                                     borderRadius: 6,
                                     backgroundColor: Colors.white,
                                     width: 26.w,

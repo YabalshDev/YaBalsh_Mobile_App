@@ -6,15 +6,20 @@ import 'package:yabalash_mobile_app/features/reciepies/domain/usecases/get_brand
 
 import '../../../../../core/utils/enums/request_state.dart';
 import '../../../../../core/widgets/custom_dialog.dart';
+import '../../../domain/usecases/get_recipie_details_usecase.dart';
 
 part 'brands_state.dart';
 
 class BrandsCubit extends Cubit<BrandsState> {
   final GetBrandRecipiesUseCase getBrandRecipiesUseCase;
-  BrandsCubit({required this.getBrandRecipiesUseCase})
+  final GetRecipieDetailsUseCase getRecipieDetailsUseCase;
+  BrandsCubit(
+      {required this.getRecipieDetailsUseCase,
+      required this.getBrandRecipiesUseCase})
       : super(const BrandsState());
 
   void getBrandRecipies(int brandId) async {
+    List<Recipie> recipies = [];
     final response =
         await getBrandRecipiesUseCase(GetBrandRecipiesParams(brandId: brandId));
 
@@ -29,8 +34,36 @@ class BrandsCubit extends Cubit<BrandsState> {
         mainContent: failure.message,
         onConfirm: () => Get.back(),
       );
-    },
-        (result) => emit(state.copyWith(
-            recipiesRequestState: RequestState.loaded, recipies: result)));
+    }, (result) => recipies = List.from(result));
+
+    getAllRecipieDetails(recipies);
+  }
+
+  void getAllRecipieDetails(List<Recipie> recipies) async {
+    if (recipies.isNotEmpty) {
+      List<Recipie> allRecipies = [];
+      bool hasError = false;
+
+      for (Recipie recipie in recipies) {
+        final response = await getRecipieDetailsUseCase(
+            GetRecipieDetailsParams(id: recipie.id!));
+
+        response.fold((failure) {
+          emit(state.copyWith(
+              recipiesRequestState: RequestState.error,
+              errorMessage: failure.message));
+          hasError = true;
+          return;
+        }, (result) => allRecipies.add(result));
+      }
+
+      if (!hasError) {
+        emit(state.copyWith(
+            recipies: allRecipies, recipiesRequestState: RequestState.loaded));
+      }
+    } else {
+      emit(state
+          .copyWith(recipies: [], recipiesRequestState: RequestState.loaded));
+    }
   }
 }

@@ -400,11 +400,9 @@ setupDependecies() {
       ));
 
   getIt.registerFactory(() => RecipiesCubit(
-        getAllBrandsUseCase: getIt(),
-      ));
+      getAllBrandsUseCase: getIt(), getRecipieDetailsUseCase: getIt()));
   getIt.registerFactory(() => BrandsCubit(
-        getBrandRecipiesUseCase: getIt(),
-      ));
+      getBrandRecipiesUseCase: getIt(), getRecipieDetailsUseCase: getIt()));
   getIt.registerFactory(() => RecipieDetailsCubit(
         getRecipieDetailsUseCase: getIt(),
       ));

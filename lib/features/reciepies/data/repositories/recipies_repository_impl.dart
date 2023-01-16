@@ -35,7 +35,7 @@ class RecipiesRepositoryImpl implements RecipiesRepository {
   @override
   Future<Either<Failure, Recipie>> getRecipieById({required int id}) async {
     try {
-      final response = await recipieDataSource.getRecipieDetails(brandId: id);
+      final response = await recipieDataSource.getRecipieDetails(recipieId: id);
 
       return Right(response);
     } on ServerException {

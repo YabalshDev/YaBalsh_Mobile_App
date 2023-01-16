@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
+import 'package:yabalash_mobile_app/core/widgets/custom_network_image.dart';
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
@@ -28,12 +29,11 @@ class RecipieShoppingListCard extends StatelessWidget {
               width: 90.w,
               height: 90.h,
               child: ClipRRect(
-                borderRadius: kSecondaryBorderRaduis,
-                child: Image.asset(
-                  recipie.imagePath!,
-                  fit: BoxFit.cover,
-                ),
-              ),
+                  borderRadius: kSecondaryBorderRaduis,
+                  child: AppImage(
+                    path: recipie.imagePath,
+                    fit: BoxFit.contain,
+                  )),
             ),
             Container(
               constraints: BoxConstraints(maxWidth: 90.w),

@@ -33,6 +33,7 @@ class RecipieCard extends StatelessWidget {
                   withBorder: false,
                   height: 70.h,
                   width: 70.w,
+                  isAssetImage: false,
                   imagePath: recipie.imagePath,
                 ),
                 mediumHorizontalSpace,

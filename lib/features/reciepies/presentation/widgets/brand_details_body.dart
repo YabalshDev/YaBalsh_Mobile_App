@@ -4,8 +4,8 @@ import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/widgets/custom_header.dart';
 import '../../domain/entities/brand.dart';
-import 'creator_details_section.dart';
-import 'creator_recipies_section.dart';
+import 'brand_details_section.dart';
+import 'brand_recipies_section.dart';
 
 class BrandDetailsBody extends StatelessWidget {
   final Brand brand;

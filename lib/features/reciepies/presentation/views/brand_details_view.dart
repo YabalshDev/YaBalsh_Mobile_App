@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yabalash_mobile_app/features/reciepies/domain/entities/brand.dart';
 
-import '../widgets/creator_details_body.dart';
+import '../widgets/brand_details_body.dart';
 
 class BrandDetailsView extends StatelessWidget {
   final Brand brand;

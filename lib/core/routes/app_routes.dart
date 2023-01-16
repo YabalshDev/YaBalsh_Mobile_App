@@ -29,7 +29,7 @@ import 'package:yabalash_mobile_app/features/reciepies/domain/entities/recipie.d
 import 'package:yabalash_mobile_app/features/reciepies/presentation/blocs/cubit/brands_cubit.dart';
 import 'package:yabalash_mobile_app/features/reciepies/presentation/blocs/cubit/recipie_details_cubit.dart';
 import 'package:yabalash_mobile_app/features/reciepies/presentation/blocs/cubit/recipies_cubit.dart';
-import 'package:yabalash_mobile_app/features/reciepies/presentation/views/creator_details_view.dart';
+import 'package:yabalash_mobile_app/features/reciepies/presentation/views/brand_details_view.dart';
 import 'package:yabalash_mobile_app/features/reciepies/presentation/views/recipie_details_view.dart';
 import 'package:yabalash_mobile_app/features/reciepies/presentation/views/recipies_view.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/views/search_view.dart';
@@ -314,10 +314,10 @@ class RouteHelper {
           final List<Recipie> recipies = Get.arguments;
           return CustomAnimatedWidget(
             child: BlocProvider<RecipiesCubit>(
-              create: (context) => getIt<RecipiesCubit>()..getCreators(),
-              child: RecipiesView(
-                recipies: recipies,
-              ),
+              create: (context) => getIt<RecipiesCubit>()
+                ..getBrands()
+                ..getAllRecipieDetails(recipies),
+              child: const RecipiesView(),
             ),
           );
         }),

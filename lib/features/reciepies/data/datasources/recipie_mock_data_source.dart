@@ -5,7 +5,7 @@ abstract class RecipieDataSource {
   Future<List<Brand>> getAllBrands();
   Future<List<Recipie>> getAllRecipies();
   Future<List<Recipie>> getBrandRecipies({required int brandId});
-  Future<Recipie> getRecipieDetails({required int brandId});
+  Future<Recipie> getRecipieDetails({required int recipieId});
 }
 
 // class RecipiesMockDataSource implements RecipieDataSource {

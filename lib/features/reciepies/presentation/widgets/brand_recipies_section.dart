@@ -28,9 +28,16 @@ class CreatorRecipiesSection extends StatelessWidget {
           case RequestState.loading:
             return const BrandsRecipiesLoading();
           case RequestState.loaded:
-            return BrandRecipiesLoaded(
-              state: state,
-            );
+            return state.recipies!.isEmpty
+                ? SizedBox(
+                    height: Get.height * 0.6,
+                    child: const Center(
+                      child: EmptyIndicator(title: "لا يوجد وصفات"),
+                    ),
+                  )
+                : BrandRecipiesLoaded(
+                    state: state,
+                  );
 
           case RequestState.error:
             return SizedBox(

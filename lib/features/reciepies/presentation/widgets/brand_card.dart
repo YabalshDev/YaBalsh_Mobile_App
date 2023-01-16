@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yabalash_mobile_app/core/theme/light/app_colors_light.dart';
+import 'package:yabalash_mobile_app/core/widgets/custom_network_image.dart';
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../domain/entities/brand.dart';
@@ -18,14 +20,17 @@ class BrandCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(
-            width: 60.w,
-            height: 60.h,
+          Container(
+            height: 65.h,
+            width: 65.w,
+            decoration: BoxDecoration(
+                borderRadius: kDefaultBorderRaduis,
+                border: Border.all(color: AppColorsLight.kDefaultBorderColor)),
             child: ClipRRect(
-              borderRadius: kSecondaryBorderRaduis,
-              child: Image.asset(
-                brand.imagePath!,
-                fit: BoxFit.cover,
+              borderRadius: kDefaultBorderRaduis,
+              child: AppImage(
+                path: brand.imagePath,
+                fit: BoxFit.fill,
               ),
             ),
           ),

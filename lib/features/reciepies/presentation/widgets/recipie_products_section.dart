@@ -91,11 +91,13 @@ class RecipieProductCard extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(top: 10.h),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            flex: 1,
+            flex: 2,
             child: CustomCard(
+              width: 65.w,
+              height: 65.h,
               withBorder: true,
               isAssetImage: false,
               imagePath: product.imagePath,
@@ -103,7 +105,7 @@ class RecipieProductCard extends StatelessWidget {
           ),
           mediumHorizontalSpace,
           Expanded(
-            flex: 4,
+            flex: 6,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -129,7 +131,7 @@ class RecipieProductCard extends StatelessWidget {
           ),
           smallHorizontalSpace,
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Text(
               '${product.prices!.entries.first.value.price} جنيه',
               overflow: TextOverflow.ellipsis,

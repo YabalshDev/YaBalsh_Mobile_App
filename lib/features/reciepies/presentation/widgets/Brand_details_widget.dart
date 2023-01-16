@@ -66,7 +66,7 @@ class RecipieDetailsLoaded extends StatelessWidget {
             flex: 1,
             child: CustomCard(
               withBorder: false,
-              isAssetImage: true,
+              isAssetImage: false,
               imagePath: state.recipie!.brand!.imagePath,
             ),
           ),

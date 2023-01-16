@@ -35,9 +35,9 @@ class RecipieRemoteDatasource implements RecipieDataSource {
   }
 
   @override
-  Future<Recipie> getRecipieDetails({required int brandId}) async {
+  Future<Recipie> getRecipieDetails({required int recipieId}) async {
     final response =
-        await restApiProvider.get(getBrandsRecipiesEndpoint(brandId));
+        await restApiProvider.get(getRecipieDetailsEndPointById(recipieId));
     final decodedData = RecipieDetailsResponseModel.fromJson(response);
     return decodedData.data as Recipie;
   }
