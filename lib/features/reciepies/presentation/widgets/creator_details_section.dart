@@ -10,7 +10,7 @@ class CreatorDetailsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: CreatorCard(
+        child: BrandCard(
       brand: brand,
     ));
   }

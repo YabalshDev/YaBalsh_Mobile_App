@@ -1,15 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yabalash_mobile_app/core/theme/light/app_colors_light.dart';
+import 'package:yabalash_mobile_app/core/widgets/custom_shimmer.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
+import '../../../../core/theme/light/app_colors_light.dart';
+import '../../../../core/utils/enums/request_state.dart';
 import '../../../../core/widgets/custom_svg_icon.dart';
-import '../../domain/entities/recipie.dart';
+import '../blocs/cubit/recipie_details_cubit.dart';
 
 class RecipieDetailsSection extends StatelessWidget {
-  final Recipie recipie;
-  const RecipieDetailsSection({super.key, required this.recipie});
+  const RecipieDetailsSection({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RecipieDetailsCubit, RecipieDetailsState>(
+      builder: (context, state) {
+        switch (state.recipieRequestState) {
+          case RequestState.idle:
+            return const SizedBox();
+
+          case RequestState.loading:
+            return const RecipieDurationLoading();
+
+          case RequestState.loaded:
+            return RecipieDurationLoaded(
+              state: state,
+            );
+
+          case RequestState.error:
+            return const SizedBox();
+
+          default:
+            return const SizedBox();
+        }
+      },
+    );
+  }
+}
+
+class RecipieDurationLoaded extends StatelessWidget {
+  final RecipieDetailsState state;
+  const RecipieDurationLoaded({
+    Key? key,
+    required this.state,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +68,7 @@ class RecipieDetailsSection extends StatelessWidget {
                 )),
             smallVerticalSpace,
             Text(
-              '${recipie.duration} دقيقة',
+              '${state.recipie!.duration} دقيقة',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: AppColorsLight.kAppPrimaryColorLight,
                   fontSize: 12.sp,
@@ -52,11 +90,54 @@ class RecipieDetailsSection extends StatelessWidget {
                   color: AppColorsLight.kAppPrimaryColorLight,
                 )),
             smallVerticalSpace,
-            Text('${recipie.products!.length} منتجات',
+            Text('${state.recipie!.products!.length} منتجات',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: AppColorsLight.kAppPrimaryColorLight,
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w600))
+          ],
+        ),
+        const Spacer()
+      ],
+    );
+  }
+}
+
+class RecipieDurationLoading extends StatelessWidget {
+  const RecipieDurationLoading({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const Spacer(),
+        Column(
+          children: [
+            CustomShimmer(
+              height: 65.h,
+              width: 65.w,
+            ),
+            smallVerticalSpace,
+            CustomShimmer(
+              height: 10.h,
+              width: 65.w,
+            ),
+          ],
+        ),
+        mediumHorizontalSpace,
+        Column(
+          children: [
+            CustomShimmer(
+              height: 65.h,
+              width: 65.w,
+            ),
+            smallVerticalSpace,
+            CustomShimmer(
+              height: 10.h,
+              width: 65.w,
+            ),
           ],
         ),
         const Spacer()

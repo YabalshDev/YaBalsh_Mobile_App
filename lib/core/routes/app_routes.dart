@@ -26,6 +26,8 @@ import 'package:yabalash_mobile_app/features/orders/presentation/views/past_orde
 import 'package:yabalash_mobile_app/features/product_details/presentation/blocs/cubit/product_details_cubit.dart';
 import 'package:yabalash_mobile_app/features/product_details/presentation/views/product_details_view.dart';
 import 'package:yabalash_mobile_app/features/reciepies/domain/entities/recipie.dart';
+import 'package:yabalash_mobile_app/features/reciepies/presentation/blocs/cubit/brands_cubit.dart';
+import 'package:yabalash_mobile_app/features/reciepies/presentation/blocs/cubit/recipie_details_cubit.dart';
 import 'package:yabalash_mobile_app/features/reciepies/presentation/blocs/cubit/recipies_cubit.dart';
 import 'package:yabalash_mobile_app/features/reciepies/presentation/views/creator_details_view.dart';
 import 'package:yabalash_mobile_app/features/reciepies/presentation/views/recipie_details_view.dart';
@@ -43,6 +45,7 @@ import '../../features/home/domain/entities/product.dart';
 import '../../features/home/presentation/views/home_view.dart';
 import '../../features/orders/domain/entities/order.dart';
 import '../../features/orders/presentation/blocs/cubit/order_success_cubit.dart';
+import '../../features/reciepies/domain/entities/brand.dart';
 import '../../features/search/presentation/blocs/cubit/search_cubit.dart';
 import '../../features/shopping_lists/domain/entities/shopping_list.dart';
 import '../depedencies.dart';
@@ -70,7 +73,7 @@ class RouteHelper {
   static const String _cartRoute = '/cart';
   static const String _recipiesRoute = '/recipies';
   static const String _recipieDetailsRoute = '/recipie-details';
-  static const String _creatorDetailsRoute = '/creator-details';
+  static const String _brandDetailsRoute = '/brand-details';
 
   static getIntialRoute() => _intialRoute;
   static getOnBoardingRoute() => _onBordingRoute;
@@ -92,7 +95,7 @@ class RouteHelper {
   static getSettingsRoute() => _settingsRoute;
   static getRecipiesRoute() => _recipiesRoute;
   static getRecipieDetailsRoute() => _recipieDetailsRoute;
-  static getCreatorDetailsRoute() => _creatorDetailsRoute;
+  static getBrandDetailsRoute() => _brandDetailsRoute;
 
   static final routes = [
     GetPage(
@@ -322,16 +325,25 @@ class RouteHelper {
         name: _recipieDetailsRoute,
         page: () {
           final Recipie recipie = Get.arguments;
-          return CustomAnimatedWidget(
-            child: RecipieDetailsView(recipie: recipie),
+          return BlocProvider<RecipieDetailsCubit>(
+            create: (context) =>
+                getIt<RecipieDetailsCubit>()..getRecipieDetails(recipie.id!),
+            child: const CustomAnimatedWidget(
+              child: RecipieDetailsView(),
+            ),
           );
         }),
     GetPage(
-        name: _creatorDetailsRoute,
+        name: _brandDetailsRoute,
         page: () {
-          return CustomAnimatedWidget(
-            child: CreatorDetailsView(
-              brand: Get.arguments,
+          final Brand brand = Get.arguments;
+          return BlocProvider<BrandsCubit>(
+            create: (context) =>
+                getIt<BrandsCubit>()..getBrandRecipies(brand.id!),
+            child: CustomAnimatedWidget(
+              child: BrandDetailsView(
+                brand: brand,
+              ),
             ),
           );
         }),

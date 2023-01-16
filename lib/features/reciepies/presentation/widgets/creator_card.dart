@@ -4,9 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/constants/app_layouts.dart';
 import '../../domain/entities/brand.dart';
 
-class CreatorCard extends StatelessWidget {
+class BrandCard extends StatelessWidget {
   final Brand brand;
-  const CreatorCard({
+  const BrandCard({
     Key? key,
     required this.brand,
   }) : super(key: key);

@@ -16,8 +16,8 @@ class RecipiesRepositoryImpl implements RecipiesRepository {
       final response = await recipieDataSource.getAllBrands();
 
       return Right(response);
-    } on ServerException catch (err) {
-      return Left(ServerFailure(message: err.errorModel.message!));
+    } on ServerException {
+      return const Left(ServerFailure(message: 'خطا اثناء جلب الماركات'));
     }
   }
 
@@ -27,21 +27,32 @@ class RecipiesRepositoryImpl implements RecipiesRepository {
       final response = await recipieDataSource.getAllRecipies();
 
       return Right(response);
-    } on ServerException catch (err) {
-      return Left(ServerFailure(message: err.errorModel.message!));
+    } on ServerException {
+      return const Left(ServerFailure(message: 'خطا اثناء جلب الوصفات'));
     }
   }
 
   @override
-  Future<Either<Failure, Recipie>> getRecipieById({required String id}) {
-    // TODO: implement getRecipieById
-    throw UnimplementedError();
+  Future<Either<Failure, Recipie>> getRecipieById({required int id}) async {
+    try {
+      final response = await recipieDataSource.getRecipieDetails(brandId: id);
+
+      return Right(response);
+    } on ServerException {
+      return const Left(ServerFailure(message: 'خطا اثناء جلب تفاصيل الوصفة'));
+    }
   }
 
   @override
   Future<Either<Failure, List<Recipie>>> getBrandRecipies(
-      {required int brandId}) {
-    // TODO: implement getBrandRecipies
-    throw UnimplementedError();
+      {required int brandId}) async {
+    try {
+      final response =
+          await recipieDataSource.getBrandRecipies(brandId: brandId);
+
+      return Right(response);
+    } on ServerException {
+      return const Left(ServerFailure(message: 'خطا اثناء جلب وصفات الماركة'));
+    }
   }
 }

@@ -43,9 +43,9 @@ class CreatorsSection extends StatelessWidget {
                       final brand = state.brands![index];
                       return InkWell(
                         onTap: () => Get.toNamed(
-                            RouteHelper.getCreatorDetailsRoute(),
+                            RouteHelper.getBrandDetailsRoute(),
                             arguments: brand),
-                        child: CreatorCard(brand: brand),
+                        child: BrandCard(brand: brand),
                       );
                     },
                   ),

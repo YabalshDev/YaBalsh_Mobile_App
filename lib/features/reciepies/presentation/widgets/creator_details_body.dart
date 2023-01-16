@@ -7,9 +7,9 @@ import '../../domain/entities/brand.dart';
 import 'creator_details_section.dart';
 import 'creator_recipies_section.dart';
 
-class CreatorDetailsBody extends StatelessWidget {
+class BrandDetailsBody extends StatelessWidget {
   final Brand brand;
-  const CreatorDetailsBody({super.key, required this.brand});
+  const BrandDetailsBody({super.key, required this.brand});
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +27,7 @@ class CreatorDetailsBody extends StatelessWidget {
               ),
               largeVerticalSpace,
               CreatorDetailsSection(brand: brand),
-              CreatorRecipiesSection(
-                recipies: brand.recipies!,
-              )
+              const CreatorRecipiesSection()
             ],
           ),
         ),

@@ -77,11 +77,14 @@ import 'package:yabalash_mobile_app/features/product_details/data/repositories/p
 import 'package:yabalash_mobile_app/features/product_details/domain/usecases/get_product_details_usecase.dart';
 import 'package:yabalash_mobile_app/features/product_details/presentation/blocs/cubit/product_details_cubit.dart';
 import 'package:yabalash_mobile_app/features/reciepies/data/datasources/recipie_mock_data_source.dart';
+import 'package:yabalash_mobile_app/features/reciepies/data/datasources/recipie_remote_datasource.dart';
 import 'package:yabalash_mobile_app/features/reciepies/data/repositories/recipies_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/reciepies/domain/repositories/recipies_repository.dart';
 import 'package:yabalash_mobile_app/features/reciepies/domain/usecases/get_all_creators_usecase.dart';
 import 'package:yabalash_mobile_app/features/reciepies/domain/usecases/get_all_recipies_usecase.dart';
+import 'package:yabalash_mobile_app/features/reciepies/domain/usecases/get_brand_recipies_usecase.dart';
 import 'package:yabalash_mobile_app/features/reciepies/domain/usecases/get_recipie_details_usecase.dart';
+import 'package:yabalash_mobile_app/features/reciepies/presentation/blocs/cubit/recipie_details_cubit.dart';
 import 'package:yabalash_mobile_app/features/reciepies/presentation/blocs/cubit/recipies_cubit.dart';
 import 'package:yabalash_mobile_app/features/search/data/datasources/search_local_datasource.dart';
 import 'package:yabalash_mobile_app/features/search/data/datasources/search_remote_datasource.dart';
@@ -109,6 +112,7 @@ import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/sub_
 import '../features/auth/presentation/blocs/cubit/register_cubit.dart';
 import '../features/on_boaring/presentation/blocs/cubit/on_boarding_cubit.dart';
 import '../features/product_details/domain/repositories/product_details_repository.dart';
+import '../features/reciepies/presentation/blocs/cubit/brands_cubit.dart';
 import '../features/search/domain/usecases/search_store_usecase.dart';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -171,8 +175,8 @@ setupDependecies() {
   getIt.registerLazySingleton<ProductDetailsRemoteDataSource>(
       () => ProductDetailsRemoteDataSourceImpl(restApiProvider: getIt()));
 
-  getIt
-      .registerLazySingleton<RecipieDataSource>(() => RecipiesMockDataSource());
+  getIt.registerLazySingleton<RecipieDataSource>(
+      () => RecipieRemoteDatasource(restApiProvider: getIt()));
 
   //repos
   getIt.registerLazySingleton<SplashRepository>(
@@ -295,6 +299,8 @@ setupDependecies() {
       () => GetAllRecpiesUseCase(recipiesRepository: getIt()));
   getIt.registerLazySingleton(
       () => GetRecipieDetailsUseCase(recipiesRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => GetBrandRecipiesUseCase(recipiesRepository: getIt()));
 
 //cubits/blocs
   getIt.registerFactory(
@@ -395,5 +401,11 @@ setupDependecies() {
 
   getIt.registerFactory(() => RecipiesCubit(
         getAllBrandsUseCase: getIt(),
+      ));
+  getIt.registerFactory(() => BrandsCubit(
+        getBrandRecipiesUseCase: getIt(),
+      ));
+  getIt.registerFactory(() => RecipieDetailsCubit(
+        getRecipieDetailsUseCase: getIt(),
       ));
 }

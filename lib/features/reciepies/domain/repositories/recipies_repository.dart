@@ -9,5 +9,5 @@ abstract class RecipiesRepository {
   Future<Either<Failure, List<Recipie>>> getAllRecipies();
   Future<Either<Failure, List<Recipie>>> getBrandRecipies(
       {required int brandId});
-  Future<Either<Failure, Recipie>> getRecipieById({required String id});
+  Future<Either<Failure, Recipie>> getRecipieById({required int id});
 }
