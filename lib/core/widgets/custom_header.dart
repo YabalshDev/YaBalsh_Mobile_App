@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 
 import '../constants/app_assets.dart';
 import '../theme/light/app_colors_light.dart';
@@ -25,7 +26,8 @@ class CustomHeader extends StatelessWidget {
       children: [
         isWithNotification
             ? InkWell(
-                onTap: onIconTap ?? () => Get.back(),
+                onTap: onIconTap ??
+                    () => Get.toNamed(RouteHelper.getNotificationsRoute()),
                 child: CustomSvgIcon(
                   iconPath: iconPath ?? AppAssets.notificationIcon,
                   color: AppColorsLight.kAppPrimaryColorLight,

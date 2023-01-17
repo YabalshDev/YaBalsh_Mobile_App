@@ -62,6 +62,11 @@ import 'package:yabalash_mobile_app/features/home/domain/usecases/get_section_pr
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_sections_use_case.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/main_navigation_cubit.dart';
+import 'package:yabalash_mobile_app/features/notifications/data/datasources/notification_remote_datasource.dart';
+import 'package:yabalash_mobile_app/features/notifications/data/repositories/notification_repository_impl.dart';
+import 'package:yabalash_mobile_app/features/notifications/domain/repositories/notification_repository.dart';
+import 'package:yabalash_mobile_app/features/notifications/domain/usecases/get_all_notifications_usecase.dart';
+import 'package:yabalash_mobile_app/features/notifications/presentation/blocs/cubit/notifications_cubit.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/data/repositories/splash_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/domain/repositories/splash_repository.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/blocs/cubit/splash_cubit.dart';
@@ -178,6 +183,9 @@ setupDependecies() {
   getIt.registerLazySingleton<RecipieDataSource>(
       () => RecipieRemoteDatasource(restApiProvider: getIt()));
 
+  getIt.registerLazySingleton<NotificationRemoteDataSource>(
+      () => NotificationRemoteDataSourceImpl(restApiProvider: getIt()));
+
   //repos
   getIt.registerLazySingleton<SplashRepository>(
       () => SplashRepositoryImpl(localStorageProvider: getIt()));
@@ -220,6 +228,11 @@ setupDependecies() {
   getIt.registerLazySingleton<RecipiesRepository>(() => RecipiesRepositoryImpl(
         recipieDataSource: getIt(),
       ));
+
+  getIt.registerLazySingleton<NotificationRepository>(
+      () => NotificationRepositoryImpl(
+            notificationRemoteDataSource: getIt(),
+          ));
   // use cases
 
   getIt.registerLazySingleton(
@@ -301,6 +314,9 @@ setupDependecies() {
       () => GetRecipieDetailsUseCase(recipiesRepository: getIt()));
   getIt.registerLazySingleton(
       () => GetBrandRecipiesUseCase(recipiesRepository: getIt()));
+
+  getIt.registerLazySingleton(
+      () => GetAllNotificationsUseCase(notificationRepository: getIt()));
 
 //cubits/blocs
   getIt.registerFactory(
@@ -405,5 +421,9 @@ setupDependecies() {
       getBrandRecipiesUseCase: getIt(), getRecipieDetailsUseCase: getIt()));
   getIt.registerFactory(() => RecipieDetailsCubit(
         getRecipieDetailsUseCase: getIt(),
+      ));
+
+  getIt.registerFactory(() => NotificationsCubit(
+        getAllNotificationsUseCase: getIt(),
       ));
 }

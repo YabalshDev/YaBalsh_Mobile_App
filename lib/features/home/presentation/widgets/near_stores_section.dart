@@ -47,23 +47,27 @@ class NearStoresSection extends StatelessWidget {
             ),
           );
         case RequestState.loaded:
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TitleRow(
-                title: 'السوبر ماركتس القريبة منك  🏠',
-                onSelectAll: () {
-                  final zoneName = getIt<ZoneService>().currentSubZone!.name;
-                  Get.toNamed(RouteHelper.getSearchRoute(), arguments: [
-                    SearchNavigationScreens.nearStoresScreen,
-                    zoneName
-                  ]);
-                },
-              ),
-              mediumVerticalSpace,
-              NearStoresList(stores: state.nearStores!, isWithPadding: true),
-            ],
-          );
+          return state.nearStores!.isEmpty
+              ? const SizedBox()
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TitleRow(
+                      title: 'السوبر ماركتس القريبة منك  🏠',
+                      onSelectAll: () {
+                        final zoneName =
+                            getIt<ZoneService>().currentSubZone!.name;
+                        Get.toNamed(RouteHelper.getSearchRoute(), arguments: [
+                          SearchNavigationScreens.nearStoresScreen,
+                          zoneName
+                        ]);
+                      },
+                    ),
+                    mediumVerticalSpace,
+                    NearStoresList(
+                        stores: state.nearStores!, isWithPadding: true),
+                  ],
+                );
 
         case RequestState.error:
           return const SizedBox();

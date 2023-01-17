@@ -13,6 +13,7 @@ const String mainCategoriesEndpoint = '/api/v1/main-categories';
 const String bannersEndpoint = '/api/v1/banners';
 const String recipiesEndpoint = '/api/v1/recipes';
 const String brandsEndpoint = '/api/v1/brands';
+const String notificationsEndpoint = '/api/v1/notifications';
 const String storesSearchEndpoint = '/api/v1/stores/search';
 String getAddressEndPointById(int id) => '/api/v1/addresses/$id';
 String getRecipieDetailsEndPointById(int id) => '$recipiesEndpoint/$id';

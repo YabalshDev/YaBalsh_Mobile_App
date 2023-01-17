@@ -16,6 +16,8 @@ import 'package:yabalash_mobile_app/features/auth/presentation/views/phone_numbe
 import 'package:yabalash_mobile_app/features/auth/presentation/views/register_view.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/main_navigation_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/views/main_navigation_view.dart';
+import 'package:yabalash_mobile_app/features/notifications/presentation/blocs/cubit/notifications_cubit.dart';
+import 'package:yabalash_mobile_app/features/notifications/presentation/views/notifications_view.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/blocs/cubit/on_boarding_cubit.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/blocs/cubit/splash_cubit.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/views/on_boarding_view.dart';
@@ -74,6 +76,7 @@ class RouteHelper {
   static const String _recipiesRoute = '/recipies';
   static const String _recipieDetailsRoute = '/recipie-details';
   static const String _brandDetailsRoute = '/brand-details';
+  static const String _notificationsRoute = '/notifcations';
 
   static getIntialRoute() => _intialRoute;
   static getOnBoardingRoute() => _onBordingRoute;
@@ -96,6 +99,7 @@ class RouteHelper {
   static getRecipiesRoute() => _recipiesRoute;
   static getRecipieDetailsRoute() => _recipieDetailsRoute;
   static getBrandDetailsRoute() => _brandDetailsRoute;
+  static getNotificationsRoute() => _notificationsRoute;
 
   static final routes = [
     GetPage(
@@ -345,6 +349,15 @@ class RouteHelper {
                 brand: brand,
               ),
             ),
+          );
+        }),
+    GetPage(
+        name: _notificationsRoute,
+        page: () {
+          return BlocProvider<NotificationsCubit>(
+            create: (context) =>
+                getIt<NotificationsCubit>()..getAllNotifications(),
+            child: const CustomAnimatedWidget(child: NotificatiosView()),
           );
         }),
   ];
