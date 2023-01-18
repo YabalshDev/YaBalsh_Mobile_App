@@ -302,6 +302,11 @@ class RouteHelper {
                       ..changeSearchIsEmpty(false)
                       ..getSearchHistory()
                       ..getAllNearStores();
+                  case SearchNavigationScreens.notificationsScreen:
+                    return getIt<SearchCubit>()
+                      ..changeSearchIsEmpty(false)
+                      ..getSearchHistory()
+                      ..search(searchName);
                 }
               },
               child: KeyboardDissmisable(

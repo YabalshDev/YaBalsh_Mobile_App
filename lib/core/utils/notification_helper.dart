@@ -3,6 +3,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import '../constants/app_strings.dart';
 import '../routes/app_routes.dart';
+import 'enums/search_navigation_screens.dart';
 
 class NotificationHelper {
   static void initNotificationsPlatform() async {
@@ -17,8 +18,10 @@ class NotificationHelper {
   static void handleOnNotificationOpened() {
     OneSignal.shared.setNotificationOpenedHandler((openedResult) {
       print(openedResult.notification.title);
-      Get.toNamed(RouteHelper.getSearchRoute(),
-          arguments: [false, openedResult.notification.title]);
+      Get.toNamed(RouteHelper.getSearchRoute(), arguments: [
+        SearchNavigationScreens.notificationsScreen,
+        openedResult.notification.title
+      ]);
     });
   }
 }

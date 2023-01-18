@@ -40,7 +40,7 @@ class ProductDetailsBody extends StatelessWidget {
                   color: AppColorsLight.kAppPrimaryColorLight,
                 ),
               ),
-              ProductDetailsSection(product: product),
+              const ProductDetailsSection(),
               const ProductVariantsSection(),
               const PopularProductsSection()
             ],
@@ -80,27 +80,29 @@ class ProductVariantsSection extends StatelessWidget {
                 ));
 
           case RequestState.loaded:
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SubHeading(text: 'انواع اخرى للمنتج'),
-                mediumVerticalSpace,
-                SizedBox(
-                  height: 60.h,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: state.productVaraiations!.length,
-                    itemBuilder: (context, index) {
-                      final variant = state.productVaraiations![index];
-                      return VariantCard(
-                        variant: variant,
-                        index: index,
-                      );
-                    },
-                  ),
-                ),
-              ],
-            );
+            return state.productVaraiations!.isEmpty
+                ? const SizedBox()
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SubHeading(text: 'انواع اخرى للمنتج'),
+                      mediumVerticalSpace,
+                      SizedBox(
+                        height: 60.h,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: state.productVaraiations!.length,
+                          itemBuilder: (context, index) {
+                            final variant = state.productVaraiations![index];
+                            return VariantCard(
+                              variant: variant,
+                              index: index,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  );
           case RequestState.error:
             return SizedBox(
               height: Get.height * 0.6,

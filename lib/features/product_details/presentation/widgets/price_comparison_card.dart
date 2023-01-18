@@ -103,26 +103,6 @@ class PriceComparisonCard extends StatelessWidget {
                           fontSize: 18.sp,
                           color: AppColorsLight.kAppPrimaryColorLight),
                     ),
-                    // Row(
-                    //   crossAxisAlignment: CrossAxisAlignment.center,
-                    //   children: [
-                    //     const CustomSvgIcon(
-                    //       iconPath: AppAssets.warningIcon,
-                    //       color: AppColorsLight.warningColor,
-                    //     ),
-                    //     smallHorizontalSpace,
-                    //     Text(
-                    //       'ينتهي في 10 يونيو',
-                    //       style: Theme.of(context)
-                    //           .textTheme
-                    //           .bodySmall
-                    //           ?.copyWith(
-                    //               fontSize: 10.sp,
-                    //               fontWeight: FontWeight.w500,
-                    //               color: AppColorsLight.warningColor),
-                    //     ),
-                    //   ],
-                    // )
                   ],
                 ),
               )
@@ -131,39 +111,18 @@ class PriceComparisonCard extends StatelessWidget {
         ),
         BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
           builder: (context, state) {
-            return pricesLength < 2 && index == pricesLength - 1
-                ? InkWell(
-                    onTap: () => BlocProvider.of<ProductDetailsCubit>(context)
-                        .changeShowMore(false),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'عرض كل الاسعار',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall
-                              ?.copyWith(
-                                  color: AppColorsLight.kAppPrimaryColorLight,
-                                  fontWeight: FontWeight.w700),
-                        ),
-                        const Icon(
-                          Icons.keyboard_arrow_down,
-                          color: AppColorsLight.kAppPrimaryColorLight,
-                        )
-                      ],
-                    ),
-                  )
-                : pricesLength >= 2 && index == pricesLength - 1
+            return pricesLength <= 5
+                ? const SizedBox()
+                : pricesLength < 5 && index == pricesLength - 1
                     ? InkWell(
                         onTap: () =>
                             BlocProvider.of<ProductDetailsCubit>(context)
-                                .changeShowMore(true),
+                                .changeShowMore(false),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'عرض اسعار اقل',
+                              'عرض كل الاسعار',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall
@@ -173,13 +132,38 @@ class PriceComparisonCard extends StatelessWidget {
                                       fontWeight: FontWeight.w700),
                             ),
                             const Icon(
-                              Icons.keyboard_arrow_up,
+                              Icons.keyboard_arrow_down,
                               color: AppColorsLight.kAppPrimaryColorLight,
                             )
                           ],
                         ),
                       )
-                    : const SizedBox();
+                    : pricesLength > 5 && index == pricesLength - 1
+                        ? InkWell(
+                            onTap: () =>
+                                BlocProvider.of<ProductDetailsCubit>(context)
+                                    .changeShowMore(true),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'عرض اسعار اقل',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(
+                                          color: AppColorsLight
+                                              .kAppPrimaryColorLight,
+                                          fontWeight: FontWeight.w700),
+                                ),
+                                const Icon(
+                                  Icons.keyboard_arrow_up,
+                                  color: AppColorsLight.kAppPrimaryColorLight,
+                                )
+                              ],
+                            ),
+                          )
+                        : const SizedBox();
           },
         )
       ],

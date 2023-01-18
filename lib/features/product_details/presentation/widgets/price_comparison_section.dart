@@ -4,13 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_shimmer.dart';
 
-import '../../../home/domain/entities/product.dart';
 import '../blocs/cubit/product_details_cubit.dart';
 import 'price_comparison_card.dart';
 
 class PriceComparisonSection extends StatelessWidget {
-  final Product product;
-  const PriceComparisonSection({super.key, required this.product});
+  const PriceComparisonSection({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,18 +19,24 @@ class PriceComparisonSection extends StatelessWidget {
         return ListView.builder(
           key: UniqueKey(),
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: state.showMore!
-              ? product.prices!.entries.toList().sublist(0, 1).length
-              : product.prices!.entries.toList().length,
+          itemCount: state.showMore! &&
+                  state.product!.prices!.entries.toList().length > 5
+              ? state.product!.prices!.entries.toList().sublist(0, 4).length
+              : state.product!.prices!.entries.toList().length,
           shrinkWrap: true,
           itemBuilder: (context, index) {
-            final priceModelEntry = product.prices!.entries.toList()[index];
+            final priceModelEntry =
+                state.product!.prices!.entries.toList()[index];
             return PriceComparisonCard(
                 index: index,
                 priceModel: priceModelEntry,
-                pricesLength: state.showMore!
-                    ? product.prices!.entries.toList().sublist(0, 1).length
-                    : product.prices!.entries.toList().length);
+                pricesLength: state.showMore! &&
+                        state.product!.prices!.entries.toList().length > 5
+                    ? state.product!.prices!.entries
+                        .toList()
+                        .sublist(0, 4)
+                        .length
+                    : state.product!.prices!.entries.toList().length);
           },
         );
       },

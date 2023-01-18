@@ -1,1 +1,6 @@
-enum SearchNavigationScreens { homeScreen, categoriesScreen, nearStoresScreen }
+enum SearchNavigationScreens {
+  homeScreen,
+  categoriesScreen,
+  nearStoresScreen,
+  notificationsScreen
+}

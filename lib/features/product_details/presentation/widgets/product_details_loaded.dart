@@ -45,7 +45,8 @@ class ProductDetailsLoaded extends StatelessWidget {
             const NearYouSection()
           ],
         ),
-        PriceComparisonSection(product: product),
+        mediumVerticalSpace,
+        const PriceComparisonSection(),
         mediumVerticalSpace,
       ],
     );

@@ -18,8 +18,11 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
       required this.searchProductUsecase})
       : super(const ProductDetailsState());
 
-  void changeWithNearStores(bool value) =>
-      emit(state.copyWith(withNearStores: value));
+  void changeWithNearStores(bool value) {
+    emit(state.copyWith(withNearStores: value));
+    emit(state.copyWith(productRequestState: RequestState.loading));
+    getProductDetails(productId: state.product!.id!, withNearStores: value);
+  }
 
   void changeShowMore(bool value) => emit(state.copyWith(showMore: value));
   void selectVariant(int index) =>
