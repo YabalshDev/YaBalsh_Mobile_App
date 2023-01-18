@@ -293,7 +293,9 @@ class RouteHelper {
                   case SearchNavigationScreens.categoriesScreen:
                     return getIt<SearchCubit>()
                       ..changeSearchIsEmpty(false)
+                      ..setIntialSearchValue(searchName)
                       ..getSearchHistory()
+                      ..getMostSellingProducts()
                       ..search(searchName)
                       ..getBestOffer();
                   case SearchNavigationScreens.nearStoresScreen:
@@ -306,7 +308,9 @@ class RouteHelper {
                   case SearchNavigationScreens.other:
                     return getIt<SearchCubit>()
                       ..changeSearchIsEmpty(false)
+                      ..setIntialSearchValue(searchName)
                       ..getSearchHistory()
+                      ..getMostSellingProducts()
                       ..search(searchName);
                 }
               },

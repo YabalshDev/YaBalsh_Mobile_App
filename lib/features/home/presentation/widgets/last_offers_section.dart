@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
+import 'package:yabalash_mobile_app/core/utils/enums/search_navigation_screens.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_card.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/main_navigation_cubit.dart';
@@ -68,39 +71,49 @@ class LastOfferSection extends StatelessWidget {
                             final mainCategory = state.lastOffers![index];
                             return Row(
                               children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    CustomCard(
-                                      width: 65.w,
-                                      height: 65.h,
-                                      isAssetImage: false,
-                                      imagePath: mainCategory.imagePath,
-                                      backgroundColor:
-                                          AppColorsLight.kSubCategoryCardColor,
-                                      withBorder: false,
-                                    ),
-                                    SizedBox(
-                                      height: 5.h,
-                                    ),
-                                    ConstrainedBox(
-                                      constraints: BoxConstraints(
-                                        maxWidth: 90.w,
+                                InkWell(
+                                  onTap: () => Get.toNamed(
+                                      RouteHelper.getSearchRoute(),
+                                      arguments: [
+                                        SearchNavigationScreens
+                                            .categoriesScreen,
+                                        mainCategory.name
+                                      ]),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      CustomCard(
+                                        width: 65.w,
+                                        height: 65.h,
+                                        isAssetImage: false,
+                                        imagePath: mainCategory.imagePath,
+                                        backgroundColor: AppColorsLight
+                                            .kSubCategoryCardColor,
+                                        withBorder: false,
                                       ),
-                                      child: Text(
-                                        mainCategory.name!,
-                                        textAlign: TextAlign.center,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.w700,
-                                                color: Colors.black),
+                                      SizedBox(
+                                        height: 5.h,
                                       ),
-                                    )
-                                  ],
+                                      ConstrainedBox(
+                                        constraints: BoxConstraints(
+                                          maxWidth: 90.w,
+                                        ),
+                                        child: Text(
+                                          mainCategory.name!,
+                                          textAlign: TextAlign.center,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Colors.black),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                                 mediumHorizontalSpace
                               ],

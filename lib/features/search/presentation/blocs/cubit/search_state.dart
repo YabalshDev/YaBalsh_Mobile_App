@@ -13,9 +13,11 @@ class SearchState extends Equatable {
   final RequestState? searchStoresRequestState;
   final Product? chepeastProduct;
   final String? errorMessage;
+  final String? intialValue;
 
   const SearchState({
     this.searchTypeIndex = 0,
+    this.intialValue = '',
     this.isSearchEmpty = true,
     this.chepeastProduct = const Product(),
     this.searchHistory = const [],
@@ -41,8 +43,10 @@ class SearchState extends Equatable {
           RequestState? searchStoresRequestState,
           RequestState? mostSellingRequestState,
           bool? isSearchEmpty,
+          String? intialValue,
           String? errorMessage}) =>
       SearchState(
+          intialValue: intialValue ?? this.intialValue,
           chepeastProduct: chepeastProduct ?? this.chepeastProduct,
           mostSellingProducts: mostSellingProducts ?? this.mostSellingProducts,
           mostSellingRequestState:
@@ -75,6 +79,7 @@ class SearchState extends Equatable {
         isSearchEmpty!,
         mostSellingProducts!,
         mostSellingRequestState!,
-        chepeastProduct!
+        chepeastProduct!,
+        intialValue!
       ];
 }

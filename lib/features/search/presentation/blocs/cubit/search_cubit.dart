@@ -30,6 +30,8 @@ class SearchCubit extends Cubit<SearchState> {
       required this.searchProductUsecase})
       : super(const SearchState());
 
+  void setIntialSearchValue(String value) =>
+      emit(state.copyWith(intialValue: value));
   void changeProductSearchState(RequestState searchState) =>
       emit(state.copyWith(searchProductsRequestState: searchState));
   void changeStoreSearchState(RequestState searchState) =>
@@ -170,11 +172,13 @@ class SearchCubit extends Cubit<SearchState> {
 
   void getBestOffer() {
     List<Product> searchProducts = List.from(state.searchProductsResult!);
-    searchProducts.sort(((a, b) => a.prices!.entries.first.value.price!
-        .compareTo(b.prices!.entries.first.value.price!)));
-    // sort products
+    if (searchProducts.isNotEmpty) {
+      searchProducts.sort(((a, b) => a.prices!.entries.first.value.price!
+          .compareTo(b.prices!.entries.first.value.price!)));
+      // sort products
 
-    emit(state.copyWith(
-        chepeastProduct: searchProducts[0])); //first element is cheapest
+      emit(state.copyWith(
+          chepeastProduct: searchProducts[0])); //first element is cheapest
+    }
   }
 }

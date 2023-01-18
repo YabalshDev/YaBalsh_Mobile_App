@@ -38,12 +38,25 @@ class ProductSearchResult extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        state.chepeastProduct!.id != null
+                            ? Column(
+                                children: [
+                                  SubHeading(
+                                      text:
+                                          '${state.intialValue} افضل عرض على'),
+                                  mediumHorizontalSpace,
+                                  MainProductCard(
+                                      product: state.chepeastProduct!),
+                                  mediumHorizontalSpace
+                                ],
+                              )
+                            : const SizedBox(),
                         Row(
                           children: [
                             const SubHeading(text: 'المنتجات'),
                             smallHorizontalSpace,
                             Text(
-                              '(${state.searchProductsResult!.length} نتائج)',
+                              '(${state.chepeastProduct!.id != null ? state.searchProductsResult!.length - 1 : state.searchProductsResult!.length} نتائج)',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall
@@ -57,12 +70,23 @@ class ProductSearchResult extends StatelessWidget {
                         Wrap(
                           direction: Axis.horizontal,
                           runSpacing: 10.h,
-                          children: state.searchProductsResult!.map((product) {
-                            return BlocProvider.value(
-                              value: getIt<CartCubit>(),
-                              child: MainProductCard(product: product),
-                            );
-                          }).toList(),
+                          children: state.chepeastProduct!.id != null
+                              ? state.searchProductsResult!
+                                  .where((element) =>
+                                      element.id != state.chepeastProduct!.id)
+                                  .toList()
+                                  .map((product) {
+                                  return BlocProvider.value(
+                                    value: getIt<CartCubit>(),
+                                    child: MainProductCard(product: product),
+                                  );
+                                }).toList()
+                              : state.searchProductsResult!.map((product) {
+                                  return BlocProvider.value(
+                                    value: getIt<CartCubit>(),
+                                    child: MainProductCard(product: product),
+                                  );
+                                }).toList(),
                         )
                       ],
                     ),
