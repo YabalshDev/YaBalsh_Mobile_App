@@ -111,7 +111,14 @@ class HomeCubit extends Cubit<HomeState> {
         // in cancel
         Get.back();
       } else {
-        String barCode = result.substring(0, 4);
+        String barCode = result.substring(1, 7);
+        Get.back();
+        yaBalashCustomDialog(
+            mainContent: 'الباركود هو :$barCode',
+            buttonTitle: 'حسنا',
+            onConfirm: () => Get.back(),
+            title: 'ملاحظة',
+            isWithEmoji: false);
         // call comparing api
 
       }

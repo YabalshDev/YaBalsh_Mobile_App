@@ -301,8 +301,9 @@ class RouteHelper {
                       ..changeSearchType(1)
                       ..changeSearchIsEmpty(false)
                       ..getSearchHistory()
+                      ..getMostSellingProducts()
                       ..getAllNearStores();
-                  case SearchNavigationScreens.notificationsScreen:
+                  case SearchNavigationScreens.other:
                     return getIt<SearchCubit>()
                       ..changeSearchIsEmpty(false)
                       ..getSearchHistory()

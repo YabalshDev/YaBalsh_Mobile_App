@@ -41,7 +41,12 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDatasource {
     //get token
     final response = await restApiProvider.post(addressEndPoint,
         body: addressRequest.toJson(),
-        headers: token.isNotEmpty ? ApiHeaders.zoneHeaders : null);
+        headers: token.isNotEmpty
+            ? {
+                'zone': getIt<ZoneService>().currentSubZone!.id,
+                'authorization': 'Bearer $token'
+              }
+            : null);
     final result = AddressResponseModel.fromJson(response);
     return result.data as AddressModel;
   }
@@ -59,7 +64,7 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDatasource {
     final token = getIt<UserService>().token;
     final response = await restApiProvider.put(getAddressEndPointById(id),
         body: addressRequest.toJson(),
-        headers: token.isNotEmpty ? ApiHeaders.authorizationHeaders : null);
+        headers: token.isNotEmpty ? {'authorization': 'Bearer $token'} : null);
 
     final result = AddressResponseModel.fromJson(response);
     return result.data as AddressModel;
@@ -69,7 +74,12 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDatasource {
   Future<List<AddressModel>> getAllAddresses() async {
     final token = getIt<UserService>().token;
     final response = await restApiProvider.get(addressEndPoint,
-        headers: token.isNotEmpty ? ApiHeaders.zoneHeaders : null);
+        headers: token.isNotEmpty
+            ? {
+                'zone': getIt<ZoneService>().currentSubZone!.id,
+                'authorization': 'Bearer $token'
+              }
+            : null);
     final result = AddressListResponseModel.fromJson(response);
     return result.data as List<AddressModel>;
   }

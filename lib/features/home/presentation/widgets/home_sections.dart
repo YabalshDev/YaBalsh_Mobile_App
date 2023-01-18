@@ -66,7 +66,7 @@ class SectionLoaded extends StatelessWidget {
         TitleRow(
           title: sectionName,
           onSelectAll: () => Get.toNamed(RouteHelper.getSearchRoute(),
-              arguments: [SearchNavigationScreens.homeScreen, sectionName]),
+              arguments: [SearchNavigationScreens.other, sectionName]),
         ),
         mediumVerticalSpace,
         SizedBox(

@@ -30,7 +30,15 @@ class _MainNavigationState extends State<MainNavigation> {
   @override
   void initState() {
     _pageController = PageController(initialPage: widget.pageIndex);
+    BlocProvider.of<MainNavigationCubit>(context)
+        .setPageController(_pageController!);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pageController!.dispose();
+    super.dispose();
   }
 
   @override
@@ -67,10 +75,7 @@ class MainBottomNavBar extends StatelessWidget {
           currentIndex:
               BlocProvider.of<MainNavigationCubit>(context).currentPageIndex,
           onTap: (value) {
-            BlocProvider.of<MainNavigationCubit>(context).setPageIndex(value);
-            pageController.jumpToPage(
-              value,
-            );
+            BlocProvider.of<MainNavigationCubit>(context).changePage(value);
           },
           items: [
             BottomNavigationBarItem(

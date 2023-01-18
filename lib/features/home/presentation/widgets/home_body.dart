@@ -11,7 +11,9 @@ import 'package:yabalash_mobile_app/features/home/presentation/widgets/search_se
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/welcome_section.dart';
 
 class HomeBody extends StatelessWidget {
-  const HomeBody({super.key});
+  const HomeBody({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

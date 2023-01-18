@@ -40,7 +40,7 @@ class PopularProductsSection extends StatelessWidget {
                           onSelectAll: () => Get.toNamed(
                                 RouteHelper.getSearchRoute(),
                                 arguments: [
-                                  SearchNavigationScreens.notificationsScreen,
+                                  SearchNavigationScreens.other,
                                   state.product!.name!.split(' ')[0]
                                 ],
                               )),

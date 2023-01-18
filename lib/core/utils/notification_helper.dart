@@ -19,7 +19,7 @@ class NotificationHelper {
     OneSignal.shared.setNotificationOpenedHandler((openedResult) {
       print(openedResult.notification.title);
       Get.toNamed(RouteHelper.getSearchRoute(), arguments: [
-        SearchNavigationScreens.notificationsScreen,
+        SearchNavigationScreens.other,
         openedResult.notification.title
       ]);
     });

@@ -53,70 +53,79 @@ class CartItemCard extends StatelessWidget {
           ],
         ),
       ),
-      child: Container(
-        margin: EdgeInsets.only(top: 10.h),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomCard(
-                  withBorder: true,
-                  isAssetImage: false,
-                  imagePath: cartItem.product!.imagePath,
-                ),
-                mediumHorizontalSpace,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ConstrainedBox(
-                      constraints: BoxConstraints(maxWidth: 180.w),
-                      child: Text(
-                        cartItem.product!.name ?? '',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: AppColorsLight.kAppPrimaryColorLight,
-                            fontWeight: FontWeight.w600),
-                      ),
+      child: LayoutBuilder(builder: (context, constraints) {
+        return Container(
+          margin: EdgeInsets.only(top: 10.h),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomCard(
+                    withBorder: true,
+                    isAssetImage: false,
+                    imagePath: cartItem.product!.imagePath,
+                  ),
+                  mediumHorizontalSpace,
+                  SizedBox(
+                    width: constraints.maxWidth * 0.45,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          cartItem.product!.name ?? '',
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                  color: AppColorsLight.kAppPrimaryColorLight,
+                                  fontWeight: FontWeight.w600),
+                        ),
+                        mediumVerticalSpace,
+                        Text(
+                          cartItem.product!.size ?? '',
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                  fontSize: 9.sp,
+                                  color: AppColorsLight.kAppPrimaryColorLight,
+                                  fontWeight: FontWeight.w600),
+                        ),
+                      ],
                     ),
-                    mediumVerticalSpace,
-                    Text(
-                      cartItem.product!.size ?? '',
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontSize: 9.sp,
-                          color: AppColorsLight.kAppPrimaryColorLight,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const Spacer(),
-            CartQuantityRow(
-              quantity: cartItem.quantity!,
-              onDecrement: () {
-                getIt<CartCubit>().decrementQuantity(cartItem.product!);
-              },
-              onDelete: () {
-                yaBalashCustomDialog(
-                    buttonTitle: 'تاكيد',
-                    isWithEmoji: false,
-                    title: 'ملاحظة',
-                    mainContent: 'هل انت متاكد من حذف المنتج',
-                    onConfirm: () {
-                      getIt<CartCubit>().deleteItemFromCart(cartItem.product!);
-                      Get.back();
-                    });
-              },
-              onIncrement: () {
-                getIt<CartCubit>().incrementQuantity(cartItem.product!);
-              },
-            )
-          ],
-        ),
-      ),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              CartQuantityRow(
+                quantity: cartItem.quantity!,
+                onDecrement: () {
+                  getIt<CartCubit>().decrementQuantity(cartItem.product!);
+                },
+                onDelete: () {
+                  yaBalashCustomDialog(
+                      buttonTitle: 'تاكيد',
+                      isWithEmoji: false,
+                      title: 'ملاحظة',
+                      mainContent: 'هل انت متاكد من حذف المنتج',
+                      onConfirm: () {
+                        getIt<CartCubit>()
+                            .deleteItemFromCart(cartItem.product!);
+                        Get.back();
+                      });
+                },
+                onIncrement: () {
+                  getIt<CartCubit>().incrementQuantity(cartItem.product!);
+                },
+              )
+            ],
+          ),
+        );
+      }),
     );
   }
 }
