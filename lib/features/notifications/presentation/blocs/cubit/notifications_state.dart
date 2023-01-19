@@ -20,5 +20,6 @@ class NotificationsState extends Equatable {
               notificationsRequestState ?? this.notificationsRequestState);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props =>
+      [errorMessage!, notifications!, notificationsRequestState!];
 }

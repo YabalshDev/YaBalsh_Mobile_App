@@ -58,28 +58,34 @@ class PhoneTextField extends StatelessWidget {
               color: AppColorsLight.kTextFieldBorderColor,
             ),
             Expanded(
-              child: FormBuilderTextField(
-                onChanged: onChanged ?? (value) {},
-                name: 'phoneNumber',
-                initialValue: intialValue,
-                keyboardType: TextInputType.phone,
-                readOnly: readOnly ?? false,
-                cursorHeight: 25.h,
-                cursorRadius: const Radius.circular(8),
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(fontWeight: FontWeight.w600),
-                cursorColor: AppColorsLight.kAppPrimaryColorLight,
-                decoration: InputDecoration(
-                    hintText: hintText ?? '',
-                    hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w500,
-                        color: AppColorsLight.kTextFieldBorderColor),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w),
-                    border: InputBorder.none),
-              ),
+              child: LayoutBuilder(builder: (context, constraints) {
+                return FormBuilderTextField(
+                  onChanged: onChanged ?? (value) {},
+                  name: 'phoneNumber',
+                  initialValue: intialValue,
+                  keyboardType: TextInputType.phone,
+                  readOnly: readOnly ?? false,
+                  cursorHeight: 25.h,
+                  cursorRadius: const Radius.circular(8),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(fontWeight: FontWeight.w600),
+                  cursorColor: AppColorsLight.kAppPrimaryColorLight,
+                  decoration: InputDecoration(
+                      hintText: hintText ?? '',
+                      hintStyle: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(
+                              fontWeight: FontWeight.w500,
+                              color: AppColorsLight.kTextFieldBorderColor),
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: constraints.maxHeight * 0.18,
+                          horizontal: 10.w),
+                      border: InputBorder.none),
+                );
+              }),
             )
           ],
         ),

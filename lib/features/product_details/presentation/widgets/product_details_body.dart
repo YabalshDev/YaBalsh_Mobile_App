@@ -101,6 +101,7 @@ class ProductVariantsSection extends StatelessWidget {
                           },
                         ),
                       ),
+                      mediumVerticalSpace
                     ],
                   );
           case RequestState.error:

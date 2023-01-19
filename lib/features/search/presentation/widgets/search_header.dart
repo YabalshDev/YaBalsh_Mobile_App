@@ -74,41 +74,44 @@ class _SearchHeaderState extends State<SearchHeader> {
                         ),
                         smallHorizontalSpace,
                         Expanded(
-                          child: FormBuilderTextField(
-                            name: 'search',
-                            controller: controller,
-                            onSaved: (newValue) => controller.clear(),
-                            cursorHeight: 25.h,
-                            onChanged: (value) {
-                              if (value!.isEmpty) {
-                                BlocProvider.of<SearchCubit>(context)
-                                    .changeSearchIsEmpty(true);
-                                widget.searchFormKey.currentState!
-                                    .fields['search']!
-                                    .setState(() {});
-                              } else {
-                                BlocProvider.of<SearchCubit>(context)
-                                    .changeSearchIsEmpty(false);
-                              }
-                            },
-                            cursorRadius: const Radius.circular(8),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(fontWeight: FontWeight.w600),
-                            cursorColor: AppColorsLight.kAppPrimaryColorLight,
-                            decoration: InputDecoration(
-                                hintText: 'دور على منتج او سوبر ماركت',
-                                hintStyle: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(
-                                        fontWeight: FontWeight.w500,
-                                        color: AppColorsLight.kCancelColor),
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 8.h, horizontal: 10.w),
-                                border: InputBorder.none),
-                          ),
+                          child: LayoutBuilder(builder: (context, constraints) {
+                            return FormBuilderTextField(
+                              name: 'search',
+                              controller: controller,
+                              onSaved: (newValue) => controller.clear(),
+                              cursorHeight: 25.h,
+                              onChanged: (value) {
+                                if (value!.isEmpty) {
+                                  BlocProvider.of<SearchCubit>(context)
+                                      .changeSearchIsEmpty(true);
+                                  widget.searchFormKey.currentState!
+                                      .fields['search']!
+                                      .setState(() {});
+                                } else {
+                                  BlocProvider.of<SearchCubit>(context)
+                                      .changeSearchIsEmpty(false);
+                                }
+                              },
+                              cursorRadius: const Radius.circular(8),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(fontWeight: FontWeight.w600),
+                              cursorColor: AppColorsLight.kAppPrimaryColorLight,
+                              decoration: InputDecoration(
+                                  hintText: 'دور على منتج او سوبر ماركت',
+                                  hintStyle: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(
+                                          fontWeight: FontWeight.w500,
+                                          color: AppColorsLight.kCancelColor),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: constraints.maxHeight * 0.2,
+                                      horizontal: 10.w),
+                                  border: InputBorder.none),
+                            );
+                          }),
                         )
                       ],
                     ),

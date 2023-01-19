@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
+import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/zone_bottom_modal.dart';
 
 import '../../../../core/constants/app_assets.dart';
@@ -21,11 +23,14 @@ class HomeHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CustomSvgIcon(
-            iconPath: AppAssets.notificationIcon,
-            color: AppColorsLight.kAppPrimaryColorLight,
-            height: 27.h,
-            width: 23.w,
+          InkWell(
+            onTap: () => Get.toNamed(RouteHelper.getNotificationsRoute()),
+            child: CustomSvgIcon(
+              iconPath: AppAssets.notificationIcon,
+              color: AppColorsLight.kAppPrimaryColorLight,
+              height: 27.h,
+              width: 23.w,
+            ),
           ),
           const Spacer(),
           Column(

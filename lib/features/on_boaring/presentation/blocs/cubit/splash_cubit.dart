@@ -87,6 +87,7 @@ class SplashCubit extends Cubit<SplashState> {
       () {
         initConnectivityStream();
         NotificationHelper.handleOnNotificationOpened();
+        NotificationHelper.handleOnNotificationRecived();
         checkIsFirstTimeVisit();
         checkIfUserLoggedIn();
         getCurrentCustomer();

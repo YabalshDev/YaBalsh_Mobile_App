@@ -15,9 +15,14 @@ class NotificationHelper {
         .promptUserForPushNotificationPermission(fallbackToSettings: true);
   }
 
+  static void handleOnNotificationRecived() {
+    OneSignal.shared.setNotificationWillShowInForegroundHandler((event) {
+      print(event.notification.additionalData);
+    });
+  }
+
   static void handleOnNotificationOpened() {
     OneSignal.shared.setNotificationOpenedHandler((openedResult) {
-      print(openedResult.notification.title);
       Get.toNamed(RouteHelper.getSearchRoute(), arguments: [
         SearchNavigationScreens.other,
         openedResult.notification.title
