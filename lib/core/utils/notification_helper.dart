@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:yabalash_mobile_app/features/notifications/data/models/notification_additional_data.dart';
 
 import '../constants/app_strings.dart';
 import '../routes/app_routes.dart';
@@ -23,10 +24,15 @@ class NotificationHelper {
 
   static void handleOnNotificationOpened() {
     OneSignal.shared.setNotificationOpenedHandler((openedResult) {
-      Get.toNamed(RouteHelper.getSearchRoute(), arguments: [
-        SearchNavigationScreens.other,
-        openedResult.notification.title
-      ]);
+      final notificationData = NotificationAdditionalData.fromJson(
+          openedResult.notification.additionalData!);
+
+      if (notificationData.isClickable!) {
+        Get.toNamed(RouteHelper.getSearchRoute(), arguments: [
+          SearchNavigationScreens.other,
+          notificationData.section != null ? notificationData.section!.name : ''
+        ]);
+      }
     });
   }
 }

@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
+import 'package:yabalash_mobile_app/core/utils/enums/search_navigation_screens.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_network_image.dart';
 
 import '../../../../core/constants/app_layouts.dart';
@@ -56,15 +58,23 @@ class _BannersSectionState extends State<BannersSection> {
                             itemCount: state.banners!.length,
                             itemBuilder: (context, index, realIndex) {
                               final banner = state.banners![index];
-                              return ClipRRect(
-                                borderRadius: kDefaultBorderRaduis,
-                                child: Container(
-                                  width: Get.width * 0.94,
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 4.w),
-                                  child: AppImage(
-                                    path: banner.imagePath!,
-                                    fit: BoxFit.fill,
+                              return InkWell(
+                                onTap: () => Get.toNamed(
+                                    RouteHelper.getSearchRoute(),
+                                    arguments: [
+                                      SearchNavigationScreens.other,
+                                      banner.section!.name
+                                    ]),
+                                child: ClipRRect(
+                                  borderRadius: kDefaultBorderRaduis,
+                                  child: Container(
+                                    width: Get.width * 0.96,
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 4.w),
+                                    child: AppImage(
+                                      path: banner.imagePath!,
+                                      fit: BoxFit.fill,
+                                    ),
                                   ),
                                 ),
                               );
@@ -73,7 +83,7 @@ class _BannersSectionState extends State<BannersSection> {
                                 onPageChanged: (index, reason) =>
                                     BlocProvider.of<HomeCubit>(context)
                                         .onBannerChanged(index),
-                                viewportFraction: 0.94,
+                                viewportFraction: 0.86,
                                 autoPlay: true,
                                 height: 133.h)),
                       ),

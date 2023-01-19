@@ -9,6 +9,6 @@ class SectionModel extends Section {
 
   factory SectionModel.fromJson(Map<String, dynamic> json) {
     return SectionModel(
-        id: json['id'], name: json['name'], priority: json['priority']);
+        id: json['id'], name: json['name'], priority: json['priority'] ?? 0);
   }
 }

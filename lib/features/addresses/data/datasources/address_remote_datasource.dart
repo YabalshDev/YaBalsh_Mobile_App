@@ -26,14 +26,6 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDatasource {
     required this.restApiProvider,
   });
 
-  final Map<String, dynamic> addressHeaders = {
-    'zone': getIt<ZoneService>().currentSubZone!.id,
-    'authorization': 'Bearer ${getIt<UserService>().token}'
-  };
-
-  final updateAddressHeaders = {
-    'authorization': 'Bearer ${getIt<UserService>().token}'
-  };
   @override
   Future<AddressModel> addAddress(
       {required AddressRequestModel addressRequest}) async {

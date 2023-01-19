@@ -42,7 +42,7 @@ class ShoppingListBody extends StatelessWidget {
                     case RequestState.loaded:
                       return state.shoppingLists!.isEmpty
                           ? SizedBox(
-                              height: Get.height * 0.6,
+                              height: Get.height * 0.5,
                               child: const Center(
                                   child: EmptyIndicator(
                                       title: 'لا يوجد قوائم مختارة')),
@@ -63,7 +63,6 @@ class ShoppingListBody extends StatelessWidget {
                                   },
                                 ),
                                 mediumVerticalSpace,
-                                const RecipiesSection()
                               ],
                             );
                     case RequestState.error:
@@ -73,7 +72,8 @@ class ShoppingListBody extends StatelessWidget {
                       return const SizedBox();
                   }
                 },
-              )
+              ),
+              const RecipiesSection()
             ],
           ),
         ),

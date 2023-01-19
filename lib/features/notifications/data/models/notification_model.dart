@@ -23,7 +23,7 @@ class NotificationModel extends Notification {
           description: json['description'] ?? '',
           id: json['id'] ?? -1,
           imagePath: json['imagePath'] ?? '',
-          isClickable: json['isClickable'] ?? false,
+          isClickable: json['isClickable'] ?? true,
           section: json['section'] != null
               ? SectionModel.fromJson(json['section'])
               : const Section());
