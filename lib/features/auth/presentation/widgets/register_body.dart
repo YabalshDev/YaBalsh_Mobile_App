@@ -22,9 +22,12 @@ class RegisterBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: kDefaultPadding,
+      maintainBottomViewPadding: false,
+      bottom: true,
+      child: Padding(
+        padding: kDefaultPadding,
+        child: SingleChildScrollView(
+          reverse: true,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

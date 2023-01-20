@@ -1,4 +1,3 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,8 +35,6 @@ class YaBalashApp extends StatelessWidget {
             useInheritedMediaQuery: true,
             key: UniqueKey(),
             textDirection: TextDirection.rtl,
-            locale: DevicePreview.locale(context),
-            builder: DevicePreview.appBuilder,
             supportedLocales: const [Locale('ar'), Locale('en')],
             navigatorKey: Get.key,
             debugShowCheckedModeBanner: false,
