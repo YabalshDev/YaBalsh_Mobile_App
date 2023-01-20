@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/features/auth/data/models/register_request_model.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/widgets/account_problem_bottom_bar.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/widgets/auth_back_icon.dart';
@@ -26,9 +29,18 @@ class RegisterBody extends StatefulWidget {
 }
 
 class _RegisterBodyState extends State<RegisterBody> {
+  late StreamSubscription<bool> _streamSubscription;
   @override
   void initState() {
     super.initState();
+    _streamSubscription =
+        KeyboardVisibilityController().onChange.listen((value) => print(value));
+  }
+
+  @override
+  void dispose() {
+    _streamSubscription.cancel();
+    super.dispose();
   }
 
   @override
@@ -37,11 +49,11 @@ class _RegisterBodyState extends State<RegisterBody> {
       child: Padding(
         padding: kDefaultPadding,
         child: KeyboardVisibilityBuilder(builder: (context, isVisible) {
-          print(isVisible);
           return Column(
             children: [
               Expanded(
                 child: SingleChildScrollView(
+                  reverse: isVisible ? true : false,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -81,6 +93,9 @@ class _RegisterBodyState extends State<RegisterBody> {
                       ),
                       mediumVerticalSpace,
                       const PrivacyPolicyText(),
+                      SizedBox(
+                        height: isVisible ? Get.width * 0.4 : 0,
+                      )
                     ],
                   ),
                 ),
