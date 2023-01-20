@@ -1,23 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yabalash_mobile_app/features/home/domain/entities/price_model.dart';
+import 'package:yabalash_mobile_app/core/depedencies.dart';
+import 'package:yabalash_mobile_app/features/home/data/models/location_model.dart';
 import 'package:yabalash_mobile_app/features/product_details/presentation/blocs/cubit/product_details_cubit.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
+import '../../../../core/services/zone_service.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/custom_card.dart';
 import '../../../../core/widgets/custom_svg_icon.dart';
+import '../../../home/domain/entities/location.dart';
+import '../../../home/domain/entities/store.dart';
 
 class PriceComparisonCard extends StatelessWidget {
-  final MapEntry<String, PriceModel> priceModel;
+  final double price;
+  final Store store;
+  final bool isAvailable;
   final int pricesLength;
   final int index;
+  final bool isNear;
   const PriceComparisonCard({
     super.key,
     required this.index,
-    required this.priceModel,
+    required this.store,
+    required this.price,
+    required this.isNear,
+    required this.isAvailable,
     required this.pricesLength,
   });
 
@@ -37,7 +47,7 @@ class PriceComparisonCard extends StatelessWidget {
                   width: 45.h,
                   withBorder: true,
                   isAssetImage: false,
-                  imagePath: priceModel.value.storeImagePath,
+                  imagePath: store.cardImagePath,
                 ),
                 mediumHorizontalSpace,
                 SizedBox(
@@ -47,7 +57,7 @@ class PriceComparisonCard extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            priceModel.key,
+                            store.name ?? '',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
@@ -60,7 +70,7 @@ class PriceComparisonCard extends StatelessWidget {
                             width: 20.w,
                             height: 11.h,
                             child: Image.asset(
-                              priceModel.value.isAvailable!
+                              isAvailable
                                   ? AppAssets.inStockIcon
                                   : AppAssets.outOfStockIcon,
                               fit: BoxFit.cover,
@@ -79,7 +89,7 @@ class PriceComparisonCard extends StatelessWidget {
                           ),
                           smallHorizontalSpace,
                           Text(
-                            'كايرو فيستفال سيتي',
+                            getStoreAddress(store, isNear),
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context)
                                 .textTheme
@@ -103,7 +113,7 @@ class PriceComparisonCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${priceModel.value.price} جنيه',
+                            '$price جنيه',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyLarge
@@ -121,65 +131,96 @@ class PriceComparisonCard extends StatelessWidget {
               ],
             ),
           ),
-          BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
-            builder: (context, state) {
-              return pricesLength <= 5
-                  ? const SizedBox()
-                  : pricesLength < 5 && index == pricesLength - 1
-                      ? InkWell(
-                          onTap: () =>
-                              BlocProvider.of<ProductDetailsCubit>(context)
-                                  .changeShowMore(false),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'عرض كل الاسعار',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(
-                                        color: AppColorsLight
-                                            .kAppPrimaryColorLight,
-                                        fontWeight: FontWeight.w700),
-                              ),
-                              const Icon(
-                                Icons.keyboard_arrow_down,
-                                color: AppColorsLight.kAppPrimaryColorLight,
-                              )
-                            ],
-                          ),
-                        )
-                      : pricesLength > 5 && index == pricesLength - 1
-                          ? InkWell(
-                              onTap: () =>
-                                  BlocProvider.of<ProductDetailsCubit>(context)
-                                      .changeShowMore(true),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'عرض اسعار اقل',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.copyWith(
-                                            color: AppColorsLight
-                                                .kAppPrimaryColorLight,
-                                            fontWeight: FontWeight.w700),
-                                  ),
-                                  const Icon(
-                                    Icons.keyboard_arrow_up,
-                                    color: AppColorsLight.kAppPrimaryColorLight,
-                                  )
-                                ],
-                              ),
-                            )
-                          : const SizedBox();
-            },
-          )
+          PriceCardShowMore(pricesLength: pricesLength, index: index)
         ],
       );
     });
+  }
+}
+
+String getStoreAddress(Store store, bool isNearStores) {
+  String address = '';
+  Location? storeLocation = store.locations!.firstWhere(
+      (element) => element.subZoneId != getIt<ZoneService>().currentSubZone!.id,
+      orElse: () => const LocationModel());
+  if (isNearStores || storeLocation.subZoneId == null) {
+    address = store.locations!
+        .firstWhere((element) =>
+            element.subZoneId == getIt<ZoneService>().currentSubZone!.id)
+        .address!;
+  } else {
+    address = storeLocation.address!;
+  }
+
+  return address;
+}
+
+class PriceCardShowMore extends StatelessWidget {
+  const PriceCardShowMore({
+    Key? key,
+    required this.pricesLength,
+    required this.index,
+  }) : super(key: key);
+
+  final int pricesLength;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
+      builder: (context, state) {
+        return pricesLength <= 5
+            ? const SizedBox()
+            : pricesLength < 5 && index == pricesLength - 1
+                ? InkWell(
+                    onTap: () => BlocProvider.of<ProductDetailsCubit>(context)
+                        .changeShowMore(false),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'عرض كل الاسعار',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                  color: AppColorsLight.kAppPrimaryColorLight,
+                                  fontWeight: FontWeight.w700),
+                        ),
+                        const Icon(
+                          Icons.keyboard_arrow_down,
+                          color: AppColorsLight.kAppPrimaryColorLight,
+                        )
+                      ],
+                    ),
+                  )
+                : pricesLength > 5 && index == pricesLength - 1
+                    ? InkWell(
+                        onTap: () =>
+                            BlocProvider.of<ProductDetailsCubit>(context)
+                                .changeShowMore(true),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'عرض اسعار اقل',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                      color:
+                                          AppColorsLight.kAppPrimaryColorLight,
+                                      fontWeight: FontWeight.w700),
+                            ),
+                            const Icon(
+                              Icons.keyboard_arrow_up,
+                              color: AppColorsLight.kAppPrimaryColorLight,
+                            )
+                          ],
+                        ),
+                      )
+                    : const SizedBox();
+      },
+    );
   }
 }

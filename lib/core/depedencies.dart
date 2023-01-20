@@ -411,6 +411,7 @@ setupDependecies() {
       searchRepository: getIt()));
 
   getIt.registerFactory(() => ProductDetailsCubit(
+        getStoreUseCase: getIt(),
         getProductDetailsUseCase: getIt(),
         searchProductUsecase: getIt(),
       ));

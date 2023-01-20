@@ -20,8 +20,9 @@ import 'popular_products_section.dart';
 import 'product_details_section.dart';
 
 class ProductDetailsBody extends StatelessWidget {
-  final Product product;
-  const ProductDetailsBody({super.key, required this.product});
+  const ProductDetailsBody({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

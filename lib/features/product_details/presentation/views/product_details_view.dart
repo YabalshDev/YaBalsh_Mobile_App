@@ -17,9 +17,7 @@ class ProductDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ProductDetailsBody(
-        product: product,
-      ),
+      body: const ProductDetailsBody(),
       bottomNavigationBar: SizedBox(
         height: 100.h,
         child: BlocProvider<CartCubit>.value(
