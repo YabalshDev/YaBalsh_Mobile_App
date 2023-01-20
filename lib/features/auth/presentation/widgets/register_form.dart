@@ -34,6 +34,7 @@ class RegisterForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FormBuilder(
+      autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,6 +112,8 @@ class RegisterForm extends StatelessWidget {
               ],
             ),
             name: 'email',
+            onChanged: (p0) =>
+                formKey.currentState!.fields['email']!.validate(),
             validator: FormBuilderValidators.compose(
                 [FormBuilderValidators.email(errorText: 'نسيت علامة @')]),
           ),

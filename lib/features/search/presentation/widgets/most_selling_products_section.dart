@@ -32,7 +32,7 @@ class MostSellingProdutsSection extends StatelessWidget {
                         const SubHeading(text: 'المنتجات الاكثر مبيعا'),
                         mediumVerticalSpace,
                         SizedBox(
-                            height: 305.h,
+                            height: 310.h,
                             child: KewordProducts(
                                 products: state.mostSellingProducts!))
                       ],

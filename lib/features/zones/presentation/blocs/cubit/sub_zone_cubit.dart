@@ -50,7 +50,7 @@ class SubZoneCubit extends Cubit<SubZoneState> {
       onConfirm: () {
         setSubZone(subZone: subZone);
         Get.back();
-        Get.offAndToNamed(RouteHelper.getMainNavigationRoute(), arguments: 0);
+        Get.offAllNamed(RouteHelper.getMainNavigationRoute(), arguments: 0);
         debugPrint('success');
       },
     );

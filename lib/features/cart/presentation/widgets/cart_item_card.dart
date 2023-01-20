@@ -69,7 +69,7 @@ class CartItemCard extends StatelessWidget {
                   ),
                   mediumHorizontalSpace,
                   SizedBox(
-                    width: constraints.maxWidth * 0.45,
+                    width: constraints.maxWidth * 0.42,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

@@ -54,7 +54,7 @@ class EmptyCartBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 155.h,
+      height: 165.h,
       child: Column(
         children: [
           CustomNavBar(

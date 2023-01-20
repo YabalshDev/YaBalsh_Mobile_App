@@ -35,8 +35,9 @@ class MainProductCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             ProductDetailsCard(product: product),
-            mediumVerticalSpace,
+            smallVerticalSpace,
             Container(
+              height: 40.h,
               padding: kDefaultPadding,
               decoration: kDefaultBoxDecoration.copyWith(
                   border: Border.all(color: Colors.transparent)),

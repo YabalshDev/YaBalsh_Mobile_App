@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:yabalash_mobile_app/core/api/local_data_api/local_storage_provider.dart';
 import 'package:yabalash_mobile_app/core/constants/app_strings.dart';
+import 'package:yabalash_mobile_app/core/depedencies.dart';
 import 'package:yabalash_mobile_app/core/errors/exceptions.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/entities/customer.dart';
+
+import '../../features/cart/presentation/blocs/cubit/cart_cubit.dart';
 
 abstract class UserService {
   Customer? _currentCustomer;
@@ -88,9 +91,27 @@ class UserServiceImpl implements UserService {
     }
   }
 
+  void _deleteCustomerFromLocalStorage() async {
+    try {
+      if (!Hive.isBoxOpen(AppStrings.customerKey)) {
+        await Hive.openBox<Customer>(AppStrings.customerKey);
+      }
+
+      final box = Hive.box<Customer>(AppStrings.customerKey);
+
+      box.delete(
+        'customer',
+      );
+    } catch (err) {
+      debugPrint('failed to delete customer');
+    }
+  }
+
   @override
   void logout() {
     localStorageProvider.deleteData(key: AppStrings.token);
+    getIt<CartCubit>().clearCart();
+    _deleteCustomerFromLocalStorage();
   }
 
   @override

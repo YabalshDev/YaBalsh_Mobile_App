@@ -20,8 +20,9 @@ import 'features/zones/domain/entities/sub_zone.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // intialize dependecies
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   setupDependecies();
   await Hive.initFlutter();
   Hive.registerAdapter(SubZoneAdapter());
