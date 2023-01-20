@@ -34,7 +34,7 @@ class UpdateAddress extends StatelessWidget {
       ),
       bottomNavigationBar: Container(
         padding: kDefaultPadding.copyWith(bottom: 10.h, top: 10.h),
-        height: 70.h,
+        height: 80.h,
         child: BlocBuilder<UpdateAddressCubit, UpdateAddressState>(
           builder: (context, state) {
             return YaBalashCustomButton(

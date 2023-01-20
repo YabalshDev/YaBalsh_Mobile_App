@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:yabalash_mobile_app/features/auth/data/models/register_request_model.dart';
+import 'package:yabalash_mobile_app/features/auth/presentation/widgets/account_problem_bottom_bar.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/widgets/auth_back_icon.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/widgets/auth_title_widget.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/widgets/register_form.dart';
@@ -13,61 +15,80 @@ import 'privacy_policy_text.dart';
 
 final _formKey = GlobalKey<FormBuilderState>();
 
-class RegisterBody extends StatelessWidget {
+class RegisterBody extends StatefulWidget {
   final String phoneNumber;
   final String fromRoute;
   const RegisterBody(
       {super.key, required this.phoneNumber, required this.fromRoute});
 
   @override
+  State<RegisterBody> createState() => _RegisterBodyState();
+}
+
+class _RegisterBodyState extends State<RegisterBody> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
-      maintainBottomViewPadding: false,
-      bottom: true,
       child: Padding(
         padding: kDefaultPadding,
-        child: SingleChildScrollView(
-          reverse: true,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        child: KeyboardVisibilityBuilder(builder: (context, isVisible) {
+          print(isVisible);
+          return Column(
             children: [
-              const AuthBackIcon(),
-              mediumVerticalSpace,
-              const AuthTitleWidget(
-                title: 'إنشاء حساب جديد',
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const AuthBackIcon(),
+                      mediumVerticalSpace,
+                      const AuthTitleWidget(
+                        title: 'إنشاء حساب جديد',
+                      ),
+                      largeVerticalSpace,
+
+                      RegisterForm(
+                          formKey: _formKey, phoneNumber: widget.phoneNumber),
+
+                      largeVerticalSpace,
+                      largeVerticalSpace,
+
+                      // register button
+
+                      BlocBuilder<RegisterCubit, RegisterState>(
+                        builder: (context, state) {
+                          return YaBalashCustomButton(
+                            isDisabled: state.isButtonDisabled,
+                            onTap: () {
+                              if (!state.isButtonDisabled!) {
+                                if (_formKey.currentState!.validate()) {
+                                  handleValidRegsiterRequest(context);
+                                } else if (!_formKey.currentState!
+                                    .fields['password']!.isValid) {
+                                  BlocProvider.of<RegisterCubit>(context)
+                                      .changeFormFieldError(true);
+                                }
+                              }
+                            },
+                            child: const Text('انشاء الحساب'),
+                          );
+                        },
+                      ),
+                      mediumVerticalSpace,
+                      const PrivacyPolicyText(),
+                    ],
+                  ),
+                ),
               ),
-              largeVerticalSpace,
-
-              RegisterForm(formKey: _formKey, phoneNumber: phoneNumber),
-              largeVerticalSpace,
-              largeVerticalSpace,
-
-              // register button
-
-              BlocBuilder<RegisterCubit, RegisterState>(
-                builder: (context, state) {
-                  return YaBalashCustomButton(
-                    isDisabled: state.isButtonDisabled,
-                    onTap: () {
-                      if (!state.isButtonDisabled!) {
-                        if (_formKey.currentState!.validate()) {
-                          handleValidRegsiterRequest(context);
-                        } else if (!_formKey
-                            .currentState!.fields['password']!.isValid) {
-                          BlocProvider.of<RegisterCubit>(context)
-                              .changeFormFieldError(true);
-                        }
-                      }
-                    },
-                    child: const Text('انشاء الحساب'),
-                  );
-                },
-              ),
-              mediumVerticalSpace,
-              const PrivacyPolicyText(),
+              const AccountProblemBottomBar()
             ],
-          ),
-        ),
+          );
+        }),
       ),
     );
   }
@@ -84,7 +105,7 @@ class RegisterBody extends StatelessWidget {
         password: _formKey.currentState!.fields['password']!.value,
         phoneNumber: _formKey.currentState!.fields['phoneNumber']!.value);
 
-    BlocProvider.of<RegisterCubit>(context)
-        .registerUser(registerCredntials: registerBody, fromRoute: fromRoute);
+    BlocProvider.of<RegisterCubit>(context).registerUser(
+        registerCredntials: registerBody, fromRoute: widget.fromRoute);
   }
 }

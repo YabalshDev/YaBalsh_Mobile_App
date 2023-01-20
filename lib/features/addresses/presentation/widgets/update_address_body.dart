@@ -25,6 +25,7 @@ class UpdateAddressBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: kDefaultPadding,
           child: Column(
