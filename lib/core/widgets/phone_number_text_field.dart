@@ -38,11 +38,14 @@ class PhoneTextField extends StatelessWidget {
                     color: Colors.transparent,
                     border: Border.all(
                         color: AppColorsLight.kErrorColor, width: 1)),
-        padding: kDefaultPadding,
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(Country.parse('EG').flagEmoji,
-                style: TextStyle(fontSize: 27.sp)),
+            Padding(
+              padding: kDefaultPadding,
+              child: Text(Country.parse('EG').flagEmoji,
+                  style: TextStyle(fontSize: 27.sp)),
+            ),
             mediumHorizontalSpace,
             Text(
               '20+',
@@ -53,10 +56,11 @@ class PhoneTextField extends StatelessWidget {
             ),
             smallHorizontalSpace,
             Container(
-              height: 20.h,
+              height: 25.h,
               width: 2.w,
               color: AppColorsLight.kTextFieldBorderColor,
             ),
+            smallHorizontalSpace,
             Expanded(
               child: LayoutBuilder(builder: (context, constraints) {
                 return FormBuilderTextField(
@@ -81,8 +85,8 @@ class PhoneTextField extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                               color: AppColorsLight.kTextFieldBorderColor),
                       contentPadding: EdgeInsets.symmetric(
-                          vertical: constraints.maxHeight * 0.18,
-                          horizontal: 10.w),
+                        vertical: 1.h,
+                      ),
                       border: InputBorder.none),
                 );
               }),

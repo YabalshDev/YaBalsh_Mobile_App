@@ -112,6 +112,7 @@ class UserServiceImpl implements UserService {
     localStorageProvider.deleteData(key: AppStrings.token);
     getIt<CartCubit>().clearCart();
     _deleteCustomerFromLocalStorage();
+    _currentCustomer = const Customer();
   }
 
   @override

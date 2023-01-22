@@ -41,7 +41,7 @@ class PopularProductsSection extends StatelessWidget {
                                 RouteHelper.getSearchRoute(),
                                 arguments: [
                                   SearchNavigationScreens.other,
-                                  state.product!.name!.split(' ')[0]
+                                  '${state.product!.name!.split(' ')[0]} ${state.product!.name!.split(' ')[1]}'
                                 ],
                               )),
                       mediumVerticalSpace,

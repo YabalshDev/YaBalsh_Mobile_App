@@ -52,6 +52,7 @@ class _SearchHeaderState extends State<SearchHeader> {
                         border: Border.all(color: Colors.transparent)),
                     padding: EdgeInsets.symmetric(horizontal: 5.h),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         InkWell(
                           onTap: () {
@@ -78,8 +79,8 @@ class _SearchHeaderState extends State<SearchHeader> {
                             return FormBuilderTextField(
                               name: 'search',
                               controller: controller,
+                              textDirection: TextDirection.rtl,
                               onSaved: (newValue) => controller.clear(),
-                              cursorHeight: 25.h,
                               onChanged: (value) {
                                 if (value!.isEmpty) {
                                   BlocProvider.of<SearchCubit>(context)
@@ -92,23 +93,24 @@ class _SearchHeaderState extends State<SearchHeader> {
                                       .changeSearchIsEmpty(false);
                                 }
                               },
-                              cursorRadius: const Radius.circular(8),
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(fontWeight: FontWeight.w600),
+                                  .bodySmall
+                                  ?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14.sp),
                               cursorColor: AppColorsLight.kAppPrimaryColorLight,
                               decoration: InputDecoration(
                                   hintText: 'دور على منتج او سوبر ماركت',
                                   hintStyle: Theme.of(context)
                                       .textTheme
-                                      .bodyMedium
+                                      .bodySmall
                                       ?.copyWith(
                                           fontWeight: FontWeight.w500,
+                                          fontSize: 14.sp,
                                           color: AppColorsLight.kCancelColor),
                                   contentPadding: EdgeInsets.symmetric(
-                                      vertical: constraints.maxHeight * 0.2,
-                                      horizontal: 10.w),
+                                      vertical: constraints.maxHeight * 0.25),
                                   border: InputBorder.none),
                             );
                           }),

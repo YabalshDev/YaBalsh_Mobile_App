@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -18,30 +16,11 @@ import 'privacy_policy_text.dart';
 
 final _formKey = GlobalKey<FormBuilderState>();
 
-class RegisterBody extends StatefulWidget {
+class RegisterBody extends StatelessWidget {
   final String phoneNumber;
   final String fromRoute;
   const RegisterBody(
       {super.key, required this.phoneNumber, required this.fromRoute});
-
-  @override
-  State<RegisterBody> createState() => _RegisterBodyState();
-}
-
-class _RegisterBodyState extends State<RegisterBody> {
-  late StreamSubscription<bool> _streamSubscription;
-  @override
-  void initState() {
-    super.initState();
-    _streamSubscription =
-        KeyboardVisibilityController().onChange.listen((value) => print(value));
-  }
-
-  @override
-  void dispose() {
-    _streamSubscription.cancel();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +43,7 @@ class _RegisterBodyState extends State<RegisterBody> {
                       ),
                       largeVerticalSpace,
 
-                      RegisterForm(
-                          formKey: _formKey, phoneNumber: widget.phoneNumber),
+                      RegisterForm(formKey: _formKey, phoneNumber: phoneNumber),
 
                       largeVerticalSpace,
                       largeVerticalSpace,
@@ -120,7 +98,7 @@ class _RegisterBodyState extends State<RegisterBody> {
         password: _formKey.currentState!.fields['password']!.value,
         phoneNumber: _formKey.currentState!.fields['phoneNumber']!.value);
 
-    BlocProvider.of<RegisterCubit>(context).registerUser(
-        registerCredntials: registerBody, fromRoute: widget.fromRoute);
+    BlocProvider.of<RegisterCubit>(context)
+        .registerUser(registerCredntials: registerBody, fromRoute: fromRoute);
   }
 }
