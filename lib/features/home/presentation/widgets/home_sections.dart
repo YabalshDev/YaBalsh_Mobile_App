@@ -24,17 +24,12 @@ class HomeSections extends StatelessWidget {
       builder: (context, state) {
         switch (state.homeSectionsRequestState) {
           case RequestState.loading:
-            return Column(
-                children: List.generate(3, (index) => const SectionLoading()));
+            return const HomeSectionsLoading();
 
           case RequestState.loaded:
-            return Column(
-              children: state.homeSections!
-                  .map((homeSection) => SectionLoaded(
-                      sectionName: homeSection.section!.name!,
-                      sectionProducts: homeSection.products!))
-                  .toList(),
-            );
+            return state.homeSections!.isEmpty
+                ? const SizedBox()
+                : const HomeSectionsLoaded();
 
           case RequestState.error:
             return const SizedBox();
@@ -44,6 +39,39 @@ class HomeSections extends StatelessWidget {
         }
       },
     );
+  }
+}
+
+class HomeSectionsLoaded extends StatelessWidget {
+  const HomeSectionsLoaded({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (context, state) {
+        return Column(
+          children: state.homeSections!
+              .map((homeSection) => SectionLoaded(
+                  sectionName: homeSection.section!.name!,
+                  sectionProducts: homeSection.products!))
+              .toList(),
+        );
+      },
+    );
+  }
+}
+
+class HomeSectionsLoading extends StatelessWidget {
+  const HomeSectionsLoading({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+        children: List.generate(3, (index) => const SectionLoading()));
   }
 }
 
