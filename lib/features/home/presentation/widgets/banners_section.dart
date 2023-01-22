@@ -14,24 +14,14 @@ import '../../../../core/utils/enums/request_state.dart';
 import '../../../on_boaring/presentation/widgets/dots_indicators.dart';
 import '../blocs/cubit/home_cubit.dart';
 
-class BannersSection extends StatefulWidget {
+class BannersSection extends StatelessWidget {
   const BannersSection({super.key});
-
-  @override
-  State<BannersSection> createState() => _BannersSectionState();
-}
-
-class _BannersSectionState extends State<BannersSection> {
-  late CarouselController carouselController;
-  @override
-  void initState() {
-    carouselController = CarouselController();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
+      buildWhen: (previous, current) =>
+          previous.bannersRequestState != current.bannersRequestState,
       builder: (context, state) {
         switch (state.bannersRequestState) {
           case RequestState.loading:
@@ -51,46 +41,9 @@ class _BannersSectionState extends State<BannersSection> {
                 ? const SizedBox()
                 : Column(
                     children: [
-                      FadeIn(
-                        duration: const Duration(milliseconds: 500),
-                        child: CarouselSlider.builder(
-                            carouselController: carouselController,
-                            itemCount: state.banners!.length,
-                            itemBuilder: (context, index, realIndex) {
-                              final banner = state.banners![index];
-                              return InkWell(
-                                onTap: () => Get.toNamed(
-                                    RouteHelper.getSearchRoute(),
-                                    arguments: [
-                                      SearchNavigationScreens.other,
-                                      banner.section!.name
-                                    ]),
-                                child: ClipRRect(
-                                  borderRadius: kDefaultBorderRaduis,
-                                  child: Container(
-                                    width: Get.width * 0.96,
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 4.w),
-                                    child: AppImage(
-                                      path: banner.imagePath!,
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                            options: CarouselOptions(
-                                onPageChanged: (index, reason) =>
-                                    BlocProvider.of<HomeCubit>(context)
-                                        .onBannerChanged(index),
-                                viewportFraction: 0.86,
-                                autoPlay: true,
-                                height: 133.h)),
-                      ),
+                      CarouselImage(state: state),
                       mediumVerticalSpace,
-                      DotsIndicatorsCards(
-                          index: state.currentBannerIndex!,
-                          length: state.banners!.length)
+                      const CarouselDotsIndicators()
                     ],
                   );
 
@@ -108,6 +61,69 @@ class _BannersSectionState extends State<BannersSection> {
             );
         }
       },
+    );
+  }
+}
+
+class CarouselDotsIndicators extends StatelessWidget {
+  const CarouselDotsIndicators({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<HomeCubit, HomeState>(
+      buildWhen: (previous, current) =>
+          previous.currentBannerIndex != current.currentBannerIndex,
+      builder: (context, state) {
+        return DotsIndicatorsCards(
+            index: state.currentBannerIndex!, length: state.banners!.length);
+      },
+    );
+  }
+}
+
+class CarouselImage extends StatelessWidget {
+  final HomeState state;
+  const CarouselImage({
+    Key? key,
+    required this.state,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeIn(
+      duration: const Duration(milliseconds: 500),
+      child: CarouselSlider.builder(
+          carouselController: CarouselController(),
+          itemCount: state.banners!.length,
+          itemBuilder: (context, index, realIndex) {
+            final banner = state.banners![index];
+            return InkWell(
+              onTap: () => Get.toNamed(RouteHelper.getSearchRoute(),
+                  arguments: [
+                    SearchNavigationScreens.other,
+                    banner.section!.name
+                  ]),
+              child: ClipRRect(
+                borderRadius: kDefaultBorderRaduis,
+                child: Container(
+                  width: Get.width * 0.96,
+                  padding: EdgeInsets.symmetric(horizontal: 4.w),
+                  child: AppImage(
+                    path: banner.imagePath!,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+            );
+          },
+          options: CarouselOptions(
+              onPageChanged: (index, reason) =>
+                  BlocProvider.of<HomeCubit>(context).onBannerChanged(index),
+              viewportFraction: 0.86,
+              autoPlay: false,
+              height: 133.h)),
     );
   }
 }
