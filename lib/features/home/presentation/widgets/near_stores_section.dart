@@ -20,61 +20,84 @@ class NearStoresSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
-      switch (state.lastOfferrequestState) {
-        case RequestState.loading:
-          return SizedBox(
-            height: 100.h,
-            child: ListView.builder(
-              padding: kScaffoldPadding,
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              itemCount: 6,
-              itemBuilder: (context, index) {
-                return Shimmer.fromColors(
-                  baseColor: Colors.grey[800]!,
-                  highlightColor: Colors.grey[850]!,
-                  child: Container(
-                    width: 50.w,
-                    height: 50.h,
-                    margin: EdgeInsets.only(left: 10.w),
-                    decoration: BoxDecoration(
-                        color: AppColorsLight.kMainCategoryCardColor,
-                        borderRadius: kDefaultBorderRaduis),
-                  ),
-                );
-              },
+    return BlocBuilder<HomeCubit, HomeState>(
+        buildWhen: (previous, current) =>
+            previous.nearStoreRequestState != current.nearStoreRequestState,
+        builder: (context, state) {
+          switch (state.lastOfferrequestState) {
+            case RequestState.loading:
+              return const NearStoresLoading();
+            case RequestState.loaded:
+              return state.nearStores!.isEmpty
+                  ? const SizedBox()
+                  : const NearStoresLoaded();
+
+            case RequestState.error:
+              return const SizedBox();
+
+            default:
+              return const SizedBox();
+          }
+        });
+  }
+}
+
+class NearStoresLoaded extends StatelessWidget {
+  const NearStoresLoaded({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TitleRow(
+          title: 'السوبر ماركتس القريبة منك  🏠',
+          onSelectAll: () {
+            final zoneName = getIt<ZoneService>().currentSubZone!.name;
+            Get.toNamed(RouteHelper.getSearchRoute(), arguments: [
+              SearchNavigationScreens.nearStoresScreen,
+              zoneName
+            ]);
+          },
+        ),
+        mediumVerticalSpace,
+        const NearStoresList(isWithPadding: true),
+      ],
+    );
+  }
+}
+
+class NearStoresLoading extends StatelessWidget {
+  const NearStoresLoading({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 100.h,
+      child: ListView.builder(
+        padding: kScaffoldPadding,
+        scrollDirection: Axis.horizontal,
+        shrinkWrap: true,
+        itemCount: 6,
+        itemBuilder: (context, index) {
+          return Shimmer.fromColors(
+            baseColor: Colors.grey[800]!,
+            highlightColor: Colors.grey[850]!,
+            child: Container(
+              width: 50.w,
+              height: 50.h,
+              margin: EdgeInsets.only(left: 10.w),
+              decoration: BoxDecoration(
+                  color: AppColorsLight.kMainCategoryCardColor,
+                  borderRadius: kDefaultBorderRaduis),
             ),
           );
-        case RequestState.loaded:
-          return state.nearStores!.isEmpty
-              ? const SizedBox()
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TitleRow(
-                      title: 'السوبر ماركتس القريبة منك  🏠',
-                      onSelectAll: () {
-                        final zoneName =
-                            getIt<ZoneService>().currentSubZone!.name;
-                        Get.toNamed(RouteHelper.getSearchRoute(), arguments: [
-                          SearchNavigationScreens.nearStoresScreen,
-                          zoneName
-                        ]);
-                      },
-                    ),
-                    mediumVerticalSpace,
-                    NearStoresList(
-                        stores: state.nearStores!, isWithPadding: true),
-                  ],
-                );
-
-        case RequestState.error:
-          return const SizedBox();
-
-        default:
-          return const SizedBox();
-      }
-    });
+        },
+      ),
+    );
   }
 }
