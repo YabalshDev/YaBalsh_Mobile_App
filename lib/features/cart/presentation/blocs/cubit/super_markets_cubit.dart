@@ -3,12 +3,15 @@ import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/store_price.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/supermarket_card_model.dart';
+import 'package:yabalash_mobile_app/features/home/domain/entities/location.dart';
 
 import '../../../../../core/depedencies.dart';
 import '../../../../../core/services/order_service.dart';
+import '../../../../../core/services/zone_service.dart';
 import '../../../../../core/utils/enums/request_state.dart';
 import '../../../../../core/widgets/custom_dialog.dart';
 import '../../../../home/domain/entities/price_model.dart';
+import '../../../../home/domain/entities/store.dart';
 import '../../../domain/entities/cart_item.dart';
 import '../../../domain/usecases/get_store_usecase.dart';
 import 'cart_cubit.dart';
@@ -28,15 +31,6 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
         .changeSupermarketSelected(state.availableSupermarkets![index]);
     emit(state.copyWith(selectedSupermarketIndex: index));
   }
-
-  // Map<String, StorePrice> _sortStoresPrices(Map<String, StorePrice> prices) {
-  //   List<MapEntry<String, StorePrice>> entries = prices.entries.toList();
-  //   entries.sort(
-  //     (a, b) => a.value.price!.compareTo(b.value.price!),
-  //   );
-
-  //   return Map.fromEntries(entries);
-  // }
 
   void _updateAvaialbleSupermarketsMap(
       PriceModel priceModel, Map<int, int> supermarketsIds) {
@@ -98,7 +92,14 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
     final storeIds =
         _getAvailableSupermarketsIds(supermarketsIds, cartProducts);
 
-    return {'storeIds': storeIds, 'storePrices': storesTotalPrices};
+    // sort stores prices
+    Map<String, StorePrice> sortedStoresPrices =
+        Map.fromEntries(storesTotalPrices.entries.toList()
+          ..sort(
+            (a, b) => a.value.price!.compareTo(b.value.price!),
+          ));
+
+    return {'storeIds': storeIds, 'storePrices': sortedStoresPrices};
   }
 
   void getSuperMarkets() async {
@@ -121,14 +122,18 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
         );
         emit(state.copyWith(storeRequestState: RequestState.error));
       }, (store) {
-        final storePriceModel = storesPrices[store.name];
-        if (storePriceModel != null) {
-          supermarkets.add(SuperMarketCardModel(
-              store: store,
-              price: storePriceModel.price,
-              saving:
-                  (storesPrices.values.last.price! - storePriceModel.price!),
-              isAvailable: storesPrices[store.name]!.isAvailable));
+        bool isStoreInZone = _checkStoreInSameZone(store);
+
+        if (isStoreInZone) {
+          final storePriceModel = storesPrices[store.name];
+          if (storePriceModel != null) {
+            supermarkets.add(SuperMarketCardModel(
+                store: store,
+                price: storePriceModel.price,
+                saving:
+                    (storesPrices.values.last.price! - storePriceModel.price!),
+                isAvailable: storePriceModel.isAvailable));
+          }
         }
       });
     }
@@ -143,5 +148,20 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
         storeRequestState: RequestState.loaded,
         unAvailableSupermarkets:
             supermarkets.where((element) => !element.isAvailable!).toList()));
+  }
+
+  bool _checkStoreInSameZone(Store store) {
+    final zoneId = getIt<ZoneService>().currentSubZone!.id;
+    bool isInSameZone = false;
+
+    if (store.locations!.isNotEmpty) {
+      for (Location location in store.locations!) {
+        if (location.subZoneId == zoneId) {
+          isInSameZone = true;
+          break;
+        }
+      }
+    }
+    return isInSameZone;
   }
 }

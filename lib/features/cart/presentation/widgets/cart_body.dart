@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
+import 'package:yabalash_mobile_app/core/widgets/keyboard_dissmisable.dart';
 import 'package:yabalash_mobile_app/features/addresses/domain/entities/address.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/supermarket_card_model.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/order_summary_cubit.dart';
@@ -23,7 +24,7 @@ List<Widget> cartSteps = [
   ),
   BlocProvider<OrderSummaryCubit>(
     create: (context) => getIt<OrderSummaryCubit>()..getUserAddress(),
-    child: const OrderSummary(),
+    child: const KeyboardDissmisable(child: OrderSummary()),
   )
 ];
 

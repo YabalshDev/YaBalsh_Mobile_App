@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 
 import '../../../../core/widgets/yaBalash_text_field.dart';
 
 class PromoSection extends StatelessWidget {
-  const PromoSection({super.key});
+  final GlobalKey<FormBuilderState> formKey;
+  const PromoSection({super.key, required this.formKey});
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +21,14 @@ class PromoSection extends StatelessWidget {
               ?.copyWith(fontWeight: FontWeight.w700, fontSize: 17.sp),
         ),
         const Spacer(),
-        const Expanded(
-            child: YaBalashTextField(
-          hintText: 'ادخل كود التخفيض..',
+        Expanded(
+            child: FormBuilder(
+          key: formKey,
+          child: YaBalashTextField(
+            hintText: 'ادخل كود التخفيض..',
+            validator: FormBuilderValidators.compose(
+                [FormBuilderValidators.email(errorText: 'كود غير صالح')]),
+          ),
         ))
       ],
     );

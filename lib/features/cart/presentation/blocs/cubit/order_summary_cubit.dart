@@ -29,11 +29,13 @@ class OrderSummaryCubit extends Cubit<OrderSummaryState> {
       getIt<OrderService>().superMarketCardModel!;
 
   void getUserAddress() async {
+    final primaryAddress = getIt<AddressService>().primaryAddress;
     // if primary address set load it
-    if (getIt<AddressService>().primaryAddress.id != null) {
+    if (primaryAddress.id != null) {
+      getIt<CartCubit>().changeSelectedUserAddress(primaryAddress);
       emit(state.copyWith(
           addressesRequestState: RequestState.loaded,
-          userAddresses: [getIt<AddressService>().primaryAddress]));
+          userAddresses: [primaryAddress]));
     } else {
       //otherwise load all address for user
       final response = await getAllAddressUseCase(NoParams());

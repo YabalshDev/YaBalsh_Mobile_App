@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
@@ -12,6 +13,8 @@ import 'order_subtotal_section.dart';
 import 'promo_section.dart';
 import 'super_market_details_card.dart';
 import 'user_address_card.dart';
+
+final _promoFormKey = GlobalKey<FormBuilderState>();
 
 class OrderSummary extends StatelessWidget {
   const OrderSummary({super.key});
@@ -53,7 +56,7 @@ class OrderSummary extends StatelessWidget {
                     thickness: 1,
                   ),
                   mediumVerticalSpace,
-                  const PromoSection(),
+                  PromoSection(formKey: _promoFormKey),
                   mediumVerticalSpace,
                   Divider(
                     color: Colors.grey.shade300,

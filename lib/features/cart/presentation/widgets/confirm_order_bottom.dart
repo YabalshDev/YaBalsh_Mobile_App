@@ -40,8 +40,7 @@ class ConfirmOrderBottom extends StatelessWidget {
         }
       },
       title: '✔  خلص الطلب',
-      isDisabled: state.userAddress?.id == null &&
-          getIt<AddressService>().primaryAddress.addressName == null,
+      isDisabled: state.userAddress?.id == null,
     );
   }
 }

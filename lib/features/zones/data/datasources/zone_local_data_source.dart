@@ -30,10 +30,10 @@ class ZoneLocalDataSourceImpl implements ZonesLocalDataSource {
   }
 
   @override
-  void setZone({required SubZone subZone}) {
+  void setZone({required SubZone subZone}) async {
     try {
       if (!Hive.isBoxOpen(AppStrings.zones)) {
-        Hive.openBox<SubZone>(AppStrings.zones);
+        await Hive.openBox<SubZone>(AppStrings.zones);
       }
       final box = Hive.box<SubZone>(AppStrings.zones);
       box.put(subZone.name, subZone);
