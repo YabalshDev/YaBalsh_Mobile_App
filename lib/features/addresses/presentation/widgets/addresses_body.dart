@@ -47,6 +47,7 @@ class AddressesBody extends StatelessWidget {
                   if (state.addresses!.isNotEmpty) {
                     return ListView.builder(
                       key: UniqueKey(),
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: state.addresses!.length,
                       itemBuilder: (context, index) {
@@ -67,7 +68,6 @@ class AddressesBody extends StatelessWidget {
                   }
 
                 case RequestState.error:
-                  //TODO: implement errror and not logged in illustrators
                   return SizedBox(
                       height: Get.height * 0.75,
                       child:

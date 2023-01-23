@@ -24,7 +24,7 @@ class NearStoresSection extends StatelessWidget {
         buildWhen: (previous, current) =>
             previous.nearStoreRequestState != current.nearStoreRequestState,
         builder: (context, state) {
-          switch (state.lastOfferrequestState) {
+          switch (state.nearStoreRequestState) {
             case RequestState.loading:
               return const NearStoresLoading();
             case RequestState.loaded:
@@ -63,7 +63,12 @@ class NearStoresLoaded extends StatelessWidget {
           },
         ),
         mediumVerticalSpace,
-        const NearStoresList(isWithPadding: true),
+        BlocBuilder<HomeCubit, HomeState>(
+          builder: (context, state) {
+            return NearStoresList(
+                isWithPadding: true, stores: state.nearStores!);
+          },
+        ),
       ],
     );
   }

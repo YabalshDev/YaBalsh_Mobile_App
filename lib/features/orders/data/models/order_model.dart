@@ -36,5 +36,7 @@ class OrderModel extends Order {
       status: json['status'],
       subTotal: json['subTotal'].runtimeType == int
           ? json['subTotal'].toDouble()
-          : double.parse(json['subTotal']));
+          : json['subTotal'].runtimeType == String
+              ? double.parse(json['subTotal'])
+              : json['subTotal']);
 }

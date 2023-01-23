@@ -5,11 +5,14 @@ import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_cubit.dart';
 
+import '../../features/home/domain/entities/store.dart';
 import 'custom_card.dart';
 
 class NearStoresList extends StatelessWidget {
   final bool isWithPadding;
-  const NearStoresList({super.key, required this.isWithPadding});
+  final List<Store> stores;
+  const NearStoresList(
+      {super.key, required this.isWithPadding, required this.stores});
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +25,9 @@ class NearStoresList extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
                 padding: isWithPadding ? kScaffoldPadding : null,
-                itemCount: state.nearStores!.length,
+                itemCount: stores.length,
                 itemBuilder: (context, index) {
-                  final store = state.nearStores![index];
+                  final store = stores[index];
                   return Container(
                       margin: EdgeInsets.only(left: 10.w),
                       child: Column(

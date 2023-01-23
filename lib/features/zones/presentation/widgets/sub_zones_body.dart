@@ -16,39 +16,48 @@ class SubZonesBody extends StatelessWidget {
     return SafeArea(
       child: Padding(
         padding: kDefaultPadding,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const AuthBackIcon(),
-            mediumVerticalSpace,
-            Text(
-              'اختار منطقة',
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineMedium
-                  ?.copyWith(color: AppColorsLight.kAppPrimaryColorLight),
-            ),
-            largeVerticalSpace,
-            RichText(
-              text: TextSpan(children: [
-                TextSpan(
-                    text: 'اختار من ',
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: Colors.black,
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w600)),
-                TextSpan(
-                    text: mainZone.name,
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        fontSize: 20.sp,
-                        color: AppColorsLight.kAppPrimaryColorLight)),
-              ]),
-            ),
-            smallVerticalSpace,
-            SubZoneList(
-              mainZone: mainZone,
-            )
-          ],
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const AuthBackIcon(),
+              mediumVerticalSpace,
+              Text(
+                'اختار منطقة',
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineMedium
+                    ?.copyWith(color: AppColorsLight.kAppPrimaryColorLight),
+              ),
+              largeVerticalSpace,
+              RichText(
+                text: TextSpan(children: [
+                  TextSpan(
+                      text: 'اختار من ',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium
+                          ?.copyWith(
+                              color: Colors.black,
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.w600)),
+                  TextSpan(
+                      text: mainZone.name,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium
+                          ?.copyWith(
+                              fontSize: 20.sp,
+                              color: AppColorsLight.kAppPrimaryColorLight)),
+                ]),
+              ),
+              smallVerticalSpace,
+              SubZoneList(
+                mainZone: mainZone,
+              )
+            ],
+          ),
         ),
       ),
     );

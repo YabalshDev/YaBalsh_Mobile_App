@@ -80,7 +80,7 @@ class HomeCubit extends Cubit<HomeState> {
     }, (stores) {
       getIt<StoreService>().setNearStores(stores);
       emit(state.copyWith(
-          bannersRequestState: RequestState.loaded, nearStores: stores));
+          nearStoreRequestState: RequestState.loaded, nearStores: stores));
     });
   }
 
