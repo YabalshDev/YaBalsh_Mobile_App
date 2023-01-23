@@ -9,12 +9,12 @@ double calculateSavingsAmount(Product product) {
   return (productPrices.last.value.price! - productPrices.first.value.price!);
 }
 
-double calculateSavingsPercentage(Product product) {
+int calculateSavingsPercentage(Product product) {
   List<MapEntry<String, PriceModel>> productPrices =
       product.prices!.entries.toList();
 
   double saving =
       (productPrices.last.value.price! - productPrices.first.value.price!);
 
-  return (saving / productPrices.last.value.price!) * 100;
+  return ((saving / productPrices.last.value.price!) * 100).ceil();
 }

@@ -1,6 +1,7 @@
 import 'package:yabalash_mobile_app/core/api/remote_data_api/endpoints.dart';
-import 'package:yabalash_mobile_app/core/api/remote_data_api/headers.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/rest_api_provider.dart';
+import 'package:yabalash_mobile_app/core/depedencies.dart';
+import 'package:yabalash_mobile_app/core/services/zone_service.dart';
 import 'package:yabalash_mobile_app/features/home/data/models/banners_response_model.dart';
 import 'package:yabalash_mobile_app/features/home/data/models/main_categories_response_model.dart';
 import 'package:yabalash_mobile_app/features/home/data/models/near_stores_response_model.dart';
@@ -37,8 +38,9 @@ class HomeRemoteDataSourceImpl implements HomeDataSource {
 
   @override
   Future<List<Store>> getNearStores() async {
-    final response = await restApiProvider.get(nearStoresEndpoint,
-        headers: ApiHeaders.zoneHeaders);
+    final zoneId = getIt<ZoneService>().currentSubZone!.id;
+    final response = await restApiProvider
+        .get(nearStoresEndpoint, headers: {'zone': zoneId});
     return NearStoresResponseModel.fromJson(response).data as List<Store>;
   }
 

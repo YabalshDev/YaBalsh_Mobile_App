@@ -104,7 +104,7 @@ class ProductDetailsCard extends StatelessWidget {
               // overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: AppColorsLight.kAppPrimaryColorLight,
-                  fontWeight: FontWeight.w600),
+                  fontWeight: FontWeight.w700),
             ),
           ),
           SizedBox(

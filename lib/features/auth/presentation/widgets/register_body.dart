@@ -92,7 +92,7 @@ class RegisterBody extends StatelessWidget {
 
     registerBody = RegisterRequestModel(
         email: _formKey.currentState!.fields['email']!.value ??
-            'example@yabalash.net',
+            '${_formKey.currentState!.fields['phoneNumber']!.value}@yabalash.net',
         firstName: _formKey.currentState!.fields['firstName']!.value,
         lastName: _formKey.currentState!.fields['lastName']!.value,
         password: _formKey.currentState!.fields['password']!.value,

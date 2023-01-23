@@ -20,31 +20,40 @@ class CustomHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        isWithNotification
-            ? InkWell(
-                onTap: onIconTap ?? () => Get.back(),
-                child: CustomSvgIcon(
-                  iconPath: iconPath ?? AppAssets.notificationIcon,
+    return Container(
+      padding: EdgeInsets.only(top: 12.h, right: 6.5.w),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          isWithNotification
+              ? InkWell(
+                  onTap: onIconTap ?? () => Get.back(),
+                  child: CustomSvgIcon(
+                    iconPath: iconPath ?? AppAssets.notificationIcon,
+                    color: AppColorsLight.kAppPrimaryColorLight,
+                    height: 20.h,
+                    width: 23.w,
+                  ),
+                )
+              : const SizedBox(),
+          isWithNotification
+              ? SizedBox(
+                  width: Get.width * 0.35,
+                )
+              : const Spacer(),
+          Center(
+            child: Text(
+              title,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: AppColorsLight.kAppPrimaryColorLight,
-                  height: 20.h,
-                  width: 23.w,
-                ),
-              )
-            : const SizedBox(),
-        const Spacer(),
-        Text(
-          title,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColorsLight.kAppPrimaryColorLight,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 1,
-              fontSize: 17.sp),
-        ),
-        const Spacer()
-      ],
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1,
+                  fontSize: 17.sp),
+            ),
+          ),
+          const Spacer()
+        ],
+      ),
     );
   }
 }

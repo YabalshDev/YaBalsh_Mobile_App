@@ -111,6 +111,7 @@ class UserServiceImpl implements UserService {
   void logout() {
     localStorageProvider.deleteData(key: AppStrings.token);
     getIt<CartCubit>().clearCart();
+    getIt<CartCubit>().resetCart();
     _deleteCustomerFromLocalStorage();
     _currentCustomer = const Customer();
   }

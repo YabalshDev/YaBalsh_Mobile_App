@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:yabalash_mobile_app/core/depedencies.dart';
+import 'package:yabalash_mobile_app/core/utils/handle_zone_history_selection.dart';
 import 'package:yabalash_mobile_app/features/zones/domain/entities/sub_zone.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/widgets/zone_history_card.dart';
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/routes/app_routes.dart';
-import '../../../../core/services/zone_service.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 
 class ZonesBottomModal extends StatelessWidget {
@@ -81,11 +80,7 @@ class ZonesBottomModal extends StatelessWidget {
                             final subZone = zones[index];
                             return InkWell(
                                 onTap: () {
-                                  getIt<ZoneService>()
-                                      .setCurrentSubZone(subZone);
-                                  Get.offAllNamed(
-                                      RouteHelper.getMainNavigationRoute(),
-                                      arguments: 0);
+                                  handleOnZoneHistorySelection(subZone);
                                 },
                                 child: ZoneHistoryCard(subZone: subZone));
                           },

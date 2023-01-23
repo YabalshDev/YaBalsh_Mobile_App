@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yabalash_mobile_app/core/utils/handle_zone_history_selection.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/widgets/zone_history_card.dart';
 
 import '../../../../core/constants/app_layouts.dart';
@@ -41,8 +42,11 @@ class ZonesHistory extends StatelessWidget {
                   itemCount: state.zonesHistory!.length,
                   itemBuilder: (context, index) {
                     final subZone = state.zonesHistory![index];
-                    return ZoneHistoryCard(
-                      subZone: subZone,
+                    return InkWell(
+                      onTap: () => handleOnZoneHistorySelection(subZone),
+                      child: ZoneHistoryCard(
+                        subZone: subZone,
+                      ),
                     );
                   },
                 ),
