@@ -81,16 +81,27 @@ class _SearchHeaderState extends State<SearchHeader> {
                               controller: controller,
                               textDirection: TextDirection.rtl,
                               onSaved: (newValue) => controller.clear(),
-                              onTap: () {
-                                if (controller
-                                        .text[controller.text.length - 1] !=
-                                    ' ') {
-                                  controller.text = ('${controller.text} ');
+                              onSubmitted: (value) {
+                                if (value!.isNotEmpty) {
+                                  BlocProvider.of<SearchCubit>(context)
+                                      .saveSearch(value);
+                                  BlocProvider.of<SearchCubit>(context)
+                                      .search(value);
                                 }
-                                if (controller.selection ==
-                                    TextSelection.fromPosition(TextPosition(
-                                        offset: controller.text.length - 1))) {
-                                  setState(() {});
+                              },
+                              onTap: () {
+                                if (controller.text.isNotEmpty) {
+                                  if (controller
+                                          .text[controller.text.length - 1] !=
+                                      ' ') {
+                                    controller.text = ('${controller.text} ');
+                                  }
+                                  if (controller.selection ==
+                                      TextSelection.fromPosition(TextPosition(
+                                          offset:
+                                              controller.text.length - 1))) {
+                                    setState(() {});
+                                  }
                                 }
                               },
                               onChanged: (value) {

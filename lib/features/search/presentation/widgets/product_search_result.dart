@@ -70,7 +70,8 @@ class ProductSearchResult extends StatelessWidget {
                         mediumVerticalSpace,
                         Wrap(
                           direction: Axis.horizontal,
-                          runSpacing: 10.h,
+                          runSpacing: 20.h,
+                          spacing: 2.w,
                           children: state.chepeastProduct!.id != null
                               ? state.searchProductsResult!
                                   .where((element) =>
