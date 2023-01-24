@@ -179,6 +179,7 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   void getSectionProducts(int sectionId) async {
+    emit(state.copyWith(searchProductsRequestState: RequestState.loading));
     final response = await getSectionProductsUseCase(
         GetSectionProductsParams(sectionId: sectionId));
 
@@ -191,6 +192,7 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   void categoryProductsSearch(int id, bool isMainCategory) async {
+    emit(state.copyWith(searchProductsRequestState: RequestState.loading));
     Either<Failure, List<Product>>? response;
     if (isMainCategory) {
       response = await mainCategoriesProductsSearchUsecase(
