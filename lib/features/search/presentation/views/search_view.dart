@@ -6,8 +6,6 @@ import 'package:yabalash_mobile_app/features/search/presentation/blocs/cubit/sea
 
 import '../widgets/search_body.dart';
 
-final _searchFormKey = GlobalKey<FormBuilderState>();
-
 class SearchView extends StatefulWidget {
   final String? intialValue;
   final SearchNavigationScreens searchNavigationScreens;
@@ -20,12 +18,14 @@ class SearchView extends StatefulWidget {
 
 class _SearchViewState extends State<SearchView> {
   late PageController pageController;
+  late GlobalKey<FormBuilderState> _searchFormKey;
   @override
   void initState() {
     final searchPageIndex =
         BlocProvider.of<SearchCubit>(context).state.searchTypeIndex;
     pageController = PageController(
         initialPage: searchPageIndex != 0 ? searchPageIndex! : 0);
+    _searchFormKey = GlobalKey<FormBuilderState>();
 
     super.initState();
   }
@@ -33,7 +33,7 @@ class _SearchViewState extends State<SearchView> {
   @override
   void dispose() {
     pageController.dispose();
-
+    // _searchFormKey.currentState!.dispose();
     super.dispose();
   }
 

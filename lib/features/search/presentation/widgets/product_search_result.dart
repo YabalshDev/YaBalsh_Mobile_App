@@ -23,6 +23,9 @@ class ProductSearchResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SearchCubit, SearchState>(
+      buildWhen: (previous, current) =>
+          previous.searchProductsRequestState !=
+          current.searchProductsRequestState,
       builder: (context, state) {
         switch (state.searchProductsRequestState) {
           case RequestState.idle:
@@ -33,66 +36,7 @@ class ProductSearchResult extends StatelessWidget {
             return state.searchProductsResult!.isEmpty
                 ? SizedBox(
                     height: Get.height * 0.6, child: const SearchEmptyResult())
-                : Padding(
-                    padding: kDefaultPadding,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        state.chepeastProduct!.id != null
-                            ? Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SubHeading(
-                                      text:
-                                          'افضل عرض على ${state.intialValue}'),
-                                  mediumVerticalSpace,
-                                  MainProductCard(
-                                      product: state.chepeastProduct!),
-                                  mediumVerticalSpace
-                                ],
-                              )
-                            : const SizedBox(),
-                        Row(
-                          children: [
-                            const SubHeading(text: 'المنتجات'),
-                            smallHorizontalSpace,
-                            Text(
-                              '(${state.chepeastProduct!.id != null ? state.searchProductsResult!.length - 1 : state.searchProductsResult!.length} نتائج)',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(
-                                      color:
-                                          AppColorsLight.kAppPrimaryColorLight),
-                            )
-                          ],
-                        ),
-                        mediumVerticalSpace,
-                        Wrap(
-                          direction: Axis.horizontal,
-                          runSpacing: 20.h,
-                          spacing: 2.w,
-                          children: state.chepeastProduct!.id != null
-                              ? state.searchProductsResult!
-                                  .where((element) =>
-                                      element.id != state.chepeastProduct!.id)
-                                  .toList()
-                                  .map((product) {
-                                  return BlocProvider.value(
-                                    value: getIt<CartCubit>(),
-                                    child: MainProductCard(product: product),
-                                  );
-                                }).toList()
-                              : state.searchProductsResult!.map((product) {
-                                  return BlocProvider.value(
-                                    value: getIt<CartCubit>(),
-                                    child: MainProductCard(product: product),
-                                  );
-                                }).toList(),
-                        )
-                      ],
-                    ),
-                  );
+                : const SearchProductResultsLoaded();
           case RequestState.error:
             return SizedBox(
                 height: Get.height * 0.6, child: const SearchErrorIndicator());
@@ -100,6 +44,75 @@ class ProductSearchResult extends StatelessWidget {
           default:
             return const SizedBox();
         }
+      },
+    );
+  }
+}
+
+class SearchProductResultsLoaded extends StatelessWidget {
+  const SearchProductResultsLoaded({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SearchCubit, SearchState>(
+      builder: (context, state) {
+        return Padding(
+          padding: kDefaultPadding,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              state.chepeastProduct!.id != null
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SubHeading(text: 'افضل عرض على ${state.intialValue}'),
+                        mediumVerticalSpace,
+                        MainProductCard(product: state.chepeastProduct!),
+                        mediumVerticalSpace
+                      ],
+                    )
+                  : const SizedBox(),
+              Row(
+                children: [
+                  const SubHeading(text: 'المنتجات'),
+                  smallHorizontalSpace,
+                  Text(
+                    '(${state.chepeastProduct!.id != null ? state.searchProductsResult!.length - 1 : state.searchProductsResult!.length} نتائج)',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(color: AppColorsLight.kAppPrimaryColorLight),
+                  )
+                ],
+              ),
+              mediumVerticalSpace,
+              Wrap(
+                direction: Axis.horizontal,
+                runSpacing: 20.h,
+                spacing: 2.w,
+                children: state.chepeastProduct!.id != null
+                    ? state.searchProductsResult!
+                        .where((element) =>
+                            element.id != state.chepeastProduct!.id)
+                        .toList()
+                        .map((product) {
+                        return BlocProvider.value(
+                          value: getIt<CartCubit>(),
+                          child: MainProductCard(product: product),
+                        );
+                      }).toList()
+                    : state.searchProductsResult!.map((product) {
+                        return BlocProvider.value(
+                          value: getIt<CartCubit>(),
+                          child: MainProductCard(product: product),
+                        );
+                      }).toList(),
+              )
+            ],
+          ),
+        );
       },
     );
   }

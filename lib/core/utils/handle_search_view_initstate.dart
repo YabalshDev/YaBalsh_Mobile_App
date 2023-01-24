@@ -27,7 +27,7 @@ SearchCubit handleSearchViewInitState(
         ..setIntialSearchValue(searchName)
         ..getSearchHistory()
         ..getMostSellingProducts()
-        ..categoryProductsSearch(id, true);
+        ..categoryProductsSearch(id, false);
 
     case SearchNavigationScreens.nearStoresScreen:
       return getIt<SearchCubit>()
