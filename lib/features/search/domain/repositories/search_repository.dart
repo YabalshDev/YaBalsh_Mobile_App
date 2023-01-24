@@ -11,4 +11,10 @@ abstract class SearchRepository {
       {required String searchName});
   Future<List<String>> getSearchHistory();
   Either<Failure, void> saveSearch({required String searchName});
+
+  Future<Either<Failure, List<Product>>> mainCategoriesProductsSearch(
+      {required int mainCategoryId});
+
+  Future<Either<Failure, List<Product>>> subCategoriesProductsSearch(
+      {required int subCategoryId});
 }

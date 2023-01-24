@@ -95,7 +95,9 @@ import 'package:yabalash_mobile_app/features/search/data/datasources/search_loca
 import 'package:yabalash_mobile_app/features/search/data/datasources/search_remote_datasource.dart';
 import 'package:yabalash_mobile_app/features/search/data/repositories/search_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/search/domain/repositories/search_repository.dart';
+import 'package:yabalash_mobile_app/features/search/domain/usecases/main_categories_products_search.dart';
 import 'package:yabalash_mobile_app/features/search/domain/usecases/search_product_usecase.dart';
+import 'package:yabalash_mobile_app/features/search/domain/usecases/sub_categories_products_search.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/blocs/cubit/search_cubit.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/data/datasources/shopping_list_local_datasource.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/data/repositories/shopping_list_repository_impl.dart';
@@ -304,6 +306,11 @@ setupDependecies() {
   getIt.registerLazySingleton(
       () => SearchStoreUsecase(searchRepository: getIt()));
   getIt.registerLazySingleton(
+      () => MainCategoriesProductsSearchUsecase(searchRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => SubCategoriesProductsSearchUsecase(searchRepository: getIt()));
+
+  getIt.registerLazySingleton(
       () => GetProductDetailsUseCase(productDetailsRepository: getIt()));
 
   getIt.registerLazySingleton(
@@ -406,6 +413,8 @@ setupDependecies() {
 
   getIt.registerFactory(() => SearchCubit(
       getSectionProductsUseCase: getIt(),
+      mainCategoriesProductsSearchUsecase: getIt(),
+      subCategoriesProductsSearchUsecase: getIt(),
       searchStoreUsecase: getIt(),
       searchProductUsecase: getIt(),
       searchRepository: getIt()));

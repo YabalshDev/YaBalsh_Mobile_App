@@ -23,4 +23,8 @@ String getSubZonesEndPointById(int id) => '$zonesEndPoint/$id/sub-zones';
 String getSubCategoriesEndPointById(int id) =>
     '$mainCategoriesEndpoint/$id/sub-categories';
 String getSectionProductsEndpoint(int id) => '$sectionsEndpoint/$id/products';
+String getSubCategoryProductsEndpoint(int id) =>
+    '/api/v1/sub-categories/$id/products';
+String getMainCategoriesProductsEndpoint(int id) =>
+    '$mainCategoriesEndpoint/$id/products';
 String getBrandsRecipiesEndpoint(int id) => '$brandsEndpoint/$id/recipes';

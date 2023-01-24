@@ -8,8 +8,10 @@ import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_section_products_usecase.dart';
 import 'package:yabalash_mobile_app/features/search/domain/entities/store_search.dart';
 import 'package:yabalash_mobile_app/features/search/domain/repositories/search_repository.dart';
+import 'package:yabalash_mobile_app/features/search/domain/usecases/main_categories_products_search.dart';
 import 'package:yabalash_mobile_app/features/search/domain/usecases/search_product_usecase.dart';
 import 'package:yabalash_mobile_app/features/search/domain/usecases/search_store_usecase.dart';
+import 'package:yabalash_mobile_app/features/search/domain/usecases/sub_categories_products_search.dart';
 
 import '../../../../../core/depedencies.dart';
 import '../../../../../core/services/stores_service.dart';
@@ -22,9 +24,13 @@ class SearchCubit extends Cubit<SearchState> {
   final SearchStoreUsecase searchStoreUsecase;
   final SearchProductUsecase searchProductUsecase;
   final GetSectionProductsUseCase getSectionProductsUseCase;
+  final MainCategoriesProductsSearchUsecase mainCategoriesProductsSearchUsecase;
+  final SubCategoriesProductsSearchUsecase subCategoriesProductsSearchUsecase;
 
   SearchCubit(
       {required this.searchRepository,
+      required this.mainCategoriesProductsSearchUsecase,
+      required this.subCategoriesProductsSearchUsecase,
       required this.getSectionProductsUseCase,
       required this.searchStoreUsecase,
       required this.searchProductUsecase})

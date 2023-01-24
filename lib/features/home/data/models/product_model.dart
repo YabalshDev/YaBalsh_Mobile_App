@@ -9,20 +9,23 @@ class ProductModel extends Product {
       String? name,
       String? imagePath,
       String? size,
+      String? barcode,
       Map<String, PriceModel>? prices})
       : super(
             imagePath: imagePath,
             id: id,
             prices: prices,
+            barCode: barcode,
             size: size,
             name: name);
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
         id: json["id"],
-        name: json["name"],
+        name: json["name"] ?? "",
+        barcode: json['barCode'] ?? '',
         imagePath: json['imagePath'],
         prices: mapJsonToPriceModelMap(json['prices']),
-        size: json['size']);
+        size: json['size'] ?? "");
   }
 }
