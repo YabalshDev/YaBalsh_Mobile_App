@@ -29,9 +29,9 @@ class ZonesRepositoryImpl implements ZonesRepository {
   }
 
   @override
-  Either<Failure, List<SubZone>> getPastZones() {
+  Future<Either<Failure, List<SubZone>>> getPastZones() async {
     try {
-      final result = zonesLocalDataSource.getPastZones();
+      final result = await zonesLocalDataSource.getPastZones();
       return Right(result);
     } on CacheException {
       return const Left(CacheFailure(message: 'حدث مشكلة اثناء جلب المناطق'));

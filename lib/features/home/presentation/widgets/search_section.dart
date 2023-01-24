@@ -26,7 +26,7 @@ class SearchSection extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 Get.toNamed(RouteHelper.getSearchRoute(),
-                    arguments: [SearchNavigationScreens.homeScreen, '']);
+                    arguments: [SearchNavigationScreens.homeScreen, '', 0]);
               },
               child: Card(
                   child: Container(

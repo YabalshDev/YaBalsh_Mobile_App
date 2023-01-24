@@ -102,8 +102,9 @@ class CarouselImage extends StatelessWidget {
             return InkWell(
               onTap: () => Get.toNamed(RouteHelper.getSearchRoute(),
                   arguments: [
-                    SearchNavigationScreens.other,
-                    banner.section!.name
+                    SearchNavigationScreens.sections,
+                    banner.section!.name,
+                    banner.section!.id
                   ]),
               child: ClipRRect(
                 borderRadius: kDefaultBorderRaduis,

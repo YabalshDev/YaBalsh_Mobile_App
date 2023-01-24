@@ -29,8 +29,11 @@ class NotificationHelper {
 
       if (notificationData.isClickable!) {
         Get.toNamed(RouteHelper.getSearchRoute(), arguments: [
-          SearchNavigationScreens.other,
-          notificationData.section != null ? notificationData.section!.name : ''
+          SearchNavigationScreens.sections,
+          notificationData.section != null
+              ? notificationData.section!.name
+              : '',
+          notificationData.section!.id ?? 0
         ]);
       }
     });

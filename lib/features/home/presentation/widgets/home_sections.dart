@@ -54,6 +54,7 @@ class HomeSectionsLoaded extends StatelessWidget {
         return Column(
           children: state.homeSections!
               .map((homeSection) => SectionLoaded(
+                  sectionId: homeSection.section!.id!,
                   sectionName: homeSection.section!.name!,
                   sectionProducts: homeSection.products!))
               .toList(),
@@ -80,9 +81,11 @@ class SectionLoaded extends StatelessWidget {
     Key? key,
     required this.sectionName,
     required this.sectionProducts,
+    required this.sectionId,
   }) : super(key: key);
 
   final String sectionName;
+  final int sectionId;
   final List<Product> sectionProducts;
 
   @override
@@ -94,7 +97,11 @@ class SectionLoaded extends StatelessWidget {
         TitleRow(
           title: sectionName,
           onSelectAll: () => Get.toNamed(RouteHelper.getSearchRoute(),
-              arguments: [SearchNavigationScreens.other, sectionName]),
+              arguments: [
+                SearchNavigationScreens.sections,
+                sectionName,
+                sectionId
+              ]),
         ),
         mediumVerticalSpace,
         SizedBox(

@@ -1,8 +1,10 @@
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/constants.dart';
+import 'package:yabalash_mobile_app/core/errors/faliures.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_section_products_usecase.dart';
@@ -167,6 +169,36 @@ class SearchCubit extends Cubit<SearchState> {
   void getMostSellingProducts() async {
     final response = await getSectionProductsUseCase(
         const GetSectionProductsParams(sectionId: mostSellingProductsId));
+
+    response.fold(
+        (failure) =>
+            emit(state.copyWith(mostSellingRequestState: RequestState.error)),
+        (products) => emit(state.copyWith(
+            mostSellingRequestState: RequestState.loaded,
+            mostSellingProducts: products)));
+  }
+
+  void getSectionProducts(int sectionId) async {
+    final response = await getSectionProductsUseCase(
+        GetSectionProductsParams(sectionId: sectionId));
+
+    response.fold(
+        (failure) => emit(
+            state.copyWith(searchProductsRequestState: RequestState.error)),
+        (products) => emit(state.copyWith(
+            searchProductsRequestState: RequestState.loaded,
+            searchProductsResult: products)));
+  }
+
+  void categoryProductsSearch(int id, bool isMainCategory) async {
+    Either<Failure, List<Product>>? response;
+    if (isMainCategory) {
+      response = await mainCategoriesProductsSearchUsecase(
+          CategoriesProductsSearchParams(id: id));
+    } else {
+      response = await subCategoriesProductsSearchUsecase(
+          CategoriesProductsSearchParams(id: id));
+    }
 
     response.fold(
         (failure) =>

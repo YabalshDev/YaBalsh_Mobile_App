@@ -23,8 +23,9 @@ class LastOfferCard extends StatelessWidget {
       children: [
         InkWell(
           onTap: () => Get.toNamed(RouteHelper.getSearchRoute(), arguments: [
-            SearchNavigationScreens.categoriesScreen,
-            mainCategory.name
+            SearchNavigationScreens.mainCategories,
+            mainCategory.name,
+            mainCategory.id
           ]),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,

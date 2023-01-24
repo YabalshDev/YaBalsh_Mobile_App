@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/constants.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/search_navigation_screens.dart';
+import 'package:yabalash_mobile_app/core/utils/handle_search_view_initstate.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/core/widgets/internet_connection_wrapper.dart';
 import 'package:yabalash_mobile_app/core/widgets/keyboard_dissmisable.dart';
@@ -300,39 +301,13 @@ class RouteHelper {
           final String searchName = Get.arguments[1];
           final SearchNavigationScreens searchNavigationScreens =
               Get.arguments[0];
+          final int id = Get.arguments[2];
           return InternetConnectionWrapper(
             child: CustomAnimatedWidget(
               child: BlocProvider<SearchCubit>(
                 create: (context) {
-                  switch (searchNavigationScreens) {
-                    case SearchNavigationScreens.homeScreen:
-                      return getIt<SearchCubit>()
-                        ..getSearchHistory()
-                        ..getMostSellingProducts();
-
-                    case SearchNavigationScreens.categoriesScreen:
-                      return getIt<SearchCubit>()
-                        ..changeSearchIsEmpty(false)
-                        ..setIntialSearchValue(searchName)
-                        ..getSearchHistory()
-                        ..getMostSellingProducts()
-                        ..search(searchName)
-                        ..getBestOffer();
-                    case SearchNavigationScreens.nearStoresScreen:
-                      return getIt<SearchCubit>()
-                        ..changeSearchType(1)
-                        ..changeSearchIsEmpty(false)
-                        ..getSearchHistory()
-                        ..getMostSellingProducts()
-                        ..getAllNearStores();
-                    case SearchNavigationScreens.other:
-                      return getIt<SearchCubit>()
-                        ..changeSearchIsEmpty(false)
-                        ..setIntialSearchValue(searchName)
-                        ..getSearchHistory()
-                        ..getMostSellingProducts()
-                        ..search(searchName);
-                  }
+                  return handleSearchViewInitState(
+                      searchNavigationScreens, searchName, id);
                 },
                 child: KeyboardDissmisable(
                   child: SearchView(

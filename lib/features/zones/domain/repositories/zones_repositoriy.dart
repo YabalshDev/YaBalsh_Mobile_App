@@ -9,5 +9,5 @@ abstract class ZonesRepository {
       {required int mainZoneId});
   Future<Either<Failure, List<MainZone>>> getAllMainZones();
   void setZone({required SubZone zone});
-  Either<Failure, List<SubZone>> getPastZones();
+  Future<Either<Failure, List<SubZone>>> getPastZones();
 }

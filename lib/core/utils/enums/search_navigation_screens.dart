@@ -1,6 +1,9 @@
 enum SearchNavigationScreens {
   homeScreen,
-  categoriesScreen,
+
   nearStoresScreen,
+  sections,
+  mainCategories,
+  subCategories,
   other
 }

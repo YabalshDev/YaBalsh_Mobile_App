@@ -43,9 +43,9 @@ class HomeHeader extends StatelessWidget {
               ),
               smallVerticalSpace,
               InkWell(
-                onTap: () {
-                  final subZones =
-                      BlocProvider.of<HomeCubit>(context).getSubZoneHistory();
+                onTap: () async {
+                  final subZones = await BlocProvider.of<HomeCubit>(context)
+                      .getSubZoneHistory();
                   showModalBottomSheet(
                     context: context,
                     builder: (context) => ZonesBottomModal(zones: subZones),

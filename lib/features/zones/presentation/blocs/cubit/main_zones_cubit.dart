@@ -19,7 +19,7 @@ class MainZonesCubit extends Cubit<MainZonesState> {
       : super(const MainZonesState());
 
   void getZonesHistory() async {
-    final response = getPastSubZonesUseCase(NoParams());
+    final response = await getPastSubZonesUseCase(NoParams());
 
     response.fold((failure) {
       emit(state.copyWith(

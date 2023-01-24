@@ -21,7 +21,7 @@ class ZoneServiceImpl implements ZoneService {
   void getCurrentSubZone() {
     final box = Hive.box<SubZone>(AppStrings.zones);
     if (box.values.isNotEmpty) {
-      _currentSubZone = box.values.toList().first;
+      _currentSubZone = box.values.toList().last;
     }
   }
 

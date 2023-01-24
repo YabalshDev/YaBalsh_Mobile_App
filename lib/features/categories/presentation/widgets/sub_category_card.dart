@@ -17,8 +17,9 @@ class SubCategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => Get.toNamed(RouteHelper.getSearchRoute(), arguments: [
-        SearchNavigationScreens.categoriesScreen,
-        subCategory.name
+        SearchNavigationScreens.subCategories,
+        subCategory.name,
+        subCategory.id
       ]),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

@@ -134,9 +134,9 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  List<SubZone> getSubZoneHistory() {
+  Future<List<SubZone>> getSubZoneHistory() async {
     List<SubZone> subZones = [];
-    final response = getPastSubZonesUseCase(NoParams());
+    final response = await getPastSubZonesUseCase(NoParams());
 
     response.fold((l) {}, (result) {
       subZones = result;
