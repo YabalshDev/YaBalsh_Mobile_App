@@ -22,6 +22,11 @@ class NotificationHelper {
     });
   }
 
+  static Future<String> getDeviceId() async {
+    final status = await OneSignal.shared.getDeviceState();
+    return status!.userId!;
+  }
+
   static void handleOnNotificationOpened() {
     OneSignal.shared.setNotificationOpenedHandler((openedResult) {
       final notificationData = NotificationAdditionalData.fromJson(

@@ -7,6 +7,7 @@ import 'package:yabalash_mobile_app/core/utils/app_bloc_observer.dart';
 import 'package:yabalash_mobile_app/core/utils/notification_helper.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/entities/customer.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/cart_item.dart';
+import 'package:yabalash_mobile_app/features/home/domain/entities/device.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/price_model.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/product.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/domain/entities/shopping_list.dart';
@@ -29,6 +30,7 @@ void main() async {
   Hive.registerAdapter(ProductAdapter());
   Hive.registerAdapter(CartItemAdapter());
   Hive.registerAdapter(CustomerAdapter());
+  Hive.registerAdapter(DeviceAdapter());
   await Hive.openBox(AppStrings.isFirstTimeVisitKey);
   await Hive.openBox(AppStrings.token);
   await Hive.openBox<SubZone>(AppStrings.zones);
@@ -36,6 +38,7 @@ void main() async {
   await Hive.openBox<ShoppingList>(AppStrings.shoppingListKey);
   await Hive.openBox<String>(AppStrings.searchHistoryKey);
   await Hive.openBox<Customer>(AppStrings.customerKey);
+  await Hive.openBox<Device>(AppStrings.deviceKey);
   // intialize hive boxes
   Bloc.observer = AppBlocObserver();
   NotificationHelper.initNotificationsPlatform();
