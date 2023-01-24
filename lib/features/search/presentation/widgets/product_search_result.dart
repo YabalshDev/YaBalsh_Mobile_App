@@ -40,14 +40,15 @@ class ProductSearchResult extends StatelessWidget {
                       children: [
                         state.chepeastProduct!.id != null
                             ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SubHeading(
                                       text:
-                                          '${state.intialValue} افضل عرض على'),
-                                  mediumHorizontalSpace,
+                                          'افضل عرض على ${state.intialValue}'),
+                                  mediumVerticalSpace,
                                   MainProductCard(
                                       product: state.chepeastProduct!),
-                                  mediumHorizontalSpace
+                                  mediumVerticalSpace
                                 ],
                               )
                             : const SizedBox(),

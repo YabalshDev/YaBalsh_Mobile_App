@@ -201,22 +201,24 @@ class SearchCubit extends Cubit<SearchState> {
     }
 
     response.fold(
-        (failure) =>
-            emit(state.copyWith(mostSellingRequestState: RequestState.error)),
-        (products) => emit(state.copyWith(
-            mostSellingRequestState: RequestState.loaded,
-            mostSellingProducts: products)));
+        (failure) => emit(
+            state.copyWith(searchProductsRequestState: RequestState.error)),
+        (products) {
+      getBestOffer(products);
+      emit(state.copyWith(
+          searchProductsRequestState: RequestState.loaded,
+          searchProductsResult: products));
+    });
   }
 
-  void getBestOffer() {
-    List<Product> searchProducts = List.from(state.searchProductsResult!);
-    if (searchProducts.isNotEmpty) {
-      searchProducts.sort(((a, b) => a.prices!.entries.first.value.price!
+  void getBestOffer(List<Product> products) {
+    if (products.isNotEmpty) {
+      products.sort(((a, b) => a.prices!.entries.first.value.price!
           .compareTo(b.prices!.entries.first.value.price!)));
       // sort products
 
       emit(state.copyWith(
-          chepeastProduct: searchProducts[0])); //first element is cheapest
+          chepeastProduct: products[0])); //first element is cheapest
     }
   }
 }

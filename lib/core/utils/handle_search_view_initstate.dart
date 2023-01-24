@@ -19,16 +19,16 @@ SearchCubit handleSearchViewInitState(
         ..setIntialSearchValue(searchName)
         ..getSearchHistory()
         ..getMostSellingProducts()
-        ..categoryProductsSearch(id, true)
-        ..getBestOffer();
+        ..categoryProductsSearch(id, true);
+
     case SearchNavigationScreens.subCategories:
       return getIt<SearchCubit>()
         ..changeSearchIsEmpty(false)
         ..setIntialSearchValue(searchName)
         ..getSearchHistory()
         ..getMostSellingProducts()
-        ..categoryProductsSearch(id, true)
-        ..getBestOffer();
+        ..categoryProductsSearch(id, true);
+
     case SearchNavigationScreens.nearStoresScreen:
       return getIt<SearchCubit>()
         ..changeSearchType(1)

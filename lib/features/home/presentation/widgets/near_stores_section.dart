@@ -58,7 +58,8 @@ class NearStoresLoaded extends StatelessWidget {
             final zoneName = getIt<ZoneService>().currentSubZone!.name;
             Get.toNamed(RouteHelper.getSearchRoute(), arguments: [
               SearchNavigationScreens.nearStoresScreen,
-              zoneName
+              zoneName,
+              0
             ]);
           },
         ),

@@ -17,13 +17,15 @@ class BackToTopCard extends StatelessWidget {
             duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
       },
       child: Container(
-        padding: kSmallPadding.copyWith(left: 2, right: 2, bottom: 1, top: 1),
+        padding: kSmallPadding.copyWith(
+            left: 4.w, right: 4.w, bottom: 1.h, top: 1.h),
         decoration: kDefaultBoxDecoration.copyWith(
             border: Border.all(color: Colors.transparent),
             color: AppColorsLight.kAppPrimaryColorLight),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+            smallHorizontalSpace,
             Container(
               decoration: const BoxDecoration(
                   shape: BoxShape.circle, color: Colors.white),
@@ -40,7 +42,8 @@ class BackToTopCard extends StatelessWidget {
                   .textTheme
                   .bodySmall
                   ?.copyWith(fontWeight: FontWeight.w700, color: Colors.white),
-            )
+            ),
+            smallHorizontalSpace,
           ],
         ),
       ),

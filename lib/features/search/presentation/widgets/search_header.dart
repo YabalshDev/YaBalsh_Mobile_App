@@ -81,6 +81,18 @@ class _SearchHeaderState extends State<SearchHeader> {
                               controller: controller,
                               textDirection: TextDirection.rtl,
                               onSaved: (newValue) => controller.clear(),
+                              onTap: () {
+                                if (controller
+                                        .text[controller.text.length - 1] !=
+                                    ' ') {
+                                  controller.text = ('${controller.text} ');
+                                }
+                                if (controller.selection ==
+                                    TextSelection.fromPosition(TextPosition(
+                                        offset: controller.text.length - 1))) {
+                                  setState(() {});
+                                }
+                              },
                               onChanged: (value) {
                                 if (value!.isEmpty) {
                                   BlocProvider.of<SearchCubit>(context)
