@@ -18,6 +18,9 @@ abstract class AuthRemoteDataSource {
 
   Future<CheckUserRegisterdResponseModel> checkUserRegistered(
       {required String phoneNumber});
+
+  Future<bool> registerDevice(
+      {required String deviceId, required String token});
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -57,5 +60,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         queryParams: {'phoneNumber': phoneNumber});
 
     return CheckUserRegisterdResponseModel.fromJson(response);
+  }
+
+  @override
+  Future<bool> registerDevice(
+      {required String deviceId, required String token}) async {
+    final response = await restApiProvider.post(devicesEndpoint,
+        body: {'deviceId': deviceId},
+        headers: {'authorization': 'Bearer $token'});
+
+    return response['data'] as bool;
   }
 }

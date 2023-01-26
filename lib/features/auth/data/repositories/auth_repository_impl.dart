@@ -71,4 +71,16 @@ class AuthRepositoryImpl implements AuthRepository {
           ServerFailure(message: 'خطا اثناء التحقق من رقم الهاتف'));
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> registerDevice(
+      {required String deviceId, required String token}) async {
+    try {
+      final result = await authRemoteDataSource.registerDevice(
+          deviceId: deviceId, token: token);
+      return Right(result);
+    } on ServerException {
+      return const Left(ServerFailure(message: 'خطا اثناء تسجيل الجهاز'));
+    }
+  }
 }

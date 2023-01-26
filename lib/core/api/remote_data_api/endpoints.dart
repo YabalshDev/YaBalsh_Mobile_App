@@ -15,6 +15,7 @@ const String recipiesEndpoint = '/api/v1/recipes';
 const String brandsEndpoint = '/api/v1/brands';
 const String notificationsEndpoint = '/api/v1/notifications';
 const String storesSearchEndpoint = '/api/v1/stores/search';
+const String devicesEndpoint = '/api/v1/devices';
 String getAddressEndPointById(int id) => '/api/v1/addresses/$id';
 String getRecipieDetailsEndPointById(int id) => '$recipiesEndpoint/$id';
 String getStoreEndPointById(int id) => '/api/v1/stores/$id';

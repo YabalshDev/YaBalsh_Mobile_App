@@ -19,4 +19,7 @@ abstract class AuthRepository {
 
   bool checkUserLoggedIn();
   void saveUserToken({required String token});
+
+  Future<Either<Failure, bool>> registerDevice(
+      {required String deviceId, required String token});
 }
