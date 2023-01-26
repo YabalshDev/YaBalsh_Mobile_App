@@ -16,7 +16,7 @@ class PriceComparisonSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
       builder: (context, state) {
-        if (state.withNearStores!) {
+        if (state.withNearStores! && state.nearStores!.isNotEmpty) {
           return ListView.builder(
             key: UniqueKey(),
             physics: const NeverScrollableScrollPhysics(),
@@ -41,7 +41,7 @@ class PriceComparisonSection extends StatelessWidget {
               );
             },
           );
-        } else {
+        } else if (!state.withNearStores! && state.productStores!.isNotEmpty) {
           return ListView.builder(
             key: UniqueKey(),
             physics: const NeverScrollableScrollPhysics(),
@@ -66,6 +66,8 @@ class PriceComparisonSection extends StatelessWidget {
               );
             },
           );
+        } else {
+          return const SizedBox();
         }
       },
     );

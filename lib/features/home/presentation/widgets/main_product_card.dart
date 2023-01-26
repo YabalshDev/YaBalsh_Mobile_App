@@ -35,7 +35,6 @@ class MainProductCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             ProductDetailsCard(product: product),
-            smallVerticalSpace,
             Container(
               height: 40.h,
               padding: kDefaultPadding,

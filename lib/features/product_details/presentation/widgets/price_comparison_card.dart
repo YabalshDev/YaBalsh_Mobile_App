@@ -143,13 +143,18 @@ String getStoreAddress(Store store, bool isNearStores) {
   Location? storeLocation = store.locations!.firstWhere(
       (element) => element.subZoneId != getIt<ZoneService>().currentSubZone!.id,
       orElse: () => const LocationModel());
-  if (isNearStores || storeLocation.subZoneId == null) {
+  if (isNearStores ||
+      storeLocation.subZoneId == null && store.locations!.isNotEmpty) {
     address = store.locations!
         .firstWhere((element) =>
             element.subZoneId == getIt<ZoneService>().currentSubZone!.id)
         .address!;
   } else {
-    address = storeLocation.address!;
+    if (storeLocation.address != null) {
+      address = storeLocation.address!;
+    } else {
+      address = 'غير متوفر';
+    }
   }
 
   return address;
