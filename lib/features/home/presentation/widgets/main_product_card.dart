@@ -26,7 +26,7 @@ class MainProductCard extends StatelessWidget {
       onTap: () =>
           Get.toNamed(RouteHelper.getProductDetailsRoute(), arguments: product),
       child: Container(
-        width: 156.w,
+        width: 146.w,
         decoration: kDefaultBoxDecoration.copyWith(
           color: AppColorsLight.kOffwhiteColor,
         ),
@@ -62,7 +62,7 @@ class ProductDetailsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 156.w,
+      width: 146.w,
       padding: kDefaultPadding,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -80,12 +80,13 @@ class ProductDetailsCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Stack(
+            clipBehavior: Clip.none,
             children: [
               SizedBox(
-                  height: 163.h,
-                  width: 137.w,
+                  height: 133.h,
+                  width: 126.w,
                   child: AppImage(
-                    fit: BoxFit.fill,
+                    fit: BoxFit.contain,
                     path: product.imagePath!,
                   )),
               Positioned(
@@ -99,15 +100,17 @@ class ProductDetailsCard extends StatelessWidget {
               ProductQuantitySection(product: product)
             ],
           ),
+          mediumVerticalSpace,
           SizedBox(
-            height: 40.h,
+            height: 47.h,
             child: Text(
               product.name!,
-              maxLines: 2,
-              // overflow: TextOverflow.ellipsis,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: AppColorsLight.kAppPrimaryColorLight,
-                  fontWeight: FontWeight.w700),
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w600),
             ),
           ),
           SizedBox(
@@ -136,18 +139,33 @@ class MostExpensiveRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          'جنيه ${product.prices!.entries.last.value.price}',
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              fontSize: 11.sp,
-              decoration: TextDecoration.lineThrough,
-              color: Colors.grey,
-              fontWeight: FontWeight.w600),
-        ),
+        SizedBox(
+            width: 76.w,
+            child: RichText(
+              overflow: TextOverflow.ellipsis,
+              text: TextSpan(children: [
+                TextSpan(
+                  text: '${product.prices!.entries.last.value.price} ',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontSize: 11.sp,
+                      decoration: TextDecoration.lineThrough,
+                      color: AppColorsLight.kDisabledButtonTextColor,
+                      fontWeight: FontWeight.w600),
+                ),
+                TextSpan(
+                  text: 'جنيه ',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontSize: 10.sp,
+                      decoration: TextDecoration.lineThrough,
+                      color: AppColorsLight.kDisabledButtonTextColor,
+                      fontWeight: FontWeight.w600),
+                ),
+              ]),
+            )),
         const Spacer(),
         SizedBox(
-          height: 25.h,
-          width: 60.w,
+          height: 15.h,
+          width: 45.w,
           child: AppImage(
             fit: BoxFit.contain,
             path: product.prices!.entries.last.value.storeImagePath ?? '',
@@ -170,17 +188,31 @@ class CheapestPriceRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          'جنيه ${product.prices!.entries.first.value.price}',
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              fontSize: 13.sp,
-              color: AppColorsLight.kAppPrimaryColorLight,
-              fontWeight: FontWeight.w700),
-        ),
+        SizedBox(
+            width: 76.w,
+            child: RichText(
+              overflow: TextOverflow.ellipsis,
+              text: TextSpan(children: [
+                TextSpan(
+                  text: '${product.prices!.entries.first.value.price} ',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontSize: 13.sp,
+                      color: AppColorsLight.kAppPrimaryColorLight,
+                      fontWeight: FontWeight.w700),
+                ),
+                TextSpan(
+                  text: 'جنيه ',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontSize: 11.sp,
+                      color: AppColorsLight.kAppPrimaryColorLight,
+                      fontWeight: FontWeight.w600),
+                ),
+              ]),
+            )),
         const Spacer(),
         SizedBox(
-          height: 25.h,
-          width: 60.w,
+          height: 15.h,
+          width: 45.w,
           child: AppImage(
             fit: BoxFit.contain,
             path: product.prices!.entries.first.value.storeImagePath ?? '',
@@ -210,10 +242,10 @@ class ProductQuantitySection extends StatelessWidget {
           cartItem = state.cartItems!
               .firstWhere((element) => element.product!.id == product.id);
           return Positioned(
-            top: 120.h,
+            top: 100.h,
             child: Container(
               height: 40.h,
-              width: 120.w,
+              width: 125.w,
               color: Colors.white.withOpacity(0.8),
               child: Row(
                 children: [
@@ -236,7 +268,7 @@ class ProductQuantitySection extends StatelessWidget {
           );
         } else {
           return Positioned(
-            top: 120.h,
+            top: 110.h,
             left: 0,
             child: InkWell(
               onTap: () => getIt<CartCubit>().addItemToCart(product),
