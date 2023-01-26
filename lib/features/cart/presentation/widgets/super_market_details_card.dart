@@ -63,8 +63,12 @@ class SupermarketDetailsCard extends StatelessWidget {
                         ?.copyWith(color: Colors.black, fontSize: 10.sp)),
                 TextSpan(
                     text: superMarketCardModel != null
-                        ? superMarketCardModel!.store!.name
-                        : store!.name,
+                        ? superMarketCardModel!.store!.name!.isEmpty
+                            ? 'غير متوفر'
+                            : superMarketCardModel!.store!.name!
+                        : store!.name!.isEmpty
+                            ? 'غير متوفر'
+                            : store!.name!,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: AppColorsLight.kAppPrimaryColorLight,
                         fontWeight: FontWeight.w600,
@@ -82,7 +86,7 @@ class SupermarketDetailsCard extends StatelessWidget {
                 Text(
                   isFromOrderSuccess!
                       ? '${superMarketCardModel != null ? superMarketCardModel!.store!.name : store!.name} هيوصلك طلبك في الوقت المتوقع'
-                      : 'الطلب هيتم توصيله في خلال ${storeLocation.deliveryTime} دقيقة',
+                      : 'الطلب هيتم توصيله في خلال ${storeLocation != null ? storeLocation.deliveryTime : 95} دقيقة',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color:
                           AppColorsLight.kAppPrimaryColorLight.withOpacity(0.8),

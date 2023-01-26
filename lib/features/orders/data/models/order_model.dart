@@ -40,7 +40,7 @@ class OrderModel extends Order {
           .map((e) => OrderResponseProductModel.fromJson(e))
           .toList(),
       status: json['status'] ?? 'pending',
-      subTotal: json['subTotal']
+      subTotal: json['subTotal'] == null
           ? 0
           : json['subTotal'].runtimeType == int
               ? json['subTotal'].toDouble()
