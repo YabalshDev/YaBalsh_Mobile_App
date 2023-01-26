@@ -26,17 +26,25 @@ class OrderModel extends Order {
             subTotal: subTotal);
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
-      address: AddressModel.fromJson(json['address']),
-      id: json['id'],
-      store: StoreModel.fromJson(json['store']),
-      orderDate: DateTime.parse(json['orderDate']),
+      address: json['address'] != null
+          ? AddressModel.fromJson(json['address'])
+          : const Address(),
+      id: json['id'] ?? 0,
+      store: json['address'] != null
+          ? StoreModel.fromJson(json['store'])
+          : const Store(),
+      orderDate: json['orderDate'] != null
+          ? DateTime.parse(json['orderDate'])
+          : DateTime.now(),
       products: (json['products'] as List<dynamic>)
           .map((e) => OrderResponseProductModel.fromJson(e))
           .toList(),
-      status: json['status'],
-      subTotal: json['subTotal'].runtimeType == int
-          ? json['subTotal'].toDouble()
-          : json['subTotal'].runtimeType == String
-              ? double.parse(json['subTotal'])
-              : json['subTotal']);
+      status: json['status'] ?? 'pending',
+      subTotal: json['subTotal']
+          ? 0
+          : json['subTotal'].runtimeType == int
+              ? json['subTotal'].toDouble()
+              : json['subTotal'].runtimeType == String
+                  ? double.parse(json['subTotal'])
+                  : json['subTotal']);
 }

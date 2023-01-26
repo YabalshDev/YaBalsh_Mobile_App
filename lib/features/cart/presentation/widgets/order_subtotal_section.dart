@@ -113,7 +113,7 @@ class OrderSubTotalSection extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: Colors.grey.shade400, fontSize: 12.sp)),
                 smallHorizontalSpace,
-                Text('${storeLocation.deliveryFees} جنيه',
+                Text('${storeLocation.deliveryFees ?? 20} جنيه',
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall
@@ -135,7 +135,9 @@ class OrderSubTotalSection extends StatelessWidget {
                 ((order != null
                             ? order!.subTotal
                             : getIt<CartCubit>().state.supermarket!.price)! +
-                        double.parse(storeLocation.deliveryFees!))
+                        (storeLocation.deliveryFees != null
+                            ? double.parse(storeLocation.deliveryFees!)
+                            : 20))
                     .toStringAsFixed(2),
                 style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                       color: AppColorsLight.kAppPrimaryColorLight,

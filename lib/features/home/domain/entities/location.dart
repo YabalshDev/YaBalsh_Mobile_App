@@ -10,6 +10,8 @@ class Location extends Equatable {
   final String? mapImage;
   final int? deliveryTime;
   final String? deliveryFees;
+  final String? startTime;
+  final String? endTime;
 
   const Location(
       {this.zone,
@@ -20,6 +22,8 @@ class Location extends Equatable {
       this.deliveryTime,
       this.deliveryFees,
       this.mainZoneId,
+      this.endTime,
+      this.startTime,
       this.subZoneId});
 
   @override
@@ -32,6 +36,8 @@ class Location extends Equatable {
         deliveryFees,
         mainZoneId,
         subZoneId,
+        startTime,
+        endTime,
         mapImage
       ];
 }

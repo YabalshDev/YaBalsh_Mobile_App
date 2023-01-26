@@ -17,8 +17,8 @@ class StoreModel extends Store {
 
   factory StoreModel.fromJson(Map<String, dynamic> json) {
     return StoreModel(
-        id: json["id"],
-        name: json["name"],
+        id: json["id"] ?? 0,
+        name: json["name"] ?? '',
         cardImagePath: json["cardImagePath"] ?? json["imagePath"] ?? '',
         logoImagePath: json["logoImagePath"] ?? json["imagePath"] ?? '',
         locations: json['locations'] != null
