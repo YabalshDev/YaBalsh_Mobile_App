@@ -39,7 +39,6 @@ class CartBody extends StatelessWidget {
       BlocBuilder<CartCubit, CartState>(
         builder: (context, state) {
           return CustomHeader(
-            isWithNotification: state.cartStepIndex == 0 ? false : true,
             title: 'السلة',
             onIconTap: () {
               getIt<CartCubit>()

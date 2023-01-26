@@ -15,7 +15,7 @@ class CategoriesBody extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CustomHeader(isWithNotification: true, title: "الاقسام"),
+            const CustomHeader(title: "الاقسام"),
             mediumVerticalSpace,
             const AllCategoriesSections(),
           ],

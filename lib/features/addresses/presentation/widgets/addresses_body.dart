@@ -22,7 +22,6 @@ class AddressesBody extends StatelessWidget {
           child: Column(
         children: [
           CustomHeader(
-              isWithNotification: true,
               title: 'عناويني',
               onIconTap: () => fromRoute == RouteHelper.getCartRoute()
                   ? Get.offAllNamed(RouteHelper.getMainNavigationRoute(),

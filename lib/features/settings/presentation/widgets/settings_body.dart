@@ -26,8 +26,7 @@ class SettingsBody extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const CustomHeader(
-                      isWithNotification: false, title: 'الاعدادات'),
+                  const CustomHeader(title: 'الاعدادات'),
                   largeVerticalSpace,
                   Text(
                     'حسابي',

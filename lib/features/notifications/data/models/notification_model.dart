@@ -20,6 +20,7 @@ class NotificationModel extends Notification {
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) =>
       NotificationModel(
+          title: json['title'] ?? "اشعار",
           description: json['description'] ?? '',
           id: json['id'] ?? -1,
           imagePath: json['imagePath'] ?? '',

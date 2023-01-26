@@ -23,7 +23,6 @@ class RecipiesBody extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomHeader(
-              isWithNotification: true,
               title: 'قوائم الوصفات',
               iconPath: AppAssets.closeIcon,
               onIconTap: () => Get.offNamed(

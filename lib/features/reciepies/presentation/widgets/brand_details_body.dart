@@ -21,7 +21,6 @@ class BrandDetailsBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomHeader(
-                isWithNotification: true,
                 title: 'وصفات ${brand.name}',
                 iconPath: AppAssets.backIcon,
               ),

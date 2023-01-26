@@ -24,7 +24,7 @@ class ShoppingListBody extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const CustomHeader(isWithNotification: false, title: 'قوائمي'),
+              const CustomHeader(title: 'قوائمي'),
               BlocBuilder<ShoppingListCubit, ShoppingListState>(
                 builder: (context, state) {
                   switch (state.shoppingListRequestState) {

@@ -20,4 +20,5 @@ class AppColorsLight {
   static const Color kAddressBackgroundColor = Color(0xffFCFCFC);
   static const Color kCancelColor = Color(0xffBCBDBF);
   static const Color kLightPurpleColor = Color(0xFF482C76);
+  static const Color darkPurpleColor = Color(0xff727797);
 }

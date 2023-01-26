@@ -25,7 +25,6 @@ class PastOrdersBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomHeader(
-                isWithNotification: true,
                 iconPath: AppAssets.closeIcon,
                 onIconTap: () => Get.back(),
                 title: 'طلباتي',
