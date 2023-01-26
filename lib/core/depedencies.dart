@@ -8,6 +8,7 @@ import 'package:yabalash_mobile_app/core/api/remote_data_api/rest_api_provider.d
 import 'package:yabalash_mobile_app/core/cubits/cubit/connectivty_cubit.dart';
 import 'package:yabalash_mobile_app/core/services/addresses_service.dart';
 import 'package:yabalash_mobile_app/core/services/categories_service.dart';
+import 'package:yabalash_mobile_app/core/services/device_service.dart';
 import 'package:yabalash_mobile_app/core/services/order_service.dart';
 import 'package:yabalash_mobile_app/core/services/stores_service.dart';
 import 'package:yabalash_mobile_app/core/services/user_service.dart';
@@ -28,6 +29,7 @@ import 'package:yabalash_mobile_app/features/auth/domain/repositories/auth_repos
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/check_user_registered_usecase.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/get_current_customer_usecase.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/login_usecase.dart';
+import 'package:yabalash_mobile_app/features/auth/domain/usecases/register_device_usecase.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/register_usecase.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/login_cubit.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/phone_number_cubit.dart';
@@ -144,6 +146,7 @@ setupDependecies() {
       () => UserServiceImpl(localStorageProvider: getIt()));
   getIt.registerLazySingleton<StoreService>(() => StoreServiceImpl());
   getIt.registerLazySingleton<CategoriesService>(() => CategoriesServiceImpl());
+  getIt.registerLazySingleton<DeviceService>(() => DeviceServiceImpl());
 
   getIt.registerLazySingleton<HomeDataSource>(
       () => HomeRemoteDataSourceImpl(restApiProvider: getIt()));
@@ -258,6 +261,9 @@ setupDependecies() {
   getIt.registerLazySingleton(() => CheckUserRegisteredUseCase(
         authRepository: getIt(),
       ));
+  getIt.registerLazySingleton(() => RegisterDeviceUseCase(
+        authRepository: getIt(),
+      ));
 
   getIt.registerLazySingleton(
       () => GetMainZoneSubZonesUseCase(zonesRepository: getIt()));
@@ -358,6 +364,7 @@ setupDependecies() {
   getIt.registerFactory(
     () => LoginCubit(
         loginUseCase: getIt(),
+        registerDeviceUseCase: getIt(),
         authRepository: getIt(),
         getCurrentCustomerUseCase: getIt()),
   );

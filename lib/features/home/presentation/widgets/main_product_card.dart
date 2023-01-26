@@ -90,9 +90,11 @@ class ProductDetailsCard extends StatelessWidget {
               Positioned(
                   top: 0,
                   left: 0,
-                  child: SavingCard(
-                      percentage: calculateSavingsPercentage(product)
-                          .toStringAsFixed(2))),
+                  child: calculateSavingsPercentage(product) <= 0
+                      ? const SizedBox()
+                      : SavingCard(
+                          percentage: calculateSavingsPercentage(product)
+                              .toStringAsFixed(0))),
               ProductQuantitySection(product: product)
             ],
           ),

@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
 import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/core/services/user_service.dart';
@@ -12,8 +11,9 @@ import 'package:yabalash_mobile_app/core/services/zone_service.dart';
 import 'package:yabalash_mobile_app/core/utils/notification_helper.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/domain/repositories/splash_repository.dart';
 
-import '../../../../../core/constants/app_strings.dart';
 import '../../../../../core/cubits/cubit/connectivty_cubit.dart';
+import '../../../../../core/services/device_service.dart';
+import '../../../../../core/utils/save_device.dart';
 
 part 'splash_state.dart';
 
@@ -42,6 +42,10 @@ class SplashCubit extends Cubit<SplashState> {
     });
   }
 
+  void getCurrentDevice() {
+    getIt<DeviceService>().getDeviceFromLocalStorage();
+  }
+
   void checkIfUserLoggedIn() async {
     final result = userService.getToken();
     if (result.isNotEmpty) {
@@ -55,15 +59,6 @@ class SplashCubit extends Cubit<SplashState> {
     if (currentSubZone != null) {
       _isZoneExits = true;
     }
-  }
-
-  void initNotifications() async {
-    OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-    OneSignal.shared.setAppId(AppStrings.oneSignalAppId);
-
-// The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
-    OneSignal.shared
-        .promptUserForPushNotificationPermission(fallbackToSettings: true);
   }
 
   void checkIsFirstTimeVisit() {
@@ -83,7 +78,7 @@ class SplashCubit extends Cubit<SplashState> {
 
   void splashInit() async {
     await Future.delayed(
-      const Duration(seconds: 4),
+      const Duration(seconds: 3),
       () {
         initConnectivityStream();
         NotificationHelper.handleOnNotificationOpened();
@@ -95,8 +90,10 @@ class SplashCubit extends Cubit<SplashState> {
 
         if (_isFirstTimeVisit) {
           setIsFirstTimeVisit(false);
+          saveDevice(true);
           Get.offNamed(RouteHelper.getOnBoardingRoute());
         } else {
+          getCurrentDevice();
           if (!_isZoneExits) {
             Get.offNamed(
               RouteHelper.getMainZonesRoute(),

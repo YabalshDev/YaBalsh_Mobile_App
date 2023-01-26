@@ -4,13 +4,16 @@ import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/usecases/use_cases.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
 import 'package:yabalash_mobile_app/core/utils/navigation_after_auth.dart';
+import 'package:yabalash_mobile_app/core/utils/save_device.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
 import 'package:yabalash_mobile_app/features/auth/data/models/login_request_model.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/get_current_customer_usecase.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/login_usecase.dart';
+import 'package:yabalash_mobile_app/features/auth/domain/usecases/register_device_usecase.dart';
 
 import '../../../../../core/depedencies.dart';
+import '../../../../../core/services/device_service.dart';
 import '../../../../../core/services/user_service.dart';
 import '../../../domain/entities/customer.dart';
 
@@ -20,11 +23,38 @@ class LoginCubit extends Cubit<LoginState> {
   final LoginUseCase loginUseCase;
   final AuthRepository authRepository;
   final GetCurrentCustomerUseCase getCurrentCustomerUseCase;
+  final RegisterDeviceUseCase registerDeviceUseCase;
+
   LoginCubit(
       {required this.getCurrentCustomerUseCase,
+      required this.registerDeviceUseCase,
       required this.authRepository,
       required this.loginUseCase})
       : super(const LoginState());
+
+  Future<bool> registerDevice(
+      {required String deviceId, required String token}) async {
+    bool deviceRegistered = false;
+    final response = await registerDeviceUseCase(
+        RegisterDeviceParams(deviceId: deviceId, token: token));
+
+    response.fold((faiulre) {
+      // snackbar with message
+    }, (result) => deviceRegistered = result);
+
+    return deviceRegistered;
+  }
+
+  void _handleDeviceRegisteration(String token) async {
+    final device = getIt<DeviceService>().currentDevice;
+    if (device != null && device.sendToBackend!) {
+      final result =
+          await registerDevice(deviceId: device.deviceId!, token: token);
+      if (result) {
+        saveDevice(false); //if success change send to backend flag to false
+      }
+    }
+  }
 
   void loginUser(
       {required LoginRequestModel loginCredentials,
@@ -51,6 +81,7 @@ class LoginCubit extends Cubit<LoginState> {
       final customer = await getCurrentCustomer();
       if (customer.id != null) {
         getIt<UserService>().setCurrentCustomer(customer);
+        _handleDeviceRegisteration(data.token!);
         handleSuccessfullAuthNavigation(fromRoute);
         // navigation
       } else {
