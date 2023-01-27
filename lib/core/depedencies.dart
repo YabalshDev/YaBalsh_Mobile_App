@@ -111,6 +111,7 @@ import 'package:yabalash_mobile_app/features/shopping_lists/domain/usecases/rena
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/blocs/cubit/cubit/shopping_list_details_cubit.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/blocs/cubit/shopping_list_cubit.dart';
 import 'package:yabalash_mobile_app/features/store_details/presentation/blocs/cubit/store_details_cubit.dart';
+import 'package:yabalash_mobile_app/features/store_details/presentation/blocs/other_branches_cubit.dart';
 import 'package:yabalash_mobile_app/features/zones/data/datasources/zone_remote_data_source.dart';
 import 'package:yabalash_mobile_app/features/zones/data/repositories/zones_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/zones/domain/repositories/zones_repositoriy.dart';
@@ -450,4 +451,5 @@ setupDependecies() {
       ));
 
   getIt.registerFactory(() => StoreDetailsCubit());
+  getIt.registerFactory(() => OtherBranchesCubit(searchStoreUsecase: getIt()));
 }

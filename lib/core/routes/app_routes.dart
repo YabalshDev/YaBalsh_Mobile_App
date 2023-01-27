@@ -41,6 +41,7 @@ import 'package:yabalash_mobile_app/features/search/presentation/views/search_vi
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/blocs/cubit/cubit/shopping_list_details_cubit.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/views/shopping_list_details_view.dart';
 import 'package:yabalash_mobile_app/features/store_details/presentation/blocs/cubit/store_details_cubit.dart';
+import 'package:yabalash_mobile_app/features/store_details/presentation/blocs/other_branches_cubit.dart';
 import 'package:yabalash_mobile_app/features/store_details/presentation/views/store_details_view.dart';
 import 'package:yabalash_mobile_app/features/zones/domain/entities/main_zone.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/main_zones_cubit.dart';
@@ -55,6 +56,7 @@ import '../../features/orders/presentation/blocs/cubit/order_success_cubit.dart'
 import '../../features/reciepies/domain/entities/brand.dart';
 import '../../features/search/presentation/blocs/cubit/search_cubit.dart';
 import '../../features/shopping_lists/domain/entities/shopping_list.dart';
+import '../../features/store_details/presentation/views/other_branches_view.dart';
 import '../depedencies.dart';
 
 class RouteHelper {
@@ -390,6 +392,20 @@ class RouteHelper {
             child: BlocProvider<StoreDetailsCubit>(
               create: (context) => getIt<StoreDetailsCubit>()..setStore(store),
               child: const CustomAnimatedWidget(child: StoreDetailsView()),
+            ),
+          );
+        }),
+    GetPage(
+        name: _otherBranchesRoute,
+        page: () {
+          final StoreSearch store = Get.arguments;
+
+          return InternetConnectionWrapper(
+            child: BlocProvider<OtherBranchesCubit>(
+              create: (context) => getIt<OtherBranchesCubit>()
+                ..setCurrentStore(store)
+                ..getOtherBranches(store),
+              child: const CustomAnimatedWidget(child: OtherBranchesView()),
             ),
           );
         }),

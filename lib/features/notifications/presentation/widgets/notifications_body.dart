@@ -29,6 +29,7 @@ class NotificationsBody extends StatelessWidget {
                 title: 'الاشعارات',
               ),
               mediumVerticalSpace,
+              largeVerticalSpace,
               const NotificationsListSection()
             ],
           ),
