@@ -71,4 +71,6 @@ class AppAssets {
   static const String recipieIcon = 'assets/icons/recipie_icon.svg';
   static const String noWifiIcon = 'assets/icons/no_wifi.svg';
   static const String mapSearchIcon = 'assets/icons/map_search.svg';
+  static const String storeMapIcon = 'assets/icons/store_map.svg';
+  static const String earthIcon = 'assets/icons/earth.svg';
 }

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
+import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
+import 'package:yabalash_mobile_app/core/utils/enums/search_navigation_screens.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 
 import '../../features/home/domain/entities/store.dart';
@@ -24,35 +27,43 @@ class NearStoresList extends StatelessWidget {
             itemCount: stores.length,
             itemBuilder: (context, index) {
               final store = stores[index];
-              return Container(
-                  margin: EdgeInsets.only(left: 10.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      CustomCard(
-                        imagePath: store.cardImagePath,
-                        isAssetImage: false,
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Container(
-                        constraints: BoxConstraints(maxWidth: 60.w),
-                        child: Text(
-                          store.name!,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall
-                              ?.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black),
+              return InkWell(
+                onTap: () => Get.toNamed(RouteHelper.getSearchRoute(),
+                    arguments: [
+                      SearchNavigationScreens.storeScreen,
+                      store.name,
+                      0
+                    ]),
+                child: Container(
+                    margin: EdgeInsets.only(left: 10.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CustomCard(
+                          imagePath: store.cardImagePath,
+                          isAssetImage: false,
                         ),
-                      )
-                    ],
-                  ));
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        Container(
+                          constraints: BoxConstraints(maxWidth: 60.w),
+                          child: Text(
+                            store.name!,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black),
+                          ),
+                        )
+                      ],
+                    )),
+              );
             }),
       ),
     );

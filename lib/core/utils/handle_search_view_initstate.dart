@@ -50,5 +50,12 @@ SearchCubit handleSearchViewInitState(
         ..getSearchHistory()
         ..getMostSellingProducts()
         ..search(searchName);
+    case SearchNavigationScreens.storeScreen:
+      return getIt<SearchCubit>()
+        ..changeSearchType(1)
+        ..changeSearchIsEmpty(false)
+        ..getSearchHistory()
+        ..getMostSellingProducts()
+        ..search(searchName);
   }
 }

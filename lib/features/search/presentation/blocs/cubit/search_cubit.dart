@@ -168,7 +168,8 @@ class SearchCubit extends Cubit<SearchState> {
         List<StoreSearch> stores = branches
             .map((e) => StoreSearch(
                 name: store.name,
-                cardImagePath: store.logoImagePath,
+                cardImagePath: store.cardImagePath,
+                logoImagePath: store.logoImagePath,
                 id: store.id,
                 location: e))
             .toList();

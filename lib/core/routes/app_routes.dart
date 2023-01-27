@@ -36,9 +36,12 @@ import 'package:yabalash_mobile_app/features/reciepies/presentation/blocs/cubit/
 import 'package:yabalash_mobile_app/features/reciepies/presentation/views/brand_details_view.dart';
 import 'package:yabalash_mobile_app/features/reciepies/presentation/views/recipie_details_view.dart';
 import 'package:yabalash_mobile_app/features/reciepies/presentation/views/recipies_view.dart';
+import 'package:yabalash_mobile_app/features/search/domain/entities/store_search.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/views/search_view.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/blocs/cubit/cubit/shopping_list_details_cubit.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/views/shopping_list_details_view.dart';
+import 'package:yabalash_mobile_app/features/store_details/presentation/blocs/cubit/store_details_cubit.dart';
+import 'package:yabalash_mobile_app/features/store_details/presentation/views/store_details_view.dart';
 import 'package:yabalash_mobile_app/features/zones/domain/entities/main_zone.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/main_zones_cubit.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/sub_zone_cubit.dart';
@@ -79,6 +82,8 @@ class RouteHelper {
   static const String _recipieDetailsRoute = '/recipie-details';
   static const String _brandDetailsRoute = '/brand-details';
   static const String _notificationsRoute = '/notifcations';
+  static const String _storeDetailsRoute = '/store-details';
+  static const String _otherBranchesRoute = '/other-branches';
 
   static getIntialRoute() => _intialRoute;
   static getOnBoardingRoute() => _onBordingRoute;
@@ -102,6 +107,8 @@ class RouteHelper {
   static getRecipieDetailsRoute() => _recipieDetailsRoute;
   static getBrandDetailsRoute() => _brandDetailsRoute;
   static getNotificationsRoute() => _notificationsRoute;
+  static getStoreDetailsRoute() => _storeDetailsRoute;
+  static getOtherBranches() => _otherBranchesRoute;
 
   static final routes = [
     GetPage(
@@ -371,6 +378,18 @@ class RouteHelper {
               create: (context) =>
                   getIt<NotificationsCubit>()..getAllNotifications(),
               child: const CustomAnimatedWidget(child: NotificatiosView()),
+            ),
+          );
+        }),
+    GetPage(
+        name: _storeDetailsRoute,
+        page: () {
+          final StoreSearch store = Get.arguments;
+
+          return InternetConnectionWrapper(
+            child: BlocProvider<StoreDetailsCubit>(
+              create: (context) => getIt<StoreDetailsCubit>()..setStore(store),
+              child: const CustomAnimatedWidget(child: StoreDetailsView()),
             ),
           );
         }),
