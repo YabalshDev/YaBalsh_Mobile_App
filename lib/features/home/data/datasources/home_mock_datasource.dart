@@ -18,6 +18,7 @@ abstract class HomeDataSource {
   Future<List<Product>> getSectionProducts({required int sectionId});
   Future<List<Section>> getSections();
   Future<List<MainCategory>> getAllMainCategories();
+  Future<Product> getProductByBarcode({required String barCode});
 }
 
 // class HomeMockDataSourceImpl implements HomeDataSource {

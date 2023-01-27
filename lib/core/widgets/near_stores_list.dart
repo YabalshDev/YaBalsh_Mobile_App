@@ -16,7 +16,7 @@ class NearStoresList extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomAnimatedWidget(
       child: SizedBox(
-        height: 100.h,
+        height: 113.h,
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
             shrinkWrap: true,
@@ -42,6 +42,7 @@ class NearStoresList extends StatelessWidget {
                           store.name!,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
                           style: Theme.of(context)
                               .textTheme
                               .bodySmall

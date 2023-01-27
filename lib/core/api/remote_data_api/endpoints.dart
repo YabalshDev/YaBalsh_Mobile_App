@@ -16,6 +16,7 @@ const String brandsEndpoint = '/api/v1/brands';
 const String notificationsEndpoint = '/api/v1/notifications';
 const String storesSearchEndpoint = '/api/v1/stores/search';
 const String devicesEndpoint = '/api/v1/devices';
+const String productBarcodeEndpoint = '/api/v1/products/barcode';
 String getAddressEndPointById(int id) => '/api/v1/addresses/$id';
 String getRecipieDetailsEndPointById(int id) => '$recipiesEndpoint/$id';
 String getStoreEndPointById(int id) => '/api/v1/stores/$id';
@@ -29,3 +30,5 @@ String getSubCategoryProductsEndpoint(int id) =>
 String getMainCategoriesProductsEndpoint(int id) =>
     '$mainCategoriesEndpoint/$id/products';
 String getBrandsRecipiesEndpoint(int id) => '$brandsEndpoint/$id/recipes';
+String getProductEndPointByBarcode(String barcode) =>
+    '$productBarcodeEndpoint/$barcode';

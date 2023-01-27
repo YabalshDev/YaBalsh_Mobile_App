@@ -14,4 +14,7 @@ abstract class HomeRepository {
   Future<Either<Failure, List<HomeSection>>> getHomeSections();
   Future<Either<Failure, List<Product>>> getSectionProducts(
       {required int sectionId});
+
+  Future<Either<Failure, Product>> getProductByBarCode(
+      {required String barCode});
 }

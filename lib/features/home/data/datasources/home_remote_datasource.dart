@@ -15,6 +15,7 @@ import 'package:yabalash_mobile_app/features/home/domain/entities/product.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/main_category.dart';
 
 import 'package:yabalash_mobile_app/features/home/domain/entities/banner.dart';
+import 'package:yabalash_mobile_app/features/product_details/data/models/product_response_model.dart';
 import 'package:yabalash_mobile_app/features/search/data/models/product_search_response.dart';
 
 import 'home_mock_datasource.dart';
@@ -55,5 +56,12 @@ class HomeRemoteDataSourceImpl implements HomeDataSource {
   Future<List<Section>> getSections() async {
     final response = await restApiProvider.get(sectionsEndpoint);
     return SectionsResponseModel.fromJson(response).data as List<Section>;
+  }
+
+  @override
+  Future<Product> getProductByBarcode({required String barCode}) async {
+    final response =
+        await restApiProvider.get(getProductEndPointByBarcode(barCode));
+    return ProductResponseModel.fromJson(response).data as Product;
   }
 }

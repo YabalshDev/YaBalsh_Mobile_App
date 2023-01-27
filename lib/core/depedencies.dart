@@ -60,6 +60,7 @@ import 'package:yabalash_mobile_app/features/home/domain/usecases/get_banners_us
 
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_maincategories_usecase.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_near_stores_use_case.dart';
+import 'package:yabalash_mobile_app/features/home/domain/usecases/get_product_bybarcode_usecase.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_section_products_usecase.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_sections_use_case.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_cubit.dart';
@@ -249,6 +250,8 @@ setupDependecies() {
   getIt.registerLazySingleton(
       () => GetNearStoresUseCase(homeRepository: getIt()));
   getIt.registerLazySingleton(() => GetSectiosUseCase(homeRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => GetProductByBarCodeUseCase(homeRepository: getIt()));
 
   getIt.registerLazySingleton(
       () => GetSubCategoriesUseCase(categoriesRepository: getIt()));
@@ -334,6 +337,7 @@ setupDependecies() {
 //cubits/blocs
   getIt.registerFactory(
     () => HomeCubit(
+        getProductByBarCodeUseCase: getIt(),
         getPastSubZonesUseCase: getIt(),
         getMainCategoriesUseCase: getIt(),
         getBannersUseCase: getIt(),

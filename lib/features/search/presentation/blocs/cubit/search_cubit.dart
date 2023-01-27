@@ -7,6 +7,7 @@ import 'package:yabalash_mobile_app/core/constants/constants.dart';
 import 'package:yabalash_mobile_app/core/errors/faliures.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
+import 'package:yabalash_mobile_app/features/home/domain/entities/location.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_section_products_usecase.dart';
 import 'package:yabalash_mobile_app/features/search/domain/entities/store_search.dart';
 import 'package:yabalash_mobile_app/features/search/domain/repositories/search_repository.dart';
@@ -17,7 +18,9 @@ import 'package:yabalash_mobile_app/features/search/domain/usecases/sub_categori
 
 import '../../../../../core/depedencies.dart';
 import '../../../../../core/services/stores_service.dart';
+import '../../../../../core/services/zone_service.dart';
 import '../../../../home/domain/entities/product.dart';
+import '../../../../home/domain/entities/store.dart';
 
 part 'search_state.dart';
 
@@ -152,15 +155,34 @@ class SearchCubit extends Cubit<SearchState> {
 
   void getAllNearStores() {
     final nearStores = getIt<StoreService>().nearStores;
+    final subZoneId = getIt<ZoneService>().currentSubZone!.id;
     List<StoreSearch> allNearStores = [];
     emit(state.copyWith(searchStoresRequestState: RequestState.loading));
-    allNearStores = nearStores
-        .map((e) => StoreSearch(
-            cardImagePath: e.cardImagePath,
-            id: e.id,
-            location: e.locations!.last,
-            name: e.name))
-        .toList();
+
+    for (Store store in nearStores) {
+      List<Location> branches = store.locations!
+          .where((element) => element.subZoneId == subZoneId)
+          .toList();
+
+      if (branches.isNotEmpty) {
+        List<StoreSearch> stores = branches
+            .map((e) => StoreSearch(
+                name: store.name,
+                cardImagePath: store.logoImagePath,
+                id: store.id,
+                location: e))
+            .toList();
+        allNearStores.addAll(stores);
+      }
+    }
+
+    // allNearStores = nearStores
+    //     .map((e) => StoreSearch(
+    //         cardImagePath: e.cardImagePath,
+    //         id: e.id,
+    //         location: e.locations!.last,
+    //         name: e.name))
+    //     .toList();
     emit(state.copyWith(
         searchStoresRequestState: RequestState.loaded,
         searchStoresResult: allNearStores));

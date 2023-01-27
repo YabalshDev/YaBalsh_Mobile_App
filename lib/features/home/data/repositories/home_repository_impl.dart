@@ -76,4 +76,16 @@ class HomeRepositoryImpl implements HomeRepository {
       return const Left(ServerFailure(message: 'خطا اثناء جلب المنتجات'));
     }
   }
+
+  @override
+  Future<Either<Failure, Product>> getProductByBarCode(
+      {required String barCode}) async {
+    try {
+      final product =
+          await homeDataSource.getProductByBarcode(barCode: barCode);
+      return Right(product);
+    } on ServerException {
+      return const Left(ServerFailure(message: 'المنتج غير متوفر'));
+    }
+  }
 }

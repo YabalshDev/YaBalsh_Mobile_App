@@ -26,7 +26,9 @@ class ProductModel extends Product {
         barcode: json['barCode'] ?? '',
         imagePath: json['imagePath'] ?? '',
         prices: json['prices'] != null
-            ? mapJsonToPriceModelMap(json['prices'])
+            ? (json['prices'].runtimeType == List<dynamic>)
+                ? {}
+                : mapJsonToPriceModelMap(json['prices'])
             : {},
         size: json['size'] ?? "");
   }

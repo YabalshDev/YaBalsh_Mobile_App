@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
+import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/core/services/stores_service.dart';
 import 'package:yabalash_mobile_app/core/usecases/use_cases.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
@@ -14,6 +15,7 @@ import 'package:yabalash_mobile_app/features/home/domain/entities/main_category.
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_banners_use_case.dart';
 
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_near_stores_use_case.dart';
+import 'package:yabalash_mobile_app/features/home/domain/usecases/get_product_bybarcode_usecase.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_sections_use_case.dart';
 import 'package:yabalash_mobile_app/features/zones/domain/usecases/get_past_subzones_usecase.dart';
 
@@ -30,9 +32,11 @@ class HomeCubit extends Cubit<HomeState> {
   final GetNearStoresUseCase getNearStoresUseCase;
   final GetSectiosUseCase getSectiosUseCase;
   final GetPastSubZonesUseCase getPastSubZonesUseCase;
+  final GetProductByBarCodeUseCase getProductByBarCodeUseCase;
 
   HomeCubit(
       {required this.getMainCategoriesUseCase,
+      required this.getProductByBarCodeUseCase,
       required this.getPastSubZonesUseCase,
       required this.getBannersUseCase,
       required this.getNearStoresUseCase,
@@ -79,8 +83,14 @@ class HomeCubit extends Cubit<HomeState> {
           nearStoresError: failure.message));
     }, (stores) {
       getIt<StoreService>().setNearStores(stores);
+      var seen = <int>{};
+
+      List<Store> uniqueStores =
+          stores.where((element) => seen.add(element.id!)).toList();
+
       emit(state.copyWith(
-          nearStoreRequestState: RequestState.loaded, nearStores: stores));
+          nearStoreRequestState: RequestState.loaded,
+          nearStores: uniqueStores));
     });
   }
 
@@ -98,6 +108,22 @@ class HomeCubit extends Cubit<HomeState> {
     });
   }
 
+  void getProductByBarcode(String barcode) async {
+    final response = await getProductByBarCodeUseCase(
+        GetProductByBarcodeParams(barCode: barcode));
+
+    response.fold((failure) {
+      yaBalashCustomDialog(
+          mainContent: failure.message,
+          buttonTitle: 'حسنا',
+          onConfirm: () => Get.back(),
+          title: 'ملاحظة',
+          isWithEmoji: false);
+    }, (product) {
+      Get.toNamed(RouteHelper.getProductDetailsRoute(), arguments: product);
+    });
+  }
+
   void scanBarCode() async {
     String result = '';
 
@@ -105,20 +131,14 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       result = await FlutterBarcodeScanner.scanBarcode(
           '#ff6666', 'الغاء', true, ScanMode.BARCODE);
-      print(result);
 
       if (result == '-1') {
         // in cancel
         Get.back();
       } else {
         String barCode = result.substring(1, 7);
-        Get.back();
-        yaBalashCustomDialog(
-            mainContent: 'الباركود هو :$barCode',
-            buttonTitle: 'حسنا',
-            onConfirm: () => Get.back(),
-            title: 'ملاحظة',
-            isWithEmoji: false);
+        getProductByBarcode(barCode);
+
         // call comparing api
 
       }
