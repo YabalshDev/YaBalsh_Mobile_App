@@ -51,7 +51,7 @@ class PriceComparisonCard extends StatelessWidget {
                 ),
                 mediumHorizontalSpace,
                 SizedBox(
-                  width: constraints.maxWidth * 0.43,
+                  width: constraints.maxWidth * 0.50,
                   child: Column(
                     children: [
                       Row(

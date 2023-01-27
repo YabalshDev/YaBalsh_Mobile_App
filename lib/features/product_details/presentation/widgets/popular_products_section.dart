@@ -47,7 +47,7 @@ class PopularProductsSection extends StatelessWidget {
                               )),
                       mediumVerticalSpace,
                       SizedBox(
-                          height: 310.h,
+                          height: 285.h,
                           child:
                               KewordProducts(products: state.popularProducts!))
                     ],
