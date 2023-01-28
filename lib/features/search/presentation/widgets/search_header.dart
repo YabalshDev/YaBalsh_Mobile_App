@@ -132,8 +132,8 @@ class _SearchHeaderState extends State<SearchHeader> {
                                           fontWeight: FontWeight.w500,
                                           fontSize: 14.sp,
                                           color: AppColorsLight.kCancelColor),
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: constraints.maxHeight * 0.25),
+                                  contentPadding:
+                                      EdgeInsets.only(bottom: 12.5.h),
                                   border: InputBorder.none),
                             );
                           }),

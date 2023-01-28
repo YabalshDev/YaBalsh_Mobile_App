@@ -17,15 +17,18 @@ class KewordProducts extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: getIt<CartCubit>(),
-      child: ListView.builder(
-        padding: kScaffoldPadding,
-        scrollDirection: Axis.horizontal,
-        shrinkWrap: true,
-        itemCount: products.length,
-        itemBuilder: (context, index) {
-          final product = products[index];
-          return MainProductCard(product: product);
-        },
+      child: SizedBox(
+        height: 285.h,
+        child: ListView.builder(
+          padding: kScaffoldPadding,
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          itemCount: products.length,
+          itemBuilder: (context, index) {
+            final product = products[index];
+            return MainProductCard(product: product);
+          },
+        ),
       ),
     );
   }

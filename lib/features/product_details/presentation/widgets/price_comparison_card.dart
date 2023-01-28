@@ -47,48 +47,48 @@ class PriceComparisonCard extends StatelessWidget {
                   width: 45.h,
                   withBorder: true,
                   isAssetImage: false,
-                  imagePath: store.cardImagePath,
+                  imagePath: store.logoImagePath,
                 ),
                 mediumHorizontalSpace,
-                SizedBox(
-                  width: constraints.maxWidth * 0.50,
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            store.name ?? '',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    color:
-                                        AppColorsLight.kAppPrimaryColorLight),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          store.name ?? '',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColorsLight.kAppPrimaryColorLight),
+                        ),
+                        SizedBox(
+                          width: 20.w,
+                          height: 11.h,
+                          child: Image.asset(
+                            isAvailable
+                                ? AppAssets.inStockIcon
+                                : AppAssets.outOfStockIcon,
+                            fit: BoxFit.cover,
                           ),
-                          SizedBox(
-                            width: 20.w,
-                            height: 11.h,
-                            child: Image.asset(
-                              isAvailable
-                                  ? AppAssets.inStockIcon
-                                  : AppAssets.outOfStockIcon,
-                              fit: BoxFit.cover,
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          CustomSvgIcon(
-                            iconPath: AppAssets.addressesIcon,
-                            height: 16.h,
-                            width: 12.w,
-                            color: AppColorsLight.kAppPrimaryColorLight,
-                          ),
-                          smallHorizontalSpace,
-                          Text(
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CustomSvgIcon(
+                          iconPath: AppAssets.addressesIcon,
+                          height: 16.h,
+                          width: 12.w,
+                          color: AppColorsLight.kAppPrimaryColorLight,
+                        ),
+                        smallHorizontalSpace,
+                        SizedBox(
+                          width: constraints.maxWidth * 0.4,
+                          child: Text(
                             getStoreAddress(store, isNear),
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context)
@@ -97,15 +97,15 @@ class PriceComparisonCard extends StatelessWidget {
                                 ?.copyWith(
                                     fontSize: 10.sp,
                                     color: AppColorsLight.kDarkPurpleColor),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
                 ),
                 const Spacer(),
                 SizedBox(
-                  width: constraints.maxWidth * 0.34,
+                  width: constraints.maxWidth * 0.36,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

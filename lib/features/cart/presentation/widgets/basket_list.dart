@@ -17,10 +17,12 @@ class BasketList extends StatelessWidget {
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, state) {
         if (state.cartItems!.isEmpty) {
-          return SizedBox(
-            height: Get.height * 0.6,
-            child: const Center(
-              child: EmptyIndicator(title: 'دور و قارن بين أسعار المنتجات'),
+          return SingleChildScrollView(
+            child: SizedBox(
+              height: Get.height * 0.6,
+              child: const Center(
+                child: EmptyIndicator(title: 'دور و قارن بين أسعار المنتجات'),
+              ),
             ),
           );
         } else {

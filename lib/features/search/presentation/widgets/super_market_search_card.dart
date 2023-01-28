@@ -41,7 +41,7 @@ class SuperMarketSearchCard extends StatelessWidget {
                     Container(
                       constraints: BoxConstraints(maxWidth: Get.width * 0.4),
                       child: Text(
-                        '${store.name}-${store.location!.address!.split('-')[0]}',
+                        '${store.name}-${store.location!.address != null ? store.location!.address!.split('-')[0] : 'غير متوفر'}',
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             fontSize: 13.sp,
@@ -62,7 +62,7 @@ class SuperMarketSearchCard extends StatelessWidget {
                           constraints:
                               BoxConstraints(maxWidth: Get.width * 0.4),
                           child: Text(
-                            '${store.location!.address}',
+                            store.location!.address ?? 'غير متوفر',
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context)
                                 .textTheme

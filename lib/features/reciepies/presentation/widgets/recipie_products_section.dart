@@ -93,23 +93,20 @@ class RecipieProductCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            flex: 2,
-            child: CustomCard(
-              width: 65.w,
-              height: 65.h,
-              withBorder: true,
-              isAssetImage: false,
-              imagePath: product.imagePath,
-            ),
+          CustomCard(
+            width: 53.w,
+            height: 53.h,
+            withBorder: true,
+            isAssetImage: false,
+            imagePath: product.imagePath,
           ),
           mediumHorizontalSpace,
-          Expanded(
-            flex: 6,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 176.w,
+                child: Text(
                   product.name!,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -117,21 +114,21 @@ class RecipieProductCard extends StatelessWidget {
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w600),
                 ),
-                mediumVerticalSpace,
-                Text(
-                  product.size!,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      fontSize: 9.sp,
-                      color: AppColorsLight.kAppPrimaryColorLight,
-                      fontWeight: FontWeight.w600),
-                ),
-              ],
-            ),
+              ),
+              mediumVerticalSpace,
+              Text(
+                product.size!,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    fontSize: 9.sp,
+                    color: AppColorsLight.kAppPrimaryColorLight,
+                    fontWeight: FontWeight.w600),
+              ),
+            ],
           ),
-          smallHorizontalSpace,
-          Expanded(
-            flex: 2,
+          const Spacer(),
+          SizedBox(
+            width: 95.w,
             child: Text(
               '${product.prices!.entries.first.value.price} جنيه',
               overflow: TextOverflow.ellipsis,

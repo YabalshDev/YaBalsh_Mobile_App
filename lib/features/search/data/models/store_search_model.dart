@@ -17,9 +17,12 @@ class StoreSearchModel extends StoreSearch {
 
   factory StoreSearchModel.fromJson(Map<String, dynamic> json) {
     return StoreSearchModel(
-        id: json["id"],
-        name: json["name"],
-        cardImagePath: json["imagePath"],
-        location: LocationModel.fromJson(json['location']));
+        id: json["id"] ?? 0,
+        name: json["name"] ?? '',
+        cardImagePath: json["cardImagePath"] ?? '',
+        logoImagePath: json['logoImagePath'] ?? "",
+        location: json['location'] == null
+            ? const LocationModel()
+            : LocationModel.fromJson(json['location']));
   }
 }

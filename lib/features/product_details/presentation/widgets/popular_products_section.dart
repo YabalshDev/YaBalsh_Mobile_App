@@ -46,10 +46,7 @@ class PopularProductsSection extends StatelessWidget {
                                 ],
                               )),
                       mediumVerticalSpace,
-                      SizedBox(
-                          height: 285.h,
-                          child:
-                              KewordProducts(products: state.popularProducts!))
+                      KewordProducts(products: state.popularProducts!)
                     ],
                   );
           case RequestState.error:

@@ -40,7 +40,7 @@ class NearStoresList extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         CustomCard(
-                          imagePath: store.cardImagePath,
+                          imagePath: store.logoImagePath,
                           isAssetImage: false,
                         ),
                         SizedBox(

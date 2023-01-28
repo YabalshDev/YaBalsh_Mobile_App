@@ -19,8 +19,8 @@ class StoreModel extends Store {
     return StoreModel(
         id: json["id"] ?? 0,
         name: json["name"] ?? '',
-        cardImagePath: json["cardImagePath"] ?? json["imagePath"] ?? '',
-        logoImagePath: json["logoImagePath"] ?? json["imagePath"] ?? '',
+        cardImagePath: json["cardImagePath"] ?? '',
+        logoImagePath: json["logoImagePath"] ?? '',
         locations: json['locations'] != null
             ? (json["locations"] as List<dynamic>)
                 .map((e) => LocationModel.fromJson(e))

@@ -49,13 +49,13 @@ class _ItemDetailsCardState extends State<ItemDetailsCard> {
                     withBorder: true,
                     isAssetImage: false,
                     imagePath: widget.cartItem.product!.imagePath,
-                    width: 65.w,
-                    height: 65.h,
+                    width: 53.w,
+                    height: 53.h,
                   ),
                 ),
                 mediumHorizontalSpace,
                 SizedBox(
-                  width: constraints.maxWidth * 0.43,
+                  width: constraints.maxWidth * 0.36,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -87,7 +87,7 @@ class _ItemDetailsCardState extends State<ItemDetailsCard> {
             ),
             const Spacer(),
             SizedBox(
-              width: constraints.maxWidth * 0.25,
+              width: constraints.maxWidth * 0.32,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
