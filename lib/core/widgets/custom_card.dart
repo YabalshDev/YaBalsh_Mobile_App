@@ -12,11 +12,13 @@ class CustomCard extends StatelessWidget {
   final double? height;
   final bool? isAssetImage;
   final double? borderRadius;
+  final BoxFit? fit;
   const CustomCard(
       {super.key,
       this.withBorder = true,
       this.isAssetImage = true,
       this.borderRadius,
+      this.fit,
       this.width,
       this.height,
       this.backgroundColor = Colors.transparent,
@@ -40,7 +42,7 @@ class CustomCard extends StatelessWidget {
               ? Image.asset(imagePath!)
               : AppImage(
                   path: imagePath,
-                  fit: BoxFit.contain,
+                  fit: fit ?? BoxFit.contain,
                 )),
     );
   }

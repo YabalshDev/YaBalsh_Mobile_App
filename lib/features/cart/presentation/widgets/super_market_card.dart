@@ -38,13 +38,13 @@ class SuperMarketCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           isAvailable
-              ? InkWell(
+              ? GestureDetector(
                   onTap: () => BlocProvider.of<SuperMarketsCubit>(context)
                       .setSuperMarketIndex(index: index),
                   child: Container(
                     width: 18.w,
                     height: 18.w,
-                    margin: EdgeInsets.only(top: 25.h),
+                    margin: EdgeInsets.only(top: 13.h),
                     decoration: BoxDecoration(
                         color: selectedSupermarketIndex == index
                             ? AppColorsLight.kAppPrimaryColorLight
@@ -66,7 +66,10 @@ class SuperMarketCard extends StatelessWidget {
                 CustomCard(
                   isAssetImage: false,
                   withBorder: true,
-                  imagePath: superMarket.store!.cardImagePath,
+                  fit: BoxFit.fill,
+                  width: 45.w,
+                  height: 45.h,
+                  imagePath: superMarket.store!.logoImagePath,
                 ),
                 mediumHorizontalSpace,
                 Column(
@@ -150,9 +153,6 @@ class SuperMarketCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                margin: superMarket.saving! <= 0
-                    ? EdgeInsets.only(left: 7.w)
-                    : null,
                 child: Text(
                   '${superMarket.price!.toStringAsFixed(0)} جنيه',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -161,27 +161,28 @@ class SuperMarketCard extends StatelessWidget {
                       color: AppColorsLight.kAppPrimaryColorLight),
                 ),
               ),
-              superMarket.saving! > 0
-                  ? Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        CustomSvgIcon(
-                          iconPath: AppAssets.priceTagIcon,
-                          color: Colors.green.shade500,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CustomSvgIcon(
+                    iconPath: AppAssets.priceTagIcon,
+                    color: superMarket.saving! > 0
+                        ? Colors.green.shade500
+                        : Colors.white,
+                  ),
+                  smallHorizontalSpace,
+                  Text(
+                    'توفير ${superMarket.saving!.toStringAsFixed(0)} جنيه ',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontSize: 9.sp,
+                          fontWeight: FontWeight.w500,
+                          color: superMarket.saving! > 0
+                              ? Colors.green.shade500
+                              : Colors.white,
                         ),
-                        smallHorizontalSpace,
-                        Text(
-                          'توفير ${superMarket.saving!.toStringAsFixed(0)} جنيه ',
-                          style:
-                              Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    fontSize: 9.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.green.shade500,
-                                  ),
-                        ),
-                      ],
-                    )
-                  : const SizedBox()
+                  ),
+                ],
+              )
             ],
           )
         ],

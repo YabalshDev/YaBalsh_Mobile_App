@@ -49,6 +49,7 @@ class CartBody extends StatelessWidget {
               getIt<CartCubit>().changeSelectedUserAddress(const Address());
               getIt<CartCubit>()
                   .changeSupermarketSelected(const SuperMarketCardModel());
+              FocusScope.of(context).requestFocus(FocusNode());
             },
             iconPath: state.cartStepIndex! > 0 ? AppAssets.backIcon : null,
           );

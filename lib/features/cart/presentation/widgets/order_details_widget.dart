@@ -44,6 +44,8 @@ class OrderDetailsSection extends StatelessWidget {
               CustomCard(
                 withBorder: true,
                 isAssetImage: false,
+                width: 54.w,
+                height: 54.h,
                 imagePath: orderProducts != null
                     ? orderProduct!.imagePath
                     : cartItem!.product!.imagePath,
@@ -53,7 +55,7 @@ class OrderDetailsSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: 190.w),
+                    constraints: BoxConstraints(maxWidth: 195.w),
                     child: Text(
                       orderProducts != null
                           ? orderProduct!.name!

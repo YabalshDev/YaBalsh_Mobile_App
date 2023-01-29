@@ -44,38 +44,46 @@ class SupermarketDetailsCard extends StatelessWidget {
       children: [
         CustomCard(
           withBorder: true,
+          width: 45.h,
+          height: 45.w,
           isAssetImage: false,
+          fit: BoxFit.cover,
           imagePath: superMarketCardModel != null
-              ? superMarketCardModel!.store!.cardImagePath
-              : store!.cardImagePath,
+              ? superMarketCardModel!.store!.logoImagePath
+              : store!.logoImagePath,
         ),
         smallHorizontalSpace,
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            RichText(
-              text: TextSpan(children: [
-                TextSpan(
-                    text: 'طلبك من  ',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(color: Colors.black, fontSize: 10.sp)),
-                TextSpan(
-                    text: superMarketCardModel != null
-                        ? superMarketCardModel!.store!.name!.isEmpty
-                            ? 'غير متوفر'
-                            : superMarketCardModel!.store!.name!
-                        : store!.name!.isEmpty
-                            ? 'غير متوفر'
-                            : store!.name!,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppColorsLight.kAppPrimaryColorLight,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14.sp)),
-              ]),
+            Row(
+              children: [
+                smallHorizontalSpace,
+                RichText(
+                  text: TextSpan(children: [
+                    TextSpan(
+                        text: 'طلبك من  ',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall
+                            ?.copyWith(color: Colors.black, fontSize: 10.sp)),
+                    TextSpan(
+                        text: superMarketCardModel != null
+                            ? superMarketCardModel!.store!.name!.isEmpty
+                                ? 'غير متوفر'
+                                : superMarketCardModel!.store!.name!
+                            : store!.name!.isEmpty
+                                ? 'غير متوفر'
+                                : store!.name!,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: AppColorsLight.kAppPrimaryColorLight,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14.sp)),
+                  ]),
+                ),
+              ],
             ),
-            mediumVerticalSpace,
+            smallVerticalSpace,
             Row(
               children: [
                 CustomSvgIcon(

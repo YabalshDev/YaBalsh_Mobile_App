@@ -37,6 +37,7 @@ class OrderSuccessBody extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              mediumVerticalSpace,
               InkWell(
                 onTap: () {
                   if (!isFromOrderDetails) {

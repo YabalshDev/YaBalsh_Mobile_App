@@ -65,15 +65,17 @@ class CartItemCard extends StatelessWidget {
                   CustomCard(
                     withBorder: true,
                     isAssetImage: false,
+                    width: 53.w,
+                    height: 53.h,
                     imagePath: cartItem.product!.imagePath,
                   ),
                   mediumHorizontalSpace,
-                  SizedBox(
-                    width: constraints.maxWidth * 0.50,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 195.w,
+                        child: Text(
                           cartItem.product!.name ?? '',
                           overflow: TextOverflow.ellipsis,
                           style: Theme.of(context)
@@ -83,20 +85,17 @@ class CartItemCard extends StatelessWidget {
                                   color: AppColorsLight.kAppPrimaryColorLight,
                                   fontWeight: FontWeight.w600),
                         ),
-                        mediumVerticalSpace,
-                        Text(
-                          cartItem.product!.size ?? '',
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall
-                              ?.copyWith(
-                                  fontSize: 9.sp,
-                                  color: AppColorsLight.kAppPrimaryColorLight,
-                                  fontWeight: FontWeight.w600),
-                        ),
-                      ],
-                    ),
+                      ),
+                      mediumVerticalSpace,
+                      Text(
+                        cartItem.product!.size ?? '',
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            fontSize: 9.sp,
+                            color: AppColorsLight.kAppPrimaryColorLight,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ],
                   ),
                 ],
               ),

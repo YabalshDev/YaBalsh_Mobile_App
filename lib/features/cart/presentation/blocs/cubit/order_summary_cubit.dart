@@ -64,23 +64,29 @@ class OrderSummaryCubit extends Cubit<OrderSummaryState> {
     }
   }
 
+  void changePromoValidation(bool value) =>
+      emit(state.copyWith(isPromoValid: value));
+
   Future<Order>? placeOrder({required OrderRequest orderRequest}) async {
     Order? orderResult;
 
-    final response =
-        await createOrderUseCase(CreateOrderParams(orderRequest: orderRequest));
+    if (state.isPromoValid!) {
+      final response = await createOrderUseCase(
+          CreateOrderParams(orderRequest: orderRequest));
 
-    response.fold((failure) {
-      yaBalashCustomDialog(
-        isWithEmoji: false,
-        buttonTitle: 'حسنا',
-        mainContent: 'حدث مشكلة اثناء تنفيذ الطلب',
-        title: 'خطأ',
-        onConfirm: () => Get.back(),
-      );
-    }, (order) {
-      orderResult = order;
-    });
+      response.fold((failure) {
+        yaBalashCustomDialog(
+          isWithEmoji: false,
+          buttonTitle: 'حسنا',
+          mainContent: 'حدث مشكلة اثناء تنفيذ الطلب',
+          title: 'خطأ',
+          onConfirm: () => Get.back(),
+        );
+      }, (order) {
+        orderResult = order;
+      });
+    }
+
     return orderResult!;
   }
 }
