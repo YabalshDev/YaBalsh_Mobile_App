@@ -44,6 +44,10 @@ class SplashCubit extends Cubit<SplashState> {
 
   void getCurrentDevice() {
     getIt<DeviceService>().getDeviceFromLocalStorage();
+    final currentDevice = getIt<DeviceService>().currentDevice;
+    if (currentDevice == null) {
+      saveDevice(true);
+    }
   }
 
   void checkIfUserLoggedIn() async {

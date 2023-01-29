@@ -91,7 +91,7 @@ class SearchProductResultsLoaded extends StatelessWidget {
               Wrap(
                 direction: Axis.horizontal,
                 runSpacing: 20.h,
-                spacing: 2.w,
+                spacing: 20.w,
                 children: state.chepeastProduct!.id != null
                     ? state.searchProductsResult!
                         .where((element) =>

@@ -5,7 +5,9 @@ import 'notification_helper.dart';
 
 void saveDevice(bool sendToBackEnd) async {
   final deviceId = await NotificationHelper.getDeviceId();
-  final device = Device(deviceId: deviceId, sendToBackend: sendToBackEnd);
-  getIt<DeviceService>().saveDeviceToLocalStorage(device);
-  getIt<DeviceService>().setCurrentDevice(device);
+  if (deviceId.isNotEmpty) {
+    final device = Device(deviceId: deviceId, sendToBackend: sendToBackEnd);
+    getIt<DeviceService>().saveDeviceToLocalStorage(device);
+    getIt<DeviceService>().setCurrentDevice(device);
+  }
 }

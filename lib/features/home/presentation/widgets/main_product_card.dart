@@ -40,7 +40,8 @@ class MainProductCard extends StatelessWidget {
               padding: kDefaultPadding,
               decoration: kDefaultBoxDecoration.copyWith(
                   border: Border.all(color: Colors.transparent)),
-              child: product.prices!.entries.last.value.price == 0
+              child: product.prices!.isEmpty ||
+                      product.prices!.entries.last.value.price == 0
                   ? const SizedBox()
                   : MostExpensiveRow(product: product),
             )
@@ -116,7 +117,8 @@ class ProductDetailsCard extends StatelessWidget {
           SizedBox(
             height: 5.h,
           ),
-          product.prices!.entries.first.value.price == 0
+          product.prices!.isEmpty ||
+                  product.prices!.entries.first.value.price == 0
               ? SizedBox(
                   height: 20.h,
                 )

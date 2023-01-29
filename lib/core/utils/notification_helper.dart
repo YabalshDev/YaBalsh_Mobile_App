@@ -24,7 +24,11 @@ class NotificationHelper {
 
   static Future<String> getDeviceId() async {
     final status = await OneSignal.shared.getDeviceState();
-    return status!.userId!;
+    if (status != null && status.userId != null) {
+      return status.userId!;
+    } else {
+      return '';
+    }
   }
 
   static void handleOnNotificationOpened() {
