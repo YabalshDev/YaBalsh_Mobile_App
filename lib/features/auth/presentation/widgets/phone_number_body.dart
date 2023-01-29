@@ -12,11 +12,21 @@ import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/phone
 import 'package:yabalash_mobile_app/features/auth/presentation/widgets/auth_back_icon.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/widgets/auth_title_widget.dart';
 
-final _formKey = GlobalKey<FormBuilderState>();
-
-class PhoneNumberBody extends StatelessWidget {
+class PhoneNumberBody extends StatefulWidget {
   final String fromRoute;
   const PhoneNumberBody({super.key, required this.fromRoute});
+
+  @override
+  State<PhoneNumberBody> createState() => _PhoneNumberBodyState();
+}
+
+class _PhoneNumberBodyState extends State<PhoneNumberBody> {
+  late GlobalKey<FormBuilderState> _formKey;
+  @override
+  void initState() {
+    super.initState();
+    _formKey = GlobalKey<FormBuilderState>();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +106,8 @@ class PhoneNumberBody extends StatelessWidget {
 
                         BlocProvider.of<PhoneNumberCubit>(context)
                             .handlePhoneFormSubmission(
-                                phoneNumber: phoneNumber, fromRoute: fromRoute);
+                                phoneNumber: phoneNumber,
+                                fromRoute: widget.fromRoute);
                       }
                     },
                   );

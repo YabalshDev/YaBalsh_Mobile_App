@@ -76,65 +76,69 @@ class _SearchHeaderState extends State<SearchHeader> {
                         smallHorizontalSpace,
                         Expanded(
                           child: LayoutBuilder(builder: (context, constraints) {
-                            return FormBuilderTextField(
-                              name: 'search',
-                              controller: controller,
-                              textDirection: TextDirection.rtl,
-                              onSaved: (newValue) => controller.clear(),
-                              onSubmitted: (value) {
-                                if (value!.isNotEmpty) {
-                                  BlocProvider.of<SearchCubit>(context)
-                                      .saveSearch(value);
-                                  BlocProvider.of<SearchCubit>(context)
-                                      .search(value);
-                                }
-                              },
-                              onTap: () {
-                                if (controller.text.isNotEmpty) {
-                                  if (controller
-                                          .text[controller.text.length - 1] !=
-                                      ' ') {
-                                    controller.text = ('${controller.text} ');
+                            return SizedBox(
+                              height: 32.h,
+                              child: FormBuilderTextField(
+                                name: 'search',
+                                controller: controller,
+                                textDirection: TextDirection.rtl,
+                                onSaved: (newValue) => controller.clear(),
+                                onSubmitted: (value) {
+                                  if (value!.isNotEmpty) {
+                                    BlocProvider.of<SearchCubit>(context)
+                                        .saveSearch(value);
+                                    BlocProvider.of<SearchCubit>(context)
+                                        .search(value);
                                   }
-                                  if (controller.selection ==
-                                      TextSelection.fromPosition(TextPosition(
-                                          offset:
-                                              controller.text.length - 1))) {
-                                    setState(() {});
+                                },
+                                onTap: () {
+                                  if (controller.text.isNotEmpty) {
+                                    if (controller
+                                            .text[controller.text.length - 1] !=
+                                        ' ') {
+                                      controller.text = ('${controller.text} ');
+                                    }
+                                    if (controller.selection ==
+                                        TextSelection.fromPosition(TextPosition(
+                                            offset:
+                                                controller.text.length - 1))) {
+                                      setState(() {});
+                                    }
                                   }
-                                }
-                              },
-                              onChanged: (value) {
-                                if (value!.isEmpty) {
-                                  BlocProvider.of<SearchCubit>(context)
-                                      .changeSearchIsEmpty(true);
-                                  widget.searchFormKey.currentState!
-                                      .fields['search']!
-                                      .setState(() {});
-                                } else {
-                                  BlocProvider.of<SearchCubit>(context)
-                                      .changeSearchIsEmpty(false);
-                                }
-                              },
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14.sp),
-                              cursorColor: AppColorsLight.kAppPrimaryColorLight,
-                              decoration: InputDecoration(
-                                  hintText: 'دور على منتج او سوبر ماركت',
-                                  hintStyle: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall
-                                      ?.copyWith(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14.sp,
-                                          color: AppColorsLight.kCancelColor),
-                                  contentPadding:
-                                      EdgeInsets.only(bottom: 12.5.h),
-                                  border: InputBorder.none),
+                                },
+                                onChanged: (value) {
+                                  if (value!.isEmpty) {
+                                    BlocProvider.of<SearchCubit>(context)
+                                        .changeSearchIsEmpty(true);
+                                    widget.searchFormKey.currentState!
+                                        .fields['search']!
+                                        .setState(() {});
+                                  } else {
+                                    BlocProvider.of<SearchCubit>(context)
+                                        .changeSearchIsEmpty(false);
+                                  }
+                                },
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14.sp),
+                                cursorColor:
+                                    AppColorsLight.kAppPrimaryColorLight,
+                                decoration: InputDecoration(
+                                    isDense: true,
+                                    contentPadding: EdgeInsets.zero,
+                                    hintText: 'دور على منتج او سوبر ماركت',
+                                    hintStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14.sp,
+                                            color: AppColorsLight.kCancelColor),
+                                    border: InputBorder.none),
+                              ),
                             );
                           }),
                         )

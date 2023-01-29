@@ -14,13 +14,24 @@ import '../../../../core/widgets/ya_balash_custom_button.dart';
 import '../blocs/cubit/register_cubit.dart';
 import 'privacy_policy_text.dart';
 
-final _formKey = GlobalKey<FormBuilderState>();
-
-class RegisterBody extends StatelessWidget {
+class RegisterBody extends StatefulWidget {
   final String phoneNumber;
   final String fromRoute;
   const RegisterBody(
       {super.key, required this.phoneNumber, required this.fromRoute});
+
+  @override
+  State<RegisterBody> createState() => _RegisterBodyState();
+}
+
+class _RegisterBodyState extends State<RegisterBody> {
+  late GlobalKey<FormBuilderState> _formKey;
+
+  @override
+  void initState() {
+    _formKey = GlobalKey<FormBuilderState>();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +54,8 @@ class RegisterBody extends StatelessWidget {
                       ),
                       largeVerticalSpace,
 
-                      RegisterForm(formKey: _formKey, phoneNumber: phoneNumber),
+                      RegisterForm(
+                          formKey: _formKey, phoneNumber: widget.phoneNumber),
 
                       largeVerticalSpace,
                       largeVerticalSpace,
@@ -98,7 +110,7 @@ class RegisterBody extends StatelessWidget {
         password: _formKey.currentState!.fields['password']!.value,
         phoneNumber: _formKey.currentState!.fields['phoneNumber']!.value);
 
-    BlocProvider.of<RegisterCubit>(context)
-        .registerUser(registerCredntials: registerBody, fromRoute: fromRoute);
+    BlocProvider.of<RegisterCubit>(context).registerUser(
+        registerCredntials: registerBody, fromRoute: widget.fromRoute);
   }
 }

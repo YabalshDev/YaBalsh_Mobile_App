@@ -30,7 +30,7 @@ class ProductDetailsLoaded extends StatelessWidget {
               fontWeight: FontWeight.w700),
         ),
         smallVerticalSpace,
-        ProductKewordCards(productName: product.name!),
+        const ProductKewordCards(),
         mediumVerticalSpace,
         Row(
           children: [

@@ -12,11 +12,13 @@ class ProductDetailsState extends Equatable {
   final List<Store>? nearStores;
   final bool? showMore;
   final int? selectedVariantIndex;
+  final List<String> productRelevants;
 
   const ProductDetailsState(
       {this.withNearStores = true,
       this.selectedVariantIndex = -1,
       this.showMore = true,
+      this.productRelevants = const [],
       this.product = const Product(),
       this.productStores = const [],
       this.nearStores = const [],
@@ -29,6 +31,7 @@ class ProductDetailsState extends Equatable {
   ProductDetailsState copyWith(
           {bool? withNearStores,
           Product? product,
+          List<String>? productRelevants,
           bool? showMore,
           int? selectedVariantIndex,
           List<Store>? productStores,
@@ -39,6 +42,7 @@ class ProductDetailsState extends Equatable {
           List<Product>? productVaraiations,
           List<Product>? popularProducts}) =>
       ProductDetailsState(
+          productRelevants: productRelevants ?? this.productRelevants,
           selectedVariantIndex:
               selectedVariantIndex ?? this.selectedVariantIndex,
           showMore: showMore ?? this.showMore,
@@ -66,6 +70,7 @@ class ProductDetailsState extends Equatable {
         productVariationRequestState!,
         productVaraiations!,
         popularProducts!,
-        selectedVariantIndex!
+        selectedVariantIndex!,
+        productRelevants
       ];
 }

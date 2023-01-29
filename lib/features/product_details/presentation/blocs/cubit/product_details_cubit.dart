@@ -7,7 +7,9 @@ import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/usecases/get_store_usecase.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/price_model.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/store.dart';
+import 'package:yabalash_mobile_app/features/product_details/domain/entites/product_relevant.dart';
 import 'package:yabalash_mobile_app/features/product_details/domain/usecases/get_product_details_usecase.dart';
+import 'package:yabalash_mobile_app/features/product_details/domain/usecases/get_product_relevants_usecase.dart';
 import 'package:yabalash_mobile_app/features/search/domain/usecases/search_product_usecase.dart';
 
 import '../../../../../core/services/zone_service.dart';
@@ -18,10 +20,12 @@ part 'product_details_state.dart';
 class ProductDetailsCubit extends Cubit<ProductDetailsState> {
   final GetProductDetailsUseCase getProductDetailsUseCase;
   final SearchProductUsecase searchProductUsecase;
+  final GetProductRelevantsUseCase getProductRelevantsUseCase;
   final GetStoreUseCase getStoreUseCase;
 
   ProductDetailsCubit(
       {required this.getStoreUseCase,
+      required this.getProductRelevantsUseCase,
       required this.getProductDetailsUseCase,
       required this.searchProductUsecase})
       : super(const ProductDetailsState());
@@ -78,10 +82,12 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
       emit(state.copyWith(productRequestState: RequestState.error));
     }, (product) async {
       final stores = await _getProductStores(product);
+      final relevants = await getProductRelevants(product.id!);
       final nearStores = _getNearStores(stores);
       emit(state.copyWith(
           productStores: stores,
           nearStores: nearStores,
+          productRelevants: relevants,
           product: product,
           productRequestState: RequestState.loaded));
     });
@@ -129,5 +135,34 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
           productVariationRequestState: RequestState.loaded,
           productVaraiations: variants));
     });
+  }
+
+  Future<List<String>> getProductRelevants(int productId) async {
+    List<String> relevantNames = [];
+    final response = await getProductRelevantsUseCase(
+        GetProductRelevantsParams(productId: productId));
+
+    response.fold((failure) {}, (relevants) {
+      relevantNames = _getRelevantsNames(relevants);
+    });
+
+    return relevantNames;
+  }
+
+  List<String> _getRelevantsNames(ProductRelevant relevants) {
+    List<String> relevantNames = [];
+
+    if (relevants.subCategories!.isNotEmpty) {
+      for (var subCategory in relevants.subCategories!) {
+        relevantNames.add(subCategory.name!);
+      }
+    }
+
+    if (relevants.sections!.isNotEmpty) {
+      for (var section in relevants.sections!) {
+        relevantNames.add(section.name!);
+      }
+    }
+    return relevantNames;
   }
 }

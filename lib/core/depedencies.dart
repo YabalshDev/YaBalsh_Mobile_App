@@ -124,6 +124,7 @@ import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/sub_
 import '../features/auth/presentation/blocs/cubit/register_cubit.dart';
 import '../features/on_boaring/presentation/blocs/cubit/on_boarding_cubit.dart';
 import '../features/product_details/domain/repositories/product_details_repository.dart';
+import '../features/product_details/domain/usecases/get_product_relevants_usecase.dart';
 import '../features/reciepies/presentation/blocs/cubit/brands_cubit.dart';
 import '../features/search/domain/usecases/search_store_usecase.dart';
 
@@ -325,6 +326,9 @@ setupDependecies() {
       () => GetProductDetailsUseCase(productDetailsRepository: getIt()));
 
   getIt.registerLazySingleton(
+      () => GetProductRelevantsUseCase(productDetailsRepository: getIt()));
+
+  getIt.registerLazySingleton(
       () => GetAllBrandsUseCase(recipiesRepository: getIt()));
   getIt.registerLazySingleton(
       () => GetAllRecpiesUseCase(recipiesRepository: getIt()));
@@ -434,6 +438,7 @@ setupDependecies() {
 
   getIt.registerFactory(() => ProductDetailsCubit(
         getStoreUseCase: getIt(),
+        getProductRelevantsUseCase: getIt(),
         getProductDetailsUseCase: getIt(),
         searchProductUsecase: getIt(),
       ));

@@ -63,31 +63,32 @@ class PhoneTextField extends StatelessWidget {
             smallHorizontalSpace,
             Expanded(
               child: LayoutBuilder(builder: (context, constraints) {
-                return FormBuilderTextField(
-                  onChanged: onChanged ?? (value) {},
-                  name: 'phoneNumber',
-                  initialValue: intialValue,
-                  keyboardType: TextInputType.phone,
-                  readOnly: readOnly ?? false,
-                  cursorHeight: 25.h,
-                  cursorRadius: const Radius.circular(8),
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(fontWeight: FontWeight.w600),
-                  cursorColor: AppColorsLight.kAppPrimaryColorLight,
-                  decoration: InputDecoration(
-                      hintText: hintText ?? '',
-                      hintStyle: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                          ?.copyWith(
-                              fontWeight: FontWeight.w500,
-                              color: AppColorsLight.kTextFieldBorderColor),
-                      contentPadding: EdgeInsets.symmetric(
-                        vertical: constraints.maxHeight * 0.25,
-                      ),
-                      border: InputBorder.none),
+                return SizedBox(
+                  height: 51.h,
+                  child: FormBuilderTextField(
+                    onChanged: onChanged ?? (value) {},
+                    name: 'phoneNumber',
+                    initialValue: intialValue,
+                    keyboardType: TextInputType.phone,
+                    readOnly: readOnly ?? false,
+                    cursorHeight: 25.h,
+                    cursorRadius: const Radius.circular(8),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(fontWeight: FontWeight.w600),
+                    cursorColor: AppColorsLight.kAppPrimaryColorLight,
+                    decoration: InputDecoration(
+                        isDense: true,
+                        hintText: hintText ?? '',
+                        hintStyle: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: AppColorsLight.kTextFieldBorderColor),
+                        border: InputBorder.none),
+                  ),
                 );
               }),
             )

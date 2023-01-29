@@ -25,5 +25,5 @@ class GetProductDetailsParams extends Equatable {
       {required this.withNearStores, required this.productId});
 
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [productId];
 }
