@@ -86,10 +86,10 @@ class ProductVariantsSection extends StatelessWidget {
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SubHeading(text: 'انواع اخرى للمنتج'),
+                      const SubHeading(text: 'احجام اخرى للمنتج'),
                       mediumVerticalSpace,
                       SizedBox(
-                        height: 60.h,
+                        height: 58.h,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: state.productVaraiations!.length,
@@ -142,39 +142,69 @@ class VariantCard extends StatelessWidget {
               .selectVariant(index),
           child: Container(
             margin: EdgeInsets.only(left: 10.w),
-            padding: kDefaultPadding,
+            padding: EdgeInsets.fromLTRB(10.w, 6.h, 1.w, 7.h),
             decoration: kDefaultBoxDecoration.copyWith(
                 border: state.selectedVariantIndex == index
                     ? Border.all(
                         color: AppColorsLight.kAppPrimaryColorLight, width: 2)
                     : null),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 35.h,
-                  width: 32.w,
-                  child: AppImage(
-                    path: variant.imagePath,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                smallHorizontalSpace,
-                Text(
-                  "${variant.prices!.entries.first.value.price} جنيه",
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12.sp,
-                      color: AppColorsLight.kAppPrimaryColorLight),
-                ),
-                smallHorizontalSpace,
-                SizedBox(
-                  height: 24.h,
-                  width: 44.w,
-                  child: AppImage(
-                    path: variant.prices!.entries.first.value.storeImagePath,
-                    fit: BoxFit.fill,
-                  ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    SizedBox(
+                      height: 35.h,
+                      width: 32.w,
+                      child: AppImage(
+                        path: variant.imagePath,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    smallHorizontalSpace,
+                    Container(
+                      constraints: BoxConstraints(maxWidth: 70.w),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            variant.name!.split('-')[1],
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(
+                                    fontSize: 9.sp,
+                                    fontWeight: FontWeight.w700,
+                                    color:
+                                        AppColorsLight.kAppPrimaryColorLight),
+                          ),
+                          Text(
+                            "جنيه ${variant.prices!.entries.first.value.price}",
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 12.sp,
+                                    color:
+                                        AppColorsLight.kAppPrimaryColorLight),
+                          ),
+                        ],
+                      ),
+                    ),
+                    smallHorizontalSpace,
+                    SizedBox(
+                      height: 24.h,
+                      width: 44.w,
+                      child: AppImage(
+                        path:
+                            variant.prices!.entries.first.value.storeImagePath,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

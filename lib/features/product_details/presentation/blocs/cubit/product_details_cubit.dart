@@ -94,8 +94,9 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
   }
 
   void getSimmilarProducts({required Product product}) async {
-    final response = await searchProductUsecase(
-        SearchParams(searchName: product.name!.split(' ')[0]));
+    final response = await searchProductUsecase(SearchParams(
+        searchName:
+            '${product.name!.split(' ')[0]} ${product.name!.split(' ')[1]}'));
 
     response.fold((failure) {
       emit(state.copyWith(popularProductsRequestState: RequestState.error));
@@ -115,8 +116,7 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
   }
 
   void getProductVariants({required Product product}) async {
-    final searchName =
-        '${product.name!.split(' ')[0]} ${product.name!.split(' ')[1]}';
+    final searchName = product.name!.split('-')[0];
     final response =
         await searchProductUsecase(SearchParams(searchName: searchName));
 

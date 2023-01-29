@@ -8,16 +8,13 @@ class ProductImageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 250.h,
-      child: Center(
-        child: SizedBox(
-          height: 196.h,
-          width: 164.w,
-          child: AppImage(
-            path: imagePath,
-            fit: BoxFit.contain,
-          ),
+    return Center(
+      child: SizedBox(
+        height: 196.h,
+        width: 164.w,
+        child: AppImage(
+          path: imagePath,
+          fit: BoxFit.contain,
         ),
       ),
     );
