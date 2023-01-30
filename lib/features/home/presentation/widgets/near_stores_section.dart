@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
 import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
+import 'package:yabalash_mobile_app/core/widgets/custom_shimmer.dart';
 import 'package:yabalash_mobile_app/core/widgets/near_stores_list.dart';
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/services/zone_service.dart';
-import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/utils/enums/request_state.dart';
 import '../../../../core/utils/enums/search_navigation_screens.dart';
 import '../blocs/cubit/home_cubit.dart';
@@ -90,17 +89,9 @@ class NearStoresLoading extends StatelessWidget {
         shrinkWrap: true,
         itemCount: 6,
         itemBuilder: (context, index) {
-          return Shimmer.fromColors(
-            baseColor: Colors.grey[800]!,
-            highlightColor: Colors.grey[850]!,
-            child: Container(
-              width: 50.w,
-              height: 50.h,
-              margin: EdgeInsets.only(left: 10.w),
-              decoration: BoxDecoration(
-                  color: AppColorsLight.kMainCategoryCardColor,
-                  borderRadius: kDefaultBorderRaduis),
-            ),
+          return CustomShimmer(
+            height: 50.h,
+            width: 50.w,
           );
         },
       ),

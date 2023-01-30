@@ -19,7 +19,7 @@ class NearStoresList extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomAnimatedWidget(
       child: SizedBox(
-        height: 113.h,
+        height: 100.h,
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
             shrinkWrap: true,
@@ -27,7 +27,7 @@ class NearStoresList extends StatelessWidget {
             itemCount: stores.length,
             itemBuilder: (context, index) {
               final store = stores[index];
-              return InkWell(
+              return GestureDetector(
                 onTap: () => Get.toNamed(RouteHelper.getSearchRoute(),
                     arguments: [
                       SearchNavigationScreens.storeScreen,
@@ -35,7 +35,7 @@ class NearStoresList extends StatelessWidget {
                       0
                     ]),
                 child: Container(
-                    margin: EdgeInsets.only(left: 10.w),
+                    margin: EdgeInsets.only(left: 25.w),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -47,7 +47,7 @@ class NearStoresList extends StatelessWidget {
                           height: 5.h,
                         ),
                         Container(
-                          constraints: BoxConstraints(maxWidth: 60.w),
+                          constraints: BoxConstraints(maxWidth: 80.w),
                           child: Text(
                             store.name!,
                             maxLines: 2,

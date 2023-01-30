@@ -8,6 +8,7 @@ import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/core/services/stores_service.dart';
 import 'package:yabalash_mobile_app/core/usecases/use_cases.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
+import 'package:yabalash_mobile_app/core/utils/get_unique_stores.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/banner.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/home_section.dart';
@@ -83,10 +84,10 @@ class HomeCubit extends Cubit<HomeState> {
           nearStoresError: failure.message));
     }, (stores) {
       getIt<StoreService>().setNearStores(stores);
-      var seen = <int>{};
 
-      List<Store> uniqueStores =
-          stores.where((element) => seen.add(element.id!)).toList();
+      List<Store> uniqueStores = getUniqueStores(stores);
+
+      getIt<StoreService>().setUniqueStores(uniqueStores);
 
       emit(state.copyWith(
           nearStoreRequestState: RequestState.loaded,

@@ -43,7 +43,6 @@ class BannersSection extends StatelessWidget {
                     children: [
                       CarouselImage(state: state),
                       mediumVerticalSpace,
-                      const CarouselDotsIndicators()
                     ],
                   );
 
@@ -120,11 +119,7 @@ class CarouselImage extends StatelessWidget {
             );
           },
           options: CarouselOptions(
-              onPageChanged: (index, reason) =>
-                  BlocProvider.of<HomeCubit>(context).onBannerChanged(index),
-              viewportFraction: 0.86,
-              autoPlay: false,
-              height: 133.h)),
+              viewportFraction: 0.86, autoPlay: true, height: 133.h)),
     );
   }
 }

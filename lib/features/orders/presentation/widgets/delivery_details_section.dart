@@ -33,7 +33,9 @@ class DeliveryDetailsSection extends StatelessWidget {
             Container(
               constraints: BoxConstraints(maxWidth: Get.width * 0.5),
               child: Text(
-                '${address.fullAddress!.isEmpty ? 'غير متوفر' : address.fullAddress!.split('%')[0]},${address.fullAddress!.split('%')[1]},${address.fullAddress!.split('%')[2]}',
+                address.fullAddress == null
+                    ? 'غير متوفر'
+                    : '${address.fullAddress!.split('%')[0]},${address.fullAddress!.split('%')[1]},${address.fullAddress!.split('%')[2]}',
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -43,7 +45,7 @@ class DeliveryDetailsSection extends StatelessWidget {
                         AppColorsLight.kAppPrimaryColorLight.withOpacity(0.7)),
               ),
             ),
-            address.buildingNo!.isEmpty
+            address.buildingNo == null
                 ? const SizedBox()
                 : Text(
                     'رقم المبني ${address.buildingNo}، رقم الدور ${address.floor}, رقم الشقة ${address.apartmentNo}',

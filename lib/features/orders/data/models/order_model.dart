@@ -30,7 +30,7 @@ class OrderModel extends Order {
           ? AddressModel.fromJson(json['address'])
           : const Address(),
       id: json['id'] ?? 0,
-      store: json['address'] != null
+      store: json['store'] != null
           ? StoreModel.fromJson(json['store'])
           : const Store(),
       orderDate: json['orderDate'] != null

@@ -29,10 +29,10 @@ class ShoppingListCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                    width: 75.h,
-                    height: 75.h,
+                    width: 65.h,
+                    height: 65.h,
                     padding:
-                        EdgeInsets.symmetric(vertical: 5.h, horizontal: 3.w),
+                        EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
                     decoration: kDefaultBoxDecoration.copyWith(
                         border: Border.all(color: Colors.transparent),
                         color: AppColorsLight.kDisabledButtonColor),
@@ -49,8 +49,8 @@ class ShoppingListCard extends StatelessWidget {
                                     isAssetImage: false,
                                     borderRadius: 6,
                                     backgroundColor: Colors.white,
-                                    width: 25.w,
-                                    height: 25.h,
+                                    width: 24.w,
+                                    height: 24.h,
                                     imagePath: cartItem.product!.imagePath,
                                   ))
                               .toList()
@@ -60,8 +60,8 @@ class ShoppingListCard extends StatelessWidget {
                                     isAssetImage: false,
                                     borderRadius: 6,
                                     backgroundColor: Colors.white,
-                                    width: 26.w,
-                                    height: 26.h,
+                                    width: 25.w,
+                                    height: 25.h,
                                     imagePath: cartItem.product!.imagePath,
                                   ))
                               .toList(),

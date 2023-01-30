@@ -26,8 +26,8 @@ class _ItemDetailsCardState extends State<ItemDetailsCard> {
           children: [
             // change to network when ready
             SizedBox(
-              width: 20.w,
-              height: 20.h,
+              width: 15.w,
+              height: 15.h,
               child: Checkbox(
                 value: isChecked,
                 activeColor: Colors.green.shade400,
@@ -54,12 +54,12 @@ class _ItemDetailsCardState extends State<ItemDetailsCard> {
                   ),
                 ),
                 mediumHorizontalSpace,
-                SizedBox(
-                  width: constraints.maxWidth * 0.36,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      constraints: BoxConstraints(maxWidth: 165.w),
+                      child: Text(
                         widget.cartItem.product!.name ?? '',
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -69,25 +69,25 @@ class _ItemDetailsCardState extends State<ItemDetailsCard> {
                                 isChecked ? TextDecoration.lineThrough : null,
                             fontWeight: FontWeight.w600),
                       ),
-                      mediumVerticalSpace,
-                      Text(
-                        widget.cartItem.product!.size ?? '',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontSize: 9.sp,
-                            decoration:
-                                isChecked ? TextDecoration.lineThrough : null,
-                            color: AppColorsLight.kAppPrimaryColorLight,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  ),
+                    ),
+                    mediumVerticalSpace,
+                    Text(
+                      widget.cartItem.product!.size ?? '',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontSize: 9.sp,
+                          decoration:
+                              isChecked ? TextDecoration.lineThrough : null,
+                          color: AppColorsLight.kAppPrimaryColorLight,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ],
                 ),
               ],
             ),
             const Spacer(),
             SizedBox(
-              width: constraints.maxWidth * 0.32,
+              width: constraints.maxWidth * 0.3,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [

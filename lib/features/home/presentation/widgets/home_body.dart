@@ -26,12 +26,6 @@ class HomeBody extends StatelessWidget {
         const SliverToBoxAdapter(child: BannersSection()),
         SliverToBoxAdapter(child: mediumVerticalSpace),
         const SliverToBoxAdapter(child: NearStoresSection()),
-        SliverToBoxAdapter(child: mediumVerticalSpace),
-        // SliverToBoxAdapter(
-        //     child: AdSection(
-        //   adImagePath: bannersMockData[0].imagePath!,
-        // )),
-        SliverToBoxAdapter(child: mediumVerticalSpace),
         const SliverToBoxAdapter(child: HomeSections()),
         SliverToBoxAdapter(child: mediumVerticalSpace),
       ],

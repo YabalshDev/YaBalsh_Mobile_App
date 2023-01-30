@@ -73,8 +73,8 @@ class CartItemCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        width: 195.w,
+                      Container(
+                        constraints: BoxConstraints(maxWidth: 195.w),
                         child: Text(
                           cartItem.product!.name ?? '',
                           overflow: TextOverflow.ellipsis,

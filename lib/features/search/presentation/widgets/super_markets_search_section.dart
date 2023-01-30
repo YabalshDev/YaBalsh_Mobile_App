@@ -46,19 +46,22 @@ class _SuperMarketsSearchSectionState extends State<SuperMarketsSearchSection> {
               BlocBuilder<SearchCubit, SearchState>(
                 builder: (context, state) {
                   if (state.isSearchEmpty!) {
-                    return Padding(
-                      padding: kDefaultPadding,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SubHeading(text: 'السوبر ماركتس القريبة منك'),
-                          mediumVerticalSpace,
-                          NearStoresList(
-                              stores: getIt<StoreService>().nearStores,
-                              isWithPadding: false),
-                        ],
-                      ),
-                    );
+                    return getIt<StoreService>().uniqueStores.isEmpty
+                        ? const SizedBox()
+                        : Padding(
+                            padding: kDefaultPadding,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SubHeading(
+                                    text: 'السوبر ماركتس القريبة منك'),
+                                mediumVerticalSpace,
+                                NearStoresList(
+                                    stores: getIt<StoreService>().uniqueStores,
+                                    isWithPadding: false),
+                              ],
+                            ),
+                          );
                   } else {
                     return SuperMarketsSearchResult(state: state);
                   }

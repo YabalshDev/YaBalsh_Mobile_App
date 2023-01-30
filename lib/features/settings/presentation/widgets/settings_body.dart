@@ -46,6 +46,16 @@ class SettingsBody extends StatelessWidget {
                   ),
                   SettingsElementCard(
                       onTap: () {
+                        Get.toNamed(RouteHelper.getNotificationsRoute());
+                      },
+                      iconPath: AppAssets.notificationIcon,
+                      title: 'الاشعارات'),
+                  Divider(
+                    color: Colors.grey.shade300,
+                    thickness: 1,
+                  ),
+                  SettingsElementCard(
+                      onTap: () {
                         Get.toNamed(RouteHelper.getAddressesRoute(),
                             arguments: RouteHelper.getSettingsRoute());
                       },

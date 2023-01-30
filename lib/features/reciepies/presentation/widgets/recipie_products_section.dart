@@ -104,11 +104,12 @@ class RecipieProductCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                width: 176.w,
+              Container(
+                constraints: BoxConstraints(maxWidth: 195.w),
                 child: Text(
                   product.name!,
                   overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: AppColorsLight.kAppPrimaryColorLight,
                       fontSize: 13.sp,

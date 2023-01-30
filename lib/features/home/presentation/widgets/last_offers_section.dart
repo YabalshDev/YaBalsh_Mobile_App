@@ -94,8 +94,8 @@ class LastOffersLoading extends StatelessWidget {
         itemCount: 6,
         itemBuilder: (context, index) {
           return Shimmer.fromColors(
-            baseColor: Colors.grey[800]!,
-            highlightColor: Colors.grey[850]!,
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.grey.shade400,
             child: Container(
               width: 60.w,
               height: 60.h,
