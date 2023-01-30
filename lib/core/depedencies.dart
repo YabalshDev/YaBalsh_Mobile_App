@@ -10,6 +10,8 @@ import 'package:yabalash_mobile_app/core/services/addresses_service.dart';
 import 'package:yabalash_mobile_app/core/services/categories_service.dart';
 import 'package:yabalash_mobile_app/core/services/device_service.dart';
 import 'package:yabalash_mobile_app/core/services/order_service.dart';
+import 'package:yabalash_mobile_app/core/services/promo_service.dart';
+import 'package:yabalash_mobile_app/core/services/shopping_list_service.dart';
 import 'package:yabalash_mobile_app/core/services/stores_service.dart';
 import 'package:yabalash_mobile_app/core/services/user_service.dart';
 import 'package:yabalash_mobile_app/core/services/zone_service.dart';
@@ -151,6 +153,9 @@ setupDependecies() {
   getIt.registerLazySingleton<StoreService>(() => StoreServiceImpl());
   getIt.registerLazySingleton<CategoriesService>(() => CategoriesServiceImpl());
   getIt.registerLazySingleton<DeviceService>(() => DeviceServiceImpl());
+  getIt.registerLazySingleton<ShoppingListService>(
+      () => ShoppingListServiceImpl());
+  getIt.registerLazySingleton<PromoService>(() => PromoServiceImpl());
 
   getIt.registerLazySingleton<HomeDataSource>(
       () => HomeRemoteDataSourceImpl(restApiProvider: getIt()));
@@ -416,7 +421,9 @@ setupDependecies() {
         getStoreUseCase: getIt(),
       ));
   getIt.registerFactory(() => OrderSummaryCubit(
-      getAllAddressUseCase: getIt(), createOrderUseCase: getIt()));
+      promoService: getIt(),
+      getAllAddressUseCase: getIt(),
+      createOrderUseCase: getIt()));
   getIt.registerFactory(
       () => OrderSuccessCubit(getProductDetailsUseCase: getIt()));
   getIt.registerFactory(() => PastOrdersCubit(getPastOrdersUseCase: getIt()));

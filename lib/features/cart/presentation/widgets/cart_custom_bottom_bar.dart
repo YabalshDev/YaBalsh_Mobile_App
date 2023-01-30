@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yabalash_mobile_app/core/depedencies.dart';
-import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/order_summary_cubit.dart';
 
 import '../../../../core/widgets/custom_bottom_nav_bar.dart';
 import '../blocs/cubit/cart_cubit.dart';
@@ -49,11 +47,8 @@ class _CartCustomNavBarState extends State<CartCustomNavBar> {
             );
           } else {
             //third step cart bottom
-            return BlocProvider<OrderSummaryCubit>(
-              create: (context) => getIt<OrderSummaryCubit>(),
-              child: ConfirmOrderBottom(
-                state: state,
-              ),
+            return ConfirmOrderBottom(
+              state: state,
             );
           }
         }

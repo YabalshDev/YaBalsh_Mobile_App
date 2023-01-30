@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/usecases/use_cases.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
+import 'package:yabalash_mobile_app/core/utils/get_zone_addresses.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
 import 'package:yabalash_mobile_app/features/addresses/domain/entities/address.dart';
 import 'package:yabalash_mobile_app/features/addresses/domain/use%20cases/delete_address_usecase.dart';
@@ -48,9 +49,12 @@ class AddressCubit extends Cubit<AddressState> {
           Get.back();
         },
       );
-    },
-        (addresses) => emit(state.copyWith(
-            addresses: addresses, addressesRequestState: RequestState.loaded)));
+    }, (addresses) {
+      final zoneAddresses = getZoneAddress(addresses);
+      emit(state.copyWith(
+          addresses: zoneAddresses,
+          addressesRequestState: RequestState.loaded));
+    });
   }
 
   void deleteAddress({required int id, required Address address}) async {

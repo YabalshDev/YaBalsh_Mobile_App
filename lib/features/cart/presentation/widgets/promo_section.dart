@@ -49,23 +49,27 @@ class _PromoSectionState extends State<PromoSection> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(11),
                         border: !state.isPromoValid!
-                            ? Border.all(color: AppColorsLight.kErrorColor)
+                            ? Border.all(
+                                color: AppColorsLight.kErrorColor, width: 1.3)
                             : Border.all(
-                                color: AppColorsLight.kDisabledButtonTextColor,
-                                width: 1)),
-                    child: YaBalashTextField(
-                      name: 'promo',
-                      hintText: 'ادخل كود التخفيض..',
-                      isWithBorder: false,
-                      onChanged: (value) {
-                        if (value != null && value.isEmpty) {
-                          BlocProvider.of<OrderSummaryCubit>(context)
-                              .changePromoValidation(true);
-                        } else {
-                          BlocProvider.of<OrderSummaryCubit>(context)
-                              .changePromoValidation(false);
-                        }
-                      },
+                                color: AppColorsLight.kTextFieldBorderColor,
+                                width: 1.3)),
+                    child: Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: YaBalashTextField(
+                        name: 'promo',
+                        hintText: 'ادخل كود التخفيض..',
+                        isWithBorder: false,
+                        onChanged: (value) {
+                          if (value != null && value.isEmpty) {
+                            BlocProvider.of<OrderSummaryCubit>(context)
+                                .changePromoValidation(true);
+                          } else {
+                            BlocProvider.of<OrderSummaryCubit>(context)
+                                .changePromoValidation(false);
+                          }
+                        },
+                      ),
                     ),
                   );
                 },
