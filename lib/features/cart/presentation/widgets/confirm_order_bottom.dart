@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/depedencies.dart';
-import '../../../../core/routes/app_routes.dart';
-import '../../../../core/services/addresses_service.dart';
 import '../../../../core/widgets/custom_bottom_nav_bar.dart';
-import '../../../orders/data/models/order_product_model.dart';
-import '../../../orders/domain/entities/order_request.dart';
 import '../blocs/cubit/cart_cubit.dart';
 import '../blocs/cubit/order_summary_cubit.dart';
 
@@ -19,28 +14,32 @@ class ConfirmOrderBottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomNavBar(
-      isButtonSecondary: false,
-      mainButtonTap: () async {
-        final OrderRequest orderRequest = OrderRequest(
-            addressId: state.userAddress?.id ??
-                getIt<AddressService>().primaryAddress.id,
-            storeId: state.supermarket?.store!.id,
-            products: state.cartItems!
-                .map((e) =>
-                    OrderProductModel(id: e.product!.id, quantity: e.quantity))
-                .toList());
-        if (state.userAddress?.id != null) {
-          final order = await getIt<OrderSummaryCubit>()
-              .placeOrder(orderRequest: orderRequest);
-          if (order != null) {
-            Get.toNamed(RouteHelper.getOrderSuccessRoute(),
-                arguments: [order, false]);
-          }
-        }
-      },
-      title: '✔  خلص الطلب',
-      isDisabled: state.userAddress?.id == null,
-    );
+    return BlocBuilder<OrderSummaryCubit, OrderSummaryState>(
+        builder: (context, orderSummaryState) {
+      return CustomNavBar(
+        isButtonSecondary: false,
+        mainButtonTap: () async {
+          print(orderSummaryState.isPromoValid);
+          // final OrderRequest orderRequest = OrderRequest(
+          //     addressId: state.userAddress?.id ??
+          //         getIt<AddressService>().primaryAddress.id,
+          //     storeId: state.supermarket?.store!.id,
+          //     products: state.cartItems!
+          //         .map((e) =>
+          //             OrderProductModel(id: e.product!.id, quantity: e.quantity))
+          //         .toList());
+          // if (state.userAddress?.id != null) {
+          //   final order = await getIt<OrderSummaryCubit>()
+          //       .placeOrder(orderRequest: orderRequest);
+          //   if (order != null) {
+          //     Get.toNamed(RouteHelper.getOrderSuccessRoute(),
+          //         arguments: [order, false]);
+          //   }
+          // }
+        },
+        title: '✔  خلص الطلب',
+        isDisabled: state.userAddress?.id == null,
+      );
+    });
   }
 }

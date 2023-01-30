@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yabalash_mobile_app/core/depedencies.dart';
+import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/order_summary_cubit.dart';
 
 import '../../../../core/widgets/custom_bottom_nav_bar.dart';
 import '../blocs/cubit/cart_cubit.dart';
@@ -9,11 +11,22 @@ import 'basket_list_bottom_bar.dart';
 import 'confirm_order_bottom.dart';
 import 'select_supermarket_bottombar.dart';
 
-final _formKey = GlobalKey<FormBuilderState>();
-
-class CartCustomNavBar extends StatelessWidget {
+class CartCustomNavBar extends StatefulWidget {
   final PageController pageController;
   const CartCustomNavBar({super.key, required this.pageController});
+
+  @override
+  State<CartCustomNavBar> createState() => _CartCustomNavBarState();
+}
+
+class _CartCustomNavBarState extends State<CartCustomNavBar> {
+  late GlobalKey<FormBuilderState> _formKey;
+
+  @override
+  void initState() {
+    _formKey = GlobalKey<FormBuilderState>();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,19 +38,22 @@ class CartCustomNavBar extends StatelessWidget {
           if (state.cartStepIndex == 0) {
             //first step cart bottom
             return BascketListBottomBar(
-              pageController: pageController,
+              pageController: widget.pageController,
               formKey: _formKey,
             );
           } else if (state.cartStepIndex == 1) {
             //second step cart bottom
             return SelectSupermarketBottom(
-              pageController: pageController,
+              pageController: widget.pageController,
               state: state,
             );
           } else {
             //third step cart bottom
-            return ConfirmOrderBottom(
-              state: state,
+            return BlocProvider<OrderSummaryCubit>(
+              create: (context) => getIt<OrderSummaryCubit>(),
+              child: ConfirmOrderBottom(
+                state: state,
+              ),
             );
           }
         }
