@@ -9,7 +9,6 @@ import 'package:yabalash_mobile_app/features/addresses/presentation/blocs/cubit/
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/services/addresses_service.dart';
-import '../../../../core/services/zone_service.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/theme/light/light_theme.dart';
 import '../../../../core/widgets/custom_dialog.dart';
@@ -132,7 +131,7 @@ class AddressContainer extends StatelessWidget {
                 ),
                 smallHorizontalSpace,
                 Text(
-                  '${address.fullAddress!.split('%')[1]},${address.zone},${getIt<ZoneService>().currentSubZone!.mainZoneName}',
+                  '${address.fullAddress!.split('%')[1]},${address.zone},${address.fullAddress!.split('%')[3]}',
                   maxLines: 2,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w600,
