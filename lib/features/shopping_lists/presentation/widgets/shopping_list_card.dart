@@ -28,44 +28,7 @@ class ShoppingListCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                    width: 65.h,
-                    height: 65.h,
-                    padding:
-                        EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
-                    decoration: kDefaultBoxDecoration.copyWith(
-                        border: Border.all(color: Colors.transparent),
-                        color: AppColorsLight.kDisabledButtonColor),
-                    child: Wrap(
-                      direction: Axis.horizontal,
-                      alignment: WrapAlignment.start,
-                      spacing: 5.w,
-                      runSpacing: 5.h,
-                      children: shoppingList.products!.length > 4
-                          ? shoppingList.products!
-                              .sublist(0, 4)
-                              .map((cartItem) => CustomCard(
-                                    withBorder: false,
-                                    isAssetImage: false,
-                                    borderRadius: 6,
-                                    backgroundColor: Colors.white,
-                                    width: 24.w,
-                                    height: 24.h,
-                                    imagePath: cartItem.product!.imagePath,
-                                  ))
-                              .toList()
-                          : shoppingList.products!
-                              .map((cartItem) => CustomCard(
-                                    withBorder: false,
-                                    isAssetImage: false,
-                                    borderRadius: 6,
-                                    backgroundColor: Colors.white,
-                                    width: 25.w,
-                                    height: 25.h,
-                                    imagePath: cartItem.product!.imagePath,
-                                  ))
-                              .toList(),
-                    )),
+                ShoppingListProductsCard(shoppingList: shoppingList),
                 mediumHorizontalSpace,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,5 +63,55 @@ class ShoppingListCard extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class ShoppingListProductsCard extends StatelessWidget {
+  const ShoppingListProductsCard({
+    Key? key,
+    required this.shoppingList,
+  }) : super(key: key);
+
+  final ShoppingList shoppingList;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: 65.h,
+        height: 65.h,
+        padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
+        decoration: kDefaultBoxDecoration.copyWith(
+            border: Border.all(color: Colors.transparent),
+            color: AppColorsLight.kDisabledButtonColor),
+        child: Wrap(
+          direction: Axis.horizontal,
+          alignment: WrapAlignment.start,
+          spacing: 1.w,
+          runSpacing: 5.h,
+          children: shoppingList.products!.length > 4
+              ? shoppingList.products!
+                  .sublist(0, 4)
+                  .map((cartItem) => CustomCard(
+                        withBorder: false,
+                        isAssetImage: false,
+                        borderRadius: 6,
+                        backgroundColor: Colors.white,
+                        width: 23.w,
+                        height: 23.h,
+                        imagePath: cartItem.product!.imagePath,
+                      ))
+                  .toList()
+              : shoppingList.products!
+                  .map((cartItem) => CustomCard(
+                        withBorder: false,
+                        isAssetImage: false,
+                        borderRadius: 6,
+                        backgroundColor: Colors.white,
+                        width: 25.w,
+                        height: 25.h,
+                        imagePath: cartItem.product!.imagePath,
+                      ))
+                  .toList(),
+        ));
   }
 }

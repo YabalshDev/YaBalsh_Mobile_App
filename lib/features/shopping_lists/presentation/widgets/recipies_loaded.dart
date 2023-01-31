@@ -43,7 +43,6 @@ class RecipiesLoaded extends StatelessWidget {
           height: 150.h,
           child: ListView.builder(
             itemCount: state.recipies!.length,
-            shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             key: UniqueKey(),
             itemBuilder: (context, index) {

@@ -42,16 +42,17 @@ class AllRecipiesSection extends StatelessWidget {
                       children: [
                         const SubHeading(text: 'طبختك علي قد ايدك!'),
                         smallVerticalSpace,
-                        ListView.builder(
-                          itemCount: state.recipies!.length,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            final recipie = state.recipies![index];
-                            return RecipieCard(
-                              recipie: recipie,
-                            );
-                          },
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: state.recipies!.length,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              final recipie = state.recipies![index];
+                              return RecipieCard(
+                                recipie: recipie,
+                              );
+                            },
+                          ),
                         )
                       ],
                     ),
@@ -78,7 +79,6 @@ class AllRecipiesLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: 5,
-      shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return Row(

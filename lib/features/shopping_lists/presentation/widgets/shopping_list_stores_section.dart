@@ -43,10 +43,13 @@ class ShoppingListStoresSection extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        AppImage(
-                          path: store.storeImagePath!,
-                          width: 82.w,
+                        SizedBox(
+                          width: 78.w,
                           height: 23.h,
+                          child: AppImage(
+                            path: store.storeImagePath!,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                         const Spacer(),
                         Text(
@@ -71,6 +74,7 @@ class ShoppingListStoresSection extends StatelessWidget {
                         return ItemDetailsCard(cartItem: item);
                       },
                     ),
+                    mediumVerticalSpace,
                     mediumVerticalSpace
                   ],
                 );

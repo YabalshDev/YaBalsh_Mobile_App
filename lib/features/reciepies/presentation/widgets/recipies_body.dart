@@ -16,25 +16,24 @@ class RecipiesBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: SingleChildScrollView(
-      child: Padding(
-        padding: kDefaultPadding,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CustomHeader(
+        child: Padding(
+      padding: kDefaultPadding,
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: CustomHeader(
               title: 'قوائم الوصفات',
               iconPath: AppAssets.closeIcon,
               onIconTap: () => Get.offNamed(
                   RouteHelper.getMainNavigationRoute(),
                   arguments: 3),
             ),
-            mediumVerticalSpace,
-            const CreatorsSection(),
-            smallVerticalSpace,
-            const AllRecipiesSection()
-          ],
-        ),
+          ),
+          SliverToBoxAdapter(child: mediumVerticalSpace),
+          const SliverToBoxAdapter(child: CreatorsSection()),
+          SliverToBoxAdapter(child: smallVerticalSpace),
+          const SliverFillRemaining(child: AllRecipiesSection())
+        ],
       ),
     ));
   }
