@@ -20,7 +20,6 @@ class _ItemDetailsCardState extends State<ItemDetailsCard> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      print(constraints.maxWidth);
       return Container(
         margin: EdgeInsets.only(top: 10.h),
         child: Row(
