@@ -41,7 +41,7 @@ class CustomCard extends StatelessWidget {
           child: isAssetImage!
               ? Image.asset(imagePath!)
               : AppImage(
-                  path: imagePath,
+                  path: imagePath ?? '',
                   fit: fit ?? BoxFit.contain,
                 )),
     );

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/cart_item.dart';
@@ -58,10 +59,18 @@ class _ItemDetailsCardState extends State<ItemDetailsCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      constraints: BoxConstraints(maxWidth: 165.w),
-                      child: Text(
+                      constraints: BoxConstraints(maxWidth: 166.w),
+                      child: AutoSizeText(
                         widget.cartItem.product!.name ?? '',
-                        overflow: TextOverflow.ellipsis,
+                        textDirection: TextDirection.rtl,
+                        wrapWords: false,
+                        overflowReplacement: Container(
+                          constraints: BoxConstraints(maxWidth: 166.w),
+                          child: Text(
+                            '${widget.cartItem.product!.name!.substring(0, widget.cartItem.product!.name!.length - 16)}...',
+                          ),
+                        ),
+                        maxLines: 1,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: AppColorsLight.kAppPrimaryColorLight,
                             fontSize: 13.sp,

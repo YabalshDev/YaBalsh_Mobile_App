@@ -23,7 +23,11 @@ class AppImage extends StatelessWidget {
         height: height,
         cache: true,
         fit: fit,
-        printError: true, loadStateChanged: (ExtendedImageState state) {
+        clearMemoryCacheIfFailed: true,
+        compressionRatio: 0.8,
+        printError: true,
+        enableLoadState: true,
+        enableMemoryCache: true, loadStateChanged: (ExtendedImageState state) {
       switch (state.extendedImageLoadState) {
         case LoadState.loading:
           return placeHolder ??

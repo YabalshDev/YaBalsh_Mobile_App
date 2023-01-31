@@ -31,8 +31,8 @@ class LastOfferCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CustomCard(
-                width: 65.w,
-                height: 65.h,
+                width: 60.w,
+                height: 60.h,
                 isAssetImage: false,
                 imagePath: mainCategory.imagePath,
                 backgroundColor: AppColorsLight.kSubCategoryCardColor,

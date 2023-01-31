@@ -79,8 +79,8 @@ class PhoneTextField extends StatelessWidget {
                         ?.copyWith(fontWeight: FontWeight.w600),
                     cursorColor: AppColorsLight.kAppPrimaryColorLight,
                     decoration: InputDecoration(
-                        isDense: true,
                         hintText: hintText ?? '',
+                        contentPadding: EdgeInsets.zero,
                         hintStyle: Theme.of(context)
                             .textTheme
                             .bodyMedium

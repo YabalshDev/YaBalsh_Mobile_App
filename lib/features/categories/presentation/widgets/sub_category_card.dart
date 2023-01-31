@@ -31,8 +31,8 @@ class SubCategoryCard extends StatelessWidget {
             withBorder: false,
           ),
           smallVerticalSpace,
-          Container(
-            constraints: BoxConstraints(maxWidth: 80.w),
+          SizedBox(
+            width: 70.w,
             child: Text(
               subCategory.name ?? '',
               textAlign: TextAlign.center,

@@ -59,7 +59,7 @@ class LastOffersLoaded extends StatelessWidget {
                     .changePage(1)),
             mediumVerticalSpace,
             SizedBox(
-              height: 110.h,
+              height: 120.h,
               child: ListView.builder(
                 padding: kScaffoldPadding,
                 scrollDirection: Axis.horizontal,

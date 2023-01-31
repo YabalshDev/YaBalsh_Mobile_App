@@ -33,9 +33,9 @@ class _ShoppingListBottomModalState extends State<ShoppingListBottomModal> {
         padding: kDefaultPadding,
         child: KeyboardVisibilityBuilder(builder: (context, isVisible) {
           return SizedBox(
-              height: isVisible ? Get.height * 0.9 : Get.height * 0.4,
+              height: isVisible ? Get.height * 0.98 : Get.height * 0.4,
               child: SingleChildScrollView(
-                reverse: isVisible ? true : false,
+                reverse: isVisible,
                 child: Column(
                   children: [
                     Center(
@@ -122,7 +122,7 @@ class _ShoppingListBottomModalState extends State<ShoppingListBottomModal> {
                       child: const Text('حفظ اسم القائمة'),
                     ),
                     SizedBox(
-                      height: isVisible ? Get.height * 0.35 : 0,
+                      height: isVisible ? Get.height * 0.4 : 0,
                     )
                   ],
                 ),

@@ -14,14 +14,17 @@ class SubCategorySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SubHeading(text: categorySection.mainCategoryName ?? ''),
-        mediumVerticalSpace,
-        SubCategoriesList(subCategories: categorySection.subCategories ?? []),
-        mediumVerticalSpace
-      ],
-    );
+    return categorySection.subCategories!.isEmpty
+        ? const SizedBox()
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SubHeading(text: categorySection.mainCategoryName ?? ''),
+              mediumVerticalSpace,
+              SubCategoriesList(
+                  subCategories: categorySection.subCategories ?? []),
+              mediumVerticalSpace
+            ],
+          );
   }
 }

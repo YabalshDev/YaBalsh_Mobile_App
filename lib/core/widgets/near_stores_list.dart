@@ -28,12 +28,14 @@ class NearStoresList extends StatelessWidget {
             itemBuilder: (context, index) {
               final store = stores[index];
               return GestureDetector(
-                onTap: () => Get.toNamed(RouteHelper.getSearchRoute(),
-                    arguments: [
-                      SearchNavigationScreens.storeScreen,
-                      store.name,
-                      0
-                    ]),
+                onTap: () {
+                  Get.back();
+                  Get.toNamed(RouteHelper.getSearchRoute(), arguments: [
+                    SearchNavigationScreens.storeScreen,
+                    store.name,
+                    0
+                  ]);
+                },
                 child: Container(
                     margin: EdgeInsets.only(left: 25.w),
                     child: Column(
