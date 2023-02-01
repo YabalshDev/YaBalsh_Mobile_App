@@ -12,6 +12,7 @@ class StoreSearchModel extends StoreSearch {
       : super(
             cardImagePath: cardImagePath,
             id: id,
+            logoImagePath: logoImagePath,
             location: location,
             name: name);
 

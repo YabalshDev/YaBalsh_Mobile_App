@@ -30,11 +30,13 @@ class SuperMarketSearchCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomCard(
-                  imagePath: store.cardImagePath,
+                  imagePath: store.logoImagePath,
+                  width: 54.w,
+                  height: 54.h,
                   isAssetImage: false,
                   withBorder: true,
                 ),
-                smallHorizontalSpace,
+                mediumHorizontalSpace,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

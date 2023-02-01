@@ -30,7 +30,10 @@ class MostSellingProdutsSection extends StatelessWidget {
                       children: [
                         const SubHeading(text: 'المنتجات الاكثر مبيعا'),
                         mediumVerticalSpace,
-                        KewordProducts(products: state.mostSellingProducts!)
+                        KewordProducts(
+                          products: state.mostSellingProducts!,
+                          isWithPadding: false,
+                        )
                       ],
                     ),
                   );

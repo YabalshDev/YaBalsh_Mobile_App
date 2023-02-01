@@ -46,7 +46,10 @@ class PopularProductsSection extends StatelessWidget {
                                 ],
                               )),
                       mediumVerticalSpace,
-                      KewordProducts(products: state.popularProducts!)
+                      KewordProducts(
+                        products: state.popularProducts!,
+                        isWithPadding: false,
+                      )
                     ],
                   );
           case RequestState.error:

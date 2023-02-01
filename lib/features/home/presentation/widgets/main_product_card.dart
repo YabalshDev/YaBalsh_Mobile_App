@@ -17,14 +17,20 @@ import '../../../cart/domain/entities/cart_item.dart';
 import '../../../cart/presentation/blocs/cubit/cart_cubit.dart';
 
 class MainProductCard extends StatelessWidget {
+  final bool? fromProductDetails;
   final Product product;
-  const MainProductCard({super.key, required this.product});
+  const MainProductCard(
+      {super.key, required this.product, this.fromProductDetails});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () =>
-          Get.toNamed(RouteHelper.getProductDetailsRoute(), arguments: product),
+      onTap: () {
+        if (fromProductDetails != null) {
+          Get.back();
+        }
+        Get.toNamed(RouteHelper.getProductDetailsRoute(), arguments: product);
+      },
       child: Container(
         width: 146.w,
         decoration: kDefaultBoxDecoration.copyWith(

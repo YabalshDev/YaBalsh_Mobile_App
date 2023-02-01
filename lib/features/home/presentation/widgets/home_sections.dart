@@ -103,7 +103,10 @@ class SectionLoaded extends StatelessWidget {
               ]),
         ),
         mediumVerticalSpace,
-        KewordProducts(products: sectionProducts)
+        KewordProducts(
+          products: sectionProducts,
+          isWithPadding: true,
+        )
       ],
     );
   }

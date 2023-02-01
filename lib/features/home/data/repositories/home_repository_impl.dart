@@ -34,8 +34,14 @@ class HomeRepositoryImpl implements HomeRepository {
       for (Section section in sections) {
         List<Product> sectionProducts = await homeDataSource.getSectionProducts(
             sectionId: section.id!); // get products for each section
-        homeSections
-            .add(HomeSection(section: section, products: sectionProducts));
+
+        if (sectionProducts.length > 6) {
+          homeSections.add(HomeSection(
+              section: section, products: sectionProducts.sublist(0, 6)));
+        } else {
+          homeSections
+              .add(HomeSection(section: section, products: sectionProducts));
+        }
       }
 
       return Right(homeSections);

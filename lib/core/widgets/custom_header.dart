@@ -32,13 +32,21 @@ class CustomHeader extends StatelessWidget {
               : const SizedBox(),
           const Spacer(),
           Center(
-            child: Text(
-              title,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColorsLight.kAppPrimaryColorLight,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 1,
-                  fontSize: 17.sp),
+            child: Container(
+              constraints: BoxConstraints(maxWidth: Get.width * 0.7),
+              child: FittedBox(
+                fit: BoxFit.fitWidth,
+                child: Text(
+                  title,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: AppColorsLight.kAppPrimaryColorLight,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1,
+                      fontSize: 17.sp),
+                ),
+              ),
             ),
           ),
           const Spacer()

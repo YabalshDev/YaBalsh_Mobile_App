@@ -19,7 +19,8 @@ class BranchStoreDetails extends StatelessWidget {
           children: [
             CustomCard(
               isAssetImage: false,
-              imagePath: state.store!.cardImagePath,
+              imagePath: state.store!.logoImagePath,
+              fit: BoxFit.fill,
             ),
             smallHorizontalSpace,
             Column(

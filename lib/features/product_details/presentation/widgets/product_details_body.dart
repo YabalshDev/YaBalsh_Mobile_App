@@ -139,7 +139,7 @@ class VariantCard extends StatelessWidget {
       builder: (context, state) {
         return InkWell(
           onTap: () => BlocProvider.of<ProductDetailsCubit>(context)
-              .selectVariant(index),
+              .selectVariant(index, variant),
           child: Container(
             margin: EdgeInsets.only(left: 10.w),
             padding: EdgeInsets.fromLTRB(10.w, 6.h, 1.w, 7.h),
@@ -174,7 +174,7 @@ class VariantCard extends StatelessWidget {
                                 .textTheme
                                 .bodySmall!
                                 .copyWith(
-                                    fontSize: 9.sp,
+                                    fontSize: 10.sp,
                                     fontWeight: FontWeight.w700,
                                     color:
                                         AppColorsLight.kAppPrimaryColorLight),
@@ -187,7 +187,7 @@ class VariantCard extends StatelessWidget {
                                 .bodySmall
                                 ?.copyWith(
                                     fontWeight: FontWeight.w700,
-                                    fontSize: 12.sp,
+                                    fontSize: 13.sp,
                                     color:
                                         AppColorsLight.kAppPrimaryColorLight),
                           ),

@@ -10,8 +10,10 @@ import '../../features/home/domain/entities/product.dart';
 import '../constants/app_layouts.dart';
 
 class KewordProducts extends StatelessWidget {
+  final bool isWithPadding;
   final List<Product> products;
-  const KewordProducts({super.key, required this.products});
+  const KewordProducts(
+      {super.key, required this.products, required this.isWithPadding});
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +22,16 @@ class KewordProducts extends StatelessWidget {
       child: SizedBox(
         height: 285.h,
         child: ListView.builder(
-          padding: kScaffoldPadding,
+          padding: isWithPadding ? kScaffoldPadding : EdgeInsets.zero,
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
           itemCount: products.length,
           itemBuilder: (context, index) {
             final product = products[index];
-            return MainProductCard(product: product);
+            return MainProductCard(
+              product: product,
+              fromProductDetails: true,
+            );
           },
         ),
       ),

@@ -17,7 +17,7 @@ class BranchTitle extends StatelessWidget {
         return CustomHeader(
             iconPath: AppAssets.backIcon,
             title:
-                '${state.store!.name} - ${state.store!.location!.address!.split('-')[0]}');
+                '${state.store!.name} - ${state.store!.location!.address!.split('-')[1]}');
       },
     );
   }

@@ -70,8 +70,12 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
   }
 
   void changeShowMore(bool value) => emit(state.copyWith(showMore: value));
-  void selectVariant(int index) =>
-      emit(state.copyWith(selectedVariantIndex: index));
+  void selectVariant(int index, Product product) {
+    emit(state.copyWith(
+        selectedVariantIndex: index,
+        productRequestState: RequestState.loading));
+    getProductDetails(productId: product.id!, withNearStores: true);
+  }
 
   void getProductDetails(
       {required int productId, required withNearStores}) async {
