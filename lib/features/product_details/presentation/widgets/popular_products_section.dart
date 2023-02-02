@@ -26,7 +26,7 @@ class PopularProductsSection extends StatelessWidget {
 
           case RequestState.loading:
             return SizedBox(
-                height: 280.h, child: const SimillarProductsLoading());
+                height: 277.h, child: const SimillarProductsLoading());
           case RequestState.loaded:
             return state.popularProducts!.isEmpty
                 ? const SizedBox()

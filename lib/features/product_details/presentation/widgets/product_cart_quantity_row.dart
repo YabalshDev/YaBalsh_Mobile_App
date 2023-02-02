@@ -8,6 +8,7 @@ import '../../../../core/theme/light/light_theme.dart';
 import '../../../../core/widgets/cart_quantity_row.dart';
 import '../../../cart/presentation/blocs/cubit/cart_cubit.dart';
 import '../../../home/domain/entities/product.dart';
+import 'product_notification_ring.dart';
 
 class ProductCartQuantity extends StatelessWidget {
   final Product product;
@@ -22,6 +23,8 @@ class ProductCartQuantity extends StatelessWidget {
       padding: kDefaultPadding,
       child: Row(
         children: [
+          const ProductNotificationRing(),
+          mediumHorizontalSpace,
           const Spacer(),
           CartQuantityRow(
             quantity: cartItem.quantity!,

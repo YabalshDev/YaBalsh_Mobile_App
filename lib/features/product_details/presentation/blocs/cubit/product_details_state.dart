@@ -13,9 +13,11 @@ class ProductDetailsState extends Equatable {
   final bool? showMore;
   final int? selectedVariantIndex;
   final List<String> productRelevants;
+  final bool? isProductNotified;
 
   const ProductDetailsState(
       {this.withNearStores = true,
+      this.isProductNotified = false,
       this.selectedVariantIndex = -1,
       this.showMore = true,
       this.productRelevants = const [],
@@ -40,8 +42,10 @@ class ProductDetailsState extends Equatable {
           RequestState? popularProductsRequestState,
           RequestState? productVariationRequestState,
           List<Product>? productVaraiations,
+          bool? isProductNotified,
           List<Product>? popularProducts}) =>
       ProductDetailsState(
+          isProductNotified: isProductNotified ?? this.isProductNotified,
           productRelevants: productRelevants ?? this.productRelevants,
           selectedVariantIndex:
               selectedVariantIndex ?? this.selectedVariantIndex,
@@ -71,6 +75,7 @@ class ProductDetailsState extends Equatable {
         productVaraiations!,
         popularProducts!,
         selectedVariantIndex!,
-        productRelevants
+        productRelevants,
+        isProductNotified!
       ];
 }

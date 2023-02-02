@@ -69,6 +69,8 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     return nearStores;
   }
 
+  void changeProductNotified(bool value) =>
+      emit(state.copyWith(isProductNotified: value));
   void changeShowMore(bool value) => emit(state.copyWith(showMore: value));
   void selectVariant(int index, Product product) {
     emit(state.copyWith(

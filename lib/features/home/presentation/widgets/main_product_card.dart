@@ -53,8 +53,7 @@ class MainProductCard extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 10.w),
                 decoration: kDefaultBoxDecoration.copyWith(
                     border: Border.all(color: Colors.transparent)),
-                child: product.prices!.isEmpty ||
-                        product.prices!.entries.last.value.price == 0
+                child: product.prices!.entries.last.value.price == 0
                     ? const SizedBox()
                     : MostExpensiveRow(product: product),
               )
@@ -158,39 +157,44 @@ class MostExpensiveRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
-        SizedBox(
-            width: 76.w,
-            child: RichText(
-              overflow: TextOverflow.ellipsis,
-              text: TextSpan(children: [
-                TextSpan(
-                  text: '${product.prices!.entries.last.value.price} ',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      fontSize: 11.sp,
-                      decoration: TextDecoration.lineThrough,
-                      color: AppColorsLight.kDisabledButtonTextColor,
-                      fontWeight: FontWeight.w600),
-                ),
-                TextSpan(
-                  text: 'جنيه ',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      fontSize: 10.sp,
-                      decoration: TextDecoration.lineThrough,
-                      color: AppColorsLight.kDisabledButtonTextColor,
-                      fontWeight: FontWeight.w600),
-                ),
-              ]),
-            )),
-        const Spacer(),
-        SizedBox(
-          height: 15.h,
-          width: 45.w,
-          child: AppImage(
-            fit: BoxFit.contain,
-            path: product.prices!.entries.last.value.storeImagePath ?? '',
-          ),
+        smallVerticalSpace,
+        Row(
+          children: [
+            SizedBox(
+                width: 76.w,
+                child: RichText(
+                  overflow: TextOverflow.ellipsis,
+                  text: TextSpan(children: [
+                    TextSpan(
+                      text: '${product.prices!.entries.last.value.price} ',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontSize: 11.sp,
+                          decoration: TextDecoration.lineThrough,
+                          color: AppColorsLight.kDisabledButtonTextColor,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    TextSpan(
+                      text: 'جنيه ',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontSize: 10.sp,
+                          decoration: TextDecoration.lineThrough,
+                          color: AppColorsLight.kDisabledButtonTextColor,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ]),
+                )),
+            const Spacer(),
+            SizedBox(
+              height: 15.h,
+              width: 45.w,
+              child: AppImage(
+                fit: BoxFit.contain,
+                path: product.prices!.entries.last.value.storeImagePath ?? '',
+              ),
+            ),
+          ],
         ),
       ],
     );
