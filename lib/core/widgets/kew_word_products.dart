@@ -20,7 +20,7 @@ class KewordProducts extends StatelessWidget {
     return BlocProvider.value(
       value: getIt<CartCubit>(),
       child: SizedBox(
-        height: 285.h,
+        height: 276.h,
         child: ListView.builder(
           padding: isWithPadding ? kScaffoldPadding : EdgeInsets.zero,
           scrollDirection: Axis.horizontal,
@@ -30,6 +30,7 @@ class KewordProducts extends StatelessWidget {
             final product = products[index];
             return MainProductCard(
               product: product,
+              fromSearch: false,
               fromProductDetails: true,
             );
           },

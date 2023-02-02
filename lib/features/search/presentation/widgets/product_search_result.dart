@@ -69,7 +69,12 @@ class SearchProductResultsLoaded extends StatelessWidget {
                       children: [
                         SubHeading(text: 'افضل عرض على ${state.intialValue}'),
                         mediumVerticalSpace,
-                        MainProductCard(product: state.chepeastProduct!),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 11.w),
+                          child: MainProductCard(
+                              product: state.chepeastProduct!,
+                              fromSearch: true),
+                        ),
                         mediumVerticalSpace
                       ],
                     )
@@ -88,27 +93,33 @@ class SearchProductResultsLoaded extends StatelessWidget {
                 ],
               ),
               mediumVerticalSpace,
-              Wrap(
-                direction: Axis.horizontal,
-                runSpacing: 20.h,
-                spacing: 20.w,
-                children: state.chepeastProduct!.id != null
-                    ? state.searchProductsResult!
-                        .where((element) =>
-                            element.id != state.chepeastProduct!.id)
-                        .toList()
-                        .map((product) {
-                        return BlocProvider.value(
-                          value: getIt<CartCubit>(),
-                          child: MainProductCard(product: product),
-                        );
-                      }).toList()
-                    : state.searchProductsResult!.map((product) {
-                        return BlocProvider.value(
-                          value: getIt<CartCubit>(),
-                          child: MainProductCard(product: product),
-                        );
-                      }).toList(),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 11.w),
+                child: Wrap(
+                  direction: Axis.horizontal,
+                  runSpacing: 21.h,
+                  spacing: 21.w,
+                  alignment: WrapAlignment.start,
+                  children: state.chepeastProduct!.id != null
+                      ? state.searchProductsResult!
+                          .where((element) =>
+                              element.id != state.chepeastProduct!.id)
+                          .toList()
+                          .map((product) {
+                          return BlocProvider.value(
+                            value: getIt<CartCubit>(),
+                            child: MainProductCard(
+                                product: product, fromSearch: true),
+                          );
+                        }).toList()
+                      : state.searchProductsResult!.map((product) {
+                          return BlocProvider.value(
+                            value: getIt<CartCubit>(),
+                            child: MainProductCard(
+                                product: product, fromSearch: true),
+                          );
+                        }).toList(),
+                ),
               )
             ],
           ),

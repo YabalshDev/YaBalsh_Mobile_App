@@ -18,43 +18,51 @@ import '../../../cart/presentation/blocs/cubit/cart_cubit.dart';
 
 class MainProductCard extends StatelessWidget {
   final bool? fromProductDetails;
+  final bool fromSearch;
   final Product product;
   const MainProductCard(
-      {super.key, required this.product, this.fromProductDetails});
+      {super.key,
+      required this.product,
+      this.fromProductDetails,
+      required this.fromSearch});
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        if (fromProductDetails != null) {
-          Get.back();
-        }
-        Get.toNamed(RouteHelper.getProductDetailsRoute(), arguments: product);
-      },
-      child: Container(
-        width: 146.w,
-        decoration: kDefaultBoxDecoration.copyWith(
-          color: AppColorsLight.kOffwhiteColor,
+    if (product.prices!.isEmpty) {
+      return const SizedBox();
+    } else {
+      return InkWell(
+        onTap: () {
+          if (fromProductDetails != null) {
+            Get.back();
+          }
+          Get.toNamed(RouteHelper.getProductDetailsRoute(), arguments: product);
+        },
+        child: Container(
+          width: fromSearch ? 156.w : 146.w,
+          decoration: kDefaultBoxDecoration.copyWith(
+            color: AppColorsLight.kOffwhiteColor,
+          ),
+          margin: fromSearch ? EdgeInsets.zero : EdgeInsets.only(left: 20.w),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              ProductDetailsCard(product: product, fromSearch: fromSearch),
+              Container(
+                height: 30.h,
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                decoration: kDefaultBoxDecoration.copyWith(
+                    border: Border.all(color: Colors.transparent)),
+                child: product.prices!.isEmpty ||
+                        product.prices!.entries.last.value.price == 0
+                    ? const SizedBox()
+                    : MostExpensiveRow(product: product),
+              )
+            ],
+          ),
         ),
-        margin: EdgeInsets.only(left: 20.w),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            ProductDetailsCard(product: product),
-            Container(
-              height: 40.h,
-              padding: kDefaultPadding,
-              decoration: kDefaultBoxDecoration.copyWith(
-                  border: Border.all(color: Colors.transparent)),
-              child: product.prices!.isEmpty ||
-                      product.prices!.entries.last.value.price == 0
-                  ? const SizedBox()
-                  : MostExpensiveRow(product: product),
-            )
-          ],
-        ),
-      ),
-    );
+      );
+    }
   }
 }
 
@@ -62,14 +70,16 @@ class ProductDetailsCard extends StatelessWidget {
   const ProductDetailsCard({
     Key? key,
     required this.product,
+    required this.fromSearch,
   }) : super(key: key);
 
   final Product product;
+  final bool fromSearch;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 146.w,
+      width: fromSearch ? 156.w : 146.w,
       padding: kDefaultPadding,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -90,8 +100,8 @@ class ProductDetailsCard extends StatelessWidget {
             clipBehavior: Clip.none,
             children: [
               SizedBox(
-                  height: 133.h,
-                  width: 126.w,
+                  height: fromSearch ? 142.h : 133.h,
+                  width: fromSearch ? 136.w : 126.w,
                   child: AppImage(
                     fit: BoxFit.contain,
                     path: product.imagePath!,
@@ -104,12 +114,15 @@ class ProductDetailsCard extends StatelessWidget {
                       : SavingCard(
                           percentage: calculateSavingsPercentage(product)
                               .toStringAsFixed(0))),
-              ProductQuantitySection(product: product)
+              ProductQuantitySection(
+                product: product,
+                fromSearch: fromSearch,
+              )
             ],
           ),
           mediumVerticalSpace,
           SizedBox(
-            height: 47.h,
+            height: 50.h,
             child: Text(
               product.name!,
               maxLines: 3,
@@ -235,9 +248,11 @@ class ProductQuantitySection extends StatelessWidget {
   const ProductQuantitySection({
     Key? key,
     required this.product,
+    required this.fromSearch,
   }) : super(key: key);
 
   final Product product;
+  final bool fromSearch;
 
   @override
   Widget build(BuildContext context) {
@@ -250,7 +265,7 @@ class ProductQuantitySection extends StatelessWidget {
           cartItem = state.cartItems!
               .firstWhere((element) => element.product!.id == product.id);
           return Positioned(
-            top: 100.h,
+            top: fromSearch ? 105.h : 100.h,
             child: Container(
               height: 40.h,
               width: 125.w,
@@ -276,14 +291,15 @@ class ProductQuantitySection extends StatelessWidget {
           );
         } else {
           return Positioned(
-            top: 110.h,
+            top: fromSearch ? 115.h : 110.h,
             left: 0,
             child: InkWell(
               onTap: () => getIt<CartCubit>().addItemToCart(product),
               child: Container(
                   padding: EdgeInsets.all(5.w),
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: Colors.purple.shade700),
+                  decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColorsLight.kAppPrimaryColorLight),
                   child: Icon(
                     Icons.add,
                     color: Colors.white,
