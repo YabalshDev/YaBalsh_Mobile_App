@@ -28,6 +28,7 @@ class ProductCartQuantity extends StatelessWidget {
           const Spacer(),
           CartQuantityRow(
             quantity: cartItem.quantity!,
+            fromProductDetails: true,
             onIncrement: () => getIt<CartCubit>().incrementQuantity(product),
             onDecrement: () => getIt<CartCubit>().decrementQuantity(product),
             onDelete: () => getIt<CartCubit>().deleteItemFromCart(product),

@@ -11,8 +11,10 @@ class CartQuantityRow extends StatelessWidget {
   final VoidCallback onIncrement;
   final VoidCallback onDecrement;
   final VoidCallback onDelete;
+  final bool? fromProductDetails;
   const CartQuantityRow(
       {super.key,
+      this.fromProductDetails,
       required this.quantity,
       required this.onIncrement,
       required this.onDecrement,
@@ -25,9 +27,11 @@ class CartQuantityRow extends StatelessWidget {
         quantity == 1
             ? InkWell(
                 onTap: onDelete,
-                child: const CustomSvgIcon(
+                child: CustomSvgIcon(
                   iconPath: AppAssets.binIcon,
                   color: Colors.red,
+                  height: fromProductDetails != null ? 25.h : null,
+                  width: fromProductDetails != null ? 25.w : null,
                 ),
               )
             : InkWell(
@@ -35,20 +39,22 @@ class CartQuantityRow extends StatelessWidget {
                 child: Icon(
                   Icons.remove,
                   color: Colors.red,
-                  size: 18.h,
+                  size: fromProductDetails != null ? 25.h : 20.h,
                 ),
               ),
         Container(
+          width: fromProductDetails != null ? 30.h : 25.h,
+          height: fromProductDetails != null ? 35.h : 25.h,
           margin: EdgeInsets.symmetric(horizontal: 5.w),
           decoration: kDefaultBoxDecoration.copyWith(
               color: Colors.white, borderRadius: kSecondaryBorderRaduis),
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Text(
-            '$quantity',
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium
-                ?.copyWith(fontSize: 13.sp, fontWeight: FontWeight.w600),
+          child: Center(
+            child: Text(
+              '$quantity',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontSize: fromProductDetails != null ? 17.sp : 13.sp,
+                  fontWeight: FontWeight.w700),
+            ),
           ),
         ),
         InkWell(
@@ -56,7 +62,7 @@ class CartQuantityRow extends StatelessWidget {
           child: Icon(
             Icons.add,
             color: Colors.green.shade400,
-            size: 18.h,
+            size: fromProductDetails != null ? 25.h : 20.h,
           ),
         ),
       ],
