@@ -33,6 +33,7 @@ class SuperMarketSearchCard extends StatelessWidget {
                   imagePath: store.logoImagePath,
                   width: 54.w,
                   height: 54.h,
+                  fit: BoxFit.cover,
                   isAssetImage: false,
                   withBorder: true,
                 ),

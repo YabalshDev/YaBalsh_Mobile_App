@@ -70,7 +70,7 @@ class SearchProductResultsLoaded extends StatelessWidget {
                         SubHeading(text: 'افضل عرض على ${state.intialValue}'),
                         mediumVerticalSpace,
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 11.w),
+                          padding: EdgeInsets.symmetric(horizontal: 6.w),
                           child: MainProductCard(
                               product: state.chepeastProduct!,
                               fromSearch: true),
@@ -94,7 +94,7 @@ class SearchProductResultsLoaded extends StatelessWidget {
               ),
               mediumVerticalSpace,
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 11.w),
+                padding: EdgeInsets.symmetric(horizontal: 5.w),
                 child: Wrap(
                   direction: Axis.horizontal,
                   runSpacing: 21.h,
