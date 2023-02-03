@@ -20,6 +20,7 @@ class PriceComparisonSection extends StatelessWidget {
           return ListView.builder(
             key: UniqueKey(),
             physics: const NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.zero,
             itemCount: state.showMore! && state.nearStores!.length > 5
                 ? state.nearStores!.sublist(0, 4).length
                 : state.nearStores!.length,
@@ -44,6 +45,7 @@ class PriceComparisonSection extends StatelessWidget {
         } else if (!state.withNearStores! && state.productStores!.isNotEmpty) {
           return ListView.builder(
             key: UniqueKey(),
+            padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: state.showMore! && state.productStores!.length > 5
                 ? state.productStores!.sublist(0, 4).length

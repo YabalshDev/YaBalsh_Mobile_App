@@ -25,21 +25,22 @@ class _ItemDetailsCardState extends State<ItemDetailsCard> {
         child: Row(
           children: [
             // change to network when ready
-            SizedBox(
-              width: 15.w,
-              height: 15.h,
-              child: Checkbox(
-                value: isChecked,
-                activeColor: Colors.green.shade400,
-                onChanged: (value) => setState(() {
-                  isChecked = value!;
-                }),
-                side:
-                    const BorderSide(color: AppColorsLight.kDefaultBorderColor),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4)),
-              ),
-            ),
+            // SizedBox(
+            //   width: 15.w,
+            //   height: 25.h,
+            //   child: Checkbox(
+            //     value: isChecked,
+            //     activeColor: Colors.green.shade400,
+            //     onChanged: (value) => setState(() {
+            //       isChecked = value!;
+            //     }),
+            //     side:
+            //         const BorderSide(color: AppColorsLight.kDefaultBorderColor),
+            //     shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(4)),
+            //   ),
+            // ),
+
             smallHorizontalSpace,
             Row(
               children: [

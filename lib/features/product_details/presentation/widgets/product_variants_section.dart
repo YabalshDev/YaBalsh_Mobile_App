@@ -28,6 +28,7 @@ class ProductVariantsSection extends StatelessWidget {
             return SizedBox(
                 height: 80.h,
                 child: ListView.builder(
+                  padding: EdgeInsets.only(right: 15.w),
                   scrollDirection: Axis.horizontal,
                   itemCount: 4,
                   itemBuilder: (context, index) {
@@ -41,27 +42,31 @@ class ProductVariantsSection extends StatelessWidget {
           case RequestState.loaded:
             return state.productVaraiations!.isEmpty
                 ? const SizedBox()
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SubHeading(text: 'احجام اخرى للمنتج'),
-                      mediumVerticalSpace,
-                      SizedBox(
-                        height: 63.5.h,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: state.productVaraiations!.length,
-                          itemBuilder: (context, index) {
-                            final variant = state.productVaraiations![index];
-                            return VariantCard(
-                              variant: variant,
-                              index: index,
-                            );
-                          },
+                : Padding(
+                    padding: EdgeInsets.only(right: 15.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SubHeading(text: 'احجام اخرى للمنتج'),
+                        mediumVerticalSpace,
+                        SizedBox(
+                          height: 63.5.h,
+                          child: ListView.builder(
+                            padding: EdgeInsets.zero,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: state.productVaraiations!.length,
+                            itemBuilder: (context, index) {
+                              final variant = state.productVaraiations![index];
+                              return VariantCard(
+                                variant: variant,
+                                index: index,
+                              );
+                            },
+                          ),
                         ),
-                      ),
-                      mediumVerticalSpace
-                    ],
+                        mediumVerticalSpace
+                      ],
+                    ),
                   );
           case RequestState.error:
             return SizedBox(

@@ -79,7 +79,7 @@ class ProductDetailsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: fromSearch ? 156.w : 146.w,
-      padding: kDefaultPadding,
+      padding: EdgeInsets.symmetric(horizontal: 9.w),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: kDefaultBorderRaduis,
@@ -214,12 +214,13 @@ class CheapestPriceRow extends StatelessWidget {
     return Row(
       children: [
         SizedBox(
-            width: 76.w,
+            width: 80.w,
             child: RichText(
               overflow: TextOverflow.ellipsis,
               text: TextSpan(children: [
                 TextSpan(
-                  text: '${product.prices!.entries.first.value.price} ',
+                  text:
+                      '11${product.prices!.entries.first.value.price!.toStringAsFixed(2)} ',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontSize: 13.sp,
                       color: AppColorsLight.kAppPrimaryColorLight,

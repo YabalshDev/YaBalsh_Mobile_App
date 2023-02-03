@@ -19,19 +19,22 @@ class SettingsBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: kDefaultPadding,
-              child: Column(
+        child: Padding(
+          padding: kDefaultPadding,
+          child: Column(
+            children: [
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const CustomHeader(title: 'الاعدادات'),
-                  largeVerticalSpace,
-                  Text(
-                    'حسابي',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontSize: 14.sp, fontWeight: FontWeight.w700),
+                  mediumVerticalSpace,
+                  Padding(
+                    padding: EdgeInsets.only(right: 12.w),
+                    child: Text(
+                      'حسابي',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontSize: 14.sp, fontWeight: FontWeight.w700),
+                    ),
                   ),
                   largeVerticalSpace,
                   SettingsElementCard(
@@ -87,45 +90,43 @@ class SettingsBody extends StatelessWidget {
                       title: 'تابعنا علي صفحاتنا'),
                 ],
               ),
-            ),
-            Container(
-              height: 10.h,
-              color: const Color(0xffF5F5F5),
-            ),
-            Padding(
-                padding: kDefaultPadding,
-                child: StatefulBuilder(
-                  builder: (context, setState) => SettingsElementCard(
-                      onTap: () {
-                        if (getIt<UserService>().token.isEmpty) {
-                          Get.toNamed(RouteHelper.getPhoneNumberRoute(),
-                              arguments: RouteHelper.getSettingsRoute());
-                        } else {
-                          yaBalashCustomDialog(
-                            isWithEmoji: false,
-                            buttonTitle: 'تاكيد',
-                            title: 'ملاحظة',
-                            mainContent: 'هل انت متاكد من تسجيل الخروج',
-                            onConfirm: () {
-                              getIt<UserService>().setToken('');
-                              getIt<UserService>().logout();
-                              setState(() {});
-                              Get.back();
-                            },
-                          );
-                        }
-                      },
-                      isWithTrailing: false,
-                      titleColor: AppColorsLight.kAppPrimaryColorLight,
-                      iconColor: AppColorsLight.kAppPrimaryColorLight,
-                      iconPath: getIt<UserService>().token.isEmpty
-                          ? AppAssets.loginIcon
-                          : AppAssets.logoutIcon,
-                      title: getIt<UserService>().token.isEmpty
-                          ? 'تسجيل الدخول'
-                          : 'تسجيل الخروج'),
-                ))
-          ],
+              Container(
+                height: 10.h,
+                color: const Color(0xffF5F5F5),
+              ),
+              StatefulBuilder(
+                builder: (context, setState) => SettingsElementCard(
+                    onTap: () {
+                      if (getIt<UserService>().token.isEmpty) {
+                        Get.toNamed(RouteHelper.getPhoneNumberRoute(),
+                            arguments: RouteHelper.getSettingsRoute());
+                      } else {
+                        yaBalashCustomDialog(
+                          isWithEmoji: false,
+                          buttonTitle: 'تاكيد',
+                          title: 'ملاحظة',
+                          mainContent: 'هل انت متاكد من تسجيل الخروج',
+                          onConfirm: () {
+                            getIt<UserService>().setToken('');
+                            getIt<UserService>().logout();
+                            setState(() {});
+                            Get.back();
+                          },
+                        );
+                      }
+                    },
+                    isWithTrailing: false,
+                    titleColor: AppColorsLight.kAppPrimaryColorLight,
+                    iconColor: AppColorsLight.kAppPrimaryColorLight,
+                    iconPath: getIt<UserService>().token.isEmpty
+                        ? AppAssets.loginIcon
+                        : AppAssets.logoutIcon,
+                    title: getIt<UserService>().token.isEmpty
+                        ? 'تسجيل الدخول'
+                        : 'تسجيل الخروج'),
+              )
+            ],
+          ),
         ),
       ),
     );

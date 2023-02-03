@@ -22,7 +22,7 @@ class KewordProducts extends StatelessWidget {
       value: getIt<CartCubit>(),
       child: CustomAnimatedWidget(
         child: SizedBox(
-          height: 276.h,
+          height: 263.h,
           child: ListView.builder(
             padding: isWithPadding ? kScaffoldPadding : EdgeInsets.zero,
             scrollDirection: Axis.horizontal,

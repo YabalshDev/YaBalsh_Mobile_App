@@ -46,9 +46,12 @@ class PopularProductsSection extends StatelessWidget {
                                 ],
                               )),
                       mediumVerticalSpace,
-                      KewordProducts(
-                        products: state.popularProducts!,
-                        isWithPadding: false,
+                      Padding(
+                        padding: EdgeInsets.only(right: 15.w),
+                        child: KewordProducts(
+                          products: state.popularProducts!,
+                          isWithPadding: false,
+                        ),
                       )
                     ],
                   );

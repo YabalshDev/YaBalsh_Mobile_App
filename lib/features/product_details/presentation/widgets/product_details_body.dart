@@ -19,11 +19,14 @@ class ProductDetailsBody extends StatelessWidget {
         SliverToBoxAdapter(
           child: Padding(
             padding: kDefaultPadding,
-            child: InkWell(
-              onTap: () => Get.back(),
-              child: const Icon(
-                Icons.arrow_back_ios,
-                color: AppColorsLight.kAppPrimaryColorLight,
+            child: Container(
+              alignment: Alignment.centerRight,
+              child: InkWell(
+                onTap: () => Get.back(),
+                child: const Icon(
+                  Icons.arrow_back_ios,
+                  color: AppColorsLight.kAppPrimaryColorLight,
+                ),
               ),
             ),
           ),

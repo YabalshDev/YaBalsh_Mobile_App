@@ -23,30 +23,36 @@ class ProductDetailsLoaded extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ProductImageCard(imagePath: product.imagePath!),
-        Text(
-          product.name!,
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: AppColorsLight.kAppPrimaryColorLight,
-              fontWeight: FontWeight.w700),
+        Padding(
+          padding: kDefaultPadding,
+          child: Text(
+            product.name!,
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: AppColorsLight.kAppPrimaryColorLight,
+                fontWeight: FontWeight.w700),
+          ),
         ),
         smallVerticalSpace,
         const ProductKewordCards(),
         mediumVerticalSpace,
-        Row(
-          children: [
-            Text(
-              AppStrings.discoverComparePrices,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge
-                  ?.copyWith(color: Colors.black, fontWeight: FontWeight.w700),
-            ),
-            const Spacer(),
-            const NearYouSection()
-          ],
+        Padding(
+          padding: kDefaultPadding,
+          child: Row(
+            children: [
+              Text(
+                AppStrings.discoverComparePrices,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: Colors.black, fontWeight: FontWeight.w700),
+              ),
+              const Spacer(),
+              const NearYouSection()
+            ],
+          ),
         ),
-        mediumVerticalSpace,
-        const PriceComparisonSection(),
+        Padding(
+          padding: kDefaultPadding.copyWith(top: 0, bottom: 0),
+          child: const PriceComparisonSection(),
+        ),
         mediumVerticalSpace,
       ],
     );
