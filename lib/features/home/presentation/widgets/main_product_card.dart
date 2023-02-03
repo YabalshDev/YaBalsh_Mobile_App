@@ -220,7 +220,7 @@ class CheapestPriceRow extends StatelessWidget {
               text: TextSpan(children: [
                 TextSpan(
                   text:
-                      '11${product.prices!.entries.first.value.price!.toStringAsFixed(2)} ',
+                      '${product.prices!.entries.first.value.price!.toStringAsFixed(2)} ',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontSize: 13.sp,
                       color: AppColorsLight.kAppPrimaryColorLight,

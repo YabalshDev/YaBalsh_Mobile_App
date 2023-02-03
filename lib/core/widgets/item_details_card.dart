@@ -41,6 +41,28 @@ class _ItemDetailsCardState extends State<ItemDetailsCard> {
             //   ),
             // ),
 
+            InkWell(
+              onTap: () => setState(() {
+                isChecked = !isChecked;
+              }),
+              child: Container(
+                width: 25.h,
+                height: 25.h,
+                decoration: BoxDecoration(
+                    borderRadius: kSecondaryBorderRaduis,
+                    color: !isChecked ? Colors.white : Colors.green.shade400,
+                    border: Border.all(
+                        color: AppColorsLight.kDefaultBorderColor, width: 1)),
+                child: isChecked
+                    ? const Icon(
+                        Icons.check,
+                        size: 22,
+                        color: Colors.white,
+                      )
+                    : null,
+              ),
+            ),
+
             smallHorizontalSpace,
             Row(
               children: [
@@ -59,15 +81,25 @@ class _ItemDetailsCardState extends State<ItemDetailsCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      constraints: BoxConstraints(maxWidth: 166.w),
+                      constraints: BoxConstraints(maxWidth: 164.w),
                       child: AutoSizeText(
                         widget.cartItem.product!.name ?? '',
                         textDirection: TextDirection.rtl,
                         wrapWords: false,
                         overflowReplacement: Container(
-                          constraints: BoxConstraints(maxWidth: 166.w),
+                          constraints: BoxConstraints(maxWidth: 164.w),
                           child: Text(
-                            '${widget.cartItem.product!.name!.substring(0, widget.cartItem.product!.name!.length - 16)}...',
+                            '${widget.cartItem.product!.name!.substring(0, widget.cartItem.product!.name!.length - 10)}..',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(
+                                    color: AppColorsLight.kAppPrimaryColorLight,
+                                    fontSize: 13.sp,
+                                    decoration: isChecked
+                                        ? TextDecoration.lineThrough
+                                        : null,
+                                    fontWeight: FontWeight.w600),
                           ),
                         ),
                         maxLines: 1,
@@ -96,7 +128,7 @@ class _ItemDetailsCardState extends State<ItemDetailsCard> {
             ),
             const Spacer(),
             SizedBox(
-              width: constraints.maxWidth * 0.3,
+              width: constraints.maxWidth * 0.29,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
