@@ -24,3 +24,22 @@ String formatDateToArabicIndex(String date) {
     return '${date.split(' ')[0]} ص';
   }
 }
+
+String getOpeningHours(String startTime, String endTime) {
+  final startTimedateIndex = startTime.split(' ')[1];
+  final endTimeDateIndex = endTime.split(' ')[1];
+  String result = '';
+  if (startTimedateIndex == 'pm') {
+    result = '${startTime.split(' ')[0]} مساءا';
+  } else {
+    result = '${startTime.split(' ')[0]} صباحا';
+  }
+
+  if (endTimeDateIndex == 'pm') {
+    result = '$result - ${endTime.split(' ')[0]} مساءا';
+  } else {
+    result = '$result - ${endTime.split(' ')[0]} صباحا';
+  }
+
+  return result;
+}

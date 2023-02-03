@@ -5,9 +5,13 @@ import 'package:yabalash_mobile_app/core/api/local_data_api/local_storage_provid
 import 'package:yabalash_mobile_app/core/api/remote_data_api/dio_consumer.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/interceptors.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/rest_api_provider.dart';
+import 'package:yabalash_mobile_app/core/cubits/cubit/connectivty_cubit.dart';
 import 'package:yabalash_mobile_app/core/services/addresses_service.dart';
 import 'package:yabalash_mobile_app/core/services/categories_service.dart';
+import 'package:yabalash_mobile_app/core/services/device_service.dart';
 import 'package:yabalash_mobile_app/core/services/order_service.dart';
+import 'package:yabalash_mobile_app/core/services/promo_service.dart';
+import 'package:yabalash_mobile_app/core/services/shopping_list_service.dart';
 import 'package:yabalash_mobile_app/core/services/stores_service.dart';
 import 'package:yabalash_mobile_app/core/services/user_service.dart';
 import 'package:yabalash_mobile_app/core/services/zone_service.dart';
@@ -27,6 +31,7 @@ import 'package:yabalash_mobile_app/features/auth/domain/repositories/auth_repos
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/check_user_registered_usecase.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/get_current_customer_usecase.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/login_usecase.dart';
+import 'package:yabalash_mobile_app/features/auth/domain/usecases/register_device_usecase.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/register_usecase.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/login_cubit.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/phone_number_cubit.dart';
@@ -44,20 +49,29 @@ import 'package:yabalash_mobile_app/features/cart/domain/usecases/increment_quan
 import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/cart_cubit.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/order_summary_cubit.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/super_markets_cubit.dart';
+import 'package:yabalash_mobile_app/features/categories/data/datasources/categories_remote_datasource.dart';
 import 'package:yabalash_mobile_app/features/categories/data/repositories/categories_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/categories/domain/repositories/categories_repository.dart';
 import 'package:yabalash_mobile_app/features/categories/domain/usecases/get_sub_categories_usecase.dart';
 import 'package:yabalash_mobile_app/features/categories/presentation/blocs/categories_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/data/datasources/home_mock_datasource.dart';
+import 'package:yabalash_mobile_app/features/home/data/datasources/home_remote_datasource.dart';
 import 'package:yabalash_mobile_app/features/home/data/repositories/home_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/home/domain/repositories/home_repository.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_banners_use_case.dart';
-import 'package:yabalash_mobile_app/features/home/domain/usecases/get_latest_offers_use_case.dart';
+
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_maincategories_usecase.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_near_stores_use_case.dart';
+import 'package:yabalash_mobile_app/features/home/domain/usecases/get_product_bybarcode_usecase.dart';
+import 'package:yabalash_mobile_app/features/home/domain/usecases/get_section_products_usecase.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_sections_use_case.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/main_navigation_cubit.dart';
+import 'package:yabalash_mobile_app/features/notifications/data/datasources/notification_remote_datasource.dart';
+import 'package:yabalash_mobile_app/features/notifications/data/repositories/notification_repository_impl.dart';
+import 'package:yabalash_mobile_app/features/notifications/domain/repositories/notification_repository.dart';
+import 'package:yabalash_mobile_app/features/notifications/domain/usecases/get_all_notifications_usecase.dart';
+import 'package:yabalash_mobile_app/features/notifications/presentation/blocs/cubit/notifications_cubit.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/data/repositories/splash_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/domain/repositories/splash_repository.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/blocs/cubit/splash_cubit.dart';
@@ -72,11 +86,23 @@ import 'package:yabalash_mobile_app/features/product_details/data/datasources/pr
 import 'package:yabalash_mobile_app/features/product_details/data/repositories/product_details_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/product_details/domain/usecases/get_product_details_usecase.dart';
 import 'package:yabalash_mobile_app/features/product_details/presentation/blocs/cubit/product_details_cubit.dart';
+import 'package:yabalash_mobile_app/features/reciepies/data/datasources/recipie_mock_data_source.dart';
+import 'package:yabalash_mobile_app/features/reciepies/data/datasources/recipie_remote_datasource.dart';
+import 'package:yabalash_mobile_app/features/reciepies/data/repositories/recipies_repository_impl.dart';
+import 'package:yabalash_mobile_app/features/reciepies/domain/repositories/recipies_repository.dart';
+import 'package:yabalash_mobile_app/features/reciepies/domain/usecases/get_all_creators_usecase.dart';
+import 'package:yabalash_mobile_app/features/reciepies/domain/usecases/get_all_recipies_usecase.dart';
+import 'package:yabalash_mobile_app/features/reciepies/domain/usecases/get_brand_recipies_usecase.dart';
+import 'package:yabalash_mobile_app/features/reciepies/domain/usecases/get_recipie_details_usecase.dart';
+import 'package:yabalash_mobile_app/features/reciepies/presentation/blocs/cubit/recipie_details_cubit.dart';
+import 'package:yabalash_mobile_app/features/reciepies/presentation/blocs/cubit/recipies_cubit.dart';
 import 'package:yabalash_mobile_app/features/search/data/datasources/search_local_datasource.dart';
 import 'package:yabalash_mobile_app/features/search/data/datasources/search_remote_datasource.dart';
 import 'package:yabalash_mobile_app/features/search/data/repositories/search_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/search/domain/repositories/search_repository.dart';
+import 'package:yabalash_mobile_app/features/search/domain/usecases/main_categories_products_search.dart';
 import 'package:yabalash_mobile_app/features/search/domain/usecases/search_product_usecase.dart';
+import 'package:yabalash_mobile_app/features/search/domain/usecases/sub_categories_products_search.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/blocs/cubit/search_cubit.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/data/datasources/shopping_list_local_datasource.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/data/repositories/shopping_list_repository_impl.dart';
@@ -86,10 +112,13 @@ import 'package:yabalash_mobile_app/features/shopping_lists/domain/usecases/get_
 import 'package:yabalash_mobile_app/features/shopping_lists/domain/usecases/rename_shopping_list_usecase.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/blocs/cubit/cubit/shopping_list_details_cubit.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/blocs/cubit/shopping_list_cubit.dart';
+import 'package:yabalash_mobile_app/features/store_details/presentation/blocs/cubit/store_details_cubit.dart';
+import 'package:yabalash_mobile_app/features/store_details/presentation/blocs/other_branches_cubit.dart';
 import 'package:yabalash_mobile_app/features/zones/data/datasources/zone_remote_data_source.dart';
 import 'package:yabalash_mobile_app/features/zones/data/repositories/zones_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/zones/domain/repositories/zones_repositoriy.dart';
-import 'package:yabalash_mobile_app/features/zones/domain/usecases/get_all_subzones_usecase.dart';
+import 'package:yabalash_mobile_app/features/zones/domain/usecases/get_all_mainzones_usecase.dart';
+import 'package:yabalash_mobile_app/features/zones/domain/usecases/get_mainzone_subzones_usecase.dart';
 import 'package:yabalash_mobile_app/features/zones/domain/usecases/get_past_subzones_usecase.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/main_zones_cubit.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/sub_zone_cubit.dart';
@@ -97,12 +126,17 @@ import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/sub_
 import '../features/auth/presentation/blocs/cubit/register_cubit.dart';
 import '../features/on_boaring/presentation/blocs/cubit/on_boarding_cubit.dart';
 import '../features/product_details/domain/repositories/product_details_repository.dart';
+import '../features/product_details/domain/usecases/get_product_relevants_usecase.dart';
+import '../features/reciepies/presentation/blocs/cubit/brands_cubit.dart';
 import '../features/search/domain/usecases/search_store_usecase.dart';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import '../features/zones/data/datasources/zone_local_data_source.dart';
 
 final getIt = GetIt.instance;
 setupDependecies() {
   getIt.registerLazySingleton(() => Dio());
+  getIt.registerLazySingleton(() => Connectivity());
   getIt.registerLazySingleton(() => AppInterceptor());
   getIt.registerLazySingleton(() => LogInterceptor());
 
@@ -118,8 +152,13 @@ setupDependecies() {
       () => UserServiceImpl(localStorageProvider: getIt()));
   getIt.registerLazySingleton<StoreService>(() => StoreServiceImpl());
   getIt.registerLazySingleton<CategoriesService>(() => CategoriesServiceImpl());
+  getIt.registerLazySingleton<DeviceService>(() => DeviceServiceImpl());
+  getIt.registerLazySingleton<ShoppingListService>(
+      () => ShoppingListServiceImpl());
+  getIt.registerLazySingleton<PromoService>(() => PromoServiceImpl());
 
-  getIt.registerLazySingleton<HomeDataSource>(() => HomeMockDataSourceImpl());
+  getIt.registerLazySingleton<HomeDataSource>(
+      () => HomeRemoteDataSourceImpl(restApiProvider: getIt()));
 
   getIt.registerLazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(restApiProvider: getIt()));
@@ -129,6 +168,8 @@ setupDependecies() {
 
   getIt.registerLazySingleton<ZonesRemoteDataSource>(
       () => ZonesRemoteDataSourceImpl(restApiProvider: getIt()));
+  getIt.registerLazySingleton<CategoriesDataSource>(
+      () => CategoriesRemoteDataSourceImpl(restApiProvider: getIt()));
   getIt.registerLazySingleton<ZonesLocalDataSource>(() =>
       ZoneLocalDataSourceImpl(
           localStorageProvider: getIt(), zoneService: getIt()));
@@ -153,6 +194,12 @@ setupDependecies() {
   getIt.registerLazySingleton<ProductDetailsRemoteDataSource>(
       () => ProductDetailsRemoteDataSourceImpl(restApiProvider: getIt()));
 
+  getIt.registerLazySingleton<RecipieDataSource>(
+      () => RecipieRemoteDatasource(restApiProvider: getIt()));
+
+  getIt.registerLazySingleton<NotificationRemoteDataSource>(
+      () => NotificationRemoteDataSourceImpl(restApiProvider: getIt()));
+
   //repos
   getIt.registerLazySingleton<SplashRepository>(
       () => SplashRepositoryImpl(localStorageProvider: getIt()));
@@ -163,7 +210,7 @@ setupDependecies() {
       authRemoteDataSource: getIt(), authLocalDataSource: getIt()));
 
   getIt.registerLazySingleton<CategoriesRepository>(
-      () => CategoriesRepositoryImpl());
+      () => CategoriesRepositoryImpl(categoriesDataSource: getIt()));
 
   getIt.registerLazySingleton<ZonesRepository>(() => ZonesRepositoryImpl(
       zonesLocalDataSource: getIt(), zonesRemoteDataSource: getIt()));
@@ -191,16 +238,28 @@ setupDependecies() {
       () => ProductDetailsRepositoryImpl(
             productDetailsRemoteDataSource: getIt(),
           ));
+
+  getIt.registerLazySingleton<RecipiesRepository>(() => RecipiesRepositoryImpl(
+        recipieDataSource: getIt(),
+      ));
+
+  getIt.registerLazySingleton<NotificationRepository>(
+      () => NotificationRepositoryImpl(
+            notificationRemoteDataSource: getIt(),
+          ));
   // use cases
 
   getIt.registerLazySingleton(
       () => GetMainCategoriesUseCase(homeRepository: getIt()));
-  getIt.registerLazySingleton(
-      () => GetLatestOffersUseCase(homeRepository: getIt()));
+
   getIt.registerLazySingleton(() => GetBannersUseCase(homeRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => GetSectionProductsUseCase(homeRepository: getIt()));
   getIt.registerLazySingleton(
       () => GetNearStoresUseCase(homeRepository: getIt()));
   getIt.registerLazySingleton(() => GetSectiosUseCase(homeRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => GetProductByBarCodeUseCase(homeRepository: getIt()));
 
   getIt.registerLazySingleton(
       () => GetSubCategoriesUseCase(categoriesRepository: getIt()));
@@ -213,9 +272,14 @@ setupDependecies() {
   getIt.registerLazySingleton(() => CheckUserRegisteredUseCase(
         authRepository: getIt(),
       ));
+  getIt.registerLazySingleton(() => RegisterDeviceUseCase(
+        authRepository: getIt(),
+      ));
 
   getIt.registerLazySingleton(
-      () => GetSubZonesUseCase(zonesRepository: getIt()));
+      () => GetMainZoneSubZonesUseCase(zonesRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => GetMainZonesUseCase(zonesRepository: getIt()));
   getIt.registerLazySingleton(
       () => GetPastSubZonesUseCase(zonesRepository: getIt()));
 
@@ -259,13 +323,34 @@ setupDependecies() {
   getIt.registerLazySingleton(
       () => SearchStoreUsecase(searchRepository: getIt()));
   getIt.registerLazySingleton(
+      () => MainCategoriesProductsSearchUsecase(searchRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => SubCategoriesProductsSearchUsecase(searchRepository: getIt()));
+
+  getIt.registerLazySingleton(
       () => GetProductDetailsUseCase(productDetailsRepository: getIt()));
+
+  getIt.registerLazySingleton(
+      () => GetProductRelevantsUseCase(productDetailsRepository: getIt()));
+
+  getIt.registerLazySingleton(
+      () => GetAllBrandsUseCase(recipiesRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => GetAllRecpiesUseCase(recipiesRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => GetRecipieDetailsUseCase(recipiesRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => GetBrandRecipiesUseCase(recipiesRepository: getIt()));
+
+  getIt.registerLazySingleton(
+      () => GetAllNotificationsUseCase(notificationRepository: getIt()));
 
 //cubits/blocs
   getIt.registerFactory(
     () => HomeCubit(
+        getProductByBarCodeUseCase: getIt(),
         getPastSubZonesUseCase: getIt(),
-        getLatestOffersUseCase: getIt(),
+        getMainCategoriesUseCase: getIt(),
         getBannersUseCase: getIt(),
         getNearStoresUseCase: getIt(),
         getSectiosUseCase: getIt()),
@@ -282,23 +367,32 @@ setupDependecies() {
     () => OnBoardingCubit(),
   );
   getIt.registerLazySingleton(
-    () => SplashCubit(
-        splashRepository: getIt(), userService: getIt(), zoneService: getIt()),
+    () => ConnectivtyCubit(connectivity: getIt()),
   );
   getIt.registerLazySingleton(
+    () => SplashCubit(
+        splashRepository: getIt(),
+        userService: getIt(),
+        zoneService: getIt(),
+        connectivity: getIt()),
+  );
+  getIt.registerFactory(
     () => LoginCubit(
         loginUseCase: getIt(),
+        registerDeviceUseCase: getIt(),
         authRepository: getIt(),
         getCurrentCustomerUseCase: getIt()),
   );
-  getIt.registerLazySingleton(
+  getIt.registerFactory(
     () => RegisterCubit(registerUseCase: getIt()),
   );
   getIt.registerFactory(
-    () => MainZonesCubit(getPastSubZonesUseCase: getIt()),
+    () => MainZonesCubit(
+        getPastSubZonesUseCase: getIt(), getMainZonesUseCase: getIt()),
   );
   getIt.registerFactory(
-    () => SubZoneCubit(getSubZonesUseCase: getIt(), zonesRepository: getIt()),
+    () => SubZoneCubit(
+        getMainZoneSubZonesUseCase: getIt(), zonesRepository: getIt()),
   );
   getIt.registerFactory(
     () => PhoneNumberCubit(checkUserRegisteredUseCase: getIt()),
@@ -327,23 +421,47 @@ setupDependecies() {
         getStoreUseCase: getIt(),
       ));
   getIt.registerFactory(() => OrderSummaryCubit(
-      getAllAddressUseCase: getIt(), createOrderUseCase: getIt()));
+      promoService: getIt(),
+      getAllAddressUseCase: getIt(),
+      createOrderUseCase: getIt()));
   getIt.registerFactory(
       () => OrderSuccessCubit(getProductDetailsUseCase: getIt()));
   getIt.registerFactory(() => PastOrdersCubit(getPastOrdersUseCase: getIt()));
   getIt.registerFactory(() => ShoppingListCubit(
-      getAllShoppingListsUseCase: getIt(), renameShoppingListUseCase: getIt()));
+      getAllRecpiesUseCase: getIt(),
+      getAllShoppingListsUseCase: getIt(),
+      renameShoppingListUseCase: getIt()));
 
   getIt.registerFactory(
       () => ShoppingListDetailsCubit(renameShoppingListUseCase: getIt()));
 
   getIt.registerFactory(() => SearchCubit(
+      getSectionProductsUseCase: getIt(),
+      mainCategoriesProductsSearchUsecase: getIt(),
+      subCategoriesProductsSearchUsecase: getIt(),
       searchStoreUsecase: getIt(),
       searchProductUsecase: getIt(),
       searchRepository: getIt()));
 
   getIt.registerFactory(() => ProductDetailsCubit(
+        getStoreUseCase: getIt(),
+        getProductRelevantsUseCase: getIt(),
         getProductDetailsUseCase: getIt(),
         searchProductUsecase: getIt(),
       ));
+
+  getIt.registerFactory(() => RecipiesCubit(
+      getAllBrandsUseCase: getIt(), getRecipieDetailsUseCase: getIt()));
+  getIt.registerFactory(() => BrandsCubit(
+      getBrandRecipiesUseCase: getIt(), getRecipieDetailsUseCase: getIt()));
+  getIt.registerFactory(() => RecipieDetailsCubit(
+        getRecipieDetailsUseCase: getIt(),
+      ));
+
+  getIt.registerFactory(() => NotificationsCubit(
+        getAllNotificationsUseCase: getIt(),
+      ));
+
+  getIt.registerFactory(() => StoreDetailsCubit());
+  getIt.registerFactory(() => OtherBranchesCubit(searchStoreUsecase: getIt()));
 }

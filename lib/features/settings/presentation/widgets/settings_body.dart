@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
-import 'package:yabalash_mobile_app/core/theme/light/app_colors_light.dart';
-import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
 import 'package:yabalash_mobile_app/features/settings/presentation/widgets/settings_element_card.dart';
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/depedencies.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/services/user_service.dart';
+import '../../../../core/theme/light/app_colors_light.dart';
+import '../../../../core/widgets/custom_dialog.dart';
 import '../../../../core/widgets/custom_header.dart';
 
 class SettingsBody extends StatelessWidget {
@@ -26,8 +26,7 @@ class SettingsBody extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const CustomHeader(
-                      isWithNotification: false, title: 'الاعدادات'),
+                  const CustomHeader(title: 'الاعدادات'),
                   largeVerticalSpace,
                   Text(
                     'حسابي',
@@ -41,6 +40,16 @@ class SettingsBody extends StatelessWidget {
                       },
                       iconPath: AppAssets.ordersIcon,
                       title: 'طلباتي'),
+                  Divider(
+                    color: Colors.grey.shade300,
+                    thickness: 1,
+                  ),
+                  SettingsElementCard(
+                      onTap: () {
+                        Get.toNamed(RouteHelper.getNotificationsRoute());
+                      },
+                      iconPath: AppAssets.notificationIcon,
+                      title: 'الاشعارات'),
                   Divider(
                     color: Colors.grey.shade300,
                     thickness: 1,
@@ -99,6 +108,7 @@ class SettingsBody extends StatelessWidget {
                             mainContent: 'هل انت متاكد من تسجيل الخروج',
                             onConfirm: () {
                               getIt<UserService>().setToken('');
+                              getIt<UserService>().logout();
                               setState(() {});
                               Get.back();
                             },

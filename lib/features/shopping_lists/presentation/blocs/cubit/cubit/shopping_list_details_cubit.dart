@@ -63,15 +63,17 @@ class ShoppingListDetailsCubit extends Cubit<ShoppingListDetailsState> {
     }).toList();
 
     for (var element in sortedPrices) {
-      String storeImagePath = element.product!.prices!.entries.first.value
-          .storeImagePath!; //chepeast store for current item
-      if (storesMap.containsKey(storeImagePath)) {
-        storesMap.update(
-            storeImagePath,
-            (value) =>
-                value..add(element)); // add cart item to corresponding store
-      } else {
-        storesMap[storeImagePath] = [element];
+      if (element.product!.prices!.isNotEmpty) {
+        String storeImagePath = element.product!.prices!.entries.first.value
+            .storeImagePath!; //chepeast store for current item
+        if (storesMap.containsKey(storeImagePath)) {
+          storesMap.update(
+              storeImagePath,
+              (value) =>
+                  value..add(element)); // add cart item to corresponding store
+        } else {
+          storesMap[storeImagePath] = [element];
+        }
       }
     }
 

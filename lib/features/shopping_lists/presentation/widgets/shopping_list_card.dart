@@ -6,8 +6,8 @@ import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/theme/light/light_theme.dart';
-import '../../../../core/widgets/custom_card.dart';
 import '../../domain/entities/shopping_list.dart';
+import 'products_grid.dart';
 
 class ShoppingListCard extends StatelessWidget {
   final ShoppingList shoppingList;
@@ -28,44 +28,7 @@ class ShoppingListCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                    width: 75.h,
-                    height: 75.h,
-                    padding:
-                        EdgeInsets.symmetric(vertical: 5.h, horizontal: 3.w),
-                    decoration: kDefaultBoxDecoration.copyWith(
-                        border: Border.all(color: Colors.transparent),
-                        color: AppColorsLight.kDisabledButtonColor),
-                    child: Wrap(
-                      direction: Axis.horizontal,
-                      alignment: WrapAlignment.start,
-                      spacing: 5.w,
-                      runSpacing: 5.h,
-                      children: shoppingList.products!.length > 4
-                          ? shoppingList.products!
-                              .sublist(0, 4)
-                              .map((cartItem) => CustomCard(
-                                    withBorder: false,
-                                    isAssetImage: true,
-                                    borderRadius: 6,
-                                    backgroundColor: Colors.white,
-                                    width: 25.w,
-                                    height: 25.h,
-                                    imagePath: cartItem.product!.imagePath,
-                                  ))
-                              .toList()
-                          : shoppingList.products!
-                              .map((cartItem) => CustomCard(
-                                    withBorder: false,
-                                    isAssetImage: true,
-                                    borderRadius: 6,
-                                    backgroundColor: Colors.white,
-                                    width: 26.w,
-                                    height: 26.h,
-                                    imagePath: cartItem.product!.imagePath,
-                                  ))
-                              .toList(),
-                    )),
+                ShoppingListProductsCard(shoppingList: shoppingList),
                 mediumHorizontalSpace,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,5 +63,25 @@ class ShoppingListCard extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class ShoppingListProductsCard extends StatelessWidget {
+  const ShoppingListProductsCard({
+    Key? key,
+    required this.shoppingList,
+  }) : super(key: key);
+
+  final ShoppingList shoppingList;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: 65.h,
+        height: 65.h,
+        decoration: kDefaultBoxDecoration.copyWith(
+            border: Border.all(color: Colors.transparent),
+            color: AppColorsLight.kDisabledButtonColor),
+        child: ProductsGrid(shoppingList: shoppingList));
   }
 }

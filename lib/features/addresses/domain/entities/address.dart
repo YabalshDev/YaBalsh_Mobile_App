@@ -5,6 +5,7 @@ class Address extends Equatable {
   final String? addressName;
   final String? fullAddress;
   final String? zone;
+  final String? mainZone;
   final String? floor;
   final String? buildingNo;
   final String? apartmentNo;
@@ -15,6 +16,7 @@ class Address extends Equatable {
       {this.id,
       this.addressName,
       this.fullAddress,
+      this.mainZone,
       this.zone,
       this.floor,
       this.buildingNo,
@@ -31,6 +33,7 @@ class Address extends Equatable {
         buildingNo,
         apartmentNo,
         createdAt,
-        updatedAt
+        updatedAt,
+        mainZone
       ];
 }

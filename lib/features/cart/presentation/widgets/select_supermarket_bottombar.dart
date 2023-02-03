@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/theme/light/app_colors_light.dart';
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/depedencies.dart';
@@ -58,7 +59,8 @@ class SelectSupermarketBottom extends StatelessWidget {
                 child: Container(
                   padding: kSecondaryPadding,
                   decoration: const BoxDecoration(
-                      shape: BoxShape.circle, color: Color(0xFF482C76)),
+                      shape: BoxShape.circle,
+                      color: AppColorsLight.kLightPurpleColor),
                   child: Text(
                     '${state.cartItems!.length}',
                     style: Theme.of(context)

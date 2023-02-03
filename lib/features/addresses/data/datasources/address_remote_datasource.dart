@@ -7,6 +7,7 @@ import 'package:yabalash_mobile_app/features/addresses/data/models/address_model
 import 'package:yabalash_mobile_app/features/addresses/data/models/address_request_model.dart';
 import 'package:yabalash_mobile_app/features/addresses/data/models/address_response_model.dart';
 
+import '../../../../core/api/remote_data_api/headers.dart';
 import '../../../../core/depedencies.dart';
 
 abstract class AddressRemoteDatasource {
@@ -25,35 +26,37 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDatasource {
     required this.restApiProvider,
   });
 
-  final Map<String, dynamic> addressHeaders = {
-    'zone': getIt<ZoneService>().currentSubZone!.id,
-    'authorization': 'Bearer ${getIt<UserService>().token}'
-  };
-
-  final updateAddressHeaders = {
-    'authorization': 'Bearer ${getIt<UserService>().token}'
-  };
   @override
   Future<AddressModel> addAddress(
       {required AddressRequestModel addressRequest}) async {
+    final token = getIt<UserService>().token;
     //get token
     final response = await restApiProvider.post(addressEndPoint,
-        body: addressRequest.toJson(), headers: addressHeaders);
+        body: addressRequest.toJson(),
+        headers: token.isNotEmpty
+            ? {
+                'zone': getIt<ZoneService>().currentSubZone!.id,
+                'authorization': 'Bearer $token'
+              }
+            : null);
     final result = AddressResponseModel.fromJson(response);
     return result.data as AddressModel;
   }
 
   @override
   Future<void> deleteAddress({required int id}) async {
+    final token = getIt<UserService>().token;
     await restApiProvider.delete(getAddressEndPointById(id),
-        headers: updateAddressHeaders);
+        headers: token.isNotEmpty ? ApiHeaders.authorizationHeaders : null);
   }
 
   @override
   Future<AddressModel> editAddress(
       {required int id, required AddressRequestModel addressRequest}) async {
+    final token = getIt<UserService>().token;
     final response = await restApiProvider.put(getAddressEndPointById(id),
-        body: addressRequest.toJson(), headers: updateAddressHeaders);
+        body: addressRequest.toJson(),
+        headers: token.isNotEmpty ? {'authorization': 'Bearer $token'} : null);
 
     final result = AddressResponseModel.fromJson(response);
     return result.data as AddressModel;
@@ -61,8 +64,14 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDatasource {
 
   @override
   Future<List<AddressModel>> getAllAddresses() async {
-    final response =
-        await restApiProvider.get(addressEndPoint, headers: addressHeaders);
+    final token = getIt<UserService>().token;
+    final response = await restApiProvider.get(addressEndPoint,
+        headers: token.isNotEmpty
+            ? {
+                'zone': getIt<ZoneService>().currentSubZone!.id,
+                'authorization': 'Bearer $token'
+              }
+            : null);
     final result = AddressListResponseModel.fromJson(response);
     return result.data as List<AddressModel>;
   }

@@ -1,6 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/constants/constants.dart';
+import 'package:yabalash_mobile_app/core/utils/enums/search_navigation_screens.dart';
+import 'package:yabalash_mobile_app/core/utils/handle_search_view_initstate.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
+import 'package:yabalash_mobile_app/core/widgets/internet_connection_wrapper.dart';
 import 'package:yabalash_mobile_app/core/widgets/keyboard_dissmisable.dart';
 import 'package:yabalash_mobile_app/features/addresses/presentation/blocs/cubit/address_cubit.dart';
 import 'package:yabalash_mobile_app/features/addresses/presentation/blocs/cubit/update_address_cubit.dart';
@@ -14,6 +18,8 @@ import 'package:yabalash_mobile_app/features/auth/presentation/views/phone_numbe
 import 'package:yabalash_mobile_app/features/auth/presentation/views/register_view.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/main_navigation_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/views/main_navigation_view.dart';
+import 'package:yabalash_mobile_app/features/notifications/presentation/blocs/cubit/notifications_cubit.dart';
+import 'package:yabalash_mobile_app/features/notifications/presentation/views/notifications_view.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/blocs/cubit/on_boarding_cubit.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/blocs/cubit/splash_cubit.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/presentation/views/on_boarding_view.dart';
@@ -23,9 +29,21 @@ import 'package:yabalash_mobile_app/features/orders/presentation/views/order_suc
 import 'package:yabalash_mobile_app/features/orders/presentation/views/past_orders_view.dart';
 import 'package:yabalash_mobile_app/features/product_details/presentation/blocs/cubit/product_details_cubit.dart';
 import 'package:yabalash_mobile_app/features/product_details/presentation/views/product_details_view.dart';
+import 'package:yabalash_mobile_app/features/reciepies/domain/entities/recipie.dart';
+import 'package:yabalash_mobile_app/features/reciepies/presentation/blocs/cubit/brands_cubit.dart';
+import 'package:yabalash_mobile_app/features/reciepies/presentation/blocs/cubit/recipie_details_cubit.dart';
+import 'package:yabalash_mobile_app/features/reciepies/presentation/blocs/cubit/recipies_cubit.dart';
+import 'package:yabalash_mobile_app/features/reciepies/presentation/views/brand_details_view.dart';
+import 'package:yabalash_mobile_app/features/reciepies/presentation/views/recipie_details_view.dart';
+import 'package:yabalash_mobile_app/features/reciepies/presentation/views/recipies_view.dart';
+import 'package:yabalash_mobile_app/features/search/domain/entities/store_search.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/views/search_view.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/blocs/cubit/cubit/shopping_list_details_cubit.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/views/shopping_list_details_view.dart';
+import 'package:yabalash_mobile_app/features/store_details/presentation/blocs/cubit/store_details_cubit.dart';
+import 'package:yabalash_mobile_app/features/store_details/presentation/blocs/other_branches_cubit.dart';
+import 'package:yabalash_mobile_app/features/store_details/presentation/views/store_details_view.dart';
+import 'package:yabalash_mobile_app/features/zones/domain/entities/main_zone.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/main_zones_cubit.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/sub_zone_cubit.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/views/main_zones_view.dart';
@@ -35,8 +53,10 @@ import '../../features/home/domain/entities/product.dart';
 import '../../features/home/presentation/views/home_view.dart';
 import '../../features/orders/domain/entities/order.dart';
 import '../../features/orders/presentation/blocs/cubit/order_success_cubit.dart';
+import '../../features/reciepies/domain/entities/brand.dart';
 import '../../features/search/presentation/blocs/cubit/search_cubit.dart';
 import '../../features/shopping_lists/domain/entities/shopping_list.dart';
+import '../../features/store_details/presentation/views/other_branches_view.dart';
 import '../depedencies.dart';
 
 class RouteHelper {
@@ -60,6 +80,12 @@ class RouteHelper {
   static const String _searchRoute = '/search';
   static const String _settingsRoute = '/settings';
   static const String _cartRoute = '/cart';
+  static const String _recipiesRoute = '/recipies';
+  static const String _recipieDetailsRoute = '/recipie-details';
+  static const String _brandDetailsRoute = '/brand-details';
+  static const String _notificationsRoute = '/notifcations';
+  static const String _storeDetailsRoute = '/store-details';
+  static const String _otherBranchesRoute = '/other-branches';
 
   static getIntialRoute() => _intialRoute;
   static getOnBoardingRoute() => _onBordingRoute;
@@ -79,6 +105,12 @@ class RouteHelper {
   static getSearchRoute() => _searchRoute;
   static getCartRoute() => _cartRoute;
   static getSettingsRoute() => _settingsRoute;
+  static getRecipiesRoute() => _recipiesRoute;
+  static getRecipieDetailsRoute() => _recipieDetailsRoute;
+  static getBrandDetailsRoute() => _brandDetailsRoute;
+  static getNotificationsRoute() => _notificationsRoute;
+  static getStoreDetailsRoute() => _storeDetailsRoute;
+  static getOtherBranches() => _otherBranchesRoute;
 
   static final routes = [
     GetPage(
@@ -113,16 +145,19 @@ class RouteHelper {
         name: _productDetailsRoute,
         page: () {
           final Product product = Get.arguments;
-          return CustomAnimatedWidget(
-              child: BlocProvider<ProductDetailsCubit>(
-            create: (context) => getIt<ProductDetailsCubit>()
-              ..getProductDetails(productId: product.id!, withNearStores: true)
-              ..getProductVariants(product: product)
-              ..getSimmilarProducts(product: product),
-            child: ProductDetailsView(
-              product: product,
-            ),
-          ));
+          return InternetConnectionWrapper(
+            child: CustomAnimatedWidget(
+                child: BlocProvider<ProductDetailsCubit>(
+              create: (context) => getIt<ProductDetailsCubit>()
+                ..getProductDetails(
+                    productId: product.id!, withNearStores: true)
+                ..getProductVariants(product: product)
+                ..getSimmilarProducts(product: product),
+              child: ProductDetailsView(
+                product: product,
+              ),
+            )),
+          );
         }),
     GetPage(
         name: _loginRoute,
@@ -153,20 +188,28 @@ class RouteHelper {
     GetPage(
         name: _mainZonesRoute,
         page: () {
-          return CustomAnimatedWidget(
-            child: BlocProvider<MainZonesCubit>(
-              create: (context) => getIt<MainZonesCubit>()..getZonesHistory(),
-              child: const MainZonesView(),
+          return InternetConnectionWrapper(
+            child: CustomAnimatedWidget(
+              child: BlocProvider<MainZonesCubit>(
+                create: (context) => getIt<MainZonesCubit>()
+                  ..getZonesHistory()
+                  ..getMainZones(),
+                child: const MainZonesView(),
+              ),
             ),
           );
         }),
     GetPage(
         name: _subZonesRoutes,
         page: () {
-          return CustomAnimatedWidget(
-            child: BlocProvider<SubZoneCubit>(
-              create: (context) => getIt<SubZoneCubit>()..getSubZones(),
-              child: SubZonesView(mainZone: Get.arguments),
+          final MainZone mainZone = Get.arguments;
+          return InternetConnectionWrapper(
+            child: CustomAnimatedWidget(
+              child: BlocProvider<SubZoneCubit>(
+                create: (context) =>
+                    getIt<SubZoneCubit>()..getMainZoneSubZones(mainZone.id!),
+                child: SubZonesView(mainZone: Get.arguments),
+              ),
             ),
           );
         }),
@@ -174,65 +217,78 @@ class RouteHelper {
         name: _phoneNumberRoute,
         page: () {
           final String fromRoute = Get.arguments;
-          return CustomAnimatedWidget(
-              child: KeyboardDissmisable(
-                  child: BlocProvider<PhoneNumberCubit>(
-            create: (context) => getIt<PhoneNumberCubit>(),
-            child: PhoneNumberView(fromRoute: fromRoute),
-          )));
+          return InternetConnectionWrapper(
+            child: CustomAnimatedWidget(
+                child: KeyboardDissmisable(
+                    child: BlocProvider<PhoneNumberCubit>(
+              create: (context) => getIt<PhoneNumberCubit>(),
+              child: PhoneNumberView(fromRoute: fromRoute),
+            ))),
+          );
         }),
     GetPage(
         name: _addressesRoute,
         page: () {
           final String fromRoute = Get.arguments;
-          return CustomAnimatedWidget(
-              child: BlocProvider<AddressCubit>(
-            create: (context) => getIt<AddressCubit>()..getAllAddress(),
-            child: AddressesView(fromRoute: fromRoute),
-          ));
+          return InternetConnectionWrapper(
+            child: CustomAnimatedWidget(
+                child: BlocProvider<AddressCubit>(
+              create: (context) => getIt<AddressCubit>()..getAllAddress(),
+              child: AddressesView(fromRoute: fromRoute),
+            )),
+          );
         }),
     GetPage(
         name: _updateAddressRoute,
         page: () {
-          return CustomAnimatedWidget(
-              child: KeyboardDissmisable(
-            child: BlocProvider<UpdateAddressCubit>(
-              create: (context) => getIt<UpdateAddressCubit>(),
-              child: UpdateAddress(
-                isfromEdit: Get.arguments[0],
-                address: Get.arguments[1],
-                fromRoute: Get.arguments[2],
+          return InternetConnectionWrapper(
+            child: CustomAnimatedWidget(
+                child: KeyboardDissmisable(
+              child: BlocProvider<UpdateAddressCubit>(
+                create: (context) => getIt<UpdateAddressCubit>(),
+                child: UpdateAddress(
+                  isfromEdit: Get.arguments[0],
+                  address: Get.arguments[1],
+                  fromRoute: Get.arguments[2],
+                ),
               ),
-            ),
-          ));
+            )),
+          );
         }),
     GetPage(
         name: _orderSuccessRoute,
+        transition: navigationTransition,
+        transitionDuration: const Duration(milliseconds: 500),
         page: () {
           final Order order = Get.arguments[0];
           final bool isFromOrderDetails = Get.arguments[1];
-          return CustomAnimatedWidget(
-              child: BlocProvider<OrderSuccessCubit>(
-                  create: (context) {
-                    if (isFromOrderDetails) {
-                      return getIt<OrderSuccessCubit>()..calculateSaving(order);
-                    } else {
-                      return getIt<OrderSuccessCubit>();
-                    }
-                  },
-                  child: OrderSuccessView(
-                    order: order,
-                    isFromOrderDetails: isFromOrderDetails,
-                  )));
+          return InternetConnectionWrapper(
+            child: CustomAnimatedWidget(
+                child: BlocProvider<OrderSuccessCubit>(
+                    create: (context) {
+                      if (isFromOrderDetails) {
+                        return getIt<OrderSuccessCubit>()
+                          ..calculateSaving(order);
+                      } else {
+                        return getIt<OrderSuccessCubit>();
+                      }
+                    },
+                    child: OrderSuccessView(
+                      order: order,
+                      isFromOrderDetails: isFromOrderDetails,
+                    ))),
+          );
         }),
     GetPage(
         name: _pastOrdersRoute,
         page: () {
-          return CustomAnimatedWidget(
-              child: BlocProvider<PastOrdersCubit>(
-                  create: (context) =>
-                      getIt<PastOrdersCubit>()..getPastOrders(),
-                  child: const PastOrdersView()));
+          return InternetConnectionWrapper(
+            child: CustomAnimatedWidget(
+                child: BlocProvider<PastOrdersCubit>(
+                    create: (context) =>
+                        getIt<PastOrdersCubit>()..getPastOrders(),
+                    child: const PastOrdersView())),
+          );
         }),
     GetPage(
         name: _shoppingListDetailsRoute,
@@ -252,23 +308,104 @@ class RouteHelper {
         name: _searchRoute,
         page: () {
           final String searchName = Get.arguments[1];
-          final bool fromCategory = Get.arguments[0];
-          return CustomAnimatedWidget(
-            child: BlocProvider<SearchCubit>(
-              create: (context) {
-                if (searchName.isNotEmpty) {
-                  return getIt<SearchCubit>()
-                    ..changeSearchIsEmpty(false)
-                    ..getSearchHistory()
-                    ..search(searchName);
-                } else {
-                  return getIt<SearchCubit>()..getSearchHistory();
-                }
-              },
-              child: KeyboardDissmisable(
-                child: SearchView(
-                    fromCategory: fromCategory, intialValue: searchName),
+          final SearchNavigationScreens searchNavigationScreens =
+              Get.arguments[0];
+          final int id = Get.arguments[2];
+          return InternetConnectionWrapper(
+            child: CustomAnimatedWidget(
+              child: BlocProvider<SearchCubit>(
+                create: (context) {
+                  return handleSearchViewInitState(
+                      searchNavigationScreens, searchName, id);
+                },
+                child: KeyboardDissmisable(
+                  child: SearchView(
+                      searchNavigationScreens: searchNavigationScreens,
+                      intialValue: searchName),
+                ),
               ),
+            ),
+          );
+        }),
+    GetPage(
+        name: _recipiesRoute,
+        page: () {
+          final List<Recipie> recipies = Get.arguments;
+          return InternetConnectionWrapper(
+            child: CustomAnimatedWidget(
+              child: BlocProvider<RecipiesCubit>(
+                create: (context) => getIt<RecipiesCubit>()
+                  ..getBrands()
+                  ..getAllRecipieDetails(recipies),
+                child: const RecipiesView(),
+              ),
+            ),
+          );
+        }),
+    GetPage(
+        name: _recipieDetailsRoute,
+        page: () {
+          final Recipie recipie = Get.arguments;
+          return InternetConnectionWrapper(
+            child: BlocProvider<RecipieDetailsCubit>(
+              create: (context) =>
+                  getIt<RecipieDetailsCubit>()..getRecipieDetails(recipie.id!),
+              child: const CustomAnimatedWidget(
+                child: RecipieDetailsView(),
+              ),
+            ),
+          );
+        }),
+    GetPage(
+        name: _brandDetailsRoute,
+        page: () {
+          final Brand brand = Get.arguments;
+          return InternetConnectionWrapper(
+            child: BlocProvider<BrandsCubit>(
+              create: (context) =>
+                  getIt<BrandsCubit>()..getBrandRecipies(brand.id!),
+              child: CustomAnimatedWidget(
+                child: BrandDetailsView(
+                  brand: brand,
+                ),
+              ),
+            ),
+          );
+        }),
+    GetPage(
+        name: _notificationsRoute,
+        page: () {
+          return InternetConnectionWrapper(
+            child: BlocProvider<NotificationsCubit>(
+              create: (context) =>
+                  getIt<NotificationsCubit>()..getAllNotifications(),
+              child: const CustomAnimatedWidget(child: NotificatiosView()),
+            ),
+          );
+        }),
+    GetPage(
+        name: _storeDetailsRoute,
+        page: () {
+          final StoreSearch store = Get.arguments;
+
+          return InternetConnectionWrapper(
+            child: BlocProvider<StoreDetailsCubit>(
+              create: (context) => getIt<StoreDetailsCubit>()..setStore(store),
+              child: const CustomAnimatedWidget(child: StoreDetailsView()),
+            ),
+          );
+        }),
+    GetPage(
+        name: _otherBranchesRoute,
+        page: () {
+          final StoreSearch store = Get.arguments;
+
+          return InternetConnectionWrapper(
+            child: BlocProvider<OtherBranchesCubit>(
+              create: (context) => getIt<OtherBranchesCubit>()
+                ..setCurrentStore(store)
+                ..getOtherBranches(store),
+              child: const CustomAnimatedWidget(child: OtherBranchesView()),
             ),
           );
         }),

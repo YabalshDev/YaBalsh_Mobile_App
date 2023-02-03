@@ -2,30 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
+import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_shimmer.dart';
-import 'package:yabalash_mobile_app/features/home/presentation/widgets/search_product_card.dart';
+import 'package:yabalash_mobile_app/features/home/presentation/widgets/main_product_card.dart';
 
 import '../../features/cart/presentation/blocs/cubit/cart_cubit.dart';
 import '../../features/home/domain/entities/product.dart';
 import '../constants/app_layouts.dart';
 
 class KewordProducts extends StatelessWidget {
+  final bool isWithPadding;
   final List<Product> products;
-  const KewordProducts({super.key, required this.products});
+  const KewordProducts(
+      {super.key, required this.products, required this.isWithPadding});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: getIt<CartCubit>(),
-      child: ListView.builder(
-        padding: kScaffoldPadding,
-        scrollDirection: Axis.horizontal,
-        shrinkWrap: true,
-        itemCount: products.length,
-        itemBuilder: (context, index) {
-          final product = products[index];
-          return SearchProductCard(product: product);
-        },
+      child: CustomAnimatedWidget(
+        child: SizedBox(
+          height: 276.h,
+          child: ListView.builder(
+            padding: isWithPadding ? kScaffoldPadding : EdgeInsets.zero,
+            scrollDirection: Axis.horizontal,
+            itemCount: products.length,
+            itemBuilder: (context, index) {
+              final product = products[index];
+              return MainProductCard(
+                product: product,
+                fromSearch: false,
+                fromProductDetails: true,
+              );
+            },
+          ),
+        ),
       ),
     );
   }

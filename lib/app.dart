@@ -1,10 +1,10 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_strings.dart';
+import 'package:yabalash_mobile_app/core/cubits/cubit/connectivty_cubit.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
 import 'package:yabalash_mobile_app/core/theme/light/light_theme.dart';
 import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
@@ -21,14 +21,20 @@ class YaBalashApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) => Directionality(
         textDirection: TextDirection.rtl,
-        child: BlocProvider<CartCubit>(
-          create: (context) => getIt<CartCubit>()..fetchCartItems(),
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => getIt<CartCubit>()..fetchCartItems(),
+            ),
+            BlocProvider<ConnectivtyCubit>(
+              create: (context) =>
+                  getIt<ConnectivtyCubit>()..getIntitalConnectionStatus(),
+            )
+          ],
           child: GetMaterialApp(
             useInheritedMediaQuery: true,
             key: UniqueKey(),
             textDirection: TextDirection.rtl,
-            locale: DevicePreview.locale(context),
-            builder: DevicePreview.appBuilder,
             supportedLocales: const [Locale('ar'), Locale('en')],
             navigatorKey: Get.key,
             debugShowCheckedModeBanner: false,

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yabalash_mobile_app/core/depedencies.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/supermarket_card_model.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/super_markets_cubit.dart';
+import 'package:yabalash_mobile_app/features/home/data/models/location_model.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
+import '../../../../core/services/zone_service.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/custom_card.dart';
 import '../../../../core/widgets/custom_svg_icon.dart';
@@ -25,18 +28,23 @@ class SuperMarketCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final location = superMarket.store!.locations!.firstWhere(
+      (element) => element.subZoneId == getIt<ZoneService>().currentSubZone!.id,
+      orElse: () => const LocationModel(),
+    );
     return Container(
       margin: EdgeInsets.only(top: 10.h),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           isAvailable
-              ? InkWell(
+              ? GestureDetector(
                   onTap: () => BlocProvider.of<SuperMarketsCubit>(context)
                       .setSuperMarketIndex(index: index),
                   child: Container(
                     width: 18.w,
                     height: 18.w,
+                    margin: EdgeInsets.only(top: 13.h),
                     decoration: BoxDecoration(
                         color: selectedSupermarketIndex == index
                             ? AppColorsLight.kAppPrimaryColorLight
@@ -51,14 +59,17 @@ class SuperMarketCard extends StatelessWidget {
                 ),
           mediumHorizontalSpace,
           SizedBox(
-            width: 201.w,
+            width: 210.w,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomCard(
                   isAssetImage: false,
                   withBorder: true,
-                  imagePath: superMarket.store!.cardImagePath,
+                  fit: BoxFit.fill,
+                  width: 45.w,
+                  height: 45.h,
+                  imagePath: superMarket.store!.logoImagePath,
                 ),
                 mediumHorizontalSpace,
                 Column(
@@ -88,7 +99,6 @@ class SuperMarketCard extends StatelessWidget {
                         )
                       ],
                     ),
-                    mediumVerticalSpace,
                     Row(
                       children: [
                         const CustomSvgIcon(
@@ -97,8 +107,8 @@ class SuperMarketCard extends StatelessWidget {
                         ),
                         smallHorizontalSpace,
                         Text(
-                          superMarket.store!.locations![0].deliveryTime != null
-                              ? '${superMarket.store!.locations![0].deliveryTime} دقيقة'
+                          location.deliveryTime != null
+                              ? '${location.deliveryTime} دقيقة'
                               : '30 دقيقة',
                           style: Theme.of(context)
                               .textTheme
@@ -118,8 +128,8 @@ class SuperMarketCard extends StatelessWidget {
                         ),
                         smallHorizontalSpace,
                         Text(
-                          superMarket.store!.locations![0].deliveryTime != null
-                              ? '${superMarket.store!.locations![0].deliveryTime} دقيقة'
+                          location.deliveryFees != null
+                              ? '${double.parse(location.deliveryFees!).round()} جنيه'
                               : '30 جنيه',
                           style: Theme.of(context)
                               .textTheme
@@ -140,35 +150,39 @@ class SuperMarketCard extends StatelessWidget {
           const Spacer(),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
-                '${superMarket.price!.toStringAsFixed(0)} جنيه',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18.sp,
-                    color: AppColorsLight.kAppPrimaryColorLight),
+              Container(
+                child: Text(
+                  '${superMarket.price!.toStringAsFixed(0)} جنيه',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18.sp,
+                      color: AppColorsLight.kAppPrimaryColorLight),
+                ),
               ),
-              superMarket.saving! > 0
-                  ? Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        CustomSvgIcon(
-                          iconPath: AppAssets.priceTagIcon,
-                          color: Colors.green.shade500,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CustomSvgIcon(
+                    iconPath: AppAssets.priceTagIcon,
+                    color: superMarket.saving! > 0
+                        ? Colors.green.shade500
+                        : Colors.white,
+                  ),
+                  smallHorizontalSpace,
+                  Text(
+                    'توفير ${superMarket.saving!.toStringAsFixed(0)} جنيه ',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontSize: 9.sp,
+                          fontWeight: FontWeight.w500,
+                          color: superMarket.saving! > 0
+                              ? Colors.green.shade500
+                              : Colors.white,
                         ),
-                        smallHorizontalSpace,
-                        Text(
-                          'توفير ${superMarket.saving!.toStringAsFixed(0)} جنيه ',
-                          style:
-                              Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    fontSize: 9.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.green.shade500,
-                                  ),
-                        ),
-                      ],
-                    )
-                  : const SizedBox()
+                  ),
+                ],
+              )
             ],
           )
         ],

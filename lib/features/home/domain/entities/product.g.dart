@@ -17,6 +17,7 @@ class ProductAdapter extends TypeAdapter<Product> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Product(
+      barCode: fields[20] as String?,
       id: fields[18] as int?,
       name: fields[9] as String?,
       imagePath: fields[10] as String?,
@@ -28,7 +29,7 @@ class ProductAdapter extends TypeAdapter<Product> {
   @override
   void write(BinaryWriter writer, Product obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(18)
       ..write(obj.id)
       ..writeByte(9)
@@ -37,6 +38,8 @@ class ProductAdapter extends TypeAdapter<Product> {
       ..write(obj.imagePath)
       ..writeByte(19)
       ..write(obj.size)
+      ..writeByte(20)
+      ..write(obj.barCode)
       ..writeByte(13)
       ..write(obj.prices);
   }

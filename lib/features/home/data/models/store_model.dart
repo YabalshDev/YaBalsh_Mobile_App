@@ -17,14 +17,16 @@ class StoreModel extends Store {
 
   factory StoreModel.fromJson(Map<String, dynamic> json) {
     return StoreModel(
-        id: json["id"],
-        name: json["name"],
+        id: json["id"] ?? 0,
+        name: json["name"] ?? '',
         cardImagePath: json["cardImagePath"] ?? '',
         logoImagePath: json["logoImagePath"] ?? '',
         locations: json['locations'] != null
             ? (json["locations"] as List<dynamic>)
                 .map((e) => LocationModel.fromJson(e))
                 .toList()
-            : []);
+            : json['location'] != null
+                ? [LocationModel.fromJson(json['location'])]
+                : []);
   }
 }

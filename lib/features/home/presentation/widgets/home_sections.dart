@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
+import 'package:yabalash_mobile_app/core/utils/enums/search_navigation_screens.dart';
 import 'package:yabalash_mobile_app/core/widgets/kew_word_products.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_cubit.dart';
 
@@ -13,8 +13,6 @@ import 'Title_row.dart';
 import 'section_loading.dart';
 
 class HomeSections extends StatelessWidget {
-  // final Section section;
-
   const HomeSections({super.key});
 
   @override
@@ -25,17 +23,12 @@ class HomeSections extends StatelessWidget {
       builder: (context, state) {
         switch (state.homeSectionsRequestState) {
           case RequestState.loading:
-            return Column(
-                children: List.generate(3, (index) => const SectionLoading()));
+            return const HomeSectionsLoading();
 
           case RequestState.loaded:
-            return Column(
-              children: state.homeSections!
-                  .map((homeSection) => SectionLoaded(
-                      sectionName: homeSection.section!.keyWord!,
-                      sectionProducts: homeSection.products!))
-                  .toList(),
-            );
+            return state.homeSections!.isEmpty
+                ? const SizedBox()
+                : const HomeSectionsLoaded();
 
           case RequestState.error:
             return const SizedBox();
@@ -48,14 +41,50 @@ class HomeSections extends StatelessWidget {
   }
 }
 
+class HomeSectionsLoaded extends StatelessWidget {
+  const HomeSectionsLoaded({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (context, state) {
+        return Column(
+          children: state.homeSections!
+              .map((homeSection) => SectionLoaded(
+                  sectionId: homeSection.section!.id!,
+                  sectionName: homeSection.section!.name!,
+                  sectionProducts: homeSection.products!))
+              .toList(),
+        );
+      },
+    );
+  }
+}
+
+class HomeSectionsLoading extends StatelessWidget {
+  const HomeSectionsLoading({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+        children: List.generate(3, (index) => const SectionLoading()));
+  }
+}
+
 class SectionLoaded extends StatelessWidget {
   const SectionLoaded({
     Key? key,
     required this.sectionName,
     required this.sectionProducts,
+    required this.sectionId,
   }) : super(key: key);
 
   final String sectionName;
+  final int sectionId;
   final List<Product> sectionProducts;
 
   @override
@@ -67,11 +96,17 @@ class SectionLoaded extends StatelessWidget {
         TitleRow(
           title: sectionName,
           onSelectAll: () => Get.toNamed(RouteHelper.getSearchRoute(),
-              arguments: [false, sectionName]),
+              arguments: [
+                SearchNavigationScreens.sections,
+                sectionName,
+                sectionId
+              ]),
         ),
         mediumVerticalSpace,
-        SizedBox(
-            height: 290.h, child: KewordProducts(products: sectionProducts))
+        KewordProducts(
+          products: sectionProducts,
+          isWithPadding: true,
+        )
       ],
     );
   }

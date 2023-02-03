@@ -1,9 +1,11 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
+import 'package:yabalash_mobile_app/core/services/promo_service.dart';
 import 'package:yabalash_mobile_app/core/usecases/use_cases.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
+import 'package:yabalash_mobile_app/core/utils/get_zone_addresses.dart';
 import 'package:yabalash_mobile_app/features/addresses/domain/use%20cases/get_all_addresses_usecase.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/supermarket_card_model.dart';
 import 'package:yabalash_mobile_app/features/orders/domain/usecases/create_order_usecase.dart';
@@ -21,19 +23,24 @@ part 'order_summary_state.dart';
 class OrderSummaryCubit extends Cubit<OrderSummaryState> {
   final GetAllAddressUseCase getAllAddressUseCase;
   final CreateOrderUseCase createOrderUseCase;
+  final PromoService promoService;
   OrderSummaryCubit(
-      {required this.createOrderUseCase, required this.getAllAddressUseCase})
+      {required this.createOrderUseCase,
+      required this.promoService,
+      required this.getAllAddressUseCase})
       : super(const OrderSummaryState());
 
   SuperMarketCardModel get supermarket =>
       getIt<OrderService>().superMarketCardModel!;
 
   void getUserAddress() async {
+    final primaryAddress = getIt<AddressService>().primaryAddress;
     // if primary address set load it
-    if (getIt<AddressService>().primaryAddress.id != null) {
+    if (primaryAddress.id != null) {
+      getIt<CartCubit>().changeSelectedUserAddress(primaryAddress);
       emit(state.copyWith(
           addressesRequestState: RequestState.loaded,
-          userAddresses: [getIt<AddressService>().primaryAddress]));
+          userAddresses: [primaryAddress]));
     } else {
       //otherwise load all address for user
       final response = await getAllAddressUseCase(NoParams());
@@ -50,10 +57,11 @@ class OrderSummaryCubit extends Cubit<OrderSummaryState> {
         );
       }, (addresses) {
         if (addresses.isNotEmpty) {
+          final zoneAddresses = getZoneAddress(addresses);
           getIt<AddressService>()
-              .setAddresses(addresses); // set service for global use
+              .setAddresses(zoneAddresses); // set service for global use
 
-          getIt<CartCubit>().changeSelectedUserAddress(addresses.last);
+          getIt<CartCubit>().changeSelectedUserAddress(zoneAddresses.last);
         }
         emit(state.copyWith(
             addressesRequestState: RequestState.loaded,
@@ -62,23 +70,31 @@ class OrderSummaryCubit extends Cubit<OrderSummaryState> {
     }
   }
 
+  void changePromoValidation(bool value) {
+    promoService.setPromoValidity(value);
+    emit(state.copyWith(isPromoValid: value));
+  }
+
   Future<Order>? placeOrder({required OrderRequest orderRequest}) async {
-    Order? orderResult;
+    Order orderResult = const Order();
 
-    final response =
-        await createOrderUseCase(CreateOrderParams(orderRequest: orderRequest));
+    if (promoService.isPromoValid) {
+      final response = await createOrderUseCase(
+          CreateOrderParams(orderRequest: orderRequest));
 
-    response.fold((failure) {
-      yaBalashCustomDialog(
-        isWithEmoji: false,
-        buttonTitle: 'حسنا',
-        mainContent: 'حدث مشكلة اثناء تنفيذ الطلب',
-        title: 'خطأ',
-        onConfirm: () => Get.back(),
-      );
-    }, (order) {
-      orderResult = order;
-    });
-    return orderResult!;
+      response.fold((failure) {
+        yaBalashCustomDialog(
+          isWithEmoji: false,
+          buttonTitle: 'حسنا',
+          mainContent: 'حدث مشكلة اثناء تنفيذ الطلب',
+          title: 'خطأ',
+          onConfirm: () => Get.back(),
+        );
+      }, (order) {
+        orderResult = order;
+      });
+    }
+
+    return orderResult;
   }
 }

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/depedencies.dart';
 import '../../../../core/routes/app_routes.dart';
+import '../../../../core/services/addresses_service.dart';
 import '../../../../core/widgets/custom_bottom_nav_bar.dart';
 import '../../../orders/data/models/order_product_model.dart';
 import '../../../orders/domain/entities/order_request.dart';
@@ -21,24 +22,29 @@ class ConfirmOrderBottom extends StatelessWidget {
     return CustomNavBar(
       isButtonSecondary: false,
       mainButtonTap: () async {
-        final OrderRequest orderRequest = OrderRequest(
-            addressId: state.userAddress?.id,
-            storeId: state.supermarket?.store!.id,
-            products: state.cartItems!
-                .map((e) =>
-                    OrderProductModel(id: e.product!.id, quantity: e.quantity))
-                .toList());
-        if (state.userAddress?.id != null) {
-          final order = await getIt<OrderSummaryCubit>()
-              .placeOrder(orderRequest: orderRequest);
-          if (order != null) {
-            Get.toNamed(RouteHelper.getOrderSuccessRoute(),
-                arguments: [order, false]);
-          }
-        }
+        await handleConfirmOrder();
       },
       title: '✔  خلص الطلب',
       isDisabled: state.userAddress?.id == null,
     );
+  }
+
+  Future<void> handleConfirmOrder() async {
+    final OrderRequest orderRequest = OrderRequest(
+        addressId:
+            state.userAddress?.id ?? getIt<AddressService>().primaryAddress.id,
+        storeId: state.supermarket?.store!.id,
+        products: state.cartItems!
+            .map((e) =>
+                OrderProductModel(id: e.product!.id, quantity: e.quantity))
+            .toList());
+    if (state.userAddress?.id != null) {
+      final order = await getIt<OrderSummaryCubit>()
+          .placeOrder(orderRequest: orderRequest);
+      if (order!.id != null) {
+        Get.toNamed(RouteHelper.getOrderSuccessRoute(),
+            arguments: [order, false]);
+      }
+    }
   }
 }

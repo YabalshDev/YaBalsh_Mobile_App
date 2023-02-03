@@ -11,12 +11,12 @@ class ProductLoadingShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Colors.grey[800]!,
-      highlightColor: Colors.grey[850]!,
+      baseColor: Colors.grey.shade300,
+      highlightColor: Colors.grey.shade400,
       child: Container(
-        width: 133.w,
-        height: 140.h,
-        margin: EdgeInsets.only(left: 10.w),
+        width: 126.w,
+        height: 133.h,
+        margin: EdgeInsets.only(left: 10.w, bottom: 10.h),
         decoration: BoxDecoration(
             color: AppColorsLight.kMainCategoryCardColor,
             borderRadius: kDefaultBorderRaduis),

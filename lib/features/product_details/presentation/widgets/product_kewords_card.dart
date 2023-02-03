@@ -1,43 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_shimmer.dart';
+import 'package:yabalash_mobile_app/features/product_details/presentation/blocs/cubit/product_details_cubit.dart';
 
 import '../../../../core/theme/light/app_colors_light.dart';
+import '../../../../core/utils/enums/request_state.dart';
 
 class ProductKewordCards extends StatelessWidget {
-  final String productName;
   const ProductKewordCards({
     super.key,
-    required this.productName,
   });
 
   @override
   Widget build(BuildContext context) {
-    final data = productName.split(RegExp(r'-')).join().split(' ');
-    data.removeWhere(
-      (element) => element == '',
-    );
-    return SizedBox(
-        height: 50.h,
-        child: ListView.builder(
-          shrinkWrap: true,
-          scrollDirection: Axis.horizontal,
-          itemCount: data.length,
-          itemBuilder: (context, index) {
-            final keword = data[index];
+    return BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
+      builder: (context, state) {
+        switch (state.productRequestState) {
+          case RequestState.idle:
+            return const SizedBox();
+          case RequestState.loading:
+            return const ProductKewordsSectionLoading();
+          case RequestState.loaded:
+            return state.productRelevants.isEmpty
+                ? const SizedBox()
+                : SizedBox(
+                    height: 50.h,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: state.productRelevants.length,
+                      itemBuilder: (context, index) {
+                        final keword = state.productRelevants[index];
 
-            return Card(
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 10.w),
-                child: Text(
-                  keword,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppColorsLight.kDisabledButtonTextColor),
-                ),
-              ),
-            );
-          },
-        ));
+                        return Card(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 5.h, horizontal: 10.w),
+                            child: Text(
+                              keword,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
+                                      color: AppColorsLight
+                                          .kDisabledButtonTextColor),
+                            ),
+                          ),
+                        );
+                      },
+                    ));
+          case RequestState.error:
+            return const SizedBox();
+
+          default:
+            return const SizedBox();
+        }
+      },
+    );
   }
 }
 

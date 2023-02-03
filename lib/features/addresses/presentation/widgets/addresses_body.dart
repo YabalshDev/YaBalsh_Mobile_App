@@ -22,7 +22,6 @@ class AddressesBody extends StatelessWidget {
           child: Column(
         children: [
           CustomHeader(
-              isWithNotification: true,
               title: 'عناويني',
               onIconTap: () => fromRoute == RouteHelper.getCartRoute()
                   ? Get.offAllNamed(RouteHelper.getMainNavigationRoute(),
@@ -47,6 +46,7 @@ class AddressesBody extends StatelessWidget {
                   if (state.addresses!.isNotEmpty) {
                     return ListView.builder(
                       key: UniqueKey(),
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: state.addresses!.length,
                       itemBuilder: (context, index) {
@@ -67,8 +67,10 @@ class AddressesBody extends StatelessWidget {
                   }
 
                 case RequestState.error:
-                  //TODO: implement errror and not logged in illustrators
-                  return const SizedBox();
+                  return SizedBox(
+                      height: Get.height * 0.75,
+                      child:
+                          EmptyIndicator(title: state.errorMessage ?? 'جطا '));
                 default:
                   return const SizedBox();
               }

@@ -31,7 +31,9 @@ class OrderSuccessCubit extends Cubit<OrderSuccessState> {
 
     for (Product product in products) {
       saving += (product.prices!.entries.last.value.price! -
-          product.prices![order.store!.name!]!.price!);
+          (product.prices![order.store!.name!] != null
+              ? product.prices![order.store!.name!]!.price!
+              : 0));
     }
 
     emit(state.copyWith(

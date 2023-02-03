@@ -24,7 +24,7 @@ class BascketListBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 155.h,
+      height: 170.h,
       child: Column(
         children: [
           Text(

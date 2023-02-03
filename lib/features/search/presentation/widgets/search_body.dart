@@ -5,20 +5,21 @@ import 'package:yabalash_mobile_app/features/search/presentation/widgets/product
 import 'package:yabalash_mobile_app/features/search/presentation/widgets/search_header.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/widgets/super_markets_search_section.dart';
 
+import '../../../../core/utils/enums/search_navigation_screens.dart';
 import 'search_history_section.dart';
 import 'search_type_section.dart';
-
-final _searchFormKey = GlobalKey<FormBuilderState>();
 
 class SearchBody extends StatelessWidget {
   final PageController pageController;
   final String? intialValue;
-  final bool fromCategory;
+  final SearchNavigationScreens searchNavigationScreens;
+  final GlobalKey<FormBuilderState> searchFormKey;
   const SearchBody(
       {super.key,
       required this.pageController,
       this.intialValue,
-      required this.fromCategory});
+      required this.searchNavigationScreens,
+      required this.searchFormKey});
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +27,12 @@ class SearchBody extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SearchHeader(
-              intialValue: intialValue!, searchFormKey: _searchFormKey),
+          SearchHeader(intialValue: intialValue!, searchFormKey: searchFormKey),
           SearchTypeSection(
-              pageController: pageController, searchFormKey: _searchFormKey),
-          const SearchHistorySection(),
+              pageController: pageController, searchFormKey: searchFormKey),
+          SearchHistorySection(
+            searchFormKey: searchFormKey,
+          ),
           smallVerticalSpace,
           Expanded(
             child: PageView.builder(

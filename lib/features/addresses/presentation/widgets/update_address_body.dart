@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/features/addresses/presentation/widgets/address_form.dart';
@@ -24,31 +25,38 @@ class UpdateAddressBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: kDefaultPadding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AuthBackIcon(
-                onTap: () => Get.offAllNamed(RouteHelper.getAddressesRoute(),
-                    arguments: fromRoute),
-              ),
-              largeVerticalSpace,
-              const AuthTitleWidget(
-                title: 'حابب نوصلك فين؟',
-              ),
-              largeVerticalSpace,
-              AddressForm(
-                isFromEdit: isFromEdit,
-                address: address,
-                formkey: formkey,
-                context: context,
-              )
-            ],
+      child: KeyboardVisibilityBuilder(builder: (context, isVisible) {
+        return SingleChildScrollView(
+          reverse: isVisible ? true : false,
+          physics: const BouncingScrollPhysics(),
+          child: Padding(
+            padding: kDefaultPadding,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AuthBackIcon(
+                  onTap: () => Get.offAllNamed(RouteHelper.getAddressesRoute(),
+                      arguments: fromRoute),
+                ),
+                largeVerticalSpace,
+                const AuthTitleWidget(
+                  title: 'حابب نوصلك فين؟',
+                ),
+                largeVerticalSpace,
+                AddressForm(
+                  isFromEdit: isFromEdit,
+                  address: address,
+                  formkey: formkey,
+                  context: context,
+                ),
+                SizedBox(
+                  height: isVisible ? Get.height * 0.35 : 0,
+                )
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
+import 'package:yabalash_mobile_app/core/utils/enums/search_navigation_screens.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_cubit.dart';
 
 import '../../../../core/constants/app_assets.dart';
@@ -25,7 +26,7 @@ class SearchSection extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 Get.toNamed(RouteHelper.getSearchRoute(),
-                    arguments: [false, '']);
+                    arguments: [SearchNavigationScreens.homeScreen, '', 0]);
               },
               child: Card(
                   child: Container(

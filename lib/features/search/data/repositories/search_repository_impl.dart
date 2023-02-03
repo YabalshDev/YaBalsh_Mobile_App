@@ -59,4 +59,28 @@ class SearchRepositoryImpl implements SearchRepository {
           ServerFailure(message: 'حدث خطا اثناء البحث عن المتجر'));
     }
   }
+
+  @override
+  Future<Either<Failure, List<Product>>> mainCategoriesProductsSearch(
+      {required int mainCategoryId}) async {
+    try {
+      final response = await searchRemoteDataSource.mainCategoriesSearch(
+          mainCategoryId: mainCategoryId);
+      return Right(response.data as List<Product>);
+    } on ServerException {
+      return const Left(ServerFailure(message: 'حدث خطا اثناء البحث '));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Product>>> subCategoriesProductsSearch(
+      {required int subCategoryId}) async {
+    try {
+      final response = await searchRemoteDataSource.subCategoriesSearch(
+          subCategoryId: subCategoryId);
+      return Right(response.data as List<Product>);
+    } on ServerException {
+      return const Left(ServerFailure(message: 'حدث خطا اثناء البحث '));
+    }
+  }
 }

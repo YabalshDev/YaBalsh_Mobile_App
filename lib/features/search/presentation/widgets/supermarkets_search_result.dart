@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/widgets/sub_heading.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/widgets/super_market_search_card.dart';
 
 import '../../../../core/constants/app_layouts.dart';
@@ -36,24 +37,47 @@ class SuperMarketsSearchResult extends StatelessWidget {
         return state.searchStoresResult!.isEmpty
             ? SizedBox(
                 height: Get.height * 0.6, child: const SearchEmptyResult())
-            : Container(
-                color: AppColorsLight.kDisabledButtonColor,
-                child: Column(
-                  children: [
-                    ListView.builder(
-                        itemCount: state.searchStoresResult!.length,
-                        padding: kDefaultPadding,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          final store = state.searchStoresResult![index];
-                          return SuperMarketSearchCard(store: store);
-                        }),
-                    SizedBox(
-                      height: Get.height,
-                    )
-                  ],
-                ),
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(right: 10.w),
+                    child: Row(
+                      children: [
+                        const SubHeading(text: 'السوبر ماركتس'),
+                        smallHorizontalSpace,
+                        Text(
+                          '(${state.searchStoresResult!.length} نتائج)',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                  color: AppColorsLight.kAppPrimaryColorLight),
+                        )
+                      ],
+                    ),
+                  ),
+                  mediumVerticalSpace,
+                  Container(
+                    color: AppColorsLight.kDisabledButtonColor,
+                    child: Column(
+                      children: [
+                        ListView.builder(
+                            itemCount: state.searchStoresResult!.length,
+                            padding: kDefaultPadding,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              final store = state.searchStoresResult![index];
+                              return SuperMarketSearchCard(store: store);
+                            }),
+                        SizedBox(
+                          height: Get.height,
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               );
 
       case RequestState.error:

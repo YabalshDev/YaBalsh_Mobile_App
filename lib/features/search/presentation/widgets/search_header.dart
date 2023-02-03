@@ -9,11 +9,30 @@ import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/theme/light/light_theme.dart';
 
-class SearchHeader extends StatelessWidget {
+class SearchHeader extends StatefulWidget {
   final String intialValue;
   final GlobalKey<FormBuilderState> searchFormKey;
   const SearchHeader(
       {super.key, required this.intialValue, required this.searchFormKey});
+
+  @override
+  State<SearchHeader> createState() => _SearchHeaderState();
+}
+
+class _SearchHeaderState extends State<SearchHeader> {
+  late TextEditingController controller;
+  @override
+  void initState() {
+    controller = TextEditingController(text: widget.intialValue);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +44,7 @@ class SearchHeader extends StatelessWidget {
           Expanded(
               flex: 8,
               child: FormBuilder(
-                key: searchFormKey,
+                key: widget.searchFormKey,
                 child: SizedBox(
                   height: 32.h,
                   child: Container(
@@ -33,11 +52,15 @@ class SearchHeader extends StatelessWidget {
                         border: Border.all(color: Colors.transparent)),
                     padding: EdgeInsets.symmetric(horizontal: 5.h),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         InkWell(
                           onTap: () {
-                            final searchValue = searchFormKey.currentState
-                                ?.fields['search']!.value as String;
+                            final searchValue = widget
+                                .searchFormKey
+                                .currentState
+                                ?.fields['search']!
+                                .value as String;
                             if (searchValue.isNotEmpty) {
                               BlocProvider.of<SearchCubit>(context)
                                   .saveSearch(searchValue);
@@ -52,37 +75,72 @@ class SearchHeader extends StatelessWidget {
                         ),
                         smallHorizontalSpace,
                         Expanded(
-                          child: FormBuilderTextField(
-                            name: 'search',
-                            initialValue: intialValue,
-                            cursorHeight: 25.h,
-                            onChanged: (value) {
-                              if (value!.isEmpty) {
-                                BlocProvider.of<SearchCubit>(context)
-                                    .changeSearchIsEmpty(true);
-                              } else {
-                                BlocProvider.of<SearchCubit>(context)
-                                    .changeSearchIsEmpty(false);
-                              }
-                            },
-                            cursorRadius: const Radius.circular(8),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(fontWeight: FontWeight.w600),
-                            cursorColor: AppColorsLight.kAppPrimaryColorLight,
-                            decoration: InputDecoration(
-                                hintText: 'دور على منتج او سوبر ماركت',
-                                hintStyle: Theme.of(context)
+                          child: LayoutBuilder(builder: (context, constraints) {
+                            return SizedBox(
+                              height: 32.h,
+                              child: FormBuilderTextField(
+                                name: 'search',
+                                controller: controller,
+                                textDirection: TextDirection.rtl,
+                                onSaved: (newValue) => controller.clear(),
+                                onSubmitted: (value) {
+                                  if (value!.isNotEmpty) {
+                                    BlocProvider.of<SearchCubit>(context)
+                                        .saveSearch(value);
+                                    BlocProvider.of<SearchCubit>(context)
+                                        .search(value);
+                                  }
+                                },
+                                onTap: () {
+                                  if (controller.text.isNotEmpty) {
+                                    if (controller
+                                            .text[controller.text.length - 1] !=
+                                        ' ') {
+                                      controller.text = ('${controller.text} ');
+                                    }
+                                    if (controller.selection ==
+                                        TextSelection.fromPosition(TextPosition(
+                                            offset:
+                                                controller.text.length - 1))) {
+                                      setState(() {});
+                                    }
+                                  }
+                                },
+                                onChanged: (value) {
+                                  if (value!.isEmpty) {
+                                    BlocProvider.of<SearchCubit>(context)
+                                        .changeSearchIsEmpty(true);
+                                    widget.searchFormKey.currentState!
+                                        .fields['search']!
+                                        .setState(() {});
+                                  } else {
+                                    BlocProvider.of<SearchCubit>(context)
+                                        .changeSearchIsEmpty(false);
+                                  }
+                                },
+                                style: Theme.of(context)
                                     .textTheme
-                                    .bodyMedium
+                                    .bodySmall
                                     ?.copyWith(
-                                        fontWeight: FontWeight.w500,
-                                        color: AppColorsLight.kCancelColor),
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 6.h, horizontal: 10.w),
-                                border: InputBorder.none),
-                          ),
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14.sp),
+                                cursorColor:
+                                    AppColorsLight.kAppPrimaryColorLight,
+                                decoration: InputDecoration(
+                                    isDense: true,
+                                    contentPadding: EdgeInsets.zero,
+                                    hintText: 'دور على منتج او سوبر ماركت',
+                                    hintStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14.sp,
+                                            color: AppColorsLight.kCancelColor),
+                                    border: InputBorder.none),
+                              ),
+                            );
+                          }),
                         )
                       ],
                     ),

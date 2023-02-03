@@ -1,9 +1,14 @@
 // ignore_for_file: prefer_final_fields, unused_field
 
+import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:yabalash_mobile_app/core/api/local_data_api/local_storage_provider.dart';
 import 'package:yabalash_mobile_app/core/constants/app_strings.dart';
+import 'package:yabalash_mobile_app/core/depedencies.dart';
 import 'package:yabalash_mobile_app/core/errors/exceptions.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/entities/customer.dart';
+
+import '../../features/cart/presentation/blocs/cubit/cart_cubit.dart';
 
 abstract class UserService {
   Customer? _currentCustomer;
@@ -14,6 +19,8 @@ abstract class UserService {
   void setToken(String value);
   void setCurrentCustomer(Customer newCustomer);
   String getToken();
+  void getCurrentCustomer();
+  void logout();
 }
 
 class UserServiceImpl implements UserService {
@@ -28,6 +35,37 @@ class UserServiceImpl implements UserService {
   String get token => _token;
 
   UserServiceImpl({required this.localStorageProvider});
+
+  void _saveCustomerToLocalStorage(Customer customer) async {
+    try {
+      if (!Hive.isBoxOpen(AppStrings.customerKey)) {
+        await Hive.openBox<Customer>(AppStrings.customerKey);
+      }
+
+      final box = Hive.box<Customer>(AppStrings.customerKey);
+
+      box.put('customer', customer);
+    } catch (err) {
+      debugPrint('failed to save customer');
+    }
+  }
+
+  Future<Customer> _getCustomerFromLocalStorage() async {
+    try {
+      if (!Hive.isBoxOpen(AppStrings.customerKey)) {
+        await Hive.openBox<Customer>(AppStrings.customerKey);
+      }
+
+      final box = Hive.box<Customer>(AppStrings.customerKey);
+
+      final customer = box.get('customer', defaultValue: const Customer());
+      return customer!;
+    } catch (err) {
+      debugPrint('failed to get customer');
+      return const Customer();
+    }
+  }
+
   @override
   void setToken(String value) {
     _token = value;
@@ -36,6 +74,7 @@ class UserServiceImpl implements UserService {
   @override
   void setCurrentCustomer(Customer newCustomer) {
     _currentCustomer = newCustomer;
+    _saveCustomerToLocalStorage(newCustomer);
   }
 
   @override
@@ -50,5 +89,36 @@ class UserServiceImpl implements UserService {
     } on CacheException {
       return '';
     }
+  }
+
+  void _deleteCustomerFromLocalStorage() async {
+    try {
+      if (!Hive.isBoxOpen(AppStrings.customerKey)) {
+        await Hive.openBox<Customer>(AppStrings.customerKey);
+      }
+
+      final box = Hive.box<Customer>(AppStrings.customerKey);
+
+      box.delete(
+        'customer',
+      );
+    } catch (err) {
+      debugPrint('failed to delete customer');
+    }
+  }
+
+  @override
+  void logout() {
+    localStorageProvider.deleteData(key: AppStrings.token);
+    getIt<CartCubit>().clearCart();
+    getIt<CartCubit>().resetCart();
+    _deleteCustomerFromLocalStorage();
+    _currentCustomer = const Customer();
+  }
+
+  @override
+  void getCurrentCustomer() async {
+    final customer = await _getCustomerFromLocalStorage();
+    _currentCustomer = customer;
   }
 }

@@ -4,8 +4,8 @@ import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../home/domain/entities/product.dart';
+import 'near_you_section.dart';
 import 'price_comparison_section.dart';
-import 'product_details_body.dart';
 import 'product_image_card.dart';
 import 'product_kewords_card.dart';
 
@@ -30,7 +30,7 @@ class ProductDetailsLoaded extends StatelessWidget {
               fontWeight: FontWeight.w700),
         ),
         smallVerticalSpace,
-        ProductKewordCards(productName: product.name!),
+        const ProductKewordCards(),
         mediumVerticalSpace,
         Row(
           children: [
@@ -45,7 +45,8 @@ class ProductDetailsLoaded extends StatelessWidget {
             const NearYouSection()
           ],
         ),
-        PriceComparisonSection(product: product),
+        mediumVerticalSpace,
+        const PriceComparisonSection(),
         mediumVerticalSpace,
       ],
     );

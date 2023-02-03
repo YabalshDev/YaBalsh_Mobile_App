@@ -16,14 +16,14 @@ class PriceModel extends Equatable {
   const PriceModel(
       {this.storeId = 0,
       this.storeImagePath = '',
-      this.isAvailable = true,
+      this.isAvailable = false,
       this.price = 0});
 
   factory PriceModel.fromJson(Map<String, dynamic> json) => PriceModel(
-      isAvailable: json['isAvailable'],
-      price: double.parse(json['price'] as String),
-      storeId: json['storeId'],
-      storeImagePath: json['cardImagePath']);
+      isAvailable: json['isAvailable'] ?? false,
+      price: json['price'] != null ? double.parse(json['price'] as String) : 0,
+      storeId: json['storeId'] ?? 0,
+      storeImagePath: json['cardImagePath'] ?? '');
 
   @override
   List<Object?> get props => [storeId, storeImagePath, isAvailable, price];

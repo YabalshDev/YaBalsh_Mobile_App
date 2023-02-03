@@ -15,7 +15,7 @@ class WelcomeSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "اهلا بيك ${getIt<UserService>().currentCustomer != null ? getIt<UserService>().currentCustomer!.firstName : ''},",
+            "اهلا بيك ${getIt<UserService>().currentCustomer!.firstName ?? ''},",
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge

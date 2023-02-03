@@ -1,53 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yabalash_mobile_app/features/home/domain/entities/price_model.dart';
+import 'package:yabalash_mobile_app/core/depedencies.dart';
+import 'package:yabalash_mobile_app/features/home/data/models/location_model.dart';
 import 'package:yabalash_mobile_app/features/product_details/presentation/blocs/cubit/product_details_cubit.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
+import '../../../../core/services/zone_service.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/custom_card.dart';
 import '../../../../core/widgets/custom_svg_icon.dart';
+import '../../../home/domain/entities/location.dart';
+import '../../../home/domain/entities/store.dart';
 
 class PriceComparisonCard extends StatelessWidget {
-  final MapEntry<String, PriceModel> priceModel;
+  final double price;
+  final Store store;
+  final bool isAvailable;
   final int pricesLength;
   final int index;
+  final bool isNear;
   const PriceComparisonCard({
     super.key,
     required this.index,
-    required this.priceModel,
+    required this.store,
+    required this.price,
+    required this.isNear,
+    required this.isAvailable,
     required this.pricesLength,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          margin: EdgeInsets.only(bottom: 15.h),
-          padding: EdgeInsets.only(left: 15.w),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomCard(
-                height: 45.h,
-                width: 45.h,
-                withBorder: true,
-                isAssetImage: false,
-                imagePath: priceModel.value.storeImagePath,
-              ),
-              mediumHorizontalSpace,
-              Expanded(
-                flex: 3,
-                child: Column(
+    return LayoutBuilder(builder: (context, constraints) {
+      return Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(bottom: 15.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomCard(
+                  height: 45.h,
+                  width: 45.h,
+                  withBorder: true,
+                  isAssetImage: false,
+                  imagePath: store.logoImagePath,
+                ),
+                mediumHorizontalSpace,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
                         Text(
-                          priceModel.key,
+                          store.name ?? '',
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium
@@ -59,7 +68,7 @@ class PriceComparisonCard extends StatelessWidget {
                           width: 20.w,
                           height: 11.h,
                           child: Image.asset(
-                            priceModel.value.isAvailable!
+                            isAvailable
                                 ? AppAssets.inStockIcon
                                 : AppAssets.outOfStockIcon,
                             fit: BoxFit.cover,
@@ -77,61 +86,97 @@ class PriceComparisonCard extends StatelessWidget {
                           color: AppColorsLight.kAppPrimaryColorLight,
                         ),
                         smallHorizontalSpace,
-                        Text(
-                          'كايرو فيستفال سيتي',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall
-                              ?.copyWith(
-                                  fontSize: 10.sp,
-                                  color: AppColorsLight.kDarkPurpleColor),
+                        SizedBox(
+                          width: constraints.maxWidth * 0.4,
+                          child: Text(
+                            getStoreAddress(store, isNear),
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(
+                                    fontSize: 10.sp,
+                                    color: AppColorsLight.kDarkPurpleColor),
+                          ),
                         )
                       ],
                     ),
                   ],
                 ),
-              ),
-              Expanded(
-                flex: 1,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${priceModel.value.price} جنيه',
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 18.sp,
-                          color: AppColorsLight.kAppPrimaryColorLight),
-                    ),
-                    // Row(
-                    //   crossAxisAlignment: CrossAxisAlignment.center,
-                    //   children: [
-                    //     const CustomSvgIcon(
-                    //       iconPath: AppAssets.warningIcon,
-                    //       color: AppColorsLight.warningColor,
-                    //     ),
-                    //     smallHorizontalSpace,
-                    //     Text(
-                    //       'ينتهي في 10 يونيو',
-                    //       style: Theme.of(context)
-                    //           .textTheme
-                    //           .bodySmall
-                    //           ?.copyWith(
-                    //               fontSize: 10.sp,
-                    //               fontWeight: FontWeight.w500,
-                    //               color: AppColorsLight.warningColor),
-                    //     ),
-                    //   ],
-                    // )
-                  ],
-                ),
-              )
-            ],
+                const Spacer(),
+                SizedBox(
+                  width: constraints.maxWidth * 0.36,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '$price جنيه',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18.sp,
+                                    color:
+                                        AppColorsLight.kAppPrimaryColorLight),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
-        ),
-        BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
-          builder: (context, state) {
-            return pricesLength < 2 && index == pricesLength - 1
+          PriceCardShowMore(pricesLength: pricesLength, index: index)
+        ],
+      );
+    });
+  }
+}
+
+String getStoreAddress(Store store, bool isNearStores) {
+  String address = '';
+  Location? storeLocation = store.locations!.firstWhere(
+      (element) => element.subZoneId != getIt<ZoneService>().currentSubZone!.id,
+      orElse: () => const LocationModel());
+  if (isNearStores ||
+      storeLocation.subZoneId == null && store.locations!.isNotEmpty) {
+    address = store.locations!
+        .firstWhere((element) =>
+            element.subZoneId == getIt<ZoneService>().currentSubZone!.id)
+        .address!;
+  } else {
+    if (storeLocation.address != null) {
+      address = storeLocation.address!;
+    } else {
+      address = 'غير متوفر';
+    }
+  }
+
+  return address;
+}
+
+class PriceCardShowMore extends StatelessWidget {
+  const PriceCardShowMore({
+    Key? key,
+    required this.pricesLength,
+    required this.index,
+  }) : super(key: key);
+
+  final int pricesLength;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
+      builder: (context, state) {
+        return pricesLength <= 5
+            ? const SizedBox()
+            : pricesLength < 5 && index == pricesLength - 1
                 ? InkWell(
                     onTap: () => BlocProvider.of<ProductDetailsCubit>(context)
                         .changeShowMore(false),
@@ -154,7 +199,7 @@ class PriceComparisonCard extends StatelessWidget {
                       ],
                     ),
                   )
-                : pricesLength >= 2 && index == pricesLength - 1
+                : pricesLength > 5 && index == pricesLength - 1
                     ? InkWell(
                         onTap: () =>
                             BlocProvider.of<ProductDetailsCubit>(context)
@@ -180,9 +225,7 @@ class PriceComparisonCard extends StatelessWidget {
                         ),
                       )
                     : const SizedBox();
-          },
-        )
-      ],
+      },
     );
   }
 }

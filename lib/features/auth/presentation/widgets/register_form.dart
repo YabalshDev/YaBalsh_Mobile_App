@@ -6,7 +6,6 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
-import '../../../../core/depedencies.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/custom_form_section.dart';
 import '../../../../core/widgets/custom_svg_icon.dart';
@@ -20,21 +19,22 @@ class RegisterForm extends StatelessWidget {
   const RegisterForm(
       {super.key, required this.formKey, required this.phoneNumber});
 
-  void validateOnChanged(String value) {
+  void validateOnChanged(String value, BuildContext context) {
     if (value.isEmpty) {
-      getIt<RegisterCubit>().changeButtonDisabled(true);
+      BlocProvider.of<RegisterCubit>(context).changeButtonDisabled(true);
     }
 
     if (formKey.currentState!.fields['firstName']!.value != '' &&
         formKey.currentState!.fields['lastName']!.value != '' &&
         formKey.currentState!.fields['password']!.value != '') {
-      getIt<RegisterCubit>().changeButtonDisabled(false);
+      BlocProvider.of<RegisterCubit>(context).changeButtonDisabled(false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return FormBuilder(
+      autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +64,7 @@ class RegisterForm extends StatelessWidget {
                     ),
                     name: 'firstName',
                     onChanged: (value) {
-                      validateOnChanged(value!);
+                      validateOnChanged(value!, context);
                     },
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(
@@ -82,7 +82,7 @@ class RegisterForm extends StatelessWidget {
                     ),
                     name: 'lastName',
                     onChanged: (value) {
-                      validateOnChanged(value!);
+                      validateOnChanged(value!, context);
                     },
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(
@@ -112,50 +112,58 @@ class RegisterForm extends StatelessWidget {
               ],
             ),
             name: 'email',
+            onChanged: (p0) =>
+                formKey.currentState!.fields['email']!.validate(),
             validator: FormBuilderValidators.compose(
                 [FormBuilderValidators.email(errorText: 'نسيت علامة @')]),
           ),
           mediumVerticalSpace,
-          CustomFormSection(
-            title: Text(
-              'كلمة المرور',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(fontWeight: FontWeight.w600, fontSize: 13.sp),
-            ),
-            name: 'password',
-            validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(errorText: 'كلمة السر مطلوبة'),
-              FormBuilderValidators.minLength(8,
-                  errorText: 'كلمة المرور لازم تكون أكثر من 8 حروف'),
-            ]),
-            obsecure: true,
-            onChanged: (value) {
-              validateOnChanged(value!);
+          BlocBuilder<RegisterCubit, RegisterState>(
+            builder: (context, state) {
+              return CustomFormSection(
+                title: Text(
+                  'كلمة المرور',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(fontWeight: FontWeight.w600, fontSize: 13.sp),
+                ),
+                name: 'password',
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(errorText: 'كلمة السر مطلوبة'),
+                  FormBuilderValidators.minLength(8,
+                      errorText: 'كلمة المرور لازم تكون أكثر من 8 حروف'),
+                ]),
+                obsecure: state.obsecure,
+                onChanged: (value) {
+                  validateOnChanged(value!, context);
+                },
+                suffixIcon: BlocBuilder<RegisterCubit, RegisterState>(
+                  builder: (context, state) {
+                    return Padding(
+                      padding: const EdgeInsets.all(13),
+                      child: InkWell(
+                        onTap: () {
+                          if (state.obsecure!) {
+                            BlocProvider.of<RegisterCubit>(context)
+                                .changeObsecure(false);
+                          } else {
+                            BlocProvider.of<RegisterCubit>(context)
+                                .changeObsecure(true);
+                          }
+                        },
+                        child: CustomSvgIcon(
+                          iconPath: AppAssets.eyeIcon,
+                          color: !state.formValidationError!
+                              ? const Color(0xffBCBDBF)
+                              : AppColorsLight.kErrorColor,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              );
             },
-            suffixIcon: BlocBuilder<RegisterCubit, RegisterState>(
-              builder: (context, state) {
-                return Padding(
-                  padding: const EdgeInsets.all(13),
-                  child: InkWell(
-                    onTap: () {
-                      if (state.obsecure!) {
-                        getIt<RegisterCubit>().changeObsecure(false);
-                      } else {
-                        getIt<RegisterCubit>().changeObsecure(true);
-                      }
-                    },
-                    child: CustomSvgIcon(
-                      iconPath: AppAssets.eyeIcon,
-                      color: !state.formValidationError!
-                          ? const Color(0xffBCBDBF)
-                          : AppColorsLight.kErrorColor,
-                    ),
-                  ),
-                );
-              },
-            ),
           )
         ],
       ),

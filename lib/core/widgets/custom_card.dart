@@ -12,11 +12,13 @@ class CustomCard extends StatelessWidget {
   final double? height;
   final bool? isAssetImage;
   final double? borderRadius;
+  final BoxFit? fit;
   const CustomCard(
       {super.key,
       this.withBorder = true,
       this.isAssetImage = true,
       this.borderRadius,
+      this.fit,
       this.width,
       this.height,
       this.backgroundColor = Colors.transparent,
@@ -26,8 +28,8 @@ class CustomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       clipBehavior: Clip.antiAlias,
-      width: width ?? 60.w,
-      height: height ?? 60.h,
+      width: width ?? 65.w,
+      height: height ?? 65.h,
       decoration: kDefaultBoxDecoration.copyWith(
           color: backgroundColor,
           borderRadius: borderRadius != null
@@ -39,8 +41,8 @@ class CustomCard extends StatelessWidget {
           child: isAssetImage!
               ? Image.asset(imagePath!)
               : AppImage(
-                  path: imagePath,
-                  fit: BoxFit.contain,
+                  path: imagePath ?? '',
+                  fit: fit ?? BoxFit.contain,
                 )),
     );
   }

@@ -31,7 +31,7 @@ class PastOrdersCubit extends Cubit<PastOrdersState> {
     }, (orders) {
       emit(state.copyWith(
         completedOrders:
-            orders.where((element) => element.status == 'completed').toList(),
+            orders.where((element) => element.status != 'pending').toList(),
         pendingOrders:
             orders.where((element) => element.status == 'pending').toList(),
         ordersRequestState: RequestState.loaded,

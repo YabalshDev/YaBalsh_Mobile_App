@@ -52,6 +52,7 @@ class YaBalashTextField extends StatelessWidget {
           ?.copyWith(fontWeight: FontWeight.w600),
       cursorColor: AppColorsLight.kAppPrimaryColorLight,
       decoration: InputDecoration(
+        isDense: true,
         hintText: hintText,
         hintStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
             fontSize: 12.sp, color: AppColorsLight.kTextFieldBorderColor),
@@ -60,20 +61,25 @@ class YaBalashTextField extends StatelessWidget {
         filled: fillColor != null ? true : false,
         floatingLabelBehavior: FloatingLabelBehavior.never,
         suffixIcon: suffixIcon,
-        errorBorder: OutlineInputBorder(
-            borderRadius: kDefaultBorderRaduis,
-            borderSide: const BorderSide(
-                width: 1.3, color: AppColorsLight.kErrorColor)),
+        errorBorder: !isWithBorder!
+            ? InputBorder.none
+            : OutlineInputBorder(
+                borderRadius: kDefaultBorderRaduis,
+                borderSide: const BorderSide(
+                    width: 1.3, color: AppColorsLight.kErrorColor)),
         fillColor: fillColor,
-        contentPadding: EdgeInsets.symmetric(vertical: 11.h, horizontal: 10.w),
-        enabledBorder: OutlineInputBorder(
-            borderRadius: kDefaultBorderRaduis,
-            borderSide: const BorderSide(
-                width: 1.3, color: AppColorsLight.kTextFieldBorderColor)),
-        focusedBorder: OutlineInputBorder(
-            borderRadius: kDefaultBorderRaduis,
-            borderSide: const BorderSide(
-                width: 1.3, color: AppColorsLight.kAppPrimaryColorLight)),
+        enabledBorder: !isWithBorder!
+            ? InputBorder.none
+            : OutlineInputBorder(
+                borderRadius: kDefaultBorderRaduis,
+                borderSide: const BorderSide(
+                    width: 1.3, color: AppColorsLight.kTextFieldBorderColor)),
+        focusedBorder: !isWithBorder!
+            ? InputBorder.none
+            : OutlineInputBorder(
+                borderRadius: kDefaultBorderRaduis,
+                borderSide: const BorderSide(
+                    width: 1.3, color: AppColorsLight.kAppPrimaryColorLight)),
         border: !isWithBorder!
             ? InputBorder.none
             : OutlineInputBorder(

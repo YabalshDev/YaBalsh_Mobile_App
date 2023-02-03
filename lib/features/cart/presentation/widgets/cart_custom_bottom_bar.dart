@@ -9,11 +9,22 @@ import 'basket_list_bottom_bar.dart';
 import 'confirm_order_bottom.dart';
 import 'select_supermarket_bottombar.dart';
 
-final _formKey = GlobalKey<FormBuilderState>();
-
-class CartCustomNavBar extends StatelessWidget {
+class CartCustomNavBar extends StatefulWidget {
   final PageController pageController;
   const CartCustomNavBar({super.key, required this.pageController});
+
+  @override
+  State<CartCustomNavBar> createState() => _CartCustomNavBarState();
+}
+
+class _CartCustomNavBarState extends State<CartCustomNavBar> {
+  late GlobalKey<FormBuilderState> _formKey;
+
+  @override
+  void initState() {
+    _formKey = GlobalKey<FormBuilderState>();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +36,13 @@ class CartCustomNavBar extends StatelessWidget {
           if (state.cartStepIndex == 0) {
             //first step cart bottom
             return BascketListBottomBar(
-              pageController: pageController,
+              pageController: widget.pageController,
               formKey: _formKey,
             );
           } else if (state.cartStepIndex == 1) {
             //second step cart bottom
             return SelectSupermarketBottom(
-              pageController: pageController,
+              pageController: widget.pageController,
               state: state,
             );
           } else {
@@ -54,7 +65,7 @@ class EmptyCartBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 155.h,
+      height: 165.h,
       child: Column(
         children: [
           CustomNavBar(

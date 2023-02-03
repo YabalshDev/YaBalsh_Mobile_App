@@ -4,35 +4,71 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_shimmer.dart';
 
-import '../../../home/domain/entities/product.dart';
 import '../blocs/cubit/product_details_cubit.dart';
 import 'price_comparison_card.dart';
 
 class PriceComparisonSection extends StatelessWidget {
-  final Product product;
-  const PriceComparisonSection({super.key, required this.product});
+  const PriceComparisonSection({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
       builder: (context, state) {
-        return ListView.builder(
-          key: UniqueKey(),
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: state.showMore!
-              ? product.prices!.entries.toList().sublist(0, 1).length
-              : product.prices!.entries.toList().length,
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            final priceModelEntry = product.prices!.entries.toList()[index];
-            return PriceComparisonCard(
+        if (state.withNearStores! && state.nearStores!.isNotEmpty) {
+          return ListView.builder(
+            key: UniqueKey(),
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: state.showMore! && state.nearStores!.length > 5
+                ? state.nearStores!.sublist(0, 4).length
+                : state.nearStores!.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              final store = state.nearStores![index];
+              final isAvailable =
+                  state.product!.prices![store.name]!.isAvailable;
+              final price = state.product!.prices![store.name]!.price;
+              return PriceComparisonCard(
                 index: index,
-                priceModel: priceModelEntry,
-                pricesLength: state.showMore!
-                    ? product.prices!.entries.toList().sublist(0, 1).length
-                    : product.prices!.entries.toList().length);
-          },
-        );
+                price: price!,
+                isNear: true,
+                store: store,
+                isAvailable: isAvailable!,
+                pricesLength: state.showMore! && state.nearStores!.length > 5
+                    ? state.nearStores!.sublist(0, 4).length
+                    : state.nearStores!.length,
+              );
+            },
+          );
+        } else if (!state.withNearStores! && state.productStores!.isNotEmpty) {
+          return ListView.builder(
+            key: UniqueKey(),
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: state.showMore! && state.productStores!.length > 5
+                ? state.productStores!.sublist(0, 4).length
+                : state.productStores!.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              final store = state.productStores![index];
+              final isAvailable =
+                  state.product!.prices![store.name]!.isAvailable;
+              final price = state.product!.prices![store.name]!.price;
+              return PriceComparisonCard(
+                index: index,
+                store: store,
+                isAvailable: isAvailable!,
+                price: price!,
+                isNear: false,
+                pricesLength: state.showMore! && state.productStores!.length > 5
+                    ? state.productStores!.sublist(0, 4).length
+                    : state.productStores!.length,
+              );
+            },
+          );
+        } else {
+          return const SizedBox();
+        }
       },
     );
   }

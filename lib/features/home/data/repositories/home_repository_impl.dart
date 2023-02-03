@@ -21,8 +21,7 @@ class HomeRepositoryImpl implements HomeRepository {
       final banners = await homeDataSource.getBanners();
       return Right(banners);
     } on ServerException {
-      return const Left(
-          ServerFailure(message: 'something went wrong with banners'));
+      return const Left(ServerFailure(message: 'خطا في جلب الملصقات'));
     }
   }
 
@@ -32,29 +31,22 @@ class HomeRepositoryImpl implements HomeRepository {
       List<HomeSection> homeSections = [];
       final sections =
           await homeDataSource.getSections(); // get all high priority sections
-
       for (Section section in sections) {
         List<Product> sectionProducts = await homeDataSource.getSectionProducts(
             sectionId: section.id!); // get products for each section
-        homeSections
-            .add(HomeSection(section: section, products: sectionProducts));
+
+        if (sectionProducts.length > 6) {
+          homeSections.add(HomeSection(
+              section: section, products: sectionProducts.sublist(0, 6)));
+        } else {
+          homeSections
+              .add(HomeSection(section: section, products: sectionProducts));
+        }
       }
 
       return Right(homeSections);
     } on ServerException {
-      return const Left(
-          ServerFailure(message: 'something went wrong with sections'));
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<MainCategory>>> getLatestOffers() async {
-    try {
-      final offers = await homeDataSource.getLatestOffers();
-      return Right(offers);
-    } on ServerException {
-      return const Left(
-          ServerFailure(message: 'something went wrong with getting offers'));
+      return const Left(ServerFailure(message: 'خطا في جلب الاقسام الرئيسية'));
     }
   }
 
@@ -64,8 +56,8 @@ class HomeRepositoryImpl implements HomeRepository {
       final stores = await homeDataSource.getNearStores();
       return Right(stores);
     } on ServerException {
-      return const Left(ServerFailure(
-          message: 'something went wrong with getting near stores'));
+      return const Left(
+          ServerFailure(message: 'خطا في جلب السوبرماركتس القريبة'));
     }
   }
 
@@ -75,8 +67,31 @@ class HomeRepositoryImpl implements HomeRepository {
       final categories = await homeDataSource.getAllMainCategories();
       return Right(categories);
     } on ServerException {
-      return const Left(ServerFailure(
-          message: 'something went wrong with getting categories'));
+      return const Left(ServerFailure(message: 'خطا اثناء جلب الفئات'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Product>>> getSectionProducts(
+      {required int sectionId}) async {
+    try {
+      final products =
+          await homeDataSource.getSectionProducts(sectionId: sectionId);
+      return Right(products);
+    } on ServerException {
+      return const Left(ServerFailure(message: 'خطا اثناء جلب المنتجات'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Product>> getProductByBarCode(
+      {required String barCode}) async {
+    try {
+      final product =
+          await homeDataSource.getProductByBarcode(barCode: barCode);
+      return Right(product);
+    } on ServerException {
+      return const Left(ServerFailure(message: 'المنتج غير متوفر'));
     }
   }
 }

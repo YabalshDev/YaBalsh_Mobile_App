@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
@@ -27,7 +28,20 @@ class SearchTypeSection extends StatelessWidget {
                     BlocProvider.of<SearchCubit>(context).changeSearchType(0);
                     BlocProvider.of<SearchCubit>(context)
                         .changeSearchIsEmpty(true);
-                    searchFormKey.currentState?.reset(); // reset search
+                    BlocProvider.of<SearchCubit>(context)
+                        .changeProductSearchState(RequestState.idle);
+
+                    if (searchFormKey
+                        .currentState!.fields['search']!.initialValue
+                        .toString()
+                        .isNotEmpty) {
+                      searchFormKey.currentState!.fields['search']!
+                          .setValue('');
+                      searchFormKey.currentState!.fields['search']!.save();
+                    } else {
+                      searchFormKey.currentState!.fields['search']!.reset();
+                    }
+
                     pageController.animateToPage(0,
                         duration: const Duration(milliseconds: 500),
                         curve: Curves.easeInOut);
@@ -59,7 +73,20 @@ class SearchTypeSection extends StatelessWidget {
                     BlocProvider.of<SearchCubit>(context).changeSearchType(1);
                     BlocProvider.of<SearchCubit>(context)
                         .changeSearchIsEmpty(true);
-                    searchFormKey.currentState?.reset(); // reset search
+                    BlocProvider.of<SearchCubit>(context)
+                        .changeStoreSearchState(RequestState.idle);
+                    if (searchFormKey
+                        .currentState!.fields['search']!.initialValue
+                        .toString()
+                        .isNotEmpty) {
+                      searchFormKey.currentState!.fields['search']!
+                          .setValue('');
+
+                      searchFormKey.currentState!.fields['search']!.save();
+                    } else {
+                      searchFormKey.currentState!.fields['search']!.reset();
+                    }
+
                     pageController.animateToPage(1,
                         duration: const Duration(milliseconds: 500),
                         curve: Curves.easeInOut);

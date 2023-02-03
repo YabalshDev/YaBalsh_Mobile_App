@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/blocs/cubit/search_cubit.dart';
 
@@ -11,12 +12,19 @@ import '../../../../core/widgets/custom_svg_icon.dart';
 
 class SearchHistoryCard extends StatelessWidget {
   final String searchName;
-  const SearchHistoryCard({super.key, required this.searchName});
+  final GlobalKey<FormBuilderState> searchFormKey;
+  const SearchHistoryCard(
+      {super.key, required this.searchName, required this.searchFormKey});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => BlocProvider.of<SearchCubit>(context).search(searchName),
+      onTap: () {
+        searchFormKey.currentState!.fields['search']!.setValue(searchName);
+        BlocProvider.of<SearchCubit>(context)
+            .changeSearchIsEmpty(false); // change to searching state
+        BlocProvider.of<SearchCubit>(context).search(searchName);
+      },
       child: Container(
           decoration: kDefaultBoxDecoration.copyWith(
               border: Border.all(

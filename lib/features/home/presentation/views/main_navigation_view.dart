@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
+import 'package:yabalash_mobile_app/core/widgets/internet_connection_wrapper.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/views/cart_view.dart';
+import 'package:yabalash_mobile_app/features/categories/presentation/blocs/categories_cubit.dart';
 import 'package:yabalash_mobile_app/features/categories/presentation/views/category_view.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/main_navigation_cubit.dart';
@@ -28,7 +30,15 @@ class _MainNavigationState extends State<MainNavigation> {
   @override
   void initState() {
     _pageController = PageController(initialPage: widget.pageIndex);
+    BlocProvider.of<MainNavigationCubit>(context)
+        .setPageController(_pageController!);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pageController!.dispose();
+    super.dispose();
   }
 
   @override
@@ -65,10 +75,7 @@ class MainBottomNavBar extends StatelessWidget {
           currentIndex:
               BlocProvider.of<MainNavigationCubit>(context).currentPageIndex,
           onTap: (value) {
-            BlocProvider.of<MainNavigationCubit>(context).setPageIndex(value);
-            pageController.animateToPage(value,
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.easeInOut);
+            BlocProvider.of<MainNavigationCubit>(context).changePage(value);
           },
           items: [
             BottomNavigationBarItem(
@@ -114,31 +121,43 @@ class MainBottomNavBar extends StatelessWidget {
 }
 
 final List<Widget> screens = [
-  BlocProvider<HomeCubit>(
-    create: (context) {
-      if (!getIt<HomeCubit>().isClosed) {
-        return getIt<HomeCubit>()
-          ..getLastOffers()
-          ..getBanners()
-          ..getNearStores()
-          ..getHomeSections();
-      }
+  InternetConnectionWrapper(
+    child: BlocProvider<HomeCubit>(
+      create: (context) {
+        if (!getIt<HomeCubit>().isClosed) {
+          return getIt<HomeCubit>()
+            ..getLastOffers()
+            ..getBanners()
+            ..getNearStores()
+            ..getHomeSections();
+        }
 
-      return getIt<HomeCubit>();
-    },
-    child: const CustomAnimatedWidget(child: HomeView()),
+        return getIt<HomeCubit>();
+      },
+      child: const CustomAnimatedWidget(child: HomeView()),
+    ),
   ),
-  const CustomAnimatedWidget(child: CategoriesScreen()),
-  CustomAnimatedWidget(
-    child: MultiBlocProvider(providers: [
-      BlocProvider.value(value: getIt<CartCubit>()),
-    ], child: const CartView()),
+  InternetConnectionWrapper(
+      child: BlocProvider<CategoriesCubit>(
+    create: (context) => getIt<CategoriesCubit>()..getCategoriesSections(),
+    child: const CustomAnimatedWidget(child: CategoriesScreen()),
+  )),
+  InternetConnectionWrapper(
+    child: CustomAnimatedWidget(
+      child: MultiBlocProvider(providers: [
+        BlocProvider.value(value: getIt<CartCubit>()),
+      ], child: const CartView()),
+    ),
   ),
-  CustomAnimatedWidget(
-      child: CustomAnimatedWidget(
-          child: BlocProvider<ShoppingListCubit>(
-    create: (context) => getIt<ShoppingListCubit>()..getAllShoppingList(),
-    child: const ShoppingListsView(),
-  ))),
+  InternetConnectionWrapper(
+    child: CustomAnimatedWidget(
+        child: CustomAnimatedWidget(
+            child: BlocProvider<ShoppingListCubit>(
+      create: (context) => getIt<ShoppingListCubit>()
+        ..getAllShoppingList()
+        ..getRecipies(),
+      child: const ShoppingListsView(),
+    ))),
+  ),
   const CustomAnimatedWidget(child: SettingsView()),
 ];

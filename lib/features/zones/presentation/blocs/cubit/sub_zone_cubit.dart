@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/features/zones/domain/repositories/zones_repositoriy.dart';
-import 'package:yabalash_mobile_app/features/zones/domain/usecases/get_all_subzones_usecase.dart';
+import 'package:yabalash_mobile_app/features/zones/domain/usecases/get_mainzone_subzones_usecase.dart';
 
-import '../../../../../core/usecases/use_cases.dart';
 import '../../../../../core/utils/enums/request_state.dart';
 import '../../../../../core/widgets/custom_dialog.dart';
 import '../../../domain/entities/sub_zone.dart';
@@ -14,14 +13,15 @@ import '../../../domain/entities/sub_zone.dart';
 part 'sub_zone_state.dart';
 
 class SubZoneCubit extends Cubit<SubZoneState> {
-  final GetSubZonesUseCase getSubZonesUseCase;
+  final GetMainZoneSubZonesUseCase getMainZoneSubZonesUseCase;
   final ZonesRepository zonesRepository;
   SubZoneCubit(
-      {required this.getSubZonesUseCase, required this.zonesRepository})
+      {required this.getMainZoneSubZonesUseCase, required this.zonesRepository})
       : super(const SubZoneState());
 
-  void getSubZones() async {
-    final response = await getSubZonesUseCase(NoParams());
+  void getMainZoneSubZones(int mainZoneId) async {
+    final response = await getMainZoneSubZonesUseCase(
+        GetMainZoneSubZonesParams(mainCategoryId: mainZoneId));
 
     response.fold((failure) {
       emit(state.copyWith(
@@ -50,7 +50,7 @@ class SubZoneCubit extends Cubit<SubZoneState> {
       onConfirm: () {
         setSubZone(subZone: subZone);
         Get.back();
-        Get.offAndToNamed(RouteHelper.getMainNavigationRoute(), arguments: 0);
+        Get.offAllNamed(RouteHelper.getMainNavigationRoute(), arguments: 0);
         debugPrint('success');
       },
     );

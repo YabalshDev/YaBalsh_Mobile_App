@@ -5,7 +5,6 @@ class SubZoneModel extends SubZone {
       : super(id: id, mainZoneName: mainZoneName, name: name);
 
   factory SubZoneModel.fromJson(Map<String, dynamic> json) {
-    return SubZoneModel(
-        id: json['id'], name: json['name'], mainZoneName: 'القاهرة');
+    return SubZoneModel(id: json['id'], name: json['name'], mainZoneName: '');
   }
 }

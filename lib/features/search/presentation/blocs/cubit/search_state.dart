@@ -5,18 +5,26 @@ class SearchState extends Equatable {
   final bool? isSearchEmpty;
   final List<String>? searchHistory;
   final List<Product>? searchProductsResult;
+  final List<Product>? mostSellingProducts;
   final List<StoreSearch>? searchStoresResult;
   final RequestState? searchHistoryRequestState;
+  final RequestState? mostSellingRequestState;
   final RequestState? searchProductsRequestState;
   final RequestState? searchStoresRequestState;
+  final Product? chepeastProduct;
   final String? errorMessage;
+  final String? intialValue;
 
   const SearchState({
     this.searchTypeIndex = 0,
+    this.intialValue = '',
     this.isSearchEmpty = true,
+    this.chepeastProduct = const Product(),
     this.searchHistory = const [],
     this.searchProductsResult = const [],
     this.searchStoresResult = const [],
+    this.mostSellingProducts = const [],
+    this.mostSellingRequestState = RequestState.loading,
     this.searchHistoryRequestState = RequestState.loading,
     this.searchProductsRequestState = RequestState.idle,
     this.searchStoresRequestState = RequestState.idle,
@@ -27,13 +35,22 @@ class SearchState extends Equatable {
           {int? searchTypeIndex,
           List<String>? searchHistory,
           List<Product>? searchProductsResult,
+          List<Product>? mostSellingProducts,
+          Product? chepeastProduct,
           List<StoreSearch>? searchStoresResult,
           RequestState? searchHistoryRequestState,
           RequestState? searchProductsRequestState,
           RequestState? searchStoresRequestState,
+          RequestState? mostSellingRequestState,
           bool? isSearchEmpty,
+          String? intialValue,
           String? errorMessage}) =>
       SearchState(
+          intialValue: intialValue ?? this.intialValue,
+          chepeastProduct: chepeastProduct ?? this.chepeastProduct,
+          mostSellingProducts: mostSellingProducts ?? this.mostSellingProducts,
+          mostSellingRequestState:
+              mostSellingRequestState ?? this.mostSellingRequestState,
           errorMessage: errorMessage ?? this.errorMessage,
           isSearchEmpty: isSearchEmpty ?? this.isSearchEmpty,
           searchHistory: searchHistory ?? this.searchHistory,
@@ -59,6 +76,10 @@ class SearchState extends Equatable {
         searchStoresRequestState!,
         errorMessage!,
         searchTypeIndex!,
-        isSearchEmpty!
+        isSearchEmpty!,
+        mostSellingProducts!,
+        mostSellingRequestState!,
+        chepeastProduct!,
+        intialValue!
       ];
 }
