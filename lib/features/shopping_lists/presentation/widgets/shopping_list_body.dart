@@ -20,65 +20,67 @@ class ShoppingListBody extends StatelessWidget {
     return SafeArea(
       child: Padding(
         padding: kDefaultPadding,
-        child: CustomScrollView(slivers: [
-          const SliverToBoxAdapter(child: CustomHeader(title: 'قوائمي')),
-          BlocBuilder<ShoppingListCubit, ShoppingListState>(
-            builder: (context, state) {
-              switch (state.shoppingListRequestState) {
-                case RequestState.idle:
-                  return const SizedBox();
-
-                case RequestState.loading:
-                  return SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: Get.height * 0.65,
-                      child: const Center(
-                        child: CircularProgressIndicator.adaptive(),
-                      ),
-                    ),
-                  );
-
-                case RequestState.loaded:
-                  return state.shoppingLists!.isEmpty
-                      ? SizedBox(
-                          height: Get.height * 0.5,
-                          child: const Center(
-                              child: EmptyIndicator(
-                                  title: 'لا يوجد قوائم مختارة')),
-                        )
-                      : SliverToBoxAdapter(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ListView.builder(
-                                padding: kDefaultPadding,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: state.shoppingLists!.length,
-                                itemBuilder: (context, index) {
-                                  final shoppingList =
-                                      state.shoppingLists![index];
-                                  return ShoppingListCard(
-                                      shoppingList: shoppingList);
-                                },
-                              ),
-                              mediumVerticalSpace,
-                            ],
-                          ),
-                        );
-                case RequestState.error:
-                  return SliverToBoxAdapter(
-                      child: Center(
-                          child: EmptyIndicator(title: state.errorMessage!)));
-
-                default:
-                  return const SizedBox();
-              }
-            },
-          ),
-          const SliverToBoxAdapter(child: RecipiesSection())
+        child: const CustomScrollView(slivers: [
+          SliverToBoxAdapter(child: CustomHeader(title: 'قوائمي')),
+          SliverToBoxAdapter(child: ShoppingListsSection()),
+          SliverToBoxAdapter(child: RecipiesSection())
         ]),
       ),
+    );
+  }
+}
+
+class ShoppingListsSection extends StatelessWidget {
+  const ShoppingListsSection({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ShoppingListCubit, ShoppingListState>(
+      builder: (context, state) {
+        switch (state.shoppingListRequestState) {
+          case RequestState.idle:
+            return const SizedBox();
+
+          case RequestState.loading:
+            return SizedBox(
+              height: Get.height * 0.65,
+              child: const Center(
+                child: CircularProgressIndicator.adaptive(),
+              ),
+            );
+
+          case RequestState.loaded:
+            return state.shoppingLists!.isEmpty
+                ? SizedBox(
+                    height: Get.height * 0.5,
+                    child: const Center(
+                        child: EmptyIndicator(title: 'لا يوجد قوائم مختارة')),
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ListView.builder(
+                        padding: kDefaultPadding,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: state.shoppingLists!.length,
+                        itemBuilder: (context, index) {
+                          final shoppingList = state.shoppingLists![index];
+                          return ShoppingListCard(shoppingList: shoppingList);
+                        },
+                      ),
+                      mediumVerticalSpace,
+                    ],
+                  );
+          case RequestState.error:
+            return Center(child: EmptyIndicator(title: state.errorMessage!));
+
+          default:
+            return const SizedBox();
+        }
+      },
     );
   }
 }

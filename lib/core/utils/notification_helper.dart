@@ -8,12 +8,13 @@ import 'enums/search_navigation_screens.dart';
 
 class NotificationHelper {
   static void initNotificationsPlatform() async {
-    OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-    OneSignal.shared.setAppId(AppStrings.oneSignalAppId);
+    await OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+    await OneSignal.shared.setAppId(AppStrings.oneSignalAppId);
 
 // The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
     await OneSignal.shared
         .promptUserForPushNotificationPermission(fallbackToSettings: true);
+    await OneSignal.shared.getDeviceState();
   }
 
   static void handleOnNotificationRecived() {
@@ -28,6 +29,15 @@ class NotificationHelper {
       return status.userId!;
     } else {
       return '';
+    }
+  }
+
+  static void handleNotificationsPermission() async {
+    final status = await OneSignal.shared.getDeviceState();
+
+    if (!status!.hasNotificationPermission) {
+      await OneSignal.shared
+          .promptUserForPushNotificationPermission(fallbackToSettings: true);
     }
   }
 

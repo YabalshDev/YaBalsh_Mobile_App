@@ -9,6 +9,7 @@ import 'package:yabalash_mobile_app/core/services/stores_service.dart';
 import 'package:yabalash_mobile_app/core/usecases/use_cases.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
 import 'package:yabalash_mobile_app/core/utils/get_unique_stores.dart';
+import 'package:yabalash_mobile_app/core/utils/notification_helper.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/banner.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/home_section.dart';
@@ -107,6 +108,10 @@ class HomeCubit extends Cubit<HomeState> {
           homeSectionsRequestState: RequestState.loaded,
           homeSections: sections));
     });
+  }
+
+  void requestNotificationsPermission() {
+    NotificationHelper.handleNotificationsPermission();
   }
 
   void getProductByBarcode(String barcode) async {

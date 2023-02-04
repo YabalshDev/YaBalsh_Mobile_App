@@ -2,9 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
 import 'package:yabalash_mobile_app/core/utils/app_bloc_observer.dart';
-import 'package:yabalash_mobile_app/core/utils/notification_helper.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/entities/customer.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/cart_item.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/device.dart';
@@ -24,6 +24,7 @@ void main() async {
   ]);
   setupDependecies();
   await Hive.initFlutter();
+
   Hive.registerAdapter(SubZoneAdapter());
   Hive.registerAdapter(ShoppingListAdapter());
   Hive.registerAdapter(PriceModelAdapter());
@@ -41,7 +42,10 @@ void main() async {
   await Hive.openBox<Device>(AppStrings.deviceKey);
   // intialize hive boxes
   Bloc.observer = AppBlocObserver();
-  NotificationHelper.initNotificationsPlatform();
+  await OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+  await OneSignal.shared.setAppId(AppStrings.oneSignalAppId);
+
+  await OneSignal.shared.getDeviceState();
 
   runApp(const YaBalashApp());
 }

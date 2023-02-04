@@ -85,6 +85,7 @@ class SplashCubit extends Cubit<SplashState> {
       const Duration(seconds: 3),
       () {
         initConnectivityStream();
+
         NotificationHelper.handleOnNotificationOpened();
         NotificationHelper.handleOnNotificationRecived();
         checkIsFirstTimeVisit();
