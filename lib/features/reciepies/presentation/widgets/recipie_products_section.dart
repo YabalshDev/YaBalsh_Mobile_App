@@ -28,7 +28,6 @@ class RecipieProductsSection extends StatelessWidget {
           case RequestState.loading:
             return ListView.builder(
               itemCount: 4,
-              shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               padding: kDefaultPadding,
               itemBuilder: (context, index) {
@@ -43,7 +42,6 @@ class RecipieProductsSection extends StatelessWidget {
             return CustomAnimatedWidget(
               child: ListView.builder(
                 itemCount: state.recipie!.products!.length,
-                shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 padding: kDefaultPadding,
                 itemBuilder: (context, index) {
@@ -63,19 +61,6 @@ class RecipieProductsSection extends StatelessWidget {
         }
       },
     );
-
-    // return ListView.builder(
-    //   itemCount: products.length,
-    //   shrinkWrap: true,
-    //   physics: const NeverScrollableScrollPhysics(),
-    //   padding: kDefaultPadding,
-    //   itemBuilder: (context, index) {
-    //     final product = products[index];
-    //     return RecipieProductCard(
-    //       product: product,
-    //     );
-    //   },
-    // );
   }
 }
 

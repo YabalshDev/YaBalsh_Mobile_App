@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
@@ -18,45 +19,55 @@ class PastOrdersBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: kDefaultPadding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomHeader(
+      child: Padding(
+        padding: kDefaultPadding,
+        child: CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            SliverToBoxAdapter(
+              child: CustomHeader(
                 iconPath: AppAssets.closeIcon,
                 onIconTap: () => Get.back(),
                 title: 'طلباتي',
               ),
-              mediumVerticalSpace,
-              BlocBuilder<PastOrdersCubit, PastOrdersState>(
-                builder: (context, state) {
-                  switch (state.ordersRequestState) {
-                    case RequestState.idle:
-                      return const SizedBox();
-
-                    case RequestState.loading:
-                      return const PastOrdersLoading();
-
-                    case RequestState.loaded:
-                      return const PastOrdersLoaded();
-                    case RequestState.error:
-                      return SizedBox(
-                        height: Get.height * 0.6,
-                        child: Center(
-                            child: EmptyIndicator(title: state.errorMessage!)),
-                      );
-
-                    default:
-                      return const SizedBox();
-                  }
-                },
-              )
-            ],
-          ),
+            ),
+            SliverToBoxAdapter(child: mediumVerticalSpace),
+            const SliverToBoxAdapter(child: PastOrdersList())
+          ],
         ),
       ),
+    );
+  }
+}
+
+class PastOrdersList extends StatelessWidget {
+  const PastOrdersList({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<PastOrdersCubit, PastOrdersState>(
+      builder: (context, state) {
+        switch (state.ordersRequestState) {
+          case RequestState.idle:
+            return const SizedBox();
+
+          case RequestState.loading:
+            return const PastOrdersLoading();
+
+          case RequestState.loaded:
+            return const PastOrdersLoaded();
+          case RequestState.error:
+            return SizedBox(
+              height: Get.height * 0.6,
+              child: Center(child: EmptyIndicator(title: state.errorMessage!)),
+            );
+
+          default:
+            return const SizedBox();
+        }
+      },
     );
   }
 }
@@ -126,8 +137,8 @@ class PastOrdersSection extends StatelessWidget {
       children: [
         SubHeading(text: sectionTitle),
         ListView.builder(
+          padding: EdgeInsets.symmetric(horizontal: 6.w),
           shrinkWrap: true,
-          padding: kDefaultPadding,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: orders.length,
           itemBuilder: (context, index) {

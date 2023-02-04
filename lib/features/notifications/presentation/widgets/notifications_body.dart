@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
+import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_header.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_shimmer.dart';
 import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
@@ -19,20 +20,25 @@ class NotificationsBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: kDefaultPadding,
-          child: Column(
-            children: [
-              const CustomHeader(
-                iconPath: AppAssets.backIcon,
-                title: 'الاشعارات',
+      child: Padding(
+        padding: kDefaultPadding,
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const CustomHeader(
+                    iconPath: AppAssets.backIcon,
+                    title: 'الاشعارات',
+                  ),
+                  mediumVerticalSpace,
+                  largeHorizontalSpace
+                ],
               ),
-              mediumVerticalSpace,
-              largeVerticalSpace,
-              const NotificationsListSection()
-            ],
-          ),
+            ),
+            const SliverFillRemaining(child: NotificationsListSection())
+          ],
         ),
       ),
     );
@@ -54,11 +60,8 @@ class NotificationsListSection extends StatelessWidget {
           case RequestState.loaded:
             return const NotificationsLoaded();
           case RequestState.error:
-            return SizedBox(
-              height: Get.height * 0.6,
-              child: Center(
-                child: EmptyIndicator(title: state.errorMessage!),
-              ),
+            return Center(
+              child: EmptyIndicator(title: state.errorMessage!),
             );
           default:
             return const SizedBox();
@@ -76,7 +79,6 @@ class NotificationsLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      shrinkWrap: true,
       itemCount: 3,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
@@ -97,20 +99,18 @@ class NotificationsLoaded extends StatelessWidget {
     return BlocBuilder<NotificationsCubit, NotificationsState>(
       builder: (context, state) {
         return state.notifications!.isEmpty
-            ? SizedBox(
-                height: Get.height * 0.6,
-                child: const Center(
-                  child: EmptyIndicator(title: 'لا يوجد اشعارات'),
-                ),
+            ? const Center(
+                child: EmptyIndicator(title: 'لا يوجد اشعارات'),
               )
-            : ListView.builder(
-                shrinkWrap: true,
-                itemCount: state.notifications!.length,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  final notification = state.notifications![index];
-                  return NotificationCard(notification: notification);
-                },
+            : CustomAnimatedWidget(
+                child: ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: state.notifications!.length,
+                  itemBuilder: (context, index) {
+                    final notification = state.notifications![index];
+                    return NotificationCard(notification: notification);
+                  },
+                ),
               );
       },
     );

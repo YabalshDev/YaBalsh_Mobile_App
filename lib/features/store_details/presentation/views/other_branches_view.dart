@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
+import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/widgets/super_market_search_card.dart';
 
@@ -26,17 +27,18 @@ class OtherBranchesBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: kDefaultPadding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const OtherBranchTitle(),
-              mediumVerticalSpace,
-              const OtherBranchesSection()
-            ],
-          ),
+      child: Padding(
+        padding: kDefaultPadding,
+        child: CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            SliverToBoxAdapter(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [const OtherBranchTitle(), mediumVerticalSpace],
+            )),
+            const SliverFillRemaining(child: OtherBranchesSection())
+          ],
         ),
       ),
     );
@@ -69,14 +71,15 @@ class OtherBranchesSection extends StatelessWidget {
                       title: 'لا يوجد فروع اخرى',
                     )),
                   )
-                : ListView.builder(
-                    itemCount: state.otherBranches!.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      final branch = state.otherBranches![index];
-                      return SuperMarketSearchCard(store: branch);
-                    },
+                : CustomAnimatedWidget(
+                    child: ListView.builder(
+                      itemCount: state.otherBranches!.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final branch = state.otherBranches![index];
+                        return SuperMarketSearchCard(store: branch);
+                      },
+                    ),
                   );
           case RequestState.error:
             return SizedBox(

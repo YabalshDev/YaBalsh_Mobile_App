@@ -14,26 +14,29 @@ class ProductDetailsLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Center(
-          child: CustomShimmer(
-            height: 196.h,
-            width: 164.w,
+    return Padding(
+      padding: kDefaultPadding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: CustomShimmer(
+              height: 196.h,
+              width: 164.w,
+            ),
           ),
-        ),
-        smallVerticalSpace,
-        CustomShimmer(
-          height: 20.h,
-          width: Get.width,
-        ),
-        smallVerticalSpace,
-        const ProductKewordsSectionLoading(),
-        mediumVerticalSpace,
-        const PriceComparisonSectionLoading(),
-        mediumVerticalSpace,
-      ],
+          smallVerticalSpace,
+          CustomShimmer(
+            height: 20.h,
+            width: Get.width,
+          ),
+          smallVerticalSpace,
+          const ProductKewordsSectionLoading(),
+          mediumVerticalSpace,
+          const PriceComparisonSectionLoading(),
+          mediumVerticalSpace,
+        ],
+      ),
     );
   }
 }

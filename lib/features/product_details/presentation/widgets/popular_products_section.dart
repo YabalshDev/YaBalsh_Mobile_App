@@ -36,7 +36,7 @@ class PopularProductsSection extends StatelessWidget {
                       TitleRow(
                           title: 'ممكن كمان يعجبك',
                           fontWeight: FontWeight.w800,
-                          padding: kDefaultPadding.copyWith(right: 2.w),
+                          padding: kDefaultPadding,
                           onSelectAll: () => Get.toNamed(
                                 RouteHelper.getSearchRoute(),
                                 arguments: [
