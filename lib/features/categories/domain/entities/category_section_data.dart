@@ -1,9 +1,10 @@
 import 'package:equatable/equatable.dart';
-import 'package:yabalash_mobile_app/features/categories/domain/entities/sub_category.dart';
+
+import 'category.dart';
 
 class CategorySectionData extends Equatable {
   final String? mainCategoryName;
-  final List<SubCategory>? subCategories;
+  final List<Category>? subCategories;
 
   const CategorySectionData({this.mainCategoryName, this.subCategories});
 

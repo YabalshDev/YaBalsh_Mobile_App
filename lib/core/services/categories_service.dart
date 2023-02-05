@@ -1,21 +1,21 @@
 // ignore_for_file: prefer_final_fields, unused_field
 
-import 'package:yabalash_mobile_app/features/home/domain/entities/main_category.dart';
+import 'package:yabalash_mobile_app/features/categories/domain/entities/category.dart';
 
 abstract class CategoriesService {
-  List<MainCategory> _mainCategories = [];
-  List<MainCategory> get mainCategories;
-  void setMainCategories({required List<MainCategory> categories});
+  List<Category> _mainCategories = [];
+  List<Category> get mainCategories;
+  void setMainCategories({required List<Category> categories});
 }
 
 class CategoriesServiceImpl implements CategoriesService {
   @override
-  List<MainCategory> _mainCategories = [];
+  List<Category> _mainCategories = [];
 
   @override
-  List<MainCategory> get mainCategories => _mainCategories;
+  List<Category> get mainCategories => _mainCategories;
 
   @override
-  void setMainCategories({required List<MainCategory> categories}) =>
+  void setMainCategories({required List<Category> categories}) =>
       _mainCategories = categories;
 }

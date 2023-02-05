@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -90,10 +91,11 @@ class RecipieProductCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                constraints: BoxConstraints(maxWidth: 195.w),
-                child: Text(
-                  product.name!,
+                constraints: BoxConstraints(maxWidth: 180.w),
+                child: AutoSizeText(
+                  '${product.name!}vvvvvvvvvvvv',
                   overflow: TextOverflow.ellipsis,
+                  presetFontSizes: [13.sp],
                   maxLines: 1,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: AppColorsLight.kAppPrimaryColorLight,

@@ -24,23 +24,6 @@ class _ItemDetailsCardState extends State<ItemDetailsCard> {
         margin: EdgeInsets.only(top: 10.h),
         child: Row(
           children: [
-            // change to network when ready
-            // SizedBox(
-            //   width: 15.w,
-            //   height: 25.h,
-            //   child: Checkbox(
-            //     value: isChecked,
-            //     activeColor: Colors.green.shade400,
-            //     onChanged: (value) => setState(() {
-            //       isChecked = value!;
-            //     }),
-            //     side:
-            //         const BorderSide(color: AppColorsLight.kDefaultBorderColor),
-            //     shape: RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(4)),
-            //   ),
-            // ),
-
             InkWell(
               onTap: () => setState(() {
                 isChecked = !isChecked;
@@ -54,15 +37,14 @@ class _ItemDetailsCardState extends State<ItemDetailsCard> {
                     border: Border.all(
                         color: AppColorsLight.kDefaultBorderColor, width: 1)),
                 child: isChecked
-                    ? const Icon(
+                    ? Icon(
                         Icons.check,
-                        size: 22,
+                        size: 22.h,
                         color: Colors.white,
                       )
                     : null,
               ),
             ),
-
             smallHorizontalSpace,
             Row(
               children: [
@@ -81,26 +63,24 @@ class _ItemDetailsCardState extends State<ItemDetailsCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      constraints: BoxConstraints(maxWidth: 164.w),
+                      constraints:
+                          BoxConstraints(maxWidth: constraints.maxWidth * 0.41),
                       child: AutoSizeText(
                         widget.cartItem.product!.name ?? '',
                         textDirection: TextDirection.rtl,
-                        wrapWords: false,
-                        overflowReplacement: Container(
-                          constraints: BoxConstraints(maxWidth: 164.w),
-                          child: Text(
-                            '${widget.cartItem.product!.name!.substring(0, widget.cartItem.product!.name!.length - 10)}..',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(
-                                    color: AppColorsLight.kAppPrimaryColorLight,
-                                    fontSize: 13.sp,
-                                    decoration: isChecked
-                                        ? TextDecoration.lineThrough
-                                        : null,
-                                    fontWeight: FontWeight.w600),
-                          ),
+                        overflowReplacement: Text(
+                          '${widget.cartItem.product!.name!.substring(0, widget.cartItem.product!.name!.length - 10)}..',
+                          maxLines: 1,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                  color: AppColorsLight.kAppPrimaryColorLight,
+                                  fontSize: 13.sp,
+                                  decoration: isChecked
+                                      ? TextDecoration.lineThrough
+                                      : null,
+                                  fontWeight: FontWeight.w600),
                         ),
                         maxLines: 1,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -128,7 +108,7 @@ class _ItemDetailsCardState extends State<ItemDetailsCard> {
             ),
             const Spacer(),
             SizedBox(
-              width: constraints.maxWidth * 0.29,
+              width: constraints.maxWidth * 0.31,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [

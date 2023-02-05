@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -75,13 +76,15 @@ class CartItemCard extends StatelessWidget {
                     children: [
                       Container(
                         constraints: BoxConstraints(maxWidth: 195.w),
-                        child: Text(
+                        child: AutoSizeText(
                           cartItem.product!.name ?? '',
                           overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
                               .bodySmall
                               ?.copyWith(
+                                  fontSize: 13.sp,
                                   color: AppColorsLight.kAppPrimaryColorLight,
                                   fontWeight: FontWeight.w600),
                         ),

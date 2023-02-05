@@ -3,12 +3,12 @@ import 'package:yabalash_mobile_app/features/home/data/datasources/home_mock_dat
 import 'package:yabalash_mobile_app/features/home/domain/entities/home_section.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/store.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/section.dart';
-import 'package:yabalash_mobile_app/features/home/domain/entities/main_category.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/banner.dart';
 import 'package:yabalash_mobile_app/core/errors/faliures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:yabalash_mobile_app/features/home/domain/repositories/home_repository.dart';
 
+import '../../../categories/domain/entities/category.dart';
 import '../../domain/entities/product.dart';
 
 class HomeRepositoryImpl implements HomeRepository {
@@ -62,7 +62,7 @@ class HomeRepositoryImpl implements HomeRepository {
   }
 
   @override
-  Future<Either<Failure, List<MainCategory>>> getMainCategories() async {
+  Future<Either<Failure, List<Category>>> getMainCategories() async {
     try {
       final categories = await homeDataSource.getAllMainCategories();
       return Right(categories);

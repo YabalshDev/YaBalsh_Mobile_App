@@ -11,9 +11,9 @@ import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
 import 'package:yabalash_mobile_app/core/utils/get_unique_stores.dart';
 import 'package:yabalash_mobile_app/core/utils/notification_helper.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
+import 'package:yabalash_mobile_app/features/categories/domain/entities/category.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/banner.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/home_section.dart';
-import 'package:yabalash_mobile_app/features/home/domain/entities/main_category.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_banners_use_case.dart';
 
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_near_stores_use_case.dart';
