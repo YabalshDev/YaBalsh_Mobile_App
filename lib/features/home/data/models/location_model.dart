@@ -34,12 +34,16 @@ class LocationModel extends Location {
         mapImage: json['mapImagePath'] ?? '',
         deliveryFees: json['deliveryFees'] ?? '35',
         address: json['address'] ?? '',
-        lat: json['lat'].runtimeType == String
-            ? double.parse(json['lat'] as String)
-            : json['lat'],
-        lon: json['long'].runtimeType == String
-            ? double.parse(json['long'] as String)
-            : json['long'],
+        lat: json['lat'] != null
+            ? json['lat'].runtimeType == String
+                ? double.parse(json['lat'] as String)
+                : json['lat']
+            : 21.33333,
+        lon: json['long'] != null
+            ? json['long'].runtimeType == String
+                ? double.parse(json['long'] as String)
+                : json['long']
+            : 23.33333,
         deliveryTime: json['deliveryTime'] ?? '95',
         startTime: json['startTime'] ?? '11:00',
         endTime: json['endTime'] ?? '12:00');

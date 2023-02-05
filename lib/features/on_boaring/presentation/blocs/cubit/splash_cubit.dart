@@ -9,6 +9,7 @@ import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/core/services/user_service.dart';
 import 'package:yabalash_mobile_app/core/services/zone_service.dart';
 import 'package:yabalash_mobile_app/core/utils/notification_helper.dart';
+import 'package:yabalash_mobile_app/features/auth/domain/usecases/register_device_usecase.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/domain/repositories/splash_repository.dart';
 
 import '../../../../../core/cubits/cubit/connectivty_cubit.dart';
@@ -22,9 +23,11 @@ class SplashCubit extends Cubit<SplashState> {
   final ZoneService zoneService;
   final UserService userService;
   final Connectivity connectivity;
+  final RegisterDeviceUseCase registerDeviceUseCase;
 
   SplashCubit(
       {required this.zoneService,
+      required this.registerDeviceUseCase,
       required this.connectivity,
       required this.userService,
       required this.splashRepository})
@@ -42,11 +45,20 @@ class SplashCubit extends Cubit<SplashState> {
     });
   }
 
-  void getCurrentDevice() {
+  void getCurrentDevice() async {
     getIt<DeviceService>().getDeviceFromLocalStorage();
     final currentDevice = getIt<DeviceService>().currentDevice;
-    if (currentDevice == null) {
+    final token = getIt<UserService>().token;
+    if (currentDevice == null && token.isEmpty) {
       saveDevice(true);
+    } else if (currentDevice == null && token.isNotEmpty) {
+      final deviceId = await NotificationHelper.getDeviceId();
+      if (deviceId.isNotEmpty) {
+        final result = await registerDeviceUseCase(
+            RegisterDeviceParams(deviceId: deviceId, token: token));
+
+        result.fold((failure) {}, (success) => saveDevice(false));
+      }
     }
   }
 

@@ -371,6 +371,7 @@ setupDependecies() {
   );
   getIt.registerLazySingleton(
     () => SplashCubit(
+        registerDeviceUseCase: getIt(),
         splashRepository: getIt(),
         userService: getIt(),
         zoneService: getIt(),
