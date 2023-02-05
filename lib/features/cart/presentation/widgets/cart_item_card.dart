@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -12,6 +11,7 @@ import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/custom_card.dart';
 import '../../../../core/widgets/custom_dialog.dart';
 import '../../../../core/widgets/custom_svg_icon.dart';
+import '../../../../core/widgets/responsive_text.dart';
 import '../blocs/cubit/cart_cubit.dart';
 
 class CartItemCard extends StatelessWidget {
@@ -76,14 +76,14 @@ class CartItemCard extends StatelessWidget {
                     children: [
                       Container(
                         constraints: BoxConstraints(maxWidth: 195.w),
-                        child: AutoSizeText(
-                          cartItem.product!.name ?? '',
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: Theme.of(context)
+                        child: ResponsiveText(
+                          title: cartItem.product!.name ?? '',
+                          isElipssis: true,
+                          truncateTextLength: 5,
+                          textStyle: Theme.of(context)
                               .textTheme
-                              .bodySmall
-                              ?.copyWith(
+                              .bodySmall!
+                              .copyWith(
                                   fontSize: 13.sp,
                                   color: AppColorsLight.kAppPrimaryColorLight,
                                   fontWeight: FontWeight.w600),
