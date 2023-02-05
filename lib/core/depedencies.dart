@@ -152,7 +152,8 @@ setupDependecies() {
       () => UserServiceImpl(localStorageProvider: getIt()));
   getIt.registerLazySingleton<StoreService>(() => StoreServiceImpl());
   getIt.registerLazySingleton<CategoriesService>(() => CategoriesServiceImpl());
-  getIt.registerLazySingleton<DeviceService>(() => DeviceServiceImpl());
+  getIt.registerLazySingleton<DeviceService>(
+      () => DeviceServiceImpl(registerDeviceUseCase: getIt()));
   getIt.registerLazySingleton<ShoppingListService>(
       () => ShoppingListServiceImpl());
   getIt.registerLazySingleton<PromoService>(() => PromoServiceImpl());
@@ -380,7 +381,6 @@ setupDependecies() {
   getIt.registerFactory(
     () => LoginCubit(
         loginUseCase: getIt(),
-        registerDeviceUseCase: getIt(),
         authRepository: getIt(),
         getCurrentCustomerUseCase: getIt()),
   );

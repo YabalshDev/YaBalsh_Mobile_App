@@ -34,8 +34,7 @@ class SplashCubit extends Cubit<SplashState> {
       : super(SplashInitial());
 
   bool _isFirstTimeVisit = true;
-  bool _isUserLoggedIn = false;
-  bool _isZoneExits = false;
+
   late StreamSubscription<ConnectivityResult> _connectivityController;
 
   void initConnectivityStream() {
@@ -45,36 +44,31 @@ class SplashCubit extends Cubit<SplashState> {
     });
   }
 
-  void getCurrentDevice() async {
+  void checkDevice() async {
     getIt<DeviceService>().getDeviceFromLocalStorage();
     final currentDevice = getIt<DeviceService>().currentDevice;
     final token = getIt<UserService>().token;
     if (currentDevice == null && token.isEmpty) {
-      saveDevice(true);
+      saveDevice(sendToBackEnd: true);
     } else if (currentDevice == null && token.isNotEmpty) {
       final deviceId = await NotificationHelper.getDeviceId();
       if (deviceId.isNotEmpty) {
-        final result = await registerDeviceUseCase(
-            RegisterDeviceParams(deviceId: deviceId, token: token));
+        final deviceRegistered = await getIt<DeviceService>()
+            .registerDevice(deviceId: deviceId, token: token);
 
-        result.fold((failure) {}, (success) => saveDevice(false));
+        if (deviceRegistered) {
+          saveDevice(sendToBackEnd: false);
+        }
       }
     }
   }
 
   void checkIfUserLoggedIn() async {
-    final result = userService.getToken();
-    if (result.isNotEmpty) {
-      _isUserLoggedIn = true;
-    }
+    userService.getToken();
   }
 
   void checkIfZoneExist() {
     zoneService.getCurrentSubZone();
-    final currentSubZone = getIt<ZoneService>().currentSubZone;
-    if (currentSubZone != null) {
-      _isZoneExits = true;
-    }
   }
 
   void checkIsFirstTimeVisit() {
@@ -94,7 +88,7 @@ class SplashCubit extends Cubit<SplashState> {
 
   void splashInit() async {
     await Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(seconds: 1),
       () {
         initConnectivityStream();
 
@@ -107,17 +101,12 @@ class SplashCubit extends Cubit<SplashState> {
 
         if (_isFirstTimeVisit) {
           setIsFirstTimeVisit(false);
-          saveDevice(true);
+          saveDevice(sendToBackEnd: true);
           Get.offNamed(RouteHelper.getOnBoardingRoute());
         } else {
-          getCurrentDevice();
-          if (!_isZoneExits) {
-            Get.offNamed(
-              RouteHelper.getMainZonesRoute(),
-            );
-          } else {
-            Get.offNamed(RouteHelper.getMainNavigationRoute(), arguments: 0);
-          }
+          checkDevice();
+
+          Get.offNamed(RouteHelper.getMainNavigationRoute(), arguments: 0);
         }
       },
     );
