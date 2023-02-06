@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
+import 'package:yabalash_mobile_app/core/utils/string_extension.dart';
 import 'package:yabalash_mobile_app/core/widgets/cart_quantity_row.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/cart_item.dart';
 
@@ -11,7 +12,6 @@ import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/custom_card.dart';
 import '../../../../core/widgets/custom_dialog.dart';
 import '../../../../core/widgets/custom_svg_icon.dart';
-import '../../../../core/widgets/responsive_text.dart';
 import '../blocs/cubit/cart_cubit.dart';
 
 class CartItemCard extends StatelessWidget {
@@ -76,11 +76,11 @@ class CartItemCard extends StatelessWidget {
                     children: [
                       Container(
                         constraints: BoxConstraints(maxWidth: 195.w),
-                        child: ResponsiveText(
-                          title: cartItem.product!.name ?? '',
-                          isElipssis: true,
-                          truncateTextLength: 5,
-                          textStyle: Theme.of(context)
+                        child: Text(
+                          cartItem.product!.name!.split('-')[0].arabicText,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context)
                               .textTheme
                               .bodySmall!
                               .copyWith(
@@ -94,8 +94,8 @@ class CartItemCard extends StatelessWidget {
                         cartItem.product!.size ?? '',
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontSize: 9.sp,
-                            color: AppColorsLight.kAppPrimaryColorLight,
+                            fontSize: 10.sp,
+                            color: AppColorsLight.darkPurpleColor,
                             fontWeight: FontWeight.w600),
                       ),
                     ],

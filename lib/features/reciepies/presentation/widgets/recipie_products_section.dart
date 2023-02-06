@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_card.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_shimmer.dart';
-import 'package:yabalash_mobile_app/core/widgets/responsive_text.dart';
+import 'package:yabalash_mobile_app/core/utils/string_extension.dart';
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
@@ -92,10 +92,11 @@ class RecipieProductCard extends StatelessWidget {
             children: [
               Container(
                 constraints: BoxConstraints(maxWidth: 180.w),
-                child: ResponsiveText(
-                  title: product.name!,
-                  truncateTextLength: 10,
-                  textStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+                child: Text(
+                  product.name!.split('-')[0].arabicText,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       color: AppColorsLight.kAppPrimaryColorLight,
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w600),

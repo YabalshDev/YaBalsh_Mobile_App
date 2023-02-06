@@ -1,7 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/cart_item.dart';
+import 'package:yabalash_mobile_app/core/utils/string_extension.dart';
 
 import '../constants/app_layouts.dart';
 import '../theme/light/app_colors_light.dart';
@@ -64,10 +64,9 @@ class _ItemDetailsCardState extends State<ItemDetailsCard> {
                   children: [
                     Container(
                       constraints:
-                          BoxConstraints(maxWidth: constraints.maxWidth * 0.41),
+                          BoxConstraints(maxWidth: constraints.maxWidth * 0.42),
                       child: Text(
-                        "${Unicode.RLO}${widget.cartItem.product!.name!.split('-')[0]}" ??
-                            '',
+                        widget.cartItem.product!.name!.split('-')[0].arabicText,
                         textDirection: TextDirection.rtl,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
