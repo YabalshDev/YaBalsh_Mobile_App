@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
-import 'package:yabalash_mobile_app/core/utils/string_extension.dart';
+import 'package:yabalash_mobile_app/core/utils/extensions/string_extension.dart';
+
 import 'package:yabalash_mobile_app/core/widgets/cart_quantity_row.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/cart_item.dart';
 

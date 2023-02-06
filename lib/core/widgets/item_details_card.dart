@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yabalash_mobile_app/core/utils/extensions/string_extension.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/cart_item.dart';
-import 'package:yabalash_mobile_app/core/utils/string_extension.dart';
 
 import '../constants/app_layouts.dart';
 import '../theme/light/app_colors_light.dart';

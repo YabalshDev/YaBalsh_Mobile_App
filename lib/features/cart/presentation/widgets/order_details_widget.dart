@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yabalash_mobile_app/core/utils/extensions/string_extension.dart';
 import 'package:yabalash_mobile_app/features/orders/domain/entities/order_response_product.dart';
-import 'package:yabalash_mobile_app/core/utils/string_extension.dart';
+
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/depedencies.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
