@@ -154,14 +154,16 @@ class DioConsumer implements RestApiProvider {
       case DioErrorType.receiveTimeout:
       case DioErrorType.cancel:
         throw const FetchDataException(
-            errorModel: ApiErrorModel(message: 'خطا اثناء جلب البيانات'));
+            errorModel: ApiErrorModel(
+                message: 'تاخر الاتصال بالسيرفر... حاول مرة اخرى'));
       case DioErrorType.response:
         _handleStatusCodeError(error.response!.statusCode!);
         break;
 
       case DioErrorType.other:
         throw const NoInternetConnectionException(
-            errorModel: ApiErrorModel(message: 'خطا..لايوجد اتصال بالانترنت'));
+            errorModel:
+                ApiErrorModel(message: 'مشكلة في الانترنت ...حاول لاحقا'));
     }
   }
 }

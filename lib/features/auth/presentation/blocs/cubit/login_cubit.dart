@@ -57,7 +57,7 @@ class LoginCubit extends Cubit<LoginState> {
           isWithEmoji: false,
           buttonTitle: 'حسنا',
           onConfirm: () => Get.back(),
-          title: 'خطا في البيانات',
+          title: 'خطا',
           mainContent: 'رقم الهاتف او كلمة المرور غير صحيحة');
     }, (data) async {
       emit(state.copyWith(errorMessage: '', loginState: RequestState.loaded));

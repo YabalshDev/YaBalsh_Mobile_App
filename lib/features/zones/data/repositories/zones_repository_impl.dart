@@ -37,7 +37,8 @@ class ZonesRepositoryImpl implements ZonesRepository {
 
       return Right(result.limit(3));
     } on CacheException {
-      return const Left(CacheFailure(message: 'حدث مشكلة اثناء جلب المناطق'));
+      return const Left(CacheFailure(
+          message: 'مشكلة في جلب اخر المناطق المختارة..حاول مرة اخرى'));
     }
   }
 

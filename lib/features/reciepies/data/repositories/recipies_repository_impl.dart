@@ -16,8 +16,8 @@ class RecipiesRepositoryImpl implements RecipiesRepository {
       final response = await recipieDataSource.getAllBrands();
 
       return Right(response);
-    } on ServerException {
-      return const Left(ServerFailure(message: 'خطا اثناء جلب الماركات'));
+    } on ServerException catch (err) {
+      return Left(ServerFailure(message: err.errorModel.message!));
     }
   }
 
@@ -27,8 +27,8 @@ class RecipiesRepositoryImpl implements RecipiesRepository {
       final response = await recipieDataSource.getAllRecipies();
 
       return Right(response);
-    } on ServerException {
-      return const Left(ServerFailure(message: 'خطا اثناء جلب الوصفات'));
+    } on ServerException catch (err) {
+      return Left(ServerFailure(message: err.errorModel.message!));
     }
   }
 
@@ -38,8 +38,8 @@ class RecipiesRepositoryImpl implements RecipiesRepository {
       final response = await recipieDataSource.getRecipieDetails(recipieId: id);
 
       return Right(response);
-    } on ServerException {
-      return const Left(ServerFailure(message: 'خطا اثناء جلب تفاصيل الوصفة'));
+    } on ServerException catch (err) {
+      return Left(ServerFailure(message: err.errorModel.message!));
     }
   }
 
@@ -51,8 +51,8 @@ class RecipiesRepositoryImpl implements RecipiesRepository {
           await recipieDataSource.getBrandRecipies(brandId: brandId);
 
       return Right(response);
-    } on ServerException {
-      return const Left(ServerFailure(message: 'خطا اثناء جلب وصفات الماركة'));
+    } on ServerException catch (err) {
+      return Left(ServerFailure(message: err.errorModel.message!));
     }
   }
 }

@@ -16,7 +16,8 @@ class ShoppingListRepositoryImpl implements ShoppingListRepository {
           shoppingList: shoppingList);
       return Right(response);
     } on CacheException {
-      return const Left(CacheFailure(message: 'خطأ في اضافة القائمة'));
+      return const Left(
+          CacheFailure(message: 'مشكلة اثناء حفظ القائمة .. حاول مرة اخرى'));
     }
   }
 
@@ -26,7 +27,8 @@ class ShoppingListRepositoryImpl implements ShoppingListRepository {
       final response = await shoppingListLocalDataSource.getAllShoppingList();
       return Right(response);
     } on CacheException {
-      return const Left(CacheFailure(message: 'خطأ في جلب القوائم'));
+      return const Left(
+          CacheFailure(message: 'مشكلة اثناء جلب القوائم ..حاول مرة اخرى'));
     }
   }
 
@@ -38,7 +40,8 @@ class ShoppingListRepositoryImpl implements ShoppingListRepository {
           renamedShoppingList: renamedShoppingList, key: key);
       return Right(response);
     } on CacheException {
-      return const Left(CacheFailure(message: 'خطأ في تسمية القائمة'));
+      return const Left(CacheFailure(
+          message: 'مشكلة اثناء اعادة تسمية القائمة ..حاول مرة اخرى'));
     }
   }
 }

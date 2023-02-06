@@ -14,8 +14,8 @@ class NotificationRepositoryImpl implements NotificationRepository {
     try {
       final result = await notificationRemoteDataSource.getAllNotifications();
       return Right(result);
-    } on ServerException {
-      return const Left(ServerFailure(message: 'خطا اثناء جلب الاشعارات'));
+    } on ServerException catch (err) {
+      return Left(ServerFailure(message: err.errorModel.message!));
     }
   }
 }

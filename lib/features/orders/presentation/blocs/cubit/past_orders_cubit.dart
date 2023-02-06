@@ -19,7 +19,7 @@ class PastOrdersCubit extends Cubit<PastOrdersState> {
     final response = await getPastOrdersUseCase(NoParams());
     response.fold((failure) {
       emit(state.copyWith(
-          errorMessage: 'حدث خطا اثناء جلب الطلبات',
+          errorMessage: failure.message,
           ordersRequestState: RequestState.error));
       yaBalashCustomDialog(
         buttonTitle: 'حسنا',

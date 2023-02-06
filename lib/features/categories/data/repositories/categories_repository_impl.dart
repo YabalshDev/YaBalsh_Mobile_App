@@ -16,8 +16,8 @@ class CategoriesRepositoryImpl implements CategoriesRepository {
       final response = await categoriesDataSource.getMainCategorySubCategories(
           mainCategoryId: mainCategoryId);
       return Right(response.data as List<SubCategory>);
-    } on ServerException {
-      return const Left(ServerFailure(message: 'خطا في جلب الفئات الفرعية'));
+    } on ServerException catch (err) {
+      return Left(ServerFailure(message: err.errorModel.message!));
     }
   }
 }

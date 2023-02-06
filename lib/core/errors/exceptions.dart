@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/api_error_model.dart';
 
-class ServerException extends Equatable implements Exception {
+abstract class ServerException extends Equatable implements Exception {
   final ApiErrorModel errorModel;
 
   const ServerException({required this.errorModel});

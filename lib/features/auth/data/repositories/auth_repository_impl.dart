@@ -66,9 +66,8 @@ class AuthRepositoryImpl implements AuthRepository {
       final result = await authRemoteDataSource.checkUserRegistered(
           phoneNumber: phoneNumber);
       return Right(result.data as bool);
-    } on ServerException {
-      return const Left(
-          ServerFailure(message: 'خطا اثناء التحقق من رقم الهاتف'));
+    } on ServerException catch (err) {
+      return Left(ServerFailure(message: err.errorModel.message!));
     }
   }
 
@@ -79,8 +78,8 @@ class AuthRepositoryImpl implements AuthRepository {
       final result = await authRemoteDataSource.registerDevice(
           deviceId: deviceId, token: token);
       return Right(result);
-    } on ServerException {
-      return const Left(ServerFailure(message: 'خطا اثناء تسجيل الجهاز'));
+    } on ServerException catch (err) {
+      return Left(ServerFailure(message: err.errorModel.message!));
     }
   }
 }

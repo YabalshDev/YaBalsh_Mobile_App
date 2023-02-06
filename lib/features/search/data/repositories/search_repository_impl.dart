@@ -33,9 +33,8 @@ class SearchRepositoryImpl implements SearchRepository {
       final response =
           await searchRemoteDataSource.productSearch(searchName: searchName);
       return Right(response.data as List<Product>);
-    } on ServerException {
-      return const Left(
-          ServerFailure(message: 'حدث خطا اثناء البحث عن المنتج'));
+    } on ServerException catch (err) {
+      return Left(ServerFailure(message: err.errorModel.message!));
     }
   }
 
@@ -45,7 +44,8 @@ class SearchRepositoryImpl implements SearchRepository {
       final response = searchLocalDataSource.saveSearch(searchName: searchName);
       return Right(response);
     } on CacheException {
-      return const Left(CacheFailure(message: 'حدث خطا اثناء البحث'));
+      return const Left(
+          CacheFailure(message: 'مشكلة في التخزين المحلي للبياتات'));
     }
   }
 
@@ -56,9 +56,8 @@ class SearchRepositoryImpl implements SearchRepository {
       final response =
           await searchRemoteDataSource.storeSearch(searchName: searchName);
       return Right(response.data as List<StoreSearch>);
-    } on ServerException {
-      return const Left(
-          ServerFailure(message: 'حدث خطا اثناء البحث عن المتجر'));
+    } on ServerException catch (err) {
+      return Left(ServerFailure(message: err.errorModel.message!));
     }
   }
 
@@ -69,8 +68,8 @@ class SearchRepositoryImpl implements SearchRepository {
       final response = await searchRemoteDataSource.mainCategoriesSearch(
           mainCategoryId: mainCategoryId);
       return Right(response.data as List<Product>);
-    } on ServerException {
-      return const Left(ServerFailure(message: 'حدث خطا اثناء البحث '));
+    } on ServerException catch (err) {
+      return Left(ServerFailure(message: err.errorModel.message!));
     }
   }
 
@@ -81,8 +80,8 @@ class SearchRepositoryImpl implements SearchRepository {
       final response = await searchRemoteDataSource.subCategoriesSearch(
           subCategoryId: subCategoryId);
       return Right(response.data as List<Product>);
-    } on ServerException {
-      return const Left(ServerFailure(message: 'حدث خطا اثناء البحث '));
+    } on ServerException catch (err) {
+      return Left(ServerFailure(message: err.errorModel.message!));
     }
   }
 }
