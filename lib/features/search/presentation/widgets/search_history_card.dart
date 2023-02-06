@@ -20,7 +20,8 @@ class SearchHistoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        searchFormKey.currentState!.fields['search']!.setValue(searchName);
+        searchFormKey.currentState!.patchValue({'search': searchName});
+
         BlocProvider.of<SearchCubit>(context)
             .changeSearchIsEmpty(false); // change to searching state
         BlocProvider.of<SearchCubit>(context).search(searchName);
