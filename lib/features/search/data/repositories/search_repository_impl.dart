@@ -1,4 +1,5 @@
 import 'package:yabalash_mobile_app/core/errors/exceptions.dart';
+import 'package:yabalash_mobile_app/core/utils/extensions/list_limit_extension.dart';
 import 'package:yabalash_mobile_app/features/search/data/datasources/search_local_datasource.dart';
 import 'package:yabalash_mobile_app/features/search/data/datasources/search_remote_datasource.dart';
 import 'package:yabalash_mobile_app/features/search/domain/entities/store_search.dart';
@@ -18,7 +19,8 @@ class SearchRepositoryImpl implements SearchRepository {
   Future<List<String>> getSearchHistory() async {
     try {
       final response = await searchLocalDataSource.getSearchHistory();
-      return response;
+
+      return response.limit(5);
     } on CacheException {
       return [];
     }
