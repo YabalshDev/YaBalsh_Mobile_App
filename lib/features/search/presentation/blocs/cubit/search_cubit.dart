@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/constants.dart';
 import 'package:yabalash_mobile_app/core/errors/faliures.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
+import 'package:yabalash_mobile_app/core/utils/extensions/list_limit_extension.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/location.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_section_products_usecase.dart';
@@ -177,13 +178,6 @@ class SearchCubit extends Cubit<SearchState> {
       }
     }
 
-    // allNearStores = nearStores
-    //     .map((e) => StoreSearch(
-    //         cardImagePath: e.cardImagePath,
-    //         id: e.id,
-    //         location: e.locations!.last,
-    //         name: e.name))
-    //     .toList();
     emit(state.copyWith(
         searchStoresRequestState: RequestState.loaded,
         searchStoresResult: allNearStores));
@@ -198,7 +192,7 @@ class SearchCubit extends Cubit<SearchState> {
             emit(state.copyWith(mostSellingRequestState: RequestState.error)),
         (products) => emit(state.copyWith(
             mostSellingRequestState: RequestState.loaded,
-            mostSellingProducts: products)));
+            mostSellingProducts: products.limit(5))));
   }
 
   void getSectionProducts(int sectionId) async {

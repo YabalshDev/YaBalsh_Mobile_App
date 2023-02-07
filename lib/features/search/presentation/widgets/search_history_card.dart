@@ -27,13 +27,16 @@ class SearchHistoryCard extends StatelessWidget {
         BlocProvider.of<SearchCubit>(context).search(searchName);
       },
       child: Container(
+          margin: EdgeInsets.only(left: 8.w),
           decoration: kDefaultBoxDecoration.copyWith(
               border: Border.all(
                 color: Colors.transparent,
               ),
               color: AppColorsLight.kDisabledButtonColor),
-          padding: kSmallPadding,
+          padding: EdgeInsets.symmetric(horizontal: 5.w),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
               CustomSvgIcon(

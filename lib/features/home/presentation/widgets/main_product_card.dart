@@ -92,7 +92,6 @@ class ProductDetailsCard extends StatelessWidget {
         ],
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Stack(
@@ -102,7 +101,7 @@ class ProductDetailsCard extends StatelessWidget {
                   height: fromSearch ? 142.h : 133.h,
                   width: fromSearch ? 136.w : 126.w,
                   child: AppImage(
-                    fit: BoxFit.contain,
+                    fit: BoxFit.cover,
                     path: product.imagePath!,
                   )),
               Positioned(

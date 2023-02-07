@@ -22,7 +22,6 @@ class NearStoresList extends StatelessWidget {
         height: 100.h,
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
             padding: isWithPadding ? kScaffoldPadding : null,
             itemCount: stores.length,
             itemBuilder: (context, index) {

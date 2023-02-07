@@ -63,7 +63,6 @@ class LastOffersLoaded extends StatelessWidget {
               child: ListView.builder(
                 padding: kScaffoldPadding,
                 scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
                 itemCount: state.lastOffers!.length,
                 itemBuilder: (context, index) {
                   final mainCategory = state.lastOffers![index];
@@ -90,7 +89,6 @@ class LastOffersLoading extends StatelessWidget {
       child: ListView.builder(
         padding: kScaffoldPadding,
         scrollDirection: Axis.horizontal,
-        shrinkWrap: true,
         itemCount: 6,
         itemBuilder: (context, index) {
           return Shimmer.fromColors(

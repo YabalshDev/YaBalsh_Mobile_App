@@ -34,22 +34,20 @@ class _ProductsSearchSectionState extends State<ProductsSearchSection> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SingleChildScrollView(
+        CustomScrollView(
           controller: _scrollController,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              BlocBuilder<SearchCubit, SearchState>(
-                builder: (context, state) {
-                  if (state.isSearchEmpty!) {
-                    return const MostSellingProdutsSection();
-                  } else {
-                    return const ProductSearchResult();
-                  }
-                },
-              )
-            ],
-          ),
+          slivers: [
+            BlocBuilder<SearchCubit, SearchState>(
+              builder: (context, state) {
+                if (state.isSearchEmpty!) {
+                  return const SliverToBoxAdapter(
+                      child: MostSellingProdutsSection());
+                } else {
+                  return const ProductSearchResult();
+                }
+              },
+            )
+          ],
         ),
         // back to top
         BlocBuilder<SearchCubit, SearchState>(

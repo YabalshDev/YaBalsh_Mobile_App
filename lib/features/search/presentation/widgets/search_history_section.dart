@@ -63,17 +63,19 @@ class SearchHistoryLoaded extends StatelessWidget {
         children: [
           const SubHeading(text: 'ما بحثت عنه مؤخرا'),
           mediumVerticalSpace,
-          Wrap(
-              runSpacing: 10.h,
-              spacing: 10.w,
-              direction: Axis.horizontal,
-              key: UniqueKey(),
-              children: state.searchHistory!
-                  .map((name) => SearchHistoryCard(
-                        searchName: name,
-                        searchFormKey: searchFormKey,
-                      ))
-                  .toList())
+          SizedBox(
+            height: 29.h,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: state.searchHistory!.length,
+              itemBuilder: (context, index) {
+                final searchHistory = state.searchHistory![index];
+
+                return SearchHistoryCard(
+                    searchName: searchHistory, searchFormKey: searchFormKey);
+              },
+            ),
+          )
         ],
       ),
     );
