@@ -38,17 +38,16 @@ class _SuperMarketsSearchSectionState extends State<SuperMarketsSearchSection> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SingleChildScrollView(
+        CustomScrollView(
           controller: _scrollController,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              BlocBuilder<SearchCubit, SearchState>(
-                builder: (context, state) {
-                  if (state.isSearchEmpty!) {
-                    return getIt<StoreService>().uniqueStores.isEmpty
-                        ? const SizedBox()
-                        : Padding(
+          slivers: [
+            BlocBuilder<SearchCubit, SearchState>(
+              builder: (context, state) {
+                if (state.isSearchEmpty!) {
+                  return getIt<StoreService>().uniqueStores.isEmpty
+                      ? const SliverToBoxAdapter(child: SizedBox())
+                      : SliverToBoxAdapter(
+                          child: Padding(
                             padding: kDefaultPadding,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,14 +60,15 @@ class _SuperMarketsSearchSectionState extends State<SuperMarketsSearchSection> {
                                     isWithPadding: false),
                               ],
                             ),
-                          );
-                  } else {
-                    return SuperMarketsSearchResult(state: state);
-                  }
-                },
-              )
-            ],
-          ),
+                          ),
+                        );
+                } else {
+                  return SliverToBoxAdapter(
+                      child: SuperMarketsSearchResult(state: state));
+                }
+              },
+            )
+          ],
         ),
 
         // back to top

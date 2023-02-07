@@ -61,7 +61,8 @@ class ProductsSearchList extends StatelessWidget {
                         );
                       }).toList(),
               ),
-            )
+            ),
+            largeVerticalSpace
           ],
         );
       },

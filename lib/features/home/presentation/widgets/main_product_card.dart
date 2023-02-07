@@ -101,7 +101,7 @@ class ProductDetailsCard extends StatelessWidget {
                   height: fromSearch ? 142.h : 133.h,
                   width: fromSearch ? 136.w : 126.w,
                   child: AppImage(
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fill,
                     path: product.imagePath!,
                   )),
               Positioned(
