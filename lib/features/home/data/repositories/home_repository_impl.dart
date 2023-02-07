@@ -1,4 +1,5 @@
 import 'package:yabalash_mobile_app/core/errors/exceptions.dart';
+import 'package:yabalash_mobile_app/core/utils/extensions/list_limit_extension.dart';
 import 'package:yabalash_mobile_app/features/home/data/datasources/home_mock_datasource.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/home_section.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/store.dart';
@@ -34,14 +35,12 @@ class HomeRepositoryImpl implements HomeRepository {
       for (Section section in sections) {
         List<Product> sectionProducts = await homeDataSource.getSectionProducts(
             sectionId: section.id!); // get products for each section
+        List<Product> pricedSectionProducts = sectionProducts
+            .where((element) => element.prices!.isNotEmpty)
+            .toList();
 
-        if (sectionProducts.length > 6) {
-          homeSections.add(HomeSection(
-              section: section, products: sectionProducts.sublist(0, 6)));
-        } else {
-          homeSections
-              .add(HomeSection(section: section, products: sectionProducts));
-        }
+        homeSections.add(HomeSection(
+            section: section, products: pricedSectionProducts.limit(6)));
       }
 
       return Right(homeSections);

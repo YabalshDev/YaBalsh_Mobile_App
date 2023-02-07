@@ -32,7 +32,10 @@ class SearchRepositoryImpl implements SearchRepository {
     try {
       final response =
           await searchRemoteDataSource.productSearch(searchName: searchName);
-      return Right(response.data as List<Product>);
+      final pricedProducts = (response.data as List<Product>)
+          .where((element) => element.prices!.isNotEmpty)
+          .toList();
+      return Right(pricedProducts);
     } on ServerException catch (err) {
       return Left(ServerFailure(message: err.errorModel.message!));
     }
