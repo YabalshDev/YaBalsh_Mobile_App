@@ -5,9 +5,11 @@ class OtherBranchesState extends Equatable {
   final List<StoreSearch>? otherBranches;
   final String? errorMessage;
   final StoreSearch? currentStore;
+  final bool? paginationLoading;
   const OtherBranchesState(
       {this.otherBranchesRequestState = RequestState.loading,
       this.otherBranches = const [],
+      this.paginationLoading = false,
       this.currentStore = const StoreSearch(),
       this.errorMessage = ''});
 
@@ -15,9 +17,11 @@ class OtherBranchesState extends Equatable {
           {RequestState? otherBranchesRequestState,
           List<StoreSearch>? otherBranches,
           StoreSearch? currentStore,
+          bool? paginationLoading,
           String? errorMessage}) =>
       OtherBranchesState(
           errorMessage: errorMessage ?? this.errorMessage,
+          paginationLoading: paginationLoading ?? this.paginationLoading,
           otherBranches: otherBranches ?? this.otherBranches,
           currentStore: currentStore ?? this.currentStore,
           otherBranchesRequestState:
@@ -28,6 +32,7 @@ class OtherBranchesState extends Equatable {
         otherBranches!,
         otherBranchesRequestState!,
         errorMessage!,
-        currentStore!
+        currentStore!,
+        paginationLoading!
       ];
 }

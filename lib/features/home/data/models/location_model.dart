@@ -45,7 +45,7 @@ class LocationModel extends Location {
                 : json['long']
             : 23.33333,
         deliveryTime: json['deliveryTime'] ?? '95',
-        startTime: json['startTime'] ?? '11:00',
-        endTime: json['endTime'] ?? '12:00');
+        startTime: json['startTime'] ?? '11:00 am',
+        endTime: json['endTime'] ?? '12:00 am');
   }
 }

@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
-import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
-import 'package:yabalash_mobile_app/features/search/presentation/widgets/super_market_search_card.dart';
 
 import '../../../../core/utils/enums/request_state.dart';
+import '../../../search/presentation/widgets/super_market_search_card.dart';
 import '../blocs/other_branches_cubit.dart';
 import '../widgets/other_branches_title.dart';
 
@@ -37,7 +36,9 @@ class OtherBranchesBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [const OtherBranchTitle(), mediumVerticalSpace],
             )),
-            const SliverFillRemaining(child: OtherBranchesSection())
+            const SliverFillRemaining(
+              child: OtherBranchesSection(),
+            )
           ],
         ),
       ),
@@ -45,16 +46,40 @@ class OtherBranchesBody extends StatelessWidget {
   }
 }
 
-class OtherBranchesSection extends StatelessWidget {
+class OtherBranchesSection extends StatefulWidget {
   const OtherBranchesSection({super.key});
+
+  @override
+  State<OtherBranchesSection> createState() => _OtherBranchesSectionState();
+}
+
+class _OtherBranchesSectionState extends State<OtherBranchesSection> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      if (_scrollController.position.maxScrollExtent ==
+          _scrollController.position.pixels) {
+        BlocProvider.of<OtherBranchesCubit>(context)
+            .handleBranchesPagintation();
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<OtherBranchesCubit, OtherBranchesState>(
       builder: (context, state) {
         switch (state.otherBranchesRequestState) {
-          case RequestState.idle:
-            return const SizedBox();
           case RequestState.loading:
             return SizedBox(
               height: Get.height * 0.6,
@@ -62,6 +87,7 @@ class OtherBranchesSection extends StatelessWidget {
                 child: CircularProgressIndicator(),
               ),
             );
+          case RequestState.idle:
           case RequestState.loaded:
             return state.otherBranches!.isEmpty
                 ? SizedBox(
@@ -71,15 +97,26 @@ class OtherBranchesSection extends StatelessWidget {
                       title: 'لا يوجد فروع اخرى',
                     )),
                   )
-                : CustomAnimatedWidget(
-                    child: ListView.builder(
-                      itemCount: state.otherBranches!.length,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        final branch = state.otherBranches![index];
-                        return SuperMarketSearchCard(store: branch);
-                      },
-                    ),
+                : Column(
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                          key: UniqueKey(),
+                          controller: _scrollController,
+                          itemCount: state.otherBranches!.length,
+                          itemBuilder: (context, index) {
+                            final branch = state.otherBranches![index];
+                            return SuperMarketSearchCard(store: branch);
+                          },
+                        ),
+                      ),
+                      smallHorizontalSpace,
+                      state.paginationLoading!
+                          ? const Center(
+                              child: CircularProgressIndicator.adaptive(),
+                            )
+                          : const SizedBox()
+                    ],
                   );
           case RequestState.error:
             return SizedBox(
