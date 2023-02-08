@@ -13,14 +13,16 @@ class MainCategoriesProductsSearchUsecase
   @override
   Future<Either<Failure, List<Product>>> call(
           CategoriesProductsSearchParams params) =>
-      searchRepository.mainCategoriesProductsSearch(mainCategoryId: params.id);
+      searchRepository.mainCategoriesProductsSearch(
+          mainCategoryId: params.id, page: params.page);
 }
 
 class CategoriesProductsSearchParams extends Equatable {
   final int id;
+  final int? page;
 
-  const CategoriesProductsSearchParams({required this.id});
+  const CategoriesProductsSearchParams({required this.id, this.page});
 
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [id, page];
 }

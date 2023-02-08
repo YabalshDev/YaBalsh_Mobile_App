@@ -72,10 +72,10 @@ class HomeRepositoryImpl implements HomeRepository {
 
   @override
   Future<Either<Failure, List<Product>>> getSectionProducts(
-      {required int sectionId}) async {
+      {required int sectionId, int? page}) async {
     try {
-      final products =
-          await homeDataSource.getSectionProducts(sectionId: sectionId);
+      final products = await homeDataSource.getSectionProducts(
+          sectionId: sectionId, page: page);
 
       return Right(filterPricedProducts(products));
     } on ServerException {

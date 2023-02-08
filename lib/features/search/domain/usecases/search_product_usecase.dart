@@ -11,14 +11,16 @@ class SearchProductUsecase implements UseCase<List<Product>, SearchParams> {
   SearchProductUsecase({required this.searchRepository});
   @override
   Future<Either<Failure, List<Product>>> call(SearchParams params) =>
-      searchRepository.productSearch(searchName: params.searchName);
+      searchRepository.productSearch(
+          searchName: params.searchName, page: params.page);
 }
 
 class SearchParams extends Equatable {
   final String searchName;
+  final int? page;
 
-  const SearchParams({required this.searchName});
+  const SearchParams({required this.searchName, this.page});
 
   @override
-  List<Object?> get props => [searchName];
+  List<Object?> get props => [searchName, page];
 }

@@ -13,7 +13,7 @@ abstract class HomeRepository {
   Future<Either<Failure, List<Category>>> getMainCategories();
   Future<Either<Failure, List<HomeSection>>> getHomeSections();
   Future<Either<Failure, List<Product>>> getSectionProducts(
-      {required int sectionId});
+      {required int sectionId, int? page});
 
   Future<Either<Failure, Product>> getProductByBarCode(
       {required String barCode});

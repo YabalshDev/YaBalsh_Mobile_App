@@ -4,12 +4,14 @@ import 'package:yabalash_mobile_app/features/search/data/models/product_search_r
 import 'package:yabalash_mobile_app/features/search/data/models/store_search_response.dart';
 
 abstract class SearchRemoteDataSource {
-  Future<StoreSearchResponse> storeSearch({required String searchName});
-  Future<ProductSearchResponse> productSearch({required String searchName});
+  Future<StoreSearchResponse> storeSearch(
+      {required String searchName, int? page});
+  Future<ProductSearchResponse> productSearch(
+      {required String searchName, int? page});
   Future<ProductSearchResponse> mainCategoriesSearch(
-      {required int mainCategoryId});
+      {required int mainCategoryId, int? page});
   Future<ProductSearchResponse> subCategoriesSearch(
-      {required int subCategoryId});
+      {required int subCategoryId, int? page});
 }
 
 class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
@@ -18,24 +20,25 @@ class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
   SearchRemoteDataSourceImpl({required this.restApiProvider});
   @override
   Future<ProductSearchResponse> productSearch(
-      {required String searchName}) async {
-    final resposne = await restApiProvider
-        .get(productSearchEndpoint, queryParams: {'query': searchName});
+      {required String searchName, int? page}) async {
+    final resposne = await restApiProvider.get(productSearchEndpoint,
+        queryParams: {'query': searchName, 'page': page ?? 1});
 
     return ProductSearchResponse.fromJson(resposne);
   }
 
   @override
-  Future<StoreSearchResponse> storeSearch({required String searchName}) async {
-    final resposne = await restApiProvider
-        .get(storesSearchEndpoint, queryParams: {'query': searchName});
+  Future<StoreSearchResponse> storeSearch(
+      {required String searchName, int? page}) async {
+    final resposne = await restApiProvider.get(storesSearchEndpoint,
+        queryParams: {'query': searchName, 'page': page ?? 1});
 
     return StoreSearchResponse.fromJson(resposne);
   }
 
   @override
   Future<ProductSearchResponse> mainCategoriesSearch(
-      {required int mainCategoryId}) async {
+      {required int mainCategoryId, int? page}) async {
     final resposne = await restApiProvider
         .get(getMainCategoriesProductsEndpoint(mainCategoryId));
 
@@ -44,10 +47,10 @@ class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
 
   @override
   Future<ProductSearchResponse> subCategoriesSearch(
-      {required int subCategoryId}) async {
+      {required int subCategoryId, int? page}) async {
     final resposne = await restApiProvider.get(
-      getSubCategoryProductsEndpoint(subCategoryId),
-    );
+        getSubCategoryProductsEndpoint(subCategoryId),
+        queryParams: page != null ? {'page': page} : null);
 
     return ProductSearchResponse.fromJson(resposne);
   }

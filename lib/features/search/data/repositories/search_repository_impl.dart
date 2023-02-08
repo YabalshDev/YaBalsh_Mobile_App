@@ -29,10 +29,10 @@ class SearchRepositoryImpl implements SearchRepository {
 
   @override
   Future<Either<Failure, List<Product>>> productSearch(
-      {required String searchName}) async {
+      {required String searchName, int? page}) async {
     try {
-      final response =
-          await searchRemoteDataSource.productSearch(searchName: searchName);
+      final response = await searchRemoteDataSource.productSearch(
+          searchName: searchName, page: page);
       final pricedProducts =
           filterPricedProducts((response.data as List<Product>));
 
@@ -45,7 +45,9 @@ class SearchRepositoryImpl implements SearchRepository {
   @override
   Either<Failure, void> saveSearch({required String searchName}) {
     try {
-      final response = searchLocalDataSource.saveSearch(searchName: searchName);
+      final response = searchLocalDataSource.saveSearch(
+        searchName: searchName,
+      );
       return Right(response);
     } on CacheException {
       return const Left(
@@ -55,10 +57,10 @@ class SearchRepositoryImpl implements SearchRepository {
 
   @override
   Future<Either<Failure, List<StoreSearch>>> storeSearch(
-      {required String searchName}) async {
+      {required String searchName, int? page}) async {
     try {
-      final response =
-          await searchRemoteDataSource.storeSearch(searchName: searchName);
+      final response = await searchRemoteDataSource.storeSearch(
+          searchName: searchName, page: page);
       return Right(response.data as List<StoreSearch>);
     } on ServerException catch (err) {
       return Left(ServerFailure(message: err.errorModel.message!));
@@ -67,10 +69,10 @@ class SearchRepositoryImpl implements SearchRepository {
 
   @override
   Future<Either<Failure, List<Product>>> mainCategoriesProductsSearch(
-      {required int mainCategoryId}) async {
+      {required int mainCategoryId, int? page}) async {
     try {
       final response = await searchRemoteDataSource.mainCategoriesSearch(
-          mainCategoryId: mainCategoryId);
+          mainCategoryId: mainCategoryId, page: page);
 
       return Right(filterPricedProducts(response.data as List<Product>));
     } on ServerException catch (err) {
@@ -80,10 +82,10 @@ class SearchRepositoryImpl implements SearchRepository {
 
   @override
   Future<Either<Failure, List<Product>>> subCategoriesProductsSearch(
-      {required int subCategoryId}) async {
+      {required int subCategoryId, int? page}) async {
     try {
       final response = await searchRemoteDataSource.subCategoriesSearch(
-          subCategoryId: subCategoryId);
+          subCategoryId: subCategoryId, page: page);
       return Right(filterPricedProducts(response.data as List<Product>));
     } on ServerException catch (err) {
       return Left(ServerFailure(message: err.errorModel.message!));

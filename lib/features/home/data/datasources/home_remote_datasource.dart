@@ -45,9 +45,11 @@ class HomeRemoteDataSourceImpl implements HomeDataSource {
   }
 
   @override
-  Future<List<Product>> getSectionProducts({required int sectionId}) async {
-    final response =
-        await restApiProvider.get(getSectionProductsEndpoint(sectionId));
+  Future<List<Product>> getSectionProducts(
+      {required int sectionId, int? page}) async {
+    final response = await restApiProvider.get(
+        getSectionProductsEndpoint(sectionId),
+        queryParams: page != null ? {'page': page} : null);
     return ProductSearchResponse.fromJson(response).data as List<Product>;
   }
 

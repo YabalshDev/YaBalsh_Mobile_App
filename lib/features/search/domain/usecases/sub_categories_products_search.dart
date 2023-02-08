@@ -14,5 +14,6 @@ class SubCategoriesProductsSearchUsecase
   @override
   Future<Either<Failure, List<Product>>> call(
           CategoriesProductsSearchParams params) =>
-      searchRepository.subCategoriesProductsSearch(subCategoryId: params.id);
+      searchRepository.subCategoriesProductsSearch(
+          subCategoryId: params.id, page: params.page);
 }

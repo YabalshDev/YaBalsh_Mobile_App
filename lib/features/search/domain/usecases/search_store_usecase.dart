@@ -12,5 +12,6 @@ class SearchStoreUsecase implements UseCase<List<StoreSearch>, SearchParams> {
   SearchStoreUsecase({required this.searchRepository});
   @override
   Future<Either<Failure, List<StoreSearch>>> call(SearchParams params) =>
-      searchRepository.storeSearch(searchName: params.searchName);
+      searchRepository.storeSearch(
+          searchName: params.searchName, page: params.page);
 }

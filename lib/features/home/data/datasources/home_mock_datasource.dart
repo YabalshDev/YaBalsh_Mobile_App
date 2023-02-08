@@ -15,7 +15,7 @@ import '../../domain/entities/store.dart';
 abstract class HomeDataSource {
   Future<List<Banner>> getBanners();
   Future<List<Store>> getNearStores();
-  Future<List<Product>> getSectionProducts({required int sectionId});
+  Future<List<Product>> getSectionProducts({required int sectionId, int? page});
   Future<List<Section>> getSections();
   Future<List<Category>> getAllMainCategories();
   Future<Product> getProductByBarcode({required String barCode});
