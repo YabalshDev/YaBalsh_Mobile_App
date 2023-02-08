@@ -251,11 +251,18 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   void _handleResultsLoading() {
-    if (_productsPageNumber > 1 || _storesPageNumber > 1) {
+    if (state.searchTypeIndex == 0 && _productsPageNumber > 1) {
+      // if in products section and page is more than one
       emit(state.copyWith(
           paginationLoading: true,
           searchProductsRequestState: RequestState.idle));
+    } else if (state.searchTypeIndex == 1 && _storesPageNumber > 1) {
+      // if in stores section and page is more than one
+      emit(state.copyWith(
+          paginationLoading: true,
+          searchStoresRequestState: RequestState.idle));
     } else {
+      // if page is one
       if (state.searchTypeIndex == 0) {
         emit(state.copyWith(searchProductsRequestState: RequestState.loading));
       } else {

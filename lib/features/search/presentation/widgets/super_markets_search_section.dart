@@ -25,7 +25,12 @@ class _SuperMarketsSearchSectionState extends State<SuperMarketsSearchSection> {
   void initState() {
     super.initState();
     _scrollController = ScrollController();
-    _scrollController?.addListener(() {});
+    _scrollController?.addListener(() {
+      if (_scrollController!.position.maxScrollExtent ==
+          _scrollController!.position.pixels) {
+        BlocProvider.of<SearchCubit>(context).handlePagination();
+      }
+    });
   }
 
   @override

@@ -15,6 +15,8 @@ class BestOfferSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SearchCubit, SearchState>(
+      buildWhen: (previous, current) =>
+          previous.chepeastProduct != current.chepeastProduct,
       builder: (context, state) {
         return state.chepeastProduct!.id != null
             ? Column(
