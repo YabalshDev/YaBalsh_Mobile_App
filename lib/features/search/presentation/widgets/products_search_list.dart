@@ -62,7 +62,12 @@ class ProductsSearchList extends StatelessWidget {
                       }).toList(),
               ),
             ),
-            largeVerticalSpace
+            state.paginationLoading!
+                ? const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  )
+                : const SizedBox(),
+            largeVerticalSpace,
           ],
         );
       },

@@ -16,19 +16,21 @@ class BestOfferSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SearchCubit, SearchState>(
       builder: (context, state) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SubHeading(text: 'افضل عرض على ${state.intialValue}'),
-            mediumVerticalSpace,
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 6.w),
-              child: MainProductCard(
-                  product: state.chepeastProduct!, fromSearch: true),
-            ),
-            mediumVerticalSpace
-          ],
-        );
+        return state.chepeastProduct!.id != null
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SubHeading(text: 'افضل عرض على ${state.intialValue}'),
+                  mediumVerticalSpace,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 6.w),
+                    child: MainProductCard(
+                        product: state.chepeastProduct!, fromSearch: true),
+                  ),
+                  mediumVerticalSpace
+                ],
+              )
+            : const SizedBox();
       },
     );
   }

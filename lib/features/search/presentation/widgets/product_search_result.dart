@@ -24,10 +24,9 @@ class ProductSearchResult extends StatelessWidget {
           current.searchProductsRequestState,
       builder: (context, state) {
         switch (state.searchProductsRequestState) {
-          case RequestState.idle:
-            return const SizedBox();
           case RequestState.loading:
             return const SliverToBoxAdapter(child: SearchProductsLoading());
+          case RequestState.idle:
           case RequestState.loaded:
             return state.searchProductsResult!.isEmpty
                 ? SliverToBoxAdapter(
@@ -58,21 +57,12 @@ class SearchProductResultsLoaded extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SearchCubit, SearchState>(
-      builder: (context, state) {
-        return Padding(
-          padding: kDefaultPadding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              state.chepeastProduct!.id != null
-                  ? const BestOfferSection()
-                  : const SizedBox(),
-              const ProductsSearchList()
-            ],
-          ),
-        );
-      },
+    return Padding(
+      padding: kDefaultPadding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [BestOfferSection(), ProductsSearchList()],
+      ),
     );
   }
 }

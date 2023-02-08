@@ -34,6 +34,7 @@ class LastOfferCard extends StatelessWidget {
                 width: 60.w,
                 height: 60.h,
                 isAssetImage: false,
+                fit: BoxFit.cover,
                 imagePath: mainCategory.imagePath,
                 backgroundColor: AppColorsLight.kSubCategoryCardColor,
                 withBorder: false,

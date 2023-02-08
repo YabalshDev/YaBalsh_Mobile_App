@@ -20,7 +20,14 @@ class _ProductsSearchSectionState extends State<ProductsSearchSection> {
   @override
   void initState() {
     _scrollController = ScrollController();
-    _scrollController?.addListener(() {});
+
+    _scrollController?.addListener(() {
+      if (_scrollController!.position.maxScrollExtent ==
+          _scrollController!.position.pixels) {
+        BlocProvider.of<SearchCubit>(context).handlePagination();
+      }
+    });
+
     super.initState();
   }
 

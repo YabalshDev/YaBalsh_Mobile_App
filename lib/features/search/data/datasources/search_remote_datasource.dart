@@ -39,8 +39,9 @@ class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
   @override
   Future<ProductSearchResponse> mainCategoriesSearch(
       {required int mainCategoryId, int? page}) async {
-    final resposne = await restApiProvider
-        .get(getMainCategoriesProductsEndpoint(mainCategoryId));
+    final resposne = await restApiProvider.get(
+        getMainCategoriesProductsEndpoint(mainCategoryId),
+        queryParams: page != null ? {'page': page} : null);
 
     return ProductSearchResponse.fromJson(resposne);
   }
