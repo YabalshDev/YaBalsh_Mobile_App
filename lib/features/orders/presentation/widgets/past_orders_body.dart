@@ -25,7 +25,6 @@ class _PastOrdersBodyState extends State<PastOrdersBody> {
   void initState() {
     _scrollController = ScrollController();
     _scrollController.addListener(() {
-      print(_scrollController.position.pixels);
       if (_scrollController.position.maxScrollExtent ==
           _scrollController.position.pixels) {
         BlocProvider.of<PastOrdersCubit>(context).handlePastOrdersPagination();

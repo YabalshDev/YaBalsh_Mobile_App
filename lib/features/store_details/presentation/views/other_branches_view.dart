@@ -21,40 +21,14 @@ class OtherBranchesView extends StatelessWidget {
   }
 }
 
-class OtherBranchesBody extends StatelessWidget {
+class OtherBranchesBody extends StatefulWidget {
   const OtherBranchesBody({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: kDefaultPadding,
-        child: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: [
-            SliverToBoxAdapter(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [const OtherBranchTitle(), mediumVerticalSpace],
-            )),
-            const SliverToBoxAdapter(
-              child: OtherBranchesSection(),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  State<OtherBranchesBody> createState() => _OtherBranchesBodyState();
 }
 
-class OtherBranchesSection extends StatefulWidget {
-  const OtherBranchesSection({super.key});
-
-  @override
-  State<OtherBranchesSection> createState() => _OtherBranchesSectionState();
-}
-
-class _OtherBranchesSectionState extends State<OtherBranchesSection> {
+class _OtherBranchesBodyState extends State<OtherBranchesBody> {
   late ScrollController _scrollController;
 
   @override
@@ -75,6 +49,33 @@ class _OtherBranchesSectionState extends State<OtherBranchesSection> {
     _scrollController.dispose();
     super.dispose();
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: kDefaultPadding,
+        child: CustomScrollView(
+          controller: _scrollController,
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            SliverToBoxAdapter(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [const OtherBranchTitle(), mediumVerticalSpace],
+            )),
+            const SliverToBoxAdapter(
+              child: OtherBranchesSection(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class OtherBranchesSection extends StatelessWidget {
+  const OtherBranchesSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +105,6 @@ class _OtherBranchesSectionState extends State<OtherBranchesSection> {
                         height: state.otherBranches!.length * 90.h,
                         child: ListView.builder(
                           key: UniqueKey(),
-                          controller: _scrollController,
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: state.otherBranches!.length,
                           itemBuilder: (context, index) {
