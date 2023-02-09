@@ -11,7 +11,7 @@ import '../models/order_model.dart';
 
 abstract class OrderRemoteDataSource {
   Future<OrderModel> createOrder({required OrderRequest orderRequest});
-  Future<List<OrderModel>> getOrders();
+  Future<List<OrderModel>> getOrders({int? page});
 }
 
 class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
@@ -34,9 +34,10 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
   }
 
   @override
-  Future<List<OrderModel>> getOrders() async {
+  Future<List<OrderModel>> getOrders({int? page}) async {
     final token = getIt<UserService>().token;
     final response = await restApiProvider.get(ordersEndpoint,
+        queryParams: page != null ? {'page': page} : null,
         headers: token.isNotEmpty ? ApiHeaders.authorizationHeaders : null);
 
     return ((response['data']) as List<dynamic>)

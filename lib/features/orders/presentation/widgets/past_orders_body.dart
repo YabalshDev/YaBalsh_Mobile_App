@@ -121,7 +121,7 @@ class PastOrdersLoaded extends StatelessWidget {
   }
 }
 
-class PastOrdersSection extends StatelessWidget {
+class PastOrdersSection extends StatefulWidget {
   final String sectionTitle;
   final List<Order> orders;
   const PastOrdersSection({
@@ -131,18 +131,44 @@ class PastOrdersSection extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<PastOrdersSection> createState() => _PastOrdersSectionState();
+}
+
+class _PastOrdersSectionState extends State<PastOrdersSection> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    _scrollController.addListener(() {
+      //  if (_scrollController.position.maxScrollExtent ==
+      //     _scrollController.position.pixels) {
+      //   BlocProvider.of<OtherBranchesCubit>(context)
+      //       .handleBranchesPagintation();
+      // }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SubHeading(text: sectionTitle),
+        SubHeading(text: widget.sectionTitle),
         ListView.builder(
           padding: EdgeInsets.symmetric(horizontal: 6.w),
+          controller: _scrollController,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: orders.length,
+          itemCount: widget.orders.length,
           itemBuilder: (context, index) {
-            final order = orders[index];
+            final order = widget.orders[index];
 
             return PastOrderCard(order: order);
           },

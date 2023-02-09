@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
 import 'package:yabalash_mobile_app/features/reciepies/domain/entities/brand.dart';
-import 'package:yabalash_mobile_app/features/reciepies/domain/usecases/get_all_creators_usecase.dart';
+import 'package:yabalash_mobile_app/features/reciepies/domain/usecases/get_all_brands_usecase.dart';
 import 'package:yabalash_mobile_app/features/reciepies/domain/usecases/get_recipie_details_usecase.dart';
 
 import '../../../../../core/usecases/use_cases.dart';
@@ -22,7 +22,7 @@ class RecipiesCubit extends Cubit<RecipiesState> {
       : super(const RecipiesState());
 
   void getBrands() async {
-    final response = await getAllBrandsUseCase(NoParams());
+    final response = await getAllBrandsUseCase(const GetAllBrandsParams());
 
     response.fold((failure) {
       emit(state.copyWith(

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
-import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_shimmer.dart';
 import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
 import 'package:yabalash_mobile_app/core/widgets/sub_heading.dart';
@@ -36,26 +35,23 @@ class AllRecipiesSection extends StatelessWidget {
                     height: Get.height * 0.6,
                     child: const Center(
                         child: EmptyIndicator(title: 'لا يوجد وصفات')))
-                : CustomAnimatedWidget(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SubHeading(text: 'طبختك علي قد ايدك!'),
-                        smallVerticalSpace,
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: state.recipies!.length,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              final recipie = state.recipies![index];
-                              return RecipieCard(
-                                recipie: recipie,
-                              );
-                            },
-                          ),
-                        )
-                      ],
-                    ),
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SubHeading(text: 'طبختك علي قد ايدك!'),
+                      smallVerticalSpace,
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: state.recipies!.length,
+                          itemBuilder: (context, index) {
+                            final recipie = state.recipies![index];
+                            return RecipieCard(
+                              recipie: recipie,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   );
           case RequestState.error:
             return SizedBox(

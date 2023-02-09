@@ -1,7 +1,8 @@
+// ignore_for_file: prefer_final_fields, unused_field
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
-import 'package:yabalash_mobile_app/core/usecases/use_cases.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
 import 'package:yabalash_mobile_app/features/orders/domain/usecases/get_past_orders_usecase.dart';
@@ -15,8 +16,13 @@ class PastOrdersCubit extends Cubit<PastOrdersState> {
   PastOrdersCubit({required this.getPastOrdersUseCase})
       : super(const PastOrdersState());
 
+  int _currentPage = 1;
+
+  List<Order> _pastOrders = [];
+
   void getPastOrders() async {
-    final response = await getPastOrdersUseCase(NoParams());
+    final response =
+        await getPastOrdersUseCase(GetPastOrdersParams(page: _currentPage));
     response.fold((failure) {
       emit(state.copyWith(
           errorMessage: failure.message,
@@ -29,13 +35,24 @@ class PastOrdersCubit extends Cubit<PastOrdersState> {
         onConfirm: () => Get.back(),
       );
     }, (orders) {
+      _currentPage++;
+      _pastOrders.addAll(orders);
       emit(state.copyWith(
-        completedOrders:
-            orders.where((element) => element.status != 'pending').toList(),
-        pendingOrders:
-            orders.where((element) => element.status == 'pending').toList(),
+        paginationLoading: false,
+        completedOrders: _pastOrders
+            .where((element) => element.status != 'pending')
+            .toList(),
+        pendingOrders: _pastOrders
+            .where((element) => element.status == 'pending')
+            .toList(),
         ordersRequestState: RequestState.loaded,
       ));
     });
+  }
+
+  void handlePastOrdersPagination() {
+    emit(state.copyWith(
+        ordersRequestState: RequestState.idle, paginationLoading: true));
+    getPastOrders();
   }
 }

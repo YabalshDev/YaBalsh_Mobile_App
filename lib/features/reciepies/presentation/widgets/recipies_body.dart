@@ -21,18 +21,25 @@ class RecipiesBody extends StatelessWidget {
       child: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
-            child: CustomHeader(
-              title: 'قوائم الوصفات',
-              iconPath: AppAssets.closeIcon,
-              onIconTap: () => Get.offNamed(
-                  RouteHelper.getMainNavigationRoute(),
-                  arguments: 3),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomHeader(
+                  title: 'قوائم الوصفات',
+                  iconPath: AppAssets.closeIcon,
+                  onIconTap: () => Get.offNamed(
+                      RouteHelper.getMainNavigationRoute(),
+                      arguments: 3),
+                ),
+                mediumVerticalSpace,
+                const CreatorsSection(),
+                smallVerticalSpace
+              ],
             ),
           ),
-          SliverToBoxAdapter(child: mediumVerticalSpace),
-          const SliverToBoxAdapter(child: CreatorsSection()),
-          SliverToBoxAdapter(child: smallVerticalSpace),
-          const SliverFillRemaining(child: AllRecipiesSection())
+          const SliverFillRemaining(
+            child: AllRecipiesSection(),
+          )
         ],
       ),
     ));

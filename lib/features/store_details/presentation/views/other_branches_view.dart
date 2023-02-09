@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
@@ -36,9 +37,9 @@ class OtherBranchesBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [const OtherBranchTitle(), mediumVerticalSpace],
             )),
-            const SliverFillRemaining(
+            const SliverToBoxAdapter(
               child: OtherBranchesSection(),
-            )
+            ),
           ],
         ),
       ),
@@ -99,10 +100,12 @@ class _OtherBranchesSectionState extends State<OtherBranchesSection> {
                   )
                 : Column(
                     children: [
-                      Expanded(
+                      SizedBox(
+                        height: state.otherBranches!.length * 90.h,
                         child: ListView.builder(
                           key: UniqueKey(),
                           controller: _scrollController,
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: state.otherBranches!.length,
                           itemBuilder: (context, index) {
                             final branch = state.otherBranches![index];
