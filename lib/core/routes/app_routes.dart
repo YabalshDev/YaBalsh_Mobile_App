@@ -375,9 +375,7 @@ class RouteHelper {
             child: BlocProvider<BrandsCubit>(
               create: (context) =>
                   getIt<BrandsCubit>()..getBrandRecipies(brand.id!),
-              child: BrandDetailsView(
-                brand: brand,
-              ),
+              child: const BrandDetailsView(),
             ),
           );
         }),

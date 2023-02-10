@@ -101,7 +101,9 @@ class SearchCubit extends Cubit<SearchState> {
         },
       );
     }, (result) {
-      _productsPageNumber++;
+      if (result.isNotEmpty) {
+        _productsPageNumber++;
+      }
       emit(state.copyWith(
           paginationLoading: false,
           chepeastProduct: const Product(),
@@ -129,7 +131,10 @@ class SearchCubit extends Cubit<SearchState> {
         },
       );
     }, (result) {
-      _storesPageNumber++;
+      if (result.isNotEmpty) {
+        _storesPageNumber++;
+      }
+
       emit(state.copyWith(
           paginationLoading: false,
           searchStoresRequestState: RequestState.loaded,
@@ -204,7 +209,10 @@ class SearchCubit extends Cubit<SearchState> {
         (failure) => emit(
             state.copyWith(searchProductsRequestState: RequestState.error)),
         (products) {
-      _productsPageNumber++;
+      if (products.isNotEmpty) {
+        _productsPageNumber++;
+      }
+
       emit(state.copyWith(
           paginationLoading: false,
           searchProductsRequestState: RequestState.loaded,
@@ -229,7 +237,9 @@ class SearchCubit extends Cubit<SearchState> {
         (failure) => emit(
             state.copyWith(searchProductsRequestState: RequestState.error)),
         (products) {
-      _productsPageNumber++;
+      if (products.isNotEmpty) {
+        _productsPageNumber++;
+      }
       _productsResult = _productsResult..addAll(products);
       getBestOffer(_productsResult);
       emit(state.copyWith(

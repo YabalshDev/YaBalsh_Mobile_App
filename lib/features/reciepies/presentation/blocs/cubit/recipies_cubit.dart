@@ -76,28 +76,30 @@ class RecipiesCubit extends Cubit<RecipiesState> {
     List<Recipie> allRecipies = await getRecipies();
     bool hasError = false;
 
-    for (Recipie recipie in allRecipies) {
-      final response = await getRecipieDetailsUseCase(
-          GetRecipieDetailsParams(id: recipie.id!));
+    if (allRecipies.isNotEmpty) {
+      for (Recipie recipie in allRecipies) {
+        final response = await getRecipieDetailsUseCase(
+            GetRecipieDetailsParams(id: recipie.id!));
 
-      response.fold((failure) {
-        emit(state.copyWith(
-            recipiesRequestState: RequestState.error,
-            recipiesErrorMessage: failure.message));
-        hasError = true;
-        return;
-      }, (result) {
-        _recipies.add(result);
-      });
-    }
+        response.fold((failure) {
+          emit(state.copyWith(
+              recipiesRequestState: RequestState.error,
+              recipiesErrorMessage: failure.message));
+          hasError = true;
+          return;
+        }, (result) {
+          _recipies.add(result);
+        });
+      }
 
-    if (!hasError) {
-      _recipiesCurrentPage++;
-      emit(state.copyWith(
-          recipies: _recipies,
-          recipiesRequestState: RequestState.loaded,
-          recipiesPaginationLoading: false));
+      if (!hasError) {
+        _recipiesCurrentPage++;
+      }
     }
+    emit(state.copyWith(
+        recipies: _recipies,
+        recipiesRequestState: RequestState.loaded,
+        recipiesPaginationLoading: false));
   }
 
   void handlePagination(String type) {

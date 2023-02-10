@@ -20,13 +20,14 @@ class CreatorRecipiesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BrandsCubit, BrandsState>(
+      buildWhen: (previous, current) =>
+          previous.recipiesRequestState != current.recipiesRequestState,
       builder: (context, state) {
         switch (state.recipiesRequestState) {
-          case RequestState.idle:
-            return const SizedBox();
-
           case RequestState.loading:
             return const BrandsRecipiesLoading();
+          case RequestState.idle:
+
           case RequestState.loaded:
             return state.recipies!.isEmpty
                 ? SizedBox(
@@ -91,16 +92,24 @@ class BrandRecipiesLoaded extends StatelessWidget {
         children: [
           const SubHeading(text: 'جميع الوصفات'),
           smallVerticalSpace,
-          ListView.builder(
-            itemCount: state.recipies!.length,
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return RecipieCard(
-                recipie: state.recipies![index],
-              );
-            },
-          )
+          SizedBox(
+            height: state.recipies!.length * 92.h,
+            child: ListView.builder(
+              itemCount: state.recipies!.length,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return RecipieCard(
+                  recipie: state.recipies![index],
+                );
+              },
+            ),
+          ),
+          smallVerticalSpace,
+          state.paginationLoading!
+              ? const Center(
+                  child: CircularProgressIndicator.adaptive(),
+                )
+              : const SizedBox()
         ],
       ),
     );

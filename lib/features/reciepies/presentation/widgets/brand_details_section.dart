@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../domain/entities/brand.dart';
 import 'brand_card.dart';
 
 class CreatorDetailsSection extends StatelessWidget {
-  final Brand brand;
-  const CreatorDetailsSection({super.key, required this.brand});
+  const CreatorDetailsSection({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Center(
         child: BrandCard(
-      brand: brand,
+      brand: (Get.routing.args as Brand),
     ));
   }
 }
