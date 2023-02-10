@@ -7,24 +7,33 @@ class RecipiesState extends Equatable {
   final RequestState? recipiesRequestState;
   final List<Recipie>? recipies;
   final String? recipiesErrorMessage;
+  final bool? brandsPaginationLoading;
+  final bool? recipiesPaginationLoading;
   const RecipiesState(
       {this.brandsRequestState = RequestState.loading,
+      this.brandsPaginationLoading = false,
+      this.recipiesPaginationLoading = false,
       this.brands = const [],
       this.errorMessage = '',
       this.recipiesRequestState = RequestState.loading,
       this.recipies = const [],
       this.recipiesErrorMessage = ''});
 
-  RecipiesState copyWith({
-    RequestState? brandsRequestState,
-    List<Brand>? brands,
-    String? errorMessage,
-    RequestState? recipiesRequestState,
-    List<Recipie>? recipies,
-    String? recipiesErrorMessage,
-  }) =>
+  RecipiesState copyWith(
+          {RequestState? brandsRequestState,
+          List<Brand>? brands,
+          String? errorMessage,
+          RequestState? recipiesRequestState,
+          List<Recipie>? recipies,
+          String? recipiesErrorMessage,
+          bool? brandsPaginationLoading,
+          bool? recipiesPaginationLoading}) =>
       RecipiesState(
           recipies: recipies ?? this.recipies,
+          brandsPaginationLoading:
+              brandsPaginationLoading ?? this.brandsPaginationLoading,
+          recipiesPaginationLoading:
+              recipiesPaginationLoading ?? this.recipiesPaginationLoading,
           recipiesErrorMessage:
               recipiesErrorMessage ?? this.recipiesErrorMessage,
           recipiesRequestState:
@@ -40,6 +49,8 @@ class RecipiesState extends Equatable {
         errorMessage!,
         recipies!,
         recipiesErrorMessage!,
-        recipiesRequestState!
+        recipiesRequestState!,
+        brandsPaginationLoading!,
+        recipiesPaginationLoading!
       ];
 }

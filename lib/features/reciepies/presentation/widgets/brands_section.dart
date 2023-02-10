@@ -12,44 +12,85 @@ import '../../../../core/widgets/sub_heading.dart';
 import 'brand_card.dart';
 import 'brands_loading.dart';
 
-class CreatorsSection extends StatelessWidget {
-  const CreatorsSection({super.key});
+class BrandsSection extends StatefulWidget {
+  const BrandsSection({super.key});
+
+  @override
+  State<BrandsSection> createState() => _BrandsSectionState();
+}
+
+class _BrandsSectionState extends State<BrandsSection> {
+  late ScrollController _brandsScrollController;
+
+  @override
+  void initState() {
+    _brandsScrollController = ScrollController();
+    _brandsScrollController.addListener(() {
+      if (_brandsScrollController.position.maxScrollExtent ==
+          _brandsScrollController.position.pixels) {
+        BlocProvider.of<RecipiesCubit>(context).handlePagination('brands');
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _brandsScrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RecipiesCubit, RecipiesState>(
       builder: (context, state) {
         switch (state.brandsRequestState) {
-          case RequestState.idle:
-            return const SizedBox();
-
           case RequestState.loading:
             return const CreatorsLoading();
+
+          case RequestState.idle:
 
           case RequestState.loaded:
             return CustomAnimatedWidget(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SubHeading(
-                    text: 'وصفات من طهاة و ماركات',
-                    isBold: false,
+                  Padding(
+                    padding: kDefaultPadding,
+                    child: const SubHeading(
+                      text: 'وصفات من طهاة و ماركات',
+                      isBold: false,
+                    ),
                   ),
                   mediumVerticalSpace,
                   SizedBox(
                     height: 100.h,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: state.brands!.length,
-                      itemBuilder: (context, index) {
-                        final brand = state.brands![index];
-                        return InkWell(
-                          onTap: () => Get.toNamed(
-                              RouteHelper.getBrandDetailsRoute(),
-                              arguments: brand),
-                          child: BrandCard(brand: brand),
-                        );
-                      },
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: ListView.builder(
+                            controller: _brandsScrollController,
+                            scrollDirection: Axis.horizontal,
+                            padding: EdgeInsets.only(right: 15.w),
+                            itemCount: state.brands!.length,
+                            itemBuilder: (context, index) {
+                              final brand = state.brands![index];
+                              return InkWell(
+                                onTap: () => Get.toNamed(
+                                    RouteHelper.getBrandDetailsRoute(),
+                                    arguments: brand),
+                                child: BrandCard(brand: brand),
+                              );
+                            },
+                          ),
+                        ),
+                        smallHorizontalSpace,
+                        state.brandsPaginationLoading!
+                            ? const Center(
+                                child: CircularProgressIndicator.adaptive(),
+                              )
+                            : const SizedBox()
+                      ],
                     ),
                   )
                 ],

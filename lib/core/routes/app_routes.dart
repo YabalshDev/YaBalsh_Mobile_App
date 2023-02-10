@@ -340,13 +340,12 @@ class RouteHelper {
         transition: normalNavigationTransition,
         transitionDuration: transitionDuration,
         page: () {
-          final List<Recipie> recipies = Get.arguments;
           return InternetConnectionWrapper(
             child: CustomAnimatedWidget(
               child: BlocProvider<RecipiesCubit>(
                 create: (context) => getIt<RecipiesCubit>()
                   ..getBrands()
-                  ..getAllRecipieDetails(recipies),
+                  ..getAllRecipieDetails(),
                 child: const RecipiesView(),
               ),
             ),

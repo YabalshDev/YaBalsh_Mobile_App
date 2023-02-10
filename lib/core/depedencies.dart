@@ -452,7 +452,9 @@ setupDependecies() {
       ));
 
   getIt.registerFactory(() => RecipiesCubit(
-      getAllBrandsUseCase: getIt(), getRecipieDetailsUseCase: getIt()));
+      getRecipiesUseCase: getIt(),
+      getAllBrandsUseCase: getIt(),
+      getRecipieDetailsUseCase: getIt()));
   getIt.registerFactory(() => BrandsCubit(
       getBrandRecipiesUseCase: getIt(), getRecipieDetailsUseCase: getIt()));
   getIt.registerFactory(() => RecipieDetailsCubit(

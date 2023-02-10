@@ -23,11 +23,10 @@ class AllRecipiesSection extends StatelessWidget {
           previous.recipiesRequestState != current.recipiesRequestState,
       builder: (context, state) {
         switch (state.recipiesRequestState) {
-          case RequestState.idle:
-            return const SizedBox();
-
           case RequestState.loading:
             return const AllRecipiesLoading();
+
+          case RequestState.idle:
 
           case RequestState.loaded:
             return state.recipies!.isEmpty
@@ -35,23 +34,33 @@ class AllRecipiesSection extends StatelessWidget {
                     height: Get.height * 0.6,
                     child: const Center(
                         child: EmptyIndicator(title: 'لا يوجد وصفات')))
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SubHeading(text: 'طبختك علي قد ايدك!'),
-                      smallVerticalSpace,
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: state.recipies!.length,
-                          itemBuilder: (context, index) {
-                            final recipie = state.recipies![index];
-                            return RecipieCard(
-                              recipie: recipie,
-                            );
-                          },
+                : Padding(
+                    padding: kDefaultPadding,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SubHeading(text: 'طبختك علي قد ايدك!'),
+                        smallVerticalSpace,
+                        SizedBox(
+                          height: state.recipies!.length * 90.h,
+                          child: ListView.builder(
+                            itemCount: state.recipies!.length,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              final recipie = state.recipies![index];
+                              return RecipieCard(
+                                recipie: recipie,
+                              );
+                            },
+                          ),
                         ),
-                      ),
-                    ],
+                        state.recipiesPaginationLoading!
+                            ? const Center(
+                                child: CircularProgressIndicator.adaptive(),
+                              )
+                            : const SizedBox()
+                      ],
+                    ),
                   );
           case RequestState.error:
             return SizedBox(
@@ -75,6 +84,8 @@ class AllRecipiesLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: 5,
+      shrinkWrap: true,
+      padding: kDefaultPadding,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return Row(
