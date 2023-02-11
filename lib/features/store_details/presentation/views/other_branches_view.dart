@@ -99,10 +99,11 @@ class OtherBranchesSection extends StatelessWidget {
                       title: 'لا يوجد فروع اخرى',
                     )),
                   )
-                : Column(
+                : Stack(
+                    clipBehavior: Clip.none,
                     children: [
                       SizedBox(
-                        height: state.otherBranches!.length * 90.h,
+                        height: state.otherBranches!.length * 85.h,
                         child: ListView.builder(
                           key: UniqueKey(),
                           physics: const NeverScrollableScrollPhysics(),
@@ -113,12 +114,16 @@ class OtherBranchesSection extends StatelessWidget {
                           },
                         ),
                       ),
-                      smallHorizontalSpace,
                       state.paginationLoading!
-                          ? const Center(
-                              child: CircularProgressIndicator.adaptive(),
+                          ? Positioned(
+                              bottom: 2.h,
+                              right: 0,
+                              left: 0,
+                              child: const Center(
+                                child: CircularProgressIndicator.adaptive(),
+                              ),
                             )
-                          : const SizedBox()
+                          : const Align(child: SizedBox())
                     ],
                   );
           case RequestState.error:

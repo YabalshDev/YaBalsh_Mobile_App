@@ -26,6 +26,7 @@ class Store extends Equatable {
       Store(
           id: id ?? this.id,
           name: name ?? this.name,
+          logoImagePath: logoImagePath ?? this.logoImagePath,
           cardImagePath: cardImagePath ?? this.cardImagePath,
           locations: locations ?? this.locations);
 

@@ -24,9 +24,18 @@ class RegisterForm extends StatelessWidget {
       BlocProvider.of<RegisterCubit>(context).changeButtonDisabled(true);
     }
 
-    if (formKey.currentState!.fields['firstName']!.value != '' &&
-        formKey.currentState!.fields['lastName']!.value != '' &&
-        formKey.currentState!.fields['password']!.value != '') {
+    final firstNameField = formKey.currentState!.fields['firstName'];
+    final lastNameField = formKey.currentState!.fields['lastName'];
+    final passwordField = formKey.currentState!.fields['password'];
+
+    bool firstNameNotEmpty = firstNameField!.value != null &&
+        firstNameField.value.toString().isNotEmpty;
+    bool lastNameNotEmpty = lastNameField!.value != null &&
+        lastNameField.value.toString().isNotEmpty;
+    bool passwordNotEmpty = passwordField!.value != null &&
+        passwordField.value.toString().isNotEmpty;
+
+    if (firstNameNotEmpty && lastNameNotEmpty && passwordNotEmpty) {
       BlocProvider.of<RegisterCubit>(context).changeButtonDisabled(false);
     }
   }
@@ -114,8 +123,9 @@ class RegisterForm extends StatelessWidget {
             name: 'email',
             onChanged: (p0) =>
                 formKey.currentState!.fields['email']!.validate(),
-            validator: FormBuilderValidators.compose(
-                [FormBuilderValidators.email(errorText: 'نسيت علامة @')]),
+            validator: FormBuilderValidators.compose([
+              FormBuilderValidators.email(errorText: 'بريد الكتروني غير صالح')
+            ]),
           ),
           mediumVerticalSpace,
           BlocBuilder<RegisterCubit, RegisterState>(
