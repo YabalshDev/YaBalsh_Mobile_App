@@ -161,7 +161,7 @@ class SearchCubit extends Cubit<SearchState> {
   void getAllNearStores() {
     final nearStores = getIt<StoreService>().nearStores;
     final subZoneId = getIt<ZoneService>().currentSubZone!.id;
-    List<StoreSearch> allNearStores = [];
+
     emit(state.copyWith(searchStoresRequestState: RequestState.loading));
 
     for (Store store in nearStores) {
@@ -178,14 +178,15 @@ class SearchCubit extends Cubit<SearchState> {
                 id: store.id,
                 location: e))
             .toList();
-        allNearStores.addAll(stores);
+        _storesPageNumber++;
+        _storesResult.addAll(stores);
       }
     }
 
     emit(state.copyWith(
         paginationLoading: false,
         searchStoresRequestState: RequestState.loaded,
-        searchStoresResult: allNearStores));
+        searchStoresResult: _storesResult));
   }
 
   void getMostSellingProducts() async {
