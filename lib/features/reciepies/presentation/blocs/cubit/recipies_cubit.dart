@@ -47,7 +47,9 @@ class RecipiesCubit extends Cubit<RecipiesState> {
         onConfirm: () => Get.back(),
       );
     }, (result) {
-      _brandsCurrentPage++;
+      if (result.isNotEmpty) {
+        _brandsCurrentPage++;
+      }
       _brands.addAll(result);
       emit(state.copyWith(
           brandsRequestState: RequestState.loaded,

@@ -10,14 +10,19 @@ class SubZone extends Equatable {
   final String? name;
   @HiveField(3)
   final String? mainZoneName;
+  @HiveField(4)
+  final int? mainZoneId;
 
-  const SubZone({this.id, this.name, this.mainZoneName});
+  const SubZone({this.id, this.name, this.mainZoneName, this.mainZoneId});
 
-  SubZone copyWith({int? id, String? name, String? mainZoneName}) => SubZone(
-      id: id ?? this.id,
-      mainZoneName: mainZoneName ?? this.mainZoneName,
-      name: name ?? this.name);
+  SubZone copyWith(
+          {int? id, String? name, String? mainZoneName, int? mainZoneId}) =>
+      SubZone(
+          id: id ?? this.id,
+          mainZoneName: mainZoneName ?? this.mainZoneName,
+          mainZoneId: mainZoneId ?? this.mainZoneId,
+          name: name ?? this.name);
 
   @override
-  List<Object?> get props => [id, name, mainZoneName];
+  List<Object?> get props => [id, name, mainZoneName, mainZoneId];
 }

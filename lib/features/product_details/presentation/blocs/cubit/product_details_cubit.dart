@@ -57,12 +57,14 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     final subZoneId = getIt<ZoneService>().currentSubZone!.id;
     List<Store> nearStores = [];
 
-    for (var element in stores) {
-      final locations = element.locations!
+    for (var store in stores) {
+      final subZonelocations = store.locations!
           .where((element) => element.subZoneId == subZoneId)
           .toList();
-      if (locations.isNotEmpty) {
-        nearStores.add(element);
+      if (subZonelocations.isNotEmpty) {
+        for (var location in subZonelocations) {
+          nearStores.add(store.copyWith(locations: [location]));
+        }
       }
     }
 

@@ -35,8 +35,8 @@ class SubZoneList extends StatelessWidget {
                 final subZone = state.subZones![index];
                 return InkWell(
                   onTap: () {
-                    final updatedSubZone =
-                        subZone.copyWith(mainZoneName: mainZone.name);
+                    final updatedSubZone = subZone.copyWith(
+                        mainZoneName: mainZone.name, mainZoneId: mainZone.id);
                     BlocProvider.of<SubZoneCubit>(context)
                         .onSubZoneSelect(subZone: updatedSubZone);
                   },
