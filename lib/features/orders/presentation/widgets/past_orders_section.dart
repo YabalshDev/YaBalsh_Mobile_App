@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yabalash_mobile_app/core/utils/pagination_loader.dart';
 
 import '../../../../core/widgets/sub_heading.dart';
 import '../../domain/entities/order.dart';
@@ -34,11 +35,7 @@ class PastOrdersSection extends StatelessWidget {
             return PastOrderCard(order: order);
           },
         ),
-        state.paginationLoading!
-            ? const Center(
-                child: CircularProgressIndicator.adaptive(),
-              )
-            : const SizedBox()
+        PaginationLoaderIndicator(active: state.paginationLoading!)
       ],
     );
   }
