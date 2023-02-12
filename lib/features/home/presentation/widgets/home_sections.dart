@@ -92,7 +92,7 @@ class SectionLoaded extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        largeVerticalSpace,
+        smallVerticalSpace,
         TitleRow(
           title: sectionName,
           onSelectAll: () => Get.toNamed(RouteHelper.getSearchRoute(),

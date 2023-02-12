@@ -50,7 +50,7 @@ class ProductVariantsSection extends StatelessWidget {
                         const SubHeading(text: 'احجام اخرى للمنتج'),
                         mediumVerticalSpace,
                         SizedBox(
-                          height: 63.5.h,
+                          height: 66.5.h,
                           child: ListView.builder(
                             padding: EdgeInsets.zero,
                             scrollDirection: Axis.horizontal,

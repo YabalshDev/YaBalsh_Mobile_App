@@ -19,7 +19,7 @@ class NearStoresList extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomAnimatedWidget(
       child: SizedBox(
-        height: 100.h,
+        height: 114.h,
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: isWithPadding ? kScaffoldPadding : null,
@@ -50,7 +50,7 @@ class NearStoresList extends StatelessWidget {
                           height: 5.h,
                         ),
                         Container(
-                          constraints: BoxConstraints(maxWidth: 80.w),
+                          constraints: BoxConstraints(maxWidth: 85.w),
                           child: Text(
                             store.name!,
                             maxLines: 2,

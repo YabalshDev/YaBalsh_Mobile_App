@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
+import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
+import '../../../../core/utils/enums/search_navigation_screens.dart';
 import '../../../../core/widgets/custom_card.dart';
-import '../../../../core/widgets/custom_svg_icon.dart';
 import '../../../home/domain/entities/store.dart';
 
 class PriceComparisonCard extends StatelessWidget {
@@ -23,35 +25,43 @@ class PriceComparisonCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      return Column(
-        children: [
-          Container(
-            margin: EdgeInsets.only(bottom: 15.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomCard(
-                  height: 45.h,
-                  width: 45.h,
-                  withBorder: true,
-                  isAssetImage: false,
-                  imagePath: store.logoImagePath,
-                ),
-                mediumHorizontalSpace,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+      return InkWell(
+        onTap: () => Get.toNamed(RouteHelper.getSearchRoute(),
+            arguments: [SearchNavigationScreens.storeScreen, store.name, 0]),
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(bottom: 15.h),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CustomCard(
+                    height: 45.h,
+                    width: 45.h,
+                    withBorder: true,
+                    isAssetImage: false,
+                    imagePath: store.logoImagePath,
+                  ),
+                  mediumHorizontalSpace,
+                  SizedBox(
+                    width: constraints.maxWidth * 0.37,
+                    child: Row(
                       children: [
-                        Text(
-                          store.name ?? '',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColorsLight.kAppPrimaryColorLight),
+                        Container(
+                          constraints: BoxConstraints(
+                              maxWidth: constraints.maxWidth * 0.33),
+                          child: Text(
+                            store.name ?? 'غير متوفر',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color:
+                                        AppColorsLight.kAppPrimaryColorLight),
+                          ),
                         ),
                         SizedBox(
                           width: 20.w,
@@ -62,65 +72,51 @@ class PriceComparisonCard extends StatelessWidget {
                                 : AppAssets.outOfStockIcon,
                             fit: BoxFit.cover,
                           ),
-                        )
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        CustomSvgIcon(
-                          iconPath: AppAssets.addressesIcon,
-                          height: 16.h,
-                          width: 12.w,
-                          color: AppColorsLight.kAppPrimaryColorLight,
                         ),
-                        smallHorizontalSpace,
-                        SizedBox(
-                          width: constraints.maxWidth * 0.4,
-                          child: Text(
-                            store.locations!.first.address!,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(
-                                    fontSize: 10.sp,
-                                    color: AppColorsLight.kDarkPurpleColor),
-                          ),
-                        )
                       ],
                     ),
-                  ],
-                ),
-                const Spacer(),
-                SizedBox(
-                  width: constraints.maxWidth * 0.36,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${price.toStringAsFixed(2)} جنيه',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge
-                                ?.copyWith(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 18.sp,
-                                    color:
-                                        AppColorsLight.kAppPrimaryColorLight),
-                          ),
-                        ],
-                      ),
-                    ],
                   ),
-                )
-              ],
+                  const Spacer(),
+                  SizedBox(
+                    width: constraints.maxWidth * 0.33,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${price.toStringAsFixed(2)} جنيه',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 18.sp,
+                                      color:
+                                          AppColorsLight.kAppPrimaryColorLight),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Spacer(),
+                  Container(
+                    margin: EdgeInsets.only(top: 3.h),
+                    child: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 18.h,
+                      color: AppColorsLight.kAppPrimaryColorLight,
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
     });
   }

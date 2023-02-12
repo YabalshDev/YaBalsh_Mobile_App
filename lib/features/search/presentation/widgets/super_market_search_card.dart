@@ -42,7 +42,7 @@ class SuperMarketSearchCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      constraints: BoxConstraints(maxWidth: Get.width * 0.4),
+                      constraints: BoxConstraints(maxWidth: Get.width * 0.6),
                       child: Text(
                         '${store.name}-${store.location!.address != null ? store.location!.address!.split('-')[0] : 'غير متوفر'}',
                         overflow: TextOverflow.ellipsis,
@@ -63,7 +63,7 @@ class SuperMarketSearchCard extends StatelessWidget {
                         ),
                         Container(
                           constraints:
-                              BoxConstraints(maxWidth: Get.width * 0.4),
+                              BoxConstraints(maxWidth: Get.width * 0.6),
                           child: Text(
                             store.location!.address ?? 'غير متوفر',
                             overflow: TextOverflow.ellipsis,
