@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
-import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
+import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
 import 'package:yabalash_mobile_app/features/orders/presentation/blocs/cubit/past_orders_cubit.dart';
 
 import '../../../../core/constants/app_assets.dart';
@@ -84,7 +84,8 @@ class PastOrdersList extends StatelessWidget {
           case RequestState.error:
             return SizedBox(
               height: Get.height * 0.6,
-              child: Center(child: EmptyIndicator(title: state.errorMessage!)),
+              child: Center(
+                  child: ErrorIndicator(errorMessage: state.errorMessage!)),
             );
 
           default:

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/widgets/recipies_section.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/widgets/shopping_list_card.dart';
 
 import '../../../../core/constants/app_layouts.dart';
+import '../../../../core/utils/enums/empty_states.dart';
 import '../../../../core/utils/enums/request_state.dart';
 import '../../../../core/widgets/custom_header.dart';
 import '../../../../core/widgets/empty_indicator.dart';
@@ -56,7 +58,9 @@ class ShoppingListsSection extends StatelessWidget {
                 ? SizedBox(
                     height: Get.height * 0.5,
                     child: const Center(
-                        child: EmptyIndicator(title: 'لا يوجد قوائم مختارة')),
+                        child: EmptyIndicator(
+                            emptyStateType: EmptyStates.other,
+                            title: 'لا يوجد قوائم مختارة')),
                   )
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +79,8 @@ class ShoppingListsSection extends StatelessWidget {
                     ],
                   );
           case RequestState.error:
-            return Center(child: EmptyIndicator(title: state.errorMessage!));
+            return Center(
+                child: ErrorIndicator(errorMessage: state.errorMessage!));
 
           default:
             return const SizedBox();

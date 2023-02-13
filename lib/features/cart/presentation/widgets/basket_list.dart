@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
+import 'package:yabalash_mobile_app/core/utils/enums/empty_states.dart';
 
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/empty_indicator.dart';
@@ -21,7 +22,9 @@ class BasketList extends StatelessWidget {
             child: SizedBox(
               height: Get.height * 0.6,
               child: const Center(
-                child: EmptyIndicator(title: 'دور و قارن بين أسعار المنتجات'),
+                child: EmptyIndicator(
+                    title: 'دور و قارن بين أسعار المنتجات',
+                    emptyStateType: EmptyStates.cart),
               ),
             ),
           );

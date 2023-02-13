@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
 
 import '../../../../core/utils/enums/request_state.dart';
-import '../../../../core/widgets/empty_indicator.dart';
 import '../blocs/cubit/notifications_cubit.dart';
 import 'notifications_loaded.dart';
 import 'notifications_loading.dart';
@@ -25,7 +25,7 @@ class NotificationsListSection extends StatelessWidget {
             return SizedBox(
               height: Get.height * 0.6,
               child: Center(
-                child: EmptyIndicator(title: state.errorMessage!),
+                child: ErrorIndicator(errorMessage: state.errorMessage!),
               ),
             );
           default:

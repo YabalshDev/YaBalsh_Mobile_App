@@ -6,12 +6,14 @@ class CustomSvgIcon extends StatelessWidget {
   final double? height;
   final double? width;
   final Color? color;
+  final BoxFit? boxFit;
   const CustomSvgIcon(
       {super.key,
       required this.iconPath,
       this.height,
       this.width,
-      this.color = Colors.black});
+      this.color,
+      this.boxFit});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class CustomSvgIcon extends StatelessWidget {
       child: SvgPicture.asset(
         iconPath,
         color: color,
-        fit: BoxFit.contain,
+        fit: boxFit ?? BoxFit.contain,
       ),
     );
   }

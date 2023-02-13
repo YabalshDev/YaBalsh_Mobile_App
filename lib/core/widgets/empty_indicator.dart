@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
+import 'package:yabalash_mobile_app/core/utils/enums/empty_states.dart';
+import 'package:yabalash_mobile_app/core/widgets/custom_svg_icon.dart';
 
 class EmptyIndicator extends StatelessWidget {
   final String title;
-  const EmptyIndicator({super.key, required this.title});
+  final EmptyStates emptyStateType;
+  const EmptyIndicator(
+      {super.key, required this.title, required this.emptyStateType});
 
   @override
   Widget build(BuildContext context) {
@@ -13,13 +17,18 @@ class EmptyIndicator extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset(
-          AppAssets.emptyIllustrator,
-          width: 203.w,
-          height: 207.h,
-          fit: BoxFit.contain,
+        CustomSvgIcon(
+          iconPath: emptyStateType == EmptyStates.cart ||
+                  emptyStateType == EmptyStates.other
+              ? AppAssets.emptyBasket
+              : emptyStateType == EmptyStates.addresses
+                  ? AppAssets.emptyAddress
+                  : AppAssets.emptyAddress,
+          width: 130.w,
+          height: 130.h,
+          boxFit: BoxFit.fill,
         ),
-        mediumVerticalSpace,
+        largeVerticalSpace,
         Text(
           title,
           style: Theme.of(context)

@@ -4,7 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
+import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
 
+import '../../../../core/utils/enums/empty_states.dart';
 import '../../../../core/utils/enums/request_state.dart';
 import '../../../search/presentation/widgets/super_market_search_card.dart';
 import '../blocs/other_branches_cubit.dart';
@@ -96,6 +98,7 @@ class OtherBranchesSection extends StatelessWidget {
                     height: Get.height * 0.6,
                     child: const Center(
                         child: EmptyIndicator(
+                      emptyStateType: EmptyStates.addresses,
                       title: 'لا يوجد فروع اخرى',
                     )),
                   )
@@ -130,8 +133,8 @@ class OtherBranchesSection extends StatelessWidget {
             return SizedBox(
               height: Get.height * 0.6,
               child: Center(
-                  child: EmptyIndicator(
-                title: state.errorMessage!,
+                  child: ErrorIndicator(
+                errorMessage: state.errorMessage!,
               )),
             );
 

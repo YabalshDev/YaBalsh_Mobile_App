@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yabalash_mobile_app/core/widgets/custom_svg_icon.dart';
 
 class PageViewItem extends StatelessWidget {
   final String title;
@@ -28,13 +29,10 @@ class PageViewItem extends StatelessWidget {
           SizedBox(
             height: 20.h,
           ),
-          SizedBox(
+          CustomSvgIcon(
+            iconPath: imagePath,
             width: 306.w,
             height: 283.h,
-            child: Image.asset(
-              imagePath,
-              fit: BoxFit.fill,
-            ),
           ),
           SizedBox(
             height: 10.h,

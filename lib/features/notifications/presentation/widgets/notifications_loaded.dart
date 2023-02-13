@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/utils/pagination_loader.dart';
 
+import '../../../../core/utils/enums/empty_states.dart';
 import '../../../../core/widgets/custom_animated_widget.dart';
 import '../../../../core/widgets/empty_indicator.dart';
 import '../blocs/cubit/notifications_cubit.dart';
@@ -43,7 +44,9 @@ class _NotificationsLoadedState extends State<NotificationsLoaded> {
       builder: (context, state) {
         return state.notifications!.isEmpty
             ? const Center(
-                child: EmptyIndicator(title: 'لا يوجد اشعارات'),
+                child: EmptyIndicator(
+                    emptyStateType: EmptyStates.other,
+                    title: 'لا يوجد اشعارات'),
               )
             : Column(
                 children: [

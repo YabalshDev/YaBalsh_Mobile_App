@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
 
 import '../../../../core/utils/enums/request_state.dart';
-import '../../../../core/widgets/empty_indicator.dart';
 import '../blocs/cubit/main_zones_cubit.dart';
 import 'main_zones_loaded.dart';
 import 'main_zones_loading.dart';
@@ -28,7 +28,8 @@ class MainZonesSection extends StatelessWidget {
             return SizedBox(
               height: Get.height * 0.6,
               child: Center(
-                child: EmptyIndicator(title: state.mainZonesErrorMessage!),
+                child:
+                    ErrorIndicator(errorMessage: state.mainZonesErrorMessage!),
               ),
             );
           default:

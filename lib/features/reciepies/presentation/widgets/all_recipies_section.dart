@@ -5,8 +5,10 @@ import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_shimmer.dart';
 import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
+import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
 import 'package:yabalash_mobile_app/core/widgets/sub_heading.dart';
 
+import '../../../../core/utils/enums/empty_states.dart';
 import '../../../../core/utils/enums/request_state.dart';
 import '../blocs/cubit/recipies_cubit.dart';
 import 'reciepie_card.dart';
@@ -33,7 +35,9 @@ class AllRecipiesSection extends StatelessWidget {
                 ? SizedBox(
                     height: Get.height * 0.6,
                     child: const Center(
-                        child: EmptyIndicator(title: 'لا يوجد وصفات')))
+                        child: EmptyIndicator(
+                            emptyStateType: EmptyStates.other,
+                            title: 'لا يوجد وصفات')))
                 : Padding(
                     padding: kDefaultPadding,
                     child: Column(
@@ -66,7 +70,8 @@ class AllRecipiesSection extends StatelessWidget {
             return SizedBox(
                 height: Get.height * 0.6,
                 child: Center(
-                    child: EmptyIndicator(title: state.recipiesErrorMessage!)));
+                    child: ErrorIndicator(
+                        errorMessage: state.recipiesErrorMessage!)));
           default:
             return const SizedBox();
         }

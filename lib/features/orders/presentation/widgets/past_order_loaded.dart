@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/utils/enums/empty_states.dart';
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/widgets/empty_indicator.dart';
@@ -18,7 +19,9 @@ class PastOrdersLoaded extends StatelessWidget {
             ? SizedBox(
                 height: Get.height * 0.6,
                 child: const Center(
-                    child: EmptyIndicator(title: 'لا يوجد طلبات سابقة')))
+                    child: EmptyIndicator(
+                        emptyStateType: EmptyStates.orders,
+                        title: 'لا يوجد طلبات سابقة')))
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

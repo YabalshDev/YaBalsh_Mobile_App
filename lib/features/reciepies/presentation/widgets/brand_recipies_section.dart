@@ -5,9 +5,11 @@ import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_shimmer.dart';
 import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
+import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
 import 'package:yabalash_mobile_app/features/reciepies/presentation/blocs/cubit/brands_cubit.dart';
 
 import '../../../../core/constants/app_layouts.dart';
+import '../../../../core/utils/enums/empty_states.dart';
 import '../../../../core/utils/enums/request_state.dart';
 import '../../../../core/widgets/sub_heading.dart';
 import 'reciepie_card.dart';
@@ -33,7 +35,9 @@ class CreatorRecipiesSection extends StatelessWidget {
                 ? SizedBox(
                     height: Get.height * 0.6,
                     child: const Center(
-                      child: EmptyIndicator(title: "لا يوجد وصفات"),
+                      child: EmptyIndicator(
+                          emptyStateType: EmptyStates.other,
+                          title: "لا يوجد وصفات"),
                     ),
                   )
                 : BrandRecipiesLoaded(
@@ -44,7 +48,7 @@ class CreatorRecipiesSection extends StatelessWidget {
             return SizedBox(
               height: Get.height * 0.5,
               child: Center(
-                child: EmptyIndicator(title: state.errorMessage!),
+                child: ErrorIndicator(errorMessage: state.errorMessage!),
               ),
             );
 

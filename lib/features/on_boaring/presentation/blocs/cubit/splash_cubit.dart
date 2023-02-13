@@ -106,9 +106,15 @@ class SplashCubit extends Cubit<SplashState> {
           saveDevice(sendToBackEnd: true);
           Get.offNamed(RouteHelper.getOnBoardingRoute());
         } else {
-          checkDevice();
+          if (getIt<ZoneService>().currentSubZone == null) {
+            Get.offNamed(
+              RouteHelper.getMainZonesRoute(),
+            );
+          } else {
+            checkDevice();
 
-          Get.offNamed(RouteHelper.getMainNavigationRoute(), arguments: 0);
+            Get.offNamed(RouteHelper.getMainNavigationRoute(), arguments: 0);
+          }
         }
       },
     );

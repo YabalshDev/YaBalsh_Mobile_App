@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
 
 import '../../../../core/utils/enums/request_state.dart';
-import '../../../../core/widgets/empty_indicator.dart';
 import '../blocs/cubit/product_details_cubit.dart';
 import 'product_details_loaded.dart';
 import 'product_details_loading.dart';
@@ -31,7 +31,7 @@ class ProductDetailsSection extends StatelessWidget {
             return SizedBox(
               height: Get.height * 0.6,
               child: const Center(
-                child: EmptyIndicator(title: 'مشكلة في جلب المنتج '),
+                child: ErrorIndicator(errorMessage: 'مشكلة في جلب المنتج '),
               ),
             );
 

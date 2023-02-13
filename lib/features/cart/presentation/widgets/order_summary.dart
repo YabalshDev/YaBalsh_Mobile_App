@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
-import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
+import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
 import 'package:yabalash_mobile_app/core/widgets/sub_heading.dart';
 
 import '../../../../core/utils/enums/request_state.dart';
@@ -38,8 +38,8 @@ class OrderSummary extends StatelessWidget {
           case RequestState.error:
             return SizedBox(
                 height: Get.height * 0.6,
-                child: const EmptyIndicator(
-                    title: 'حصل مشكلة اثناء جلب العناوين'));
+                child: const ErrorIndicator(
+                    errorMessage: 'حصل مشكلة اثناء جلب العناوين'));
 
           default:
             return const SizedBox();

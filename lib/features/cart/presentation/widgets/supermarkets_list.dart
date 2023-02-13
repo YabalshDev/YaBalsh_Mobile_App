@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/theme/light/app_colors_light.dart';
+import 'package:yabalash_mobile_app/core/utils/enums/empty_states.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_svg_icon.dart';
 import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/widgets/super_market_card.dart';
@@ -38,6 +39,7 @@ class SuperMarketLists extends StatelessWidget {
                           height: Get.height * 0.6,
                           child: const Center(
                             child: EmptyIndicator(
+                                emptyStateType: EmptyStates.cart,
                                 title: 'لا يوجد سوبرماركتس لطلب المنتجات'),
                           ),
                         )

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
+import 'package:yabalash_mobile_app/core/utils/enums/empty_states.dart';
 import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
+import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
 import 'package:yabalash_mobile_app/features/addresses/presentation/blocs/cubit/address_cubit.dart';
 import 'package:yabalash_mobile_app/features/addresses/presentation/widgets/address_card.dart';
 
@@ -63,14 +65,15 @@ class AddressesBody extends StatelessWidget {
                     return SizedBox(
                         height: Get.height * 0.75,
                         child: const EmptyIndicator(
+                            emptyStateType: EmptyStates.addresses,
                             title: 'لا يوجد عناوين حاليا'));
                   }
 
                 case RequestState.error:
                   return SizedBox(
                       height: Get.height * 0.75,
-                      child:
-                          EmptyIndicator(title: state.errorMessage ?? 'جطا '));
+                      child: ErrorIndicator(
+                          errorMessage: state.errorMessage ?? 'جطا '));
                 default:
                   return const SizedBox();
               }
