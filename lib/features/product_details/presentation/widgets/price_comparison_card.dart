@@ -80,25 +80,19 @@ class PriceComparisonCard extends StatelessWidget {
                   SizedBox(
                     width: constraints.maxWidth * 0.33,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${price.toStringAsFixed(2)} جنيه',
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18.sp,
-                                      color:
-                                          AppColorsLight.kAppPrimaryColorLight),
-                            ),
-                          ],
+                        Text(
+                          '${price.toStringAsFixed(2)} جنيه',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18.sp,
+                                  color: AppColorsLight.kAppPrimaryColorLight),
                         ),
                       ],
                     ),

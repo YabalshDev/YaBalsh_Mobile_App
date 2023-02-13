@@ -26,6 +26,7 @@ class AppImage extends StatelessWidget {
         clearMemoryCacheIfFailed: true,
         compressionRatio: 0.8,
         printError: true,
+        color: Colors.white,
         enableLoadState: true,
         enableMemoryCache: true, loadStateChanged: (ExtendedImageState state) {
       switch (state.extendedImageLoadState) {

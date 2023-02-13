@@ -42,7 +42,7 @@ class NearStoresList extends StatelessWidget {
                       children: [
                         CustomCard(
                           imagePath: store.logoImagePath,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.fill,
                           isAssetImage: false,
                           borderRadius: 10.r,
                         ),
