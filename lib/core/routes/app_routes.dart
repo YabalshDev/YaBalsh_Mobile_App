@@ -298,7 +298,7 @@ class RouteHelper {
             child: ProtectedRoute(
               child: BlocProvider<PastOrdersCubit>(
                   create: (context) =>
-                      getIt<PastOrdersCubit>()..getPastOrders(),
+                      getIt<PastOrdersCubit>()..getPastOrders(context),
                   child: const PastOrdersView()),
             ),
           );

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:yabalash_mobile_app/core/constants/app_strings.dart';
 import 'package:yabalash_mobile_app/core/cubits/cubit/connectivty_cubit.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
@@ -31,20 +32,22 @@ class YaBalashApp extends StatelessWidget {
                   getIt<ConnectivtyCubit>()..getIntitalConnectionStatus(),
             )
           ],
-          child: GetMaterialApp(
-            useInheritedMediaQuery: true,
-            key: UniqueKey(),
-            textDirection: TextDirection.rtl,
-            supportedLocales: const [Locale('ar'), Locale('en')],
-            navigatorKey: Get.key,
-            debugShowCheckedModeBanner: false,
-            localizationsDelegates: const [
-              FormBuilderLocalizations.delegate,
-            ],
-            getPages: RouteHelper.routes,
-            initialRoute: RouteHelper.getIntialRoute(),
-            title: AppStrings.appName,
-            theme: lightTheme,
+          child: OverlaySupport.global(
+            child: GetMaterialApp(
+              useInheritedMediaQuery: true,
+              key: UniqueKey(),
+              textDirection: TextDirection.rtl,
+              supportedLocales: const [Locale('ar'), Locale('en')],
+              navigatorKey: Get.key,
+              debugShowCheckedModeBanner: false,
+              localizationsDelegates: const [
+                FormBuilderLocalizations.delegate,
+              ],
+              getPages: RouteHelper.routes,
+              initialRoute: RouteHelper.getIntialRoute(),
+              title: AppStrings.appName,
+              theme: lightTheme,
+            ),
           ),
         ),
       ),

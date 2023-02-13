@@ -33,6 +33,7 @@ class PageViewItem extends StatelessWidget {
             iconPath: imagePath,
             width: 306.w,
             height: 283.h,
+            boxFit: BoxFit.fill,
           ),
           SizedBox(
             height: 10.h,

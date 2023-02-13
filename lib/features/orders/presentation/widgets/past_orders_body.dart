@@ -28,7 +28,8 @@ class _PastOrdersBodyState extends State<PastOrdersBody> {
     _scrollController.addListener(() {
       if (_scrollController.position.maxScrollExtent ==
           _scrollController.position.pixels) {
-        BlocProvider.of<PastOrdersCubit>(context).handlePastOrdersPagination();
+        BlocProvider.of<PastOrdersCubit>(context)
+            .handlePastOrdersPagination(context);
       }
     });
     super.initState();

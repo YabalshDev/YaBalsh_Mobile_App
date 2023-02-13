@@ -2,9 +2,9 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:get/get.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
-import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
+import 'package:yabalash_mobile_app/core/widgets/yaBalash_toast.dart';
 import 'package:yabalash_mobile_app/features/orders/domain/usecases/get_past_orders_usecase.dart';
 
 import '../../../domain/entities/order.dart';
@@ -20,22 +20,18 @@ class PastOrdersCubit extends Cubit<PastOrdersState> {
 
   List<Order> _pastOrders = [];
 
-  void getPastOrders() async {
+  void getPastOrders(BuildContext context) async {
     final response =
         await getPastOrdersUseCase(GetPastOrdersParams(page: _currentPage));
     response.fold((failure) {
       emit(state.copyWith(
           errorMessage: failure.message,
           ordersRequestState: RequestState.error));
-      yaBalashCustomDialog(
-        buttonTitle: 'حسنا',
-        isWithEmoji: false,
-        title: 'خطأ',
-        mainContent: failure.message,
-        onConfirm: () => Get.back(),
-      );
+      yaBalashCustomToast(message: failure.message, context: context);
     }, (orders) {
-      _currentPage++;
+      if (orders.isNotEmpty) {
+        _currentPage++;
+      }
       _pastOrders.addAll(orders);
       emit(state.copyWith(
         paginationLoading: false,
@@ -50,9 +46,9 @@ class PastOrdersCubit extends Cubit<PastOrdersState> {
     });
   }
 
-  void handlePastOrdersPagination() {
+  void handlePastOrdersPagination(BuildContext context) {
     emit(state.copyWith(
         ordersRequestState: RequestState.idle, paginationLoading: true));
-    getPastOrders();
+    getPastOrders(context);
   }
 }
