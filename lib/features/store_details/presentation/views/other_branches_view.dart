@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
 import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
+import 'package:yabalash_mobile_app/core/widgets/yaBalash_toast.dart';
 
 import '../../../../core/utils/enums/empty_states.dart';
 import '../../../../core/utils/enums/request_state.dart';
@@ -81,7 +82,12 @@ class OtherBranchesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<OtherBranchesCubit, OtherBranchesState>(
+    return BlocConsumer<OtherBranchesCubit, OtherBranchesState>(
+      listener: (context, state) {
+        if (state.otherBranchesRequestState == RequestState.error) {
+          yaBalashCustomToast(message: state.errorMessage!, context: context);
+        }
+      },
       builder: (context, state) {
         switch (state.otherBranchesRequestState) {
           case RequestState.loading:
