@@ -2,9 +2,7 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
-import 'package:yabalash_mobile_app/core/widgets/yaBalash_toast.dart';
 import 'package:yabalash_mobile_app/features/orders/domain/usecases/get_past_orders_usecase.dart';
 
 import '../../../domain/entities/order.dart';
@@ -20,14 +18,13 @@ class PastOrdersCubit extends Cubit<PastOrdersState> {
 
   List<Order> _pastOrders = [];
 
-  void getPastOrders(BuildContext context) async {
+  void getPastOrders() async {
     final response =
         await getPastOrdersUseCase(GetPastOrdersParams(page: _currentPage));
     response.fold((failure) {
       emit(state.copyWith(
           errorMessage: failure.message,
           ordersRequestState: RequestState.error));
-      yaBalashCustomToast(message: failure.message, context: context);
     }, (orders) {
       if (orders.isNotEmpty) {
         _currentPage++;
@@ -46,9 +43,9 @@ class PastOrdersCubit extends Cubit<PastOrdersState> {
     });
   }
 
-  void handlePastOrdersPagination(BuildContext context) {
+  void handlePastOrdersPagination() {
     emit(state.copyWith(
         ordersRequestState: RequestState.idle, paginationLoading: true));
-    getPastOrders(context);
+    getPastOrders();
   }
 }

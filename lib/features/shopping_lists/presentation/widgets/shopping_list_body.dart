@@ -10,6 +10,7 @@ import '../../../../core/utils/enums/empty_states.dart';
 import '../../../../core/utils/enums/request_state.dart';
 import '../../../../core/widgets/custom_header.dart';
 import '../../../../core/widgets/empty_indicator.dart';
+import '../../../../core/widgets/yaBalash_toast.dart';
 import '../blocs/cubit/shopping_list_cubit.dart';
 
 class ShoppingListBody extends StatelessWidget {
@@ -39,7 +40,12 @@ class ShoppingListsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ShoppingListCubit, ShoppingListState>(
+    return BlocConsumer<ShoppingListCubit, ShoppingListState>(
+      listener: (context, state) {
+        if (state.shoppingListRequestState == RequestState.error) {
+          yaBalashCustomToast(message: state.errorMessage!, context: context);
+        }
+      },
       builder: (context, state) {
         switch (state.shoppingListRequestState) {
           case RequestState.idle:

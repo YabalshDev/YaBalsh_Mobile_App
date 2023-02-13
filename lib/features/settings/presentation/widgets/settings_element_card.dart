@@ -46,8 +46,9 @@ class SettingsElementCard extends StatelessWidget {
                     )
                   : CustomSvgIcon(
                       iconPath: iconPath,
-                      width: 16.w,
+                      width: 20.w,
                       height: 20.h,
+                      boxFit: BoxFit.fill,
                       color: iconColor,
                     ),
               mediumHorizontalSpace,

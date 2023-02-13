@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/blocs/cubit/shopping_list_cubit.dart';
 
 import '../../../../core/utils/enums/request_state.dart';
+import '../../../../core/widgets/yaBalash_toast.dart';
 import 'recipies_loaded.dart';
 import 'recipies_loading.dart';
 
@@ -11,7 +12,12 @@ class RecipiesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ShoppingListCubit, ShoppingListState>(
+    return BlocConsumer<ShoppingListCubit, ShoppingListState>(
+      listener: (context, state) {
+        if (state.recipiesRequestState == RequestState.error) {
+          yaBalashCustomToast(message: state.errorMessage!, context: context);
+        }
+      },
       builder: (context, state) {
         switch (state.recipiesRequestState) {
           case RequestState.idle:

@@ -16,7 +16,7 @@ class CustomToast extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Container(
-        width: Get.width * 0.8,
+        width: Get.width * 0.9,
         decoration: BoxDecoration(
           borderRadius: kDefaultBorderRaduis,
           color: AppColorsLight.kAppSecondaryColorLight,
@@ -40,7 +40,7 @@ class CustomToast extends StatelessWidget {
             ),
             mediumHorizontalSpace,
             Container(
-              constraints: BoxConstraints(maxWidth: Get.width * 0.6),
+              constraints: BoxConstraints(maxWidth: Get.width * 0.75),
               child: Text(
                 message,
                 maxLines: 1,

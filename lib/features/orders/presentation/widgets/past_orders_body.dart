@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
+import 'package:yabalash_mobile_app/core/widgets/yaBalash_toast.dart';
 import 'package:yabalash_mobile_app/features/orders/presentation/blocs/cubit/past_orders_cubit.dart';
 
 import '../../../../core/constants/app_assets.dart';
@@ -28,8 +29,7 @@ class _PastOrdersBodyState extends State<PastOrdersBody> {
     _scrollController.addListener(() {
       if (_scrollController.position.maxScrollExtent ==
           _scrollController.position.pixels) {
-        BlocProvider.of<PastOrdersCubit>(context)
-            .handlePastOrdersPagination(context);
+        BlocProvider.of<PastOrdersCubit>(context).handlePastOrdersPagination();
       }
     });
     super.initState();
@@ -75,26 +75,34 @@ class PastOrdersList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PastOrdersCubit, PastOrdersState>(
-      builder: (context, state) {
-        switch (state.ordersRequestState) {
-          case RequestState.loading:
-            return const PastOrdersLoading();
-
-          case RequestState.idle:
-
-          case RequestState.loaded:
-            return const PastOrdersLoaded();
-          case RequestState.error:
-            return SizedBox(
-              height: Get.height * 0.6,
-              child: Center(
-                  child: ErrorIndicator(errorMessage: state.errorMessage!)),
-            );
-
-          default:
-            return const SizedBox();
+    return BlocConsumer<PastOrdersCubit, PastOrdersState>(
+      listener: (context, state) {
+        if (state.ordersRequestState == RequestState.error) {
+          yaBalashCustomToast(message: state.errorMessage!, context: context);
         }
+      },
+      builder: (context, state) {
+        return BlocBuilder<PastOrdersCubit, PastOrdersState>(
+            builder: (context, state) {
+          switch (state.ordersRequestState) {
+            case RequestState.loading:
+              return const PastOrdersLoading();
+
+            case RequestState.idle:
+
+            case RequestState.loaded:
+              return const PastOrdersLoaded();
+            case RequestState.error:
+              return SizedBox(
+                height: Get.height * 0.6,
+                child: Center(
+                    child: ErrorIndicator(errorMessage: state.errorMessage!)),
+              );
+
+            default:
+              return const SizedBox();
+          }
+        });
       },
     );
   }
