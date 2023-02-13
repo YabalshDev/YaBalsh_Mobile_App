@@ -8,6 +8,7 @@ import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/utils/enums/request_state.dart';
 import '../../../../core/widgets/custom_shimmer.dart';
 import '../../../../core/widgets/sub_heading.dart';
+import '../../../../core/widgets/yaBalash_toast.dart';
 import '../blocs/cubit/product_details_cubit.dart';
 import 'variant_card.dart';
 
@@ -16,7 +17,14 @@ class ProductVariantsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
+    return BlocConsumer<ProductDetailsCubit, ProductDetailsState>(
+      listener: (context, state) {
+        if (state.productVariationRequestState == RequestState.error) {
+          yaBalashCustomToast(
+              message: 'فشل في جلب احجام المنتج ... حاول مرة اخرى',
+              context: context);
+        }
+      },
       buildWhen: (previous, current) =>
           previous.productVariationRequestState !=
           current.productVariationRequestState,

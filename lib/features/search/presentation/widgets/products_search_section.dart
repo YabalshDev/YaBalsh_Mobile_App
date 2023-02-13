@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:yabalash_mobile_app/core/widgets/yaBalash_toast.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/blocs/cubit/search_cubit.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/widgets/back_to_top_card.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/widgets/most_selling_products_section.dart';
@@ -44,7 +45,14 @@ class _ProductsSearchSectionState extends State<ProductsSearchSection> {
         CustomScrollView(
           controller: _scrollController,
           slivers: [
-            BlocBuilder<SearchCubit, SearchState>(
+            BlocConsumer<SearchCubit, SearchState>(
+              listener: (context, state) {
+                if (state.mostSellingRequestState == RequestState.error ||
+                    state.searchProductsRequestState == RequestState.error) {
+                  yaBalashCustomToast(
+                      message: state.errorMessage!, context: context);
+                }
+              },
               builder: (context, state) {
                 if (state.isSearchEmpty!) {
                   return const SliverToBoxAdapter(

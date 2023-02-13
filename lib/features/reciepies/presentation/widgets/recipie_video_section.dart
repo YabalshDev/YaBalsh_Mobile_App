@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/widgets/yaBalash_toast.dart';
 
 import '../../../../core/utils/enums/request_state.dart';
 import '../../../../core/widgets/custom_shimmer.dart';
-import '../../../../core/widgets/empty_indicator.dart';
 import '../blocs/cubit/recipie_details_cubit.dart';
 import 'recipie_video_card.dart';
 
@@ -16,7 +16,12 @@ class RecipieVideoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RecipieDetailsCubit, RecipieDetailsState>(
+    return BlocConsumer<RecipieDetailsCubit, RecipieDetailsState>(
+      listener: (context, state) {
+        if (state.recipieRequestState == RequestState.error) {
+          yaBalashCustomToast(message: state.errorMessage!, context: context);
+        }
+      },
       builder: (context, state) {
         switch (state.recipieRequestState) {
           case RequestState.idle:

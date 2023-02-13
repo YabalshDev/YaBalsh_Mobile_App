@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:yabalash_mobile_app/core/widgets/yaBalash_toast.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/widgets/search_history_card.dart';
 
 import '../../../../core/constants/app_layouts.dart';
@@ -17,7 +18,12 @@ class SearchHistorySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SearchCubit, SearchState>(
+    return BlocConsumer<SearchCubit, SearchState>(
+      listener: (context, state) {
+        if (state.searchHistoryRequestState == RequestState.error) {
+          yaBalashCustomToast(message: state.errorMessage!, context: context);
+        }
+      },
       builder: (context, state) {
         if (state.isSearchEmpty!) {
           switch (state.searchHistoryRequestState) {

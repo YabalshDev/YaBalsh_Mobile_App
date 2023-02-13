@@ -9,6 +9,7 @@ import 'package:yabalash_mobile_app/features/search/presentation/blocs/cubit/sea
 import 'package:yabalash_mobile_app/features/search/presentation/widgets/back_to_top_card.dart';
 
 import '../../../../core/services/stores_service.dart';
+import '../../../../core/widgets/yaBalash_toast.dart';
 import 'supermarkets_search_result.dart';
 
 class SuperMarketsSearchSection extends StatefulWidget {
@@ -46,7 +47,13 @@ class _SuperMarketsSearchSectionState extends State<SuperMarketsSearchSection> {
         CustomScrollView(
           controller: _scrollController,
           slivers: [
-            BlocBuilder<SearchCubit, SearchState>(
+            BlocConsumer<SearchCubit, SearchState>(
+              listener: (context, state) {
+                if (state.searchStoresRequestState == RequestState.error) {
+                  yaBalashCustomToast(
+                      message: state.errorMessage!, context: context);
+                }
+              },
               builder: (context, state) {
                 if (state.isSearchEmpty!) {
                   return getIt<StoreService>().uniqueStores.isEmpty

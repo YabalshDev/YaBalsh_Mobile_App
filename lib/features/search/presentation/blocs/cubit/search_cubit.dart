@@ -10,7 +10,6 @@ import 'package:yabalash_mobile_app/core/errors/faliures.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/search_navigation_screens.dart';
 import 'package:yabalash_mobile_app/core/utils/extensions/list_limit_extension.dart';
-import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/location.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_section_products_usecase.dart';
 import 'package:yabalash_mobile_app/features/search/domain/entities/store_search.dart';
@@ -91,15 +90,6 @@ class SearchCubit extends Cubit<SearchState> {
       emit(state.copyWith(
           errorMessage: failure.message,
           searchProductsRequestState: RequestState.error));
-      yaBalashCustomDialog(
-        buttonTitle: 'حسنا',
-        isWithEmoji: false,
-        title: 'خطأ',
-        mainContent: failure.message,
-        onConfirm: () {
-          Get.back();
-        },
-      );
     }, (result) {
       if (result.isNotEmpty) {
         _productsPageNumber++;
@@ -121,15 +111,6 @@ class SearchCubit extends Cubit<SearchState> {
       emit(state.copyWith(
           errorMessage: failure.message,
           searchStoresRequestState: RequestState.error));
-      yaBalashCustomDialog(
-        buttonTitle: 'حسنا',
-        isWithEmoji: false,
-        title: 'خطأ',
-        mainContent: failure.message,
-        onConfirm: () {
-          Get.back();
-        },
-      );
     }, (result) {
       if (result.isNotEmpty) {
         _storesPageNumber++;
@@ -194,8 +175,10 @@ class SearchCubit extends Cubit<SearchState> {
         const GetSectionProductsParams(sectionId: mostSellingProductsId));
 
     response.fold(
-        (failure) =>
-            emit(state.copyWith(mostSellingRequestState: RequestState.error)),
+        (failure) => emit(state.copyWith(
+              mostSellingRequestState: RequestState.error,
+              errorMessage: failure.message,
+            )),
         (products) => emit(state.copyWith(
             mostSellingRequestState: RequestState.loaded,
             mostSellingProducts: products.limit(5))));
@@ -235,9 +218,9 @@ class SearchCubit extends Cubit<SearchState> {
     }
 
     response.fold(
-        (failure) => emit(
-            state.copyWith(searchProductsRequestState: RequestState.error)),
-        (products) {
+        (failure) => emit(state.copyWith(
+            searchProductsRequestState: RequestState.error,
+            errorMessage: failure.message)), (products) {
       if (products.isNotEmpty) {
         _productsPageNumber++;
       }

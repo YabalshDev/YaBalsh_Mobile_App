@@ -7,6 +7,7 @@ import 'package:yabalash_mobile_app/core/widgets/custom_shimmer.dart';
 import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
 import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
 import 'package:yabalash_mobile_app/core/widgets/sub_heading.dart';
+import 'package:yabalash_mobile_app/core/widgets/yaBalash_toast.dart';
 
 import '../../../../core/utils/enums/empty_states.dart';
 import '../../../../core/utils/enums/request_state.dart';
@@ -20,7 +21,13 @@ class AllRecipiesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RecipiesCubit, RecipiesState>(
+    return BlocConsumer<RecipiesCubit, RecipiesState>(
+      listener: (context, state) {
+        if (state.recipiesRequestState == RequestState.error) {
+          yaBalashCustomToast(
+              message: state.recipiesErrorMessage!, context: context);
+        }
+      },
       buildWhen: (previous, current) =>
           previous.recipiesRequestState != current.recipiesRequestState,
       builder: (context, state) {

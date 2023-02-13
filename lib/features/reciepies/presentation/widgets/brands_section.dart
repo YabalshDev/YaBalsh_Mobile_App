@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
+import 'package:yabalash_mobile_app/core/widgets/yaBalash_toast.dart';
 import 'package:yabalash_mobile_app/features/reciepies/presentation/blocs/cubit/recipies_cubit.dart';
 
 import '../../../../core/constants/app_layouts.dart';
@@ -42,7 +43,12 @@ class _BrandsSectionState extends State<BrandsSection> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RecipiesCubit, RecipiesState>(
+    return BlocConsumer<RecipiesCubit, RecipiesState>(
+      listener: (context, state) {
+        if (state.brandsRequestState == RequestState.error) {
+          yaBalashCustomToast(message: state.errorMessage!, context: context);
+        }
+      },
       builder: (context, state) {
         switch (state.brandsRequestState) {
           case RequestState.loading:

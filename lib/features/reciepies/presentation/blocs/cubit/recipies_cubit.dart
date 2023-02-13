@@ -2,13 +2,11 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
 import 'package:yabalash_mobile_app/features/reciepies/domain/entities/brand.dart';
 import 'package:yabalash_mobile_app/features/reciepies/domain/usecases/get_all_brands_usecase.dart';
 import 'package:yabalash_mobile_app/features/reciepies/domain/usecases/get_recipie_details_usecase.dart';
 
-import '../../../../../core/widgets/custom_dialog.dart';
 import '../../../domain/entities/recipie.dart';
 import '../../../domain/usecases/get_all_recipies_usecase.dart';
 
@@ -39,13 +37,6 @@ class RecipiesCubit extends Cubit<RecipiesState> {
       emit(state.copyWith(
           errorMessage: failure.message,
           brandsRequestState: RequestState.error));
-      yaBalashCustomDialog(
-        buttonTitle: 'حسنا',
-        isWithEmoji: false,
-        title: 'خطأ',
-        mainContent: failure.message,
-        onConfirm: () => Get.back(),
-      );
     }, (result) {
       if (result.isNotEmpty) {
         _brandsCurrentPage++;

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
+import 'package:yabalash_mobile_app/core/widgets/yaBalash_toast.dart';
 
 import '../../../../core/utils/enums/request_state.dart';
 import '../../../../core/widgets/custom_shimmer.dart';
@@ -17,7 +18,13 @@ class AllCategoriesSections extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CategoriesCubit, CategoriesState>(
+    return BlocConsumer<CategoriesCubit, CategoriesState>(
+      listener: (context, state) {
+        if (state.categorySectionsRequestState == RequestState.error) {
+          yaBalashCustomToast(
+              message: state.categoriesError!, context: context);
+        }
+      },
       builder: (context, state) {
         switch (state.categorySectionsRequestState) {
           case RequestState.idle:

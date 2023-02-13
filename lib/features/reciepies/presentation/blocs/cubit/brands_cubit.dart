@@ -8,7 +8,6 @@ import 'package:yabalash_mobile_app/features/reciepies/domain/entities/recipie.d
 import 'package:yabalash_mobile_app/features/reciepies/domain/usecases/get_brand_recipies_usecase.dart';
 
 import '../../../../../core/utils/enums/request_state.dart';
-import '../../../../../core/widgets/custom_dialog.dart';
 import '../../../domain/usecases/get_recipie_details_usecase.dart';
 
 part 'brands_state.dart';
@@ -33,13 +32,6 @@ class BrandsCubit extends Cubit<BrandsState> {
       emit(state.copyWith(
           errorMessage: failure.message,
           recipiesRequestState: RequestState.error));
-      yaBalashCustomDialog(
-        buttonTitle: 'حسنا',
-        isWithEmoji: false,
-        title: 'خطأ',
-        mainContent: failure.message,
-        onConfirm: () => Get.back(),
-      );
     }, (result) => recipies = List.from(result));
 
     getAllRecipieDetails(recipies);

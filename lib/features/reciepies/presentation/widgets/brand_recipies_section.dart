@@ -6,6 +6,7 @@ import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_shimmer.dart';
 import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
 import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
+import 'package:yabalash_mobile_app/core/widgets/yaBalash_toast.dart';
 import 'package:yabalash_mobile_app/features/reciepies/presentation/blocs/cubit/brands_cubit.dart';
 
 import '../../../../core/constants/app_layouts.dart';
@@ -21,7 +22,12 @@ class CreatorRecipiesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BrandsCubit, BrandsState>(
+    return BlocConsumer<BrandsCubit, BrandsState>(
+      listener: (context, state) {
+        if (state.recipiesRequestState == RequestState.error) {
+          yaBalashCustomToast(message: state.errorMessage!, context: context);
+        }
+      },
       buildWhen: (previous, current) =>
           previous.recipiesRequestState != current.recipiesRequestState,
       builder: (context, state) {
