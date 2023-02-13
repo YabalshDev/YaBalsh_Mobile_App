@@ -10,6 +10,10 @@ void handleSuccessfullAuthNavigation(String fromRoute) {
   } else if (fromRoute == RouteHelper.getAddressesRoute()) {
     Get.offAllNamed(RouteHelper.getAddressesRoute(),
         arguments: RouteHelper.getSettingsRoute());
+  } else if (fromRoute == RouteHelper.getPastOrdersRoute()) {
+    Get.offAllNamed(
+      RouteHelper.getPastOrdersRoute(),
+    );
   } else {
     Get.offAllNamed(RouteHelper.getMainNavigationRoute(), arguments: 0);
   }

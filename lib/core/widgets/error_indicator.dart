@@ -16,7 +16,7 @@ class ErrorIndicator extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         CustomSvgIcon(
-          iconPath: AppAssets.emptyBasket,
+          iconPath: AppAssets.error,
           width: 130.w,
           height: 130.h,
           boxFit: BoxFit.fill,

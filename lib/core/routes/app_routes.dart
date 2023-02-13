@@ -6,6 +6,7 @@ import 'package:yabalash_mobile_app/core/utils/handle_search_view_initstate.dart
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/core/widgets/internet_connection_wrapper.dart';
 import 'package:yabalash_mobile_app/core/widgets/keyboard_dissmisable.dart';
+import 'package:yabalash_mobile_app/core/widgets/protected_route.dart';
 import 'package:yabalash_mobile_app/features/addresses/presentation/blocs/cubit/address_cubit.dart';
 import 'package:yabalash_mobile_app/features/addresses/presentation/blocs/cubit/update_address_cubit.dart';
 import 'package:yabalash_mobile_app/features/addresses/presentation/views/addresses_view.dart';
@@ -238,9 +239,11 @@ class RouteHelper {
         page: () {
           final String fromRoute = Get.arguments;
           return InternetConnectionWrapper(
-            child: BlocProvider<AddressCubit>(
-              create: (context) => getIt<AddressCubit>()..getAllAddress(),
-              child: AddressesView(fromRoute: fromRoute),
+            child: ProtectedRoute(
+              child: BlocProvider<AddressCubit>(
+                create: (context) => getIt<AddressCubit>()..getAllAddress(),
+                child: AddressesView(fromRoute: fromRoute),
+              ),
             ),
           );
         }),
@@ -292,9 +295,12 @@ class RouteHelper {
         transitionDuration: transitionDuration,
         page: () {
           return InternetConnectionWrapper(
-            child: BlocProvider<PastOrdersCubit>(
-                create: (context) => getIt<PastOrdersCubit>()..getPastOrders(),
-                child: const PastOrdersView()),
+            child: ProtectedRoute(
+              child: BlocProvider<PastOrdersCubit>(
+                  create: (context) =>
+                      getIt<PastOrdersCubit>()..getPastOrders(),
+                  child: const PastOrdersView()),
+            ),
           );
         }),
     GetPage(

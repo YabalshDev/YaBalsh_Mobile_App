@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
+import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
 import 'package:yabalash_mobile_app/features/orders/presentation/blocs/cubit/past_orders_cubit.dart';
 
@@ -51,7 +52,9 @@ class _PastOrdersBodyState extends State<PastOrdersBody> {
             SliverToBoxAdapter(
               child: CustomHeader(
                 iconPath: AppAssets.closeIcon,
-                onIconTap: () => Get.back(),
+                onIconTap: () => Get.offNamed(
+                    RouteHelper.getMainNavigationRoute(),
+                    arguments: 4),
                 title: 'طلباتي',
               ),
             ),
