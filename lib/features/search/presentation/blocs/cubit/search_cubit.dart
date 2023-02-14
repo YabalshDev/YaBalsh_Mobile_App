@@ -224,12 +224,16 @@ class SearchCubit extends Cubit<SearchState> {
       if (products.isNotEmpty) {
         _productsPageNumber++;
       }
-      _productsResult = _productsResult..addAll(products);
-      getBestOffer(_productsResult);
+      _productsResult.addAll(products);
+      var set = <int>{};
+      List<Product> uniquelist =
+          _productsResult.where((product) => set.add(product.id!)).toList();
+
+      getBestOffer(List.from(uniquelist));
       emit(state.copyWith(
           paginationLoading: false,
           searchProductsRequestState: RequestState.loaded,
-          searchProductsResult: _productsResult));
+          searchProductsResult: uniquelist));
     });
   }
 
