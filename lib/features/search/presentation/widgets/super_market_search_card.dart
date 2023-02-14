@@ -41,8 +41,8 @@ class SuperMarketSearchCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      constraints: BoxConstraints(maxWidth: Get.width * 0.6),
+                    SizedBox(
+                      width: Get.width * 0.45,
                       child: Text(
                         '${store.name}-${store.location!.address != null ? store.location!.address!.split('-')[0] : 'غير متوفر'}',
                         overflow: TextOverflow.ellipsis,
@@ -61,9 +61,8 @@ class SuperMarketSearchCard extends StatelessWidget {
                           color: AppColorsLight.kAppPrimaryColorLight,
                           size: 18.h,
                         ),
-                        Container(
-                          constraints:
-                              BoxConstraints(maxWidth: Get.width * 0.6),
+                        SizedBox(
+                          width: Get.width * 0.48,
                           child: Text(
                             store.location!.address ?? 'غير متوفر',
                             overflow: TextOverflow.ellipsis,

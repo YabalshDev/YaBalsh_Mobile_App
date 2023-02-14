@@ -7,6 +7,7 @@ import 'package:yabalash_mobile_app/core/utils/enums/search_navigation_screens.d
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 
 import '../../features/home/domain/entities/store.dart';
+import '../utils/extensions/string_extension.dart';
 import 'custom_card.dart';
 
 class NearStoresList extends StatelessWidget {
@@ -19,7 +20,7 @@ class NearStoresList extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomAnimatedWidget(
       child: SizedBox(
-        height: 114.h,
+        height: 125.h,
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: isWithPadding ? kScaffoldPadding : null,
@@ -50,9 +51,9 @@ class NearStoresList extends StatelessWidget {
                           height: 5.h,
                         ),
                         Container(
-                          constraints: BoxConstraints(maxWidth: 85.w),
+                          constraints: BoxConstraints(maxWidth: 90.w),
                           child: Text(
-                            store.name!,
+                            store.name!.arabicText,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,

@@ -33,7 +33,7 @@ class VariantCard extends StatelessWidget {
                 .selectVariant(index, variant),
             child: Container(
               margin: EdgeInsets.only(left: 10.w),
-              padding: EdgeInsets.fromLTRB(10.w, 6.h, 1.w, 7.h),
+              padding: EdgeInsets.fromLTRB(10.w, 7.h, 1.w, 4.h),
               decoration: kDefaultBoxDecoration.copyWith(
                   border: state.selectedVariantIndex == index
                       ? Border.all(

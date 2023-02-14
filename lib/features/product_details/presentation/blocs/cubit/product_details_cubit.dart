@@ -59,16 +59,16 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     List<Store> farStores = [];
 
     for (var store in stores) {
-      final mainZonelocation = store.locations!.firstWhereOrNull(
-          (element) => element.mainZoneId == subZone.mainZoneId);
-      final subZoneLocation = store.locations!
-          .firstWhereOrNull((element) => element.subZoneId == subZone.id);
+      final mainZonelocation = store.locations!
+          .where((element) => element.mainZoneId == subZone.mainZoneId);
+      final subZoneLocation =
+          store.locations!.where((element) => element.subZoneId == subZone.id);
 
-      if (mainZonelocation != null) {
+      if (mainZonelocation.isNotEmpty) {
         farStores.add(store);
       }
 
-      if (subZoneLocation != null) {
+      if (subZoneLocation.isNotEmpty) {
         nearStores.add(store);
       }
     }

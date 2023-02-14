@@ -134,9 +134,10 @@ class HomeProductCard extends StatelessWidget {
                                       getIt<CartCubit>().addItemToCart(product),
                                   child: Container(
                                       padding: EdgeInsets.all(5.w),
-                                      decoration: BoxDecoration(
+                                      decoration: const BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: Colors.purple.shade700),
+                                          color: AppColorsLight
+                                              .kAppPrimaryColorLight),
                                       child: Icon(
                                         Icons.add,
                                         color: Colors.white,

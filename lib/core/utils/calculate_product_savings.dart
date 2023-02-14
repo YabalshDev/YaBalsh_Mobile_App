@@ -10,15 +10,19 @@ double calculateSavingsAmount(Product product) {
 }
 
 int calculateSavingsPercentage(Product product) {
-  if (product.prices!.isNotEmpty) {
-    List<MapEntry<String, PriceModel>> productPrices =
-        product.prices!.entries.toList();
+  try {
+    if (product.prices!.isNotEmpty) {
+      List<MapEntry<String, PriceModel>> productPrices =
+          product.prices!.entries.toList();
 
-    double saving =
-        (productPrices.last.value.price! - productPrices.first.value.price!);
+      double saving =
+          (productPrices.last.value.price! - productPrices.first.value.price!);
 
-    return ((saving / productPrices.last.value.price!) * 100).ceil();
-  } else {
+      return ((saving / productPrices.last.value.price!) * 100).ceil();
+    } else {
+      return 0;
+    }
+  } catch (err) {
     return 0;
   }
 }

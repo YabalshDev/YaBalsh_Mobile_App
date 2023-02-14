@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
-
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/utils/enums/request_state.dart';
 import '../../../../core/widgets/custom_shimmer.dart';
@@ -58,7 +57,7 @@ class ProductVariantsSection extends StatelessWidget {
                         const SubHeading(text: 'احجام اخرى للمنتج'),
                         mediumVerticalSpace,
                         SizedBox(
-                          height: 66.5.h,
+                          height: 68.5.h,
                           child: ListView.builder(
                             padding: EdgeInsets.zero,
                             scrollDirection: Axis.horizontal,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/routes/app_routes.dart';
@@ -43,13 +42,14 @@ class PriceComparisonCard extends StatelessWidget {
                     imagePath: store.logoImagePath,
                   ),
                   mediumHorizontalSpace,
+
                   SizedBox(
-                    width: constraints.maxWidth * 0.37,
+                    width: constraints.maxWidth * 0.42,
                     child: Row(
                       children: [
                         Container(
                           constraints: BoxConstraints(
-                              maxWidth: constraints.maxWidth * 0.33),
+                              maxWidth: constraints.maxWidth * 0.36),
                           child: Text(
                             store.name ?? 'غير متوفر',
                             overflow: TextOverflow.ellipsis,
@@ -76,9 +76,9 @@ class PriceComparisonCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const Spacer(),
+                  // const Spacer(),
                   SizedBox(
-                    width: constraints.maxWidth * 0.33,
+                    width: constraints.maxWidth * 0.31,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [

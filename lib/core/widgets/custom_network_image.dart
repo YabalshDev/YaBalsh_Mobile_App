@@ -23,7 +23,6 @@ class AppImage extends StatelessWidget {
         height: height,
         cache: true,
         fit: fit,
-        clearMemoryCacheIfFailed: true,
         compressionRatio: 0.8,
         printError: true,
         color: Colors.white,
