@@ -17,6 +17,8 @@ class PriceComparisonSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
+      // buildWhen: (previous, current) =>
+      //     previous.withNearStores != current.withNearStores,
       builder: (context, state) {
         if (state.withNearStores! && state.nearStores!.isNotEmpty) {
           return Column(
