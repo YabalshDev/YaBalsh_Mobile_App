@@ -58,9 +58,9 @@ class BranchAddressDetails extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(left: 15.w),
                     child: Container(
-                      constraints: BoxConstraints(maxWidth: Get.width * 0.45),
+                      constraints: BoxConstraints(maxWidth: Get.width * 0.55),
                       child: Text(
-                        state.store!.location!.address!,
+                        state.store!.location!.address!.split('-')[1],
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(

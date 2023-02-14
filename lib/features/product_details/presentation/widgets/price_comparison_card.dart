@@ -44,12 +44,12 @@ class PriceComparisonCard extends StatelessWidget {
                   mediumHorizontalSpace,
 
                   SizedBox(
-                    width: constraints.maxWidth * 0.42,
+                    width: constraints.maxWidth * 0.44,
                     child: Row(
                       children: [
                         Container(
                           constraints: BoxConstraints(
-                              maxWidth: constraints.maxWidth * 0.36),
+                              maxWidth: constraints.maxWidth * 0.38),
                           child: Text(
                             store.name ?? 'غير متوفر',
                             overflow: TextOverflow.ellipsis,
@@ -78,7 +78,7 @@ class PriceComparisonCard extends StatelessWidget {
                   ),
                   // const Spacer(),
                   SizedBox(
-                    width: constraints.maxWidth * 0.31,
+                    width: constraints.maxWidth * 0.29,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
