@@ -64,7 +64,7 @@ class PhoneTextField extends StatelessWidget {
             Expanded(
               child: LayoutBuilder(builder: (context, constraints) {
                 return SizedBox(
-                  height: 51.h,
+                  height: 45.h,
                   child: FormBuilderTextField(
                     onChanged: onChanged ?? (value) {},
                     name: 'phoneNumber',

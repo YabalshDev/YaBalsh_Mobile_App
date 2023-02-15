@@ -14,7 +14,6 @@ import 'package:yabalash_mobile_app/core/utils/notification_helper.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/register_device_usecase.dart';
 import 'package:yabalash_mobile_app/features/on_boaring/domain/repositories/splash_repository.dart';
 
-import '../../../../../core/cubits/cubit/connectivty_cubit.dart';
 import '../../../../../core/services/device_service.dart';
 import '../../../../../core/utils/save_device.dart';
 
@@ -36,15 +35,6 @@ class SplashCubit extends Cubit<SplashState> {
       : super(SplashInitial());
 
   bool _isFirstTimeVisit = true;
-
-  late StreamSubscription<ConnectivityResult> _connectivityController;
-
-  void initConnectivityStream() {
-    _connectivityController =
-        connectivity.onConnectivityChanged.listen((event) {
-      getIt<ConnectivtyCubit>().handleStatus(event);
-    });
-  }
 
   void checkDevice() async {
     getIt<DeviceService>().getDeviceFromLocalStorage();
@@ -92,7 +82,7 @@ class SplashCubit extends Cubit<SplashState> {
     await Future.delayed(
       const Duration(seconds: 1),
       () {
-        initConnectivityStream();
+        // initConnectivityStream();
 
         NotificationHelper.handleOnNotificationOpened();
         NotificationHelper.handleOnNotificationRecived();

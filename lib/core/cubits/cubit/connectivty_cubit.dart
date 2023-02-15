@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
@@ -10,6 +11,20 @@ class ConnectivtyCubit extends Cubit<ConnectivtyState> {
   final Connectivity connectivity;
   ConnectivtyCubit({required this.connectivity})
       : super(const ConnectivtyState());
+  late StreamSubscription<ConnectivityResult> _connectivityController;
+
+  void initConnectivityStream() {
+    _connectivityController =
+        connectivity.onConnectivityChanged.listen((event) {
+      handleStatus(event);
+    });
+  }
+
+  @override
+  Future<void> close() {
+    _connectivityController.cancel();
+    return super.close();
+  }
 
   void setConnectionStatus(bool status) =>
       emit(ConnectivtyState(isConnected: status));
