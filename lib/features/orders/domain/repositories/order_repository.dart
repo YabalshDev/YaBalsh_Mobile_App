@@ -8,5 +8,5 @@ abstract class OrderRepository {
   Future<Either<Failure, entites.Order>> createOrder(
       {required OrderRequest orderRequest});
 
-  Future<Either<Failure, List<entites.Order>>> getPastOrders();
+  Future<Either<Failure, List<entites.Order>>> getPastOrders({int? page});
 }

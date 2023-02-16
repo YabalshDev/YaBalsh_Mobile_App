@@ -7,6 +7,7 @@ import 'package:yabalash_mobile_app/features/addresses/presentation/blocs/cubit/
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/depedencies.dart';
+import '../../../../core/services/user_service.dart';
 import '../../../../core/services/zone_service.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/custom_form_section.dart';
@@ -56,8 +57,10 @@ class AddressForm extends StatelessWidget {
                   ?.copyWith(fontWeight: FontWeight.w600, fontSize: 13.sp),
             ),
             mediumVerticalSpace,
-            const PhoneTextField(
-              intialValue: '01033266355',
+            PhoneTextField(
+              intialValue: getIt<UserService>().currentCustomer != null
+                  ? getIt<UserService>().currentCustomer!.phoneNumber
+                  : 'غير متوفر',
               readOnly: true,
             ),
             mediumVerticalSpace,
@@ -73,7 +76,7 @@ class AddressForm extends StatelessWidget {
                       ),
                       name: 'district',
                       intialValue: address != null
-                          ? address!.fullAddress!.split(',')[1]
+                          ? address!.fullAddress!.split('%')[1]
                           : '',
                       onChanged: (value) {
                         validateOnChanged(value!);
@@ -118,7 +121,7 @@ class AddressForm extends StatelessWidget {
               ),
               name: 'fullName',
               intialValue:
-                  address != null ? address!.fullAddress!.split(',')[0] : '',
+                  address != null ? address!.fullAddress!.split('%')[0] : '',
               onChanged: (value) {
                 validateOnChanged(value!);
               },
@@ -139,7 +142,7 @@ class AddressForm extends StatelessWidget {
               ),
               name: 'street',
               intialValue:
-                  address != null ? address!.fullAddress!.split(',')[2] : '',
+                  address != null ? address!.fullAddress!.split('%')[2] : '',
               onChanged: (value) {
                 validateOnChanged(value!);
               },

@@ -2,52 +2,8 @@ import 'package:yabalash_mobile_app/features/reciepies/domain/entities/brand.dar
 import 'package:yabalash_mobile_app/features/reciepies/domain/entities/recipie.dart';
 
 abstract class RecipieDataSource {
-  Future<List<Brand>> getAllBrands();
-  Future<List<Recipie>> getAllRecipies();
-  Future<List<Recipie>> getBrandRecipies({required int brandId});
+  Future<List<Brand>> getAllBrands({int? page});
+  Future<List<Recipie>> getAllRecipies({int? page});
+  Future<List<Recipie>> getBrandRecipies({required int brandId, int? page});
   Future<Recipie> getRecipieDetails({required int recipieId});
 }
-
-// class RecipiesMockDataSource implements RecipieDataSource {
-//   @override
-//   Future<List<Brand>> getAllBrands() async {
-//     try {
-//       List<Brand> brands = [];
-//       await Future.delayed(
-//         const Duration(seconds: 2),
-//         () => brands = creatorsMock,
-//       );
-
-//       return brands;
-//     } catch (err) {
-//       throw const ServerException(errorModel: ApiErrorModel());
-//     }
-//   }
-
-//   @override
-//   Future<List<Recipie>> getAllRecipies() async {
-//     try {
-//       List<Recipie> recipies = [];
-//       await Future.delayed(
-//         const Duration(seconds: 2),
-//         () => recipies = recipiesMock,
-//       );
-
-//       return recipies;
-//     } catch (err) {
-//       throw const ServerException(errorModel: ApiErrorModel());
-//     }
-//   }
-
-//   @override
-//   Future<List<Recipie>> getBrandRecipies({required int brandId}) {
-//     // TODO: implement getBrandRecipies
-//     throw UnimplementedError();
-//   }
-
-//   @override
-//   Future<Recipie> getRecipieDetails({required int brandId}) {
-//     // TODO: implement getRecipieDetails
-//     throw UnimplementedError();
-//   }
-// }

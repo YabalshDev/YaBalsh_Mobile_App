@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
+import 'package:yabalash_mobile_app/core/widgets/yaBalash_toast.dart';
 
 import '../../../../core/utils/enums/request_state.dart';
-import '../../../../core/widgets/empty_indicator.dart';
 import '../blocs/cubit/product_details_cubit.dart';
 import 'product_details_loaded.dart';
 import 'product_details_loading.dart';
@@ -15,7 +16,14 @@ class ProductDetailsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
+    return BlocConsumer<ProductDetailsCubit, ProductDetailsState>(
+      listener: (context, state) {
+        if (state.productRequestState == RequestState.error) {
+          yaBalashCustomToast(
+              message: 'فشل في جلب بيانات المنتج ... حاول مرة اخرى',
+              context: context);
+        }
+      },
       buildWhen: (previous, current) =>
           previous.productRequestState != current.productRequestState,
       builder: (context, state) {
@@ -31,7 +39,7 @@ class ProductDetailsSection extends StatelessWidget {
             return SizedBox(
               height: Get.height * 0.6,
               child: const Center(
-                child: EmptyIndicator(title: 'مشكلة في جلب المنتج '),
+                child: ErrorIndicator(errorMessage: 'مشكلة في جلب المنتج '),
               ),
             );
 

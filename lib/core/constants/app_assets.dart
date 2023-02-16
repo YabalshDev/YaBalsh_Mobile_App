@@ -1,11 +1,11 @@
 class AppAssets {
   static const String logo = 'assets/images/Logo.png';
   static const String firstOnBoardingIllustration =
-      'assets/images/on_boarding1.png';
+      'assets/icons/on_boarding1.svg';
   static const String secondOnBoardingIllustration =
-      'assets/images/on_boarding2.png';
+      'assets/icons/on_boarding2.svg';
   static const String thirdOnBoardingIllustration =
-      'assets/images/on_boarding3.png';
+      'assets/icons/on_boarding3.svg';
   static const String dairyMilk = 'assets/images/dairy_milks.png';
   static const String beverages = 'assets/images/beverages.png';
   static const String vegatables = 'assets/images/vegetables.png';
@@ -42,7 +42,9 @@ class AppAssets {
   static const String eyeIcon = 'assets/icons/eye.svg';
 
   static const String locationPin = 'assets/images/location_pin.png';
-  static const String emptyIllustrator = 'assets/images/empty_illustrator.png';
+  static const String emptyBasket = 'assets/icons/empty_basket.svg';
+  static const String emptyAddress = 'assets/icons/empty_address.svg';
+  static const String error = 'assets/icons/error.svg';
 
   static const String inStockIcon = 'assets/images/In_stock.png';
   static const String outOfStockIcon = 'assets/images/Out_of_stock.png';

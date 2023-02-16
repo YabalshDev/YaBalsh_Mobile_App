@@ -1,6 +1,6 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yabalash_mobile_app/core/utils/extensions/string_extension.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/cart_item.dart';
 
 import '../constants/app_layouts.dart';
@@ -24,23 +24,27 @@ class _ItemDetailsCardState extends State<ItemDetailsCard> {
         margin: EdgeInsets.only(top: 10.h),
         child: Row(
           children: [
-            // change to network when ready
-            // SizedBox(
-            //   width: 15.w,
-            //   height: 25.h,
-            //   child: Checkbox(
-            //     value: isChecked,
-            //     activeColor: Colors.green.shade400,
-            //     onChanged: (value) => setState(() {
-            //       isChecked = value!;
-            //     }),
-            //     side:
-            //         const BorderSide(color: AppColorsLight.kDefaultBorderColor),
-            //     shape: RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(4)),
-            //   ),
-            // ),
-
+            InkWell(
+              onTap: () => setState(() {
+                isChecked = !isChecked;
+              }),
+              child: Container(
+                width: 25.h,
+                height: 25.h,
+                decoration: BoxDecoration(
+                    borderRadius: kSecondaryBorderRaduis,
+                    color: !isChecked ? Colors.white : Colors.green.shade400,
+                    border: Border.all(
+                        color: AppColorsLight.kDefaultBorderColor, width: 1)),
+                child: isChecked
+                    ? Icon(
+                        Icons.check,
+                        size: 22.h,
+                        color: Colors.white,
+                      )
+                    : null,
+              ),
+            ),
             smallHorizontalSpace,
             Row(
               children: [
@@ -59,17 +63,12 @@ class _ItemDetailsCardState extends State<ItemDetailsCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      constraints: BoxConstraints(maxWidth: 166.w),
-                      child: AutoSizeText(
-                        widget.cartItem.product!.name ?? '',
+                      constraints:
+                          BoxConstraints(maxWidth: constraints.maxWidth * 0.42),
+                      child: Text(
+                        widget.cartItem.product!.name!.split('-')[0].arabicText,
                         textDirection: TextDirection.rtl,
-                        wrapWords: false,
-                        overflowReplacement: Container(
-                          constraints: BoxConstraints(maxWidth: 166.w),
-                          child: Text(
-                            '${widget.cartItem.product!.name!.substring(0, widget.cartItem.product!.name!.length - 16)}...',
-                          ),
-                        ),
+                        overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: AppColorsLight.kAppPrimaryColorLight,
@@ -96,7 +95,7 @@ class _ItemDetailsCardState extends State<ItemDetailsCard> {
             ),
             const Spacer(),
             SizedBox(
-              width: constraints.maxWidth * 0.3,
+              width: constraints.maxWidth * 0.31,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [

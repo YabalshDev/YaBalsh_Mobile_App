@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
-import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
+import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
 import 'package:yabalash_mobile_app/core/widgets/sub_heading.dart';
+import 'package:yabalash_mobile_app/core/widgets/yaBalash_toast.dart';
 
 import '../../../../core/utils/enums/request_state.dart';
 import '../blocs/cubit/order_summary_cubit.dart';
@@ -19,7 +20,13 @@ class OrderSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<OrderSummaryCubit, OrderSummaryState>(
+    return BlocConsumer<OrderSummaryCubit, OrderSummaryState>(
+      listener: (context, state) {
+        if (state.addressesRequestState == RequestState.error) {
+          yaBalashCustomToast(
+              message: 'فشل اثناء جلب العناوين', context: context);
+        }
+      },
       builder: (context, state) {
         switch (state.addressesRequestState) {
           case RequestState.idle:
@@ -38,8 +45,8 @@ class OrderSummary extends StatelessWidget {
           case RequestState.error:
             return SizedBox(
                 height: Get.height * 0.6,
-                child: const EmptyIndicator(
-                    title: 'حصل مشكلة اثناء جلب العناوين'));
+                child: const ErrorIndicator(
+                    errorMessage: 'حصل مشكلة اثناء جلب العناوين'));
 
           default:
             return const SizedBox();

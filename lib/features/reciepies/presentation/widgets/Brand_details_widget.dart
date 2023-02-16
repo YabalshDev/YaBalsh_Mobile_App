@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
+import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
@@ -36,7 +36,7 @@ class BrandDetailsWidget extends StatelessWidget {
             return SizedBox(
               height: Get.height * 0.6,
               child: Center(
-                child: EmptyIndicator(title: state.errorMessage!),
+                child: ErrorIndicator(errorMessage: state.errorMessage!),
               ),
             );
 

@@ -50,7 +50,7 @@ class MainProductCard extends StatelessWidget {
               ProductDetailsCard(product: product, fromSearch: fromSearch),
               Container(
                 height: 30.h,
-                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                padding: EdgeInsets.symmetric(horizontal: 9.w),
                 decoration: kDefaultBoxDecoration.copyWith(
                     border: Border.all(color: Colors.transparent)),
                 child: product.prices!.entries.last.value.price == 0
@@ -79,7 +79,7 @@ class ProductDetailsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: fromSearch ? 156.w : 146.w,
-      padding: EdgeInsets.symmetric(horizontal: 9.w),
+      padding: EdgeInsets.symmetric(horizontal: 9.w, vertical: 4.h),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: kDefaultBorderRaduis,
@@ -92,7 +92,6 @@ class ProductDetailsCard extends StatelessWidget {
         ],
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Stack(
@@ -102,11 +101,11 @@ class ProductDetailsCard extends StatelessWidget {
                   height: fromSearch ? 142.h : 133.h,
                   width: fromSearch ? 136.w : 126.w,
                   child: AppImage(
-                    fit: BoxFit.contain,
+                    fit: BoxFit.fill,
                     path: product.imagePath!,
                   )),
               Positioned(
-                  top: 0,
+                  top: 3,
                   left: 0,
                   child: calculateSavingsPercentage(product) <= 0
                       ? const SizedBox()
@@ -220,7 +219,7 @@ class CheapestPriceRow extends StatelessWidget {
               text: TextSpan(children: [
                 TextSpan(
                   text:
-                      '11${product.prices!.entries.first.value.price!.toStringAsFixed(2)} ',
+                      '${product.prices!.entries.first.value.price!.toStringAsFixed(2)} ',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontSize: 13.sp,
                       color: AppColorsLight.kAppPrimaryColorLight,

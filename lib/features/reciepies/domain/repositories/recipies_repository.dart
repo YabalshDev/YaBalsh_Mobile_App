@@ -5,9 +5,9 @@ import 'package:yabalash_mobile_app/features/reciepies/domain/entities/recipie.d
 import '../../../../core/errors/faliures.dart';
 
 abstract class RecipiesRepository {
-  Future<Either<Failure, List<Brand>>> getBrands();
-  Future<Either<Failure, List<Recipie>>> getAllRecipies();
+  Future<Either<Failure, List<Brand>>> getBrands({int? page});
+  Future<Either<Failure, List<Recipie>>> getAllRecipies({int? page});
   Future<Either<Failure, List<Recipie>>> getBrandRecipies(
-      {required int brandId});
+      {required int brandId, int? page});
   Future<Either<Failure, Recipie>> getRecipieById({required int id});
 }

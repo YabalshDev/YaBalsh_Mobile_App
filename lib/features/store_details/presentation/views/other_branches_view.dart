@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
-import 'package:yabalash_mobile_app/features/search/presentation/widgets/super_market_search_card.dart';
+import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
+import 'package:yabalash_mobile_app/core/widgets/yaBalash_toast.dart';
 
+import '../../../../core/utils/enums/empty_states.dart';
 import '../../../../core/utils/enums/request_state.dart';
+import '../../../search/presentation/widgets/super_market_search_card.dart';
 import '../blocs/other_branches_cubit.dart';
 import '../widgets/other_branches_title.dart';
 
@@ -20,23 +24,53 @@ class OtherBranchesView extends StatelessWidget {
   }
 }
 
-class OtherBranchesBody extends StatelessWidget {
+class OtherBranchesBody extends StatefulWidget {
   const OtherBranchesBody({super.key});
+
+  @override
+  State<OtherBranchesBody> createState() => _OtherBranchesBodyState();
+}
+
+class _OtherBranchesBodyState extends State<OtherBranchesBody> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      if (_scrollController.position.maxScrollExtent ==
+          _scrollController.position.pixels) {
+        BlocProvider.of<OtherBranchesCubit>(context)
+            .handleBranchesPagintation();
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: kDefaultPadding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const OtherBranchTitle(),
-              mediumVerticalSpace,
-              const OtherBranchesSection()
-            ],
-          ),
+      child: Padding(
+        padding: kDefaultPadding,
+        child: CustomScrollView(
+          controller: _scrollController,
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            SliverToBoxAdapter(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [const OtherBranchTitle(), mediumVerticalSpace],
+            )),
+            const SliverToBoxAdapter(
+              child: OtherBranchesSection(),
+            ),
+          ],
         ),
       ),
     );
@@ -48,11 +82,14 @@ class OtherBranchesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<OtherBranchesCubit, OtherBranchesState>(
+    return BlocConsumer<OtherBranchesCubit, OtherBranchesState>(
+      listener: (context, state) {
+        if (state.otherBranchesRequestState == RequestState.error) {
+          yaBalashCustomToast(message: state.errorMessage!, context: context);
+        }
+      },
       builder: (context, state) {
         switch (state.otherBranchesRequestState) {
-          case RequestState.idle:
-            return const SizedBox();
           case RequestState.loading:
             return SizedBox(
               height: Get.height * 0.6,
@@ -60,30 +97,50 @@ class OtherBranchesSection extends StatelessWidget {
                 child: CircularProgressIndicator(),
               ),
             );
+          case RequestState.idle:
           case RequestState.loaded:
             return state.otherBranches!.isEmpty
                 ? SizedBox(
                     height: Get.height * 0.6,
                     child: const Center(
                         child: EmptyIndicator(
+                      emptyStateType: EmptyStates.addresses,
                       title: 'لا يوجد فروع اخرى',
                     )),
                   )
-                : ListView.builder(
-                    itemCount: state.otherBranches!.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      final branch = state.otherBranches![index];
-                      return SuperMarketSearchCard(store: branch);
-                    },
+                : Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      SizedBox(
+                        height: state.otherBranches!.length * 85.h,
+                        child: ListView.builder(
+                          key: UniqueKey(),
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: state.otherBranches!.length,
+                          itemBuilder: (context, index) {
+                            final branch = state.otherBranches![index];
+                            return SuperMarketSearchCard(store: branch);
+                          },
+                        ),
+                      ),
+                      state.paginationLoading!
+                          ? Positioned(
+                              bottom: 2.h,
+                              right: 0,
+                              left: 0,
+                              child: const Center(
+                                child: CircularProgressIndicator.adaptive(),
+                              ),
+                            )
+                          : const Align(child: SizedBox())
+                    ],
                   );
           case RequestState.error:
             return SizedBox(
               height: Get.height * 0.6,
               child: Center(
-                  child: EmptyIndicator(
-                title: state.errorMessage!,
+                  child: ErrorIndicator(
+                errorMessage: state.errorMessage!,
               )),
             );
 

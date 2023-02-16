@@ -6,15 +6,15 @@ import '../../../home/domain/entities/product.dart';
 
 abstract class SearchRepository {
   Future<Either<Failure, List<StoreSearch>>> storeSearch(
-      {required String searchName});
+      {required String searchName, int? page});
   Future<Either<Failure, List<Product>>> productSearch(
-      {required String searchName});
+      {required String searchName, int? page});
   Future<List<String>> getSearchHistory();
   Either<Failure, void> saveSearch({required String searchName});
 
   Future<Either<Failure, List<Product>>> mainCategoriesProductsSearch(
-      {required int mainCategoryId});
+      {required int mainCategoryId, int? page});
 
   Future<Either<Failure, List<Product>>> subCategoriesProductsSearch(
-      {required int subCategoryId});
+      {required int subCategoryId, int? page});
 }

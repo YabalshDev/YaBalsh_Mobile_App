@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/widgets/yaBalash_toast.dart';
 
 import '../../../../core/utils/enums/request_state.dart';
 import '../../domain/entities/main_zone.dart';
@@ -13,7 +14,12 @@ class SubZoneList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SubZoneCubit, SubZoneState>(
+    return BlocConsumer<SubZoneCubit, SubZoneState>(
+      listener: (context, state) {
+        if (state.subZonesState == RequestState.error) {
+          yaBalashCustomToast(message: state.errorMessage!, context: context);
+        }
+      },
       buildWhen: (previous, current) =>
           previous.subZonesState != current.subZonesState,
       builder: (context, state) {
@@ -35,8 +41,8 @@ class SubZoneList extends StatelessWidget {
                 final subZone = state.subZones![index];
                 return InkWell(
                   onTap: () {
-                    final updatedSubZone =
-                        subZone.copyWith(mainZoneName: mainZone.name);
+                    final updatedSubZone = subZone.copyWith(
+                        mainZoneName: mainZone.name, mainZoneId: mainZone.id);
                     BlocProvider.of<SubZoneCubit>(context)
                         .onSubZoneSelect(subZone: updatedSubZone);
                   },

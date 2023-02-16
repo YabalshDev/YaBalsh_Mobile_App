@@ -11,24 +11,24 @@ class RecipiesRepositoryImpl implements RecipiesRepository {
 
   RecipiesRepositoryImpl({required this.recipieDataSource});
   @override
-  Future<Either<Failure, List<Brand>>> getBrands() async {
+  Future<Either<Failure, List<Brand>>> getBrands({int? page}) async {
     try {
-      final response = await recipieDataSource.getAllBrands();
+      final response = await recipieDataSource.getAllBrands(page: page);
 
       return Right(response);
-    } on ServerException {
-      return const Left(ServerFailure(message: 'خطا اثناء جلب الماركات'));
+    } on ServerException catch (err) {
+      return Left(ServerFailure(message: err.errorModel.message!));
     }
   }
 
   @override
-  Future<Either<Failure, List<Recipie>>> getAllRecipies() async {
+  Future<Either<Failure, List<Recipie>>> getAllRecipies({int? page}) async {
     try {
-      final response = await recipieDataSource.getAllRecipies();
+      final response = await recipieDataSource.getAllRecipies(page: page);
 
       return Right(response);
-    } on ServerException {
-      return const Left(ServerFailure(message: 'خطا اثناء جلب الوصفات'));
+    } on ServerException catch (err) {
+      return Left(ServerFailure(message: err.errorModel.message!));
     }
   }
 
@@ -38,21 +38,21 @@ class RecipiesRepositoryImpl implements RecipiesRepository {
       final response = await recipieDataSource.getRecipieDetails(recipieId: id);
 
       return Right(response);
-    } on ServerException {
-      return const Left(ServerFailure(message: 'خطا اثناء جلب تفاصيل الوصفة'));
+    } on ServerException catch (err) {
+      return Left(ServerFailure(message: err.errorModel.message!));
     }
   }
 
   @override
   Future<Either<Failure, List<Recipie>>> getBrandRecipies(
-      {required int brandId}) async {
+      {required int brandId, int? page}) async {
     try {
-      final response =
-          await recipieDataSource.getBrandRecipies(brandId: brandId);
+      final response = await recipieDataSource.getBrandRecipies(
+          brandId: brandId, page: page);
 
       return Right(response);
-    } on ServerException {
-      return const Left(ServerFailure(message: 'خطا اثناء جلب وصفات الماركة'));
+    } on ServerException catch (err) {
+      return Left(ServerFailure(message: err.errorModel.message!));
     }
   }
 }

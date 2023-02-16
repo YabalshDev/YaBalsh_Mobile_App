@@ -19,9 +19,6 @@ class SuperMarketsSearchResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (state.searchStoresRequestState) {
-      case RequestState.idle:
-        return const SizedBox();
-
       case RequestState.loading:
         return ListView.builder(
           itemCount: 3,
@@ -33,6 +30,7 @@ class SuperMarketsSearchResult extends StatelessWidget {
             width: Get.width,
           ),
         );
+      case RequestState.idle:
       case RequestState.loaded:
         return state.searchStoresResult!.isEmpty
             ? SizedBox(
@@ -71,8 +69,13 @@ class SuperMarketsSearchResult extends StatelessWidget {
                               final store = state.searchStoresResult![index];
                               return SuperMarketSearchCard(store: store);
                             }),
+                        state.paginationLoading!
+                            ? const Center(
+                                child: CircularProgressIndicator.adaptive(),
+                              )
+                            : const SizedBox(),
                         SizedBox(
-                          height: Get.height,
+                          height: Get.height * 0.8,
                         )
                       ],
                     ),

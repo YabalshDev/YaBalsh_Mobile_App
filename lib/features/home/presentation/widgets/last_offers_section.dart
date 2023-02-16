@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:yabalash_mobile_app/core/widgets/yaBalash_toast.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/main_navigation_cubit.dart';
 
@@ -18,7 +19,13 @@ class LastOfferSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit, HomeState>(
+    return BlocConsumer<HomeCubit, HomeState>(
+      listener: (context, state) {
+        if (state.lastOfferrequestState == RequestState.error) {
+          yaBalashCustomToast(
+              message: state.lastOffersError!, context: context);
+        }
+      },
       buildWhen: (previous, current) =>
           previous.lastOfferrequestState != current.lastOfferrequestState,
       builder: (context, state) {
@@ -63,7 +70,6 @@ class LastOffersLoaded extends StatelessWidget {
               child: ListView.builder(
                 padding: kScaffoldPadding,
                 scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
                 itemCount: state.lastOffers!.length,
                 itemBuilder: (context, index) {
                   final mainCategory = state.lastOffers![index];
@@ -90,7 +96,6 @@ class LastOffersLoading extends StatelessWidget {
       child: ListView.builder(
         padding: kScaffoldPadding,
         scrollDirection: Axis.horizontal,
-        shrinkWrap: true,
         itemCount: 6,
         itemBuilder: (context, index) {
           return Shimmer.fromColors(

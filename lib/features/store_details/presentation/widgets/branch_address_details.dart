@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
@@ -56,12 +57,17 @@ class BranchAddressDetails extends StatelessWidget {
                   const Spacer(),
                   Padding(
                     padding: EdgeInsets.only(left: 15.w),
-                    child: Text(
-                      state.store!.location!.address!,
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontSize: 11.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColorsLight.kDisabledButtonTextColor),
+                    child: Container(
+                      constraints: BoxConstraints(maxWidth: Get.width * 0.55),
+                      child: Text(
+                        state.store!.location!.address!.split('-')[1],
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            fontSize: 11.sp,
+                            fontWeight: FontWeight.w600,
+                            color: AppColorsLight.kDisabledButtonTextColor),
+                      ),
                     ),
                   )
                 ],

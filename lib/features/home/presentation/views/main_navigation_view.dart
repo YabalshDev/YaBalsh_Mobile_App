@@ -129,7 +129,8 @@ final List<Widget> screens = [
             ..getLastOffers()
             ..getBanners()
             ..getNearStores()
-            ..getHomeSections();
+            ..getHomeSections()
+            ..requestNotificationsPermission();
         }
 
         return getIt<HomeCubit>();

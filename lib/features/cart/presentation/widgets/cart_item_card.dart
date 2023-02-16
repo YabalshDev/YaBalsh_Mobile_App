@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
+import 'package:yabalash_mobile_app/core/utils/extensions/string_extension.dart';
+
 import 'package:yabalash_mobile_app/core/widgets/cart_quantity_row.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/cart_item.dart';
 
@@ -76,12 +78,14 @@ class CartItemCard extends StatelessWidget {
                       Container(
                         constraints: BoxConstraints(maxWidth: 195.w),
                         child: Text(
-                          cartItem.product!.name ?? '',
+                          cartItem.product!.name!.split('-')[0].arabicText,
+                          maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: Theme.of(context)
                               .textTheme
-                              .bodySmall
-                              ?.copyWith(
+                              .bodySmall!
+                              .copyWith(
+                                  fontSize: 13.sp,
                                   color: AppColorsLight.kAppPrimaryColorLight,
                                   fontWeight: FontWeight.w600),
                         ),
@@ -91,8 +95,8 @@ class CartItemCard extends StatelessWidget {
                         cartItem.product!.size ?? '',
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontSize: 9.sp,
-                            color: AppColorsLight.kAppPrimaryColorLight,
+                            fontSize: 10.sp,
+                            color: AppColorsLight.darkPurpleColor,
                             fontWeight: FontWeight.w600),
                       ),
                     ],

@@ -7,6 +7,6 @@ class CustomAnimatedWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FadeIn(duration: const Duration(milliseconds: 500), child: child);
+    return FadeIn(duration: const Duration(milliseconds: 400), child: child);
   }
 }

@@ -103,6 +103,7 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
   }
 
   void getSuperMarkets() async {
+    bool hasError = false;
     List<SuperMarketCardModel> supermarkets = [];
 
     final supermarketPrices = _getSupermarketsPrices();
@@ -112,7 +113,8 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
 
     for (int id in storeIds) {
       final response = await getStoreUseCase(GetStoreParams(id: id));
-      response.fold((fauilre) {
+      response.fold((failure) {
+        hasError = true;
         yaBalashCustomDialog(
           isWithEmoji: false,
           buttonTitle: 'حسنا',
@@ -138,16 +140,18 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
       });
     }
 
-    supermarkets.sort(
-      (a, b) => a.price!.compareTo(b.price!),
-    );
+    if (!hasError) {
+      supermarkets.sort(
+        (a, b) => a.price!.compareTo(b.price!),
+      );
 
-    emit(state.copyWith(
-        availableSupermarkets:
-            supermarkets.where((element) => element.isAvailable!).toList(),
-        storeRequestState: RequestState.loaded,
-        unAvailableSupermarkets:
-            supermarkets.where((element) => !element.isAvailable!).toList()));
+      emit(state.copyWith(
+          availableSupermarkets:
+              supermarkets.where((element) => element.isAvailable!).toList(),
+          storeRequestState: RequestState.loaded,
+          unAvailableSupermarkets:
+              supermarkets.where((element) => !element.isAvailable!).toList()));
+    }
   }
 
   bool _checkStoreInSameZone(Store store) {

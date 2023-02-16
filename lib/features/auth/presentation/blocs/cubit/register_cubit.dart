@@ -30,7 +30,7 @@ class RegisterCubit extends Cubit<RegisterState> {
           isWithEmoji: false,
           title: 'ملاحظة',
           onConfirm: () => Get.back(),
-          mainContent: "مشكلة في انشاء الحساب");
+          mainContent: failure.message);
     }, (customer) {
       emit(state.copyWith(registerState: RequestState.loaded));
       Get.toNamed(RouteHelper.getLoginRoute(),

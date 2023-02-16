@@ -10,12 +10,14 @@ class NotificationRepositoryImpl implements NotificationRepository {
 
   NotificationRepositoryImpl({required this.notificationRemoteDataSource});
   @override
-  Future<Either<Failure, List<Notification>>> getAllNotification() async {
+  Future<Either<Failure, List<Notification>>> getAllNotification(
+      {int? page}) async {
     try {
-      final result = await notificationRemoteDataSource.getAllNotifications();
+      final result =
+          await notificationRemoteDataSource.getAllNotifications(page: page);
       return Right(result);
-    } on ServerException {
-      return const Left(ServerFailure(message: 'خطا اثناء جلب الاشعارات'));
+    } on ServerException catch (err) {
+      return Left(ServerFailure(message: err.errorModel.message!));
     }
   }
 }

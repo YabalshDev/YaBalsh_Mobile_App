@@ -1,13 +1,11 @@
-import 'package:equatable/equatable.dart';
+import 'category.dart';
 
-class SubCategory extends Equatable {
-  final int? id;
-  final String? name;
-  final String? imagePath;
-  final String? mainCategory;
-
-  const SubCategory(
-      {this.id, this.name = '', this.imagePath = '', this.mainCategory = ''});
+class SubCategory extends Category {
+  const SubCategory({
+    int? id,
+    String? imagePath,
+    String? name,
+  }) : super(id: id, imagePath: imagePath, name: name);
   @override
-  List<Object?> get props => [name, imagePath, mainCategory, id];
+  List<Object?> get props => [name, imagePath, id];
 }

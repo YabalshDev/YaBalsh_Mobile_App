@@ -26,12 +26,6 @@ class SubZoneCubit extends Cubit<SubZoneState> {
     response.fold((failure) {
       emit(state.copyWith(
           errorMessage: failure.message, subZonesState: RequestState.error));
-      showCustomDialog(
-          title: 'خطأ',
-          buttonTitle: 'حسنا',
-          isWithEmoji: false,
-          onConfirm: () => Get.back(),
-          mainContent: failure.message);
     }, (zones) {
       emit(state.copyWith(subZones: zones, subZonesState: RequestState.loaded));
     });

@@ -44,7 +44,7 @@ class CartQuantityRow extends StatelessWidget {
               ),
         Container(
           width: fromProductDetails != null ? 30.h : 25.h,
-          height: fromProductDetails != null ? 35.h : 25.h,
+          height: fromProductDetails != null ? 35.h : 30.h,
           margin: EdgeInsets.symmetric(horizontal: 5.w),
           decoration: kDefaultBoxDecoration.copyWith(
               color: Colors.white, borderRadius: kSecondaryBorderRaduis),

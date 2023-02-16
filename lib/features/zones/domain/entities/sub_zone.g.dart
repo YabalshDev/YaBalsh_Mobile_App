@@ -20,19 +20,22 @@ class SubZoneAdapter extends TypeAdapter<SubZone> {
       id: fields[0] as int?,
       name: fields[1] as String?,
       mainZoneName: fields[3] as String?,
+      mainZoneId: fields[4] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, SubZone obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
       ..write(obj.name)
       ..writeByte(3)
-      ..write(obj.mainZoneName);
+      ..write(obj.mainZoneName)
+      ..writeByte(4)
+      ..write(obj.mainZoneId);
   }
 
   @override

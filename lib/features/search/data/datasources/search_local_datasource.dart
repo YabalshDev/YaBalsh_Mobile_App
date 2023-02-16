@@ -30,7 +30,13 @@ class SearchLocalDataSourceImpl implements SearchLocalDataSource {
       }
 
       final box = Hive.box<String>(AppStrings.searchHistoryKey);
-      box.put(searchName, searchName);
+      if (!box.values.toList().contains(searchName)) {
+        box.add(searchName);
+      } else {
+        int index = box.values.toList().indexOf(searchName);
+        box.deleteAt(index);
+        box.add(searchName);
+      }
     } catch (err) {
       throw CacheException();
     }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
-import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_shimmer.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/main_product_card.dart';
 
@@ -20,22 +19,20 @@ class KewordProducts extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: getIt<CartCubit>(),
-      child: CustomAnimatedWidget(
-        child: SizedBox(
-          height: 263.h,
-          child: ListView.builder(
-            padding: isWithPadding ? kScaffoldPadding : EdgeInsets.zero,
-            scrollDirection: Axis.horizontal,
-            itemCount: products.length,
-            itemBuilder: (context, index) {
-              final product = products[index];
-              return MainProductCard(
-                product: product,
-                fromSearch: false,
-                fromProductDetails: true,
-              );
-            },
-          ),
+      child: SizedBox(
+        height: 263.h,
+        child: ListView.builder(
+          padding: isWithPadding ? kScaffoldPadding : EdgeInsets.zero,
+          scrollDirection: Axis.horizontal,
+          itemCount: products.length,
+          itemBuilder: (context, index) {
+            final product = products[index];
+            return MainProductCard(
+              product: product,
+              fromSearch: false,
+              fromProductDetails: true,
+            );
+          },
         ),
       ),
     );

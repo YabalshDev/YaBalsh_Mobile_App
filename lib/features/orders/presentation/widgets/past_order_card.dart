@@ -35,6 +35,9 @@ class PastOrderCard extends StatelessWidget {
                     CustomCard(
                       withBorder: true,
                       isAssetImage: false,
+                      width: 45.w,
+                      height: 45.h,
+                      fit: BoxFit.fill,
                       imagePath: order.store!.logoImagePath,
                     ),
                     smallHorizontalSpace,

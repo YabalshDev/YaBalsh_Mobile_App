@@ -13,23 +13,27 @@ class RecipieRemoteDatasource implements RecipieDataSource {
 
   RecipieRemoteDatasource({required this.restApiProvider});
   @override
-  Future<List<Brand>> getAllBrands() async {
-    final response = await restApiProvider.get(brandsEndpoint);
+  Future<List<Brand>> getAllBrands({int? page}) async {
+    final response = await restApiProvider.get(brandsEndpoint,
+        queryParams: page != null ? {'page': page} : null);
     final decodedData = BrandsResponseModel.fromJson(response);
     return decodedData.data as List<Brand>;
   }
 
   @override
-  Future<List<Recipie>> getAllRecipies() async {
-    final response = await restApiProvider.get(recipiesEndpoint);
+  Future<List<Recipie>> getAllRecipies({int? page}) async {
+    final response = await restApiProvider.get(recipiesEndpoint,
+        queryParams: page != null ? {'page': page} : null);
     final decodedData = RecipiesResponseModel.fromJson(response);
     return decodedData.data as List<Recipie>;
   }
 
   @override
-  Future<List<Recipie>> getBrandRecipies({required int brandId}) async {
-    final response =
-        await restApiProvider.get(getBrandsRecipiesEndpoint(brandId));
+  Future<List<Recipie>> getBrandRecipies(
+      {required int brandId, int? page}) async {
+    final response = await restApiProvider.get(
+        getBrandsRecipiesEndpoint(brandId),
+        queryParams: page != null ? {'page': page} : null);
     final decodedData = RecipiesResponseModel.fromJson(response);
     return decodedData.data as List<Recipie>;
   }

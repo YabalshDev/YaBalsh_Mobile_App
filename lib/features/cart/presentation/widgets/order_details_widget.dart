@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yabalash_mobile_app/core/utils/extensions/string_extension.dart';
 import 'package:yabalash_mobile_app/features/orders/domain/entities/order_response_product.dart';
 
 import '../../../../core/constants/app_layouts.dart';
@@ -58,8 +59,9 @@ class OrderDetailsSection extends StatelessWidget {
                     constraints: BoxConstraints(maxWidth: 195.w),
                     child: Text(
                       orderProducts != null
-                          ? orderProduct!.name!
-                          : cartItem!.product!.name!,
+                          ? orderProduct!.name!.split('-')[0].arabicText
+                          : cartItem!.product!.name!.split('-')[0].arabicText,
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: AppColorsLight.kAppPrimaryColorLight,
@@ -69,7 +71,9 @@ class OrderDetailsSection extends StatelessWidget {
                   ),
                   mediumVerticalSpace,
                   Text(
-                    '300 مل',
+                    orderProducts != null
+                        ? orderProduct!.size!
+                        : cartItem!.product!.size!,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontSize: 9.sp,

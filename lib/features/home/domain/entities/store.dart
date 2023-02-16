@@ -17,6 +17,19 @@ class Store extends Equatable {
       this.locations,
       this.logoImagePath});
 
+  Store copyWith(
+          {int? id,
+          String? name,
+          String? cardImagePath,
+          List<Location>? locations,
+          String? logoImagePath}) =>
+      Store(
+          id: id ?? this.id,
+          name: name ?? this.name,
+          logoImagePath: logoImagePath ?? this.logoImagePath,
+          cardImagePath: cardImagePath ?? this.cardImagePath,
+          locations: locations ?? this.locations);
+
   @override
   List<Object?> get props =>
       [id, name, cardImagePath, logoImagePath, locations];

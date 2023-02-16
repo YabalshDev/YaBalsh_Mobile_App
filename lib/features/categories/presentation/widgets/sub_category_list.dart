@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../domain/entities/sub_category.dart';
+import '../../domain/entities/category.dart';
 import 'sub_category_card.dart';
 
 class SubCategoriesList extends StatelessWidget {
-  final List<SubCategory> subCategories;
+  final List<Category> subCategories;
 
   const SubCategoriesList({
     super.key,

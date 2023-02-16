@@ -3,10 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
+import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
+import 'package:yabalash_mobile_app/core/widgets/yaBalash_toast.dart';
 
 import '../../../../core/utils/enums/request_state.dart';
 import '../../../../core/widgets/custom_shimmer.dart';
-import '../../../../core/widgets/empty_indicator.dart';
 import '../blocs/categories_cubit.dart';
 import 'sub_category_section.dart';
 
@@ -17,7 +18,13 @@ class AllCategoriesSections extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CategoriesCubit, CategoriesState>(
+    return BlocConsumer<CategoriesCubit, CategoriesState>(
+      listener: (context, state) {
+        if (state.categorySectionsRequestState == RequestState.error) {
+          yaBalashCustomToast(
+              message: state.categoriesError!, context: context);
+        }
+      },
       builder: (context, state) {
         switch (state.categorySectionsRequestState) {
           case RequestState.idle:
@@ -55,8 +62,8 @@ class AllCategoriesSections extends StatelessWidget {
           case RequestState.error:
             return SizedBox(
               height: Get.height * 0.6,
-              child:
-                  Center(child: EmptyIndicator(title: state.categoriesError!)),
+              child: Center(
+                  child: ErrorIndicator(errorMessage: state.categoriesError!)),
             );
           default:
             return const SizedBox();

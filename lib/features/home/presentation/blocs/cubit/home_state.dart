@@ -2,7 +2,7 @@ part of 'home_cubit.dart';
 
 class HomeState extends Equatable {
   final String? lastOffersError;
-  final List<MainCategory>? lastOffers;
+  final List<Category>? lastOffers;
   final RequestState? lastOfferrequestState;
   final String? bannersError;
   final List<Banner>? banners;
@@ -38,7 +38,7 @@ class HomeState extends Equatable {
 
   HomeState copyWith({
     String? lastOffersError,
-    List<MainCategory>? lastOffers,
+    List<Category>? lastOffers,
     RequestState? lastOfferrequestState,
     String? bannersError,
     List<Banner>? banners,

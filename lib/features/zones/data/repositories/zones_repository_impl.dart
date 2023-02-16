@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yabalash_mobile_app/core/errors/exceptions.dart';
+import 'package:yabalash_mobile_app/core/utils/extensions/list_limit_extension.dart';
+
 import 'package:yabalash_mobile_app/features/zones/data/datasources/zone_local_data_source.dart';
 import 'package:yabalash_mobile_app/features/zones/data/datasources/zone_remote_data_source.dart';
 import 'package:yabalash_mobile_app/features/zones/domain/entities/main_zone.dart';
@@ -32,9 +34,11 @@ class ZonesRepositoryImpl implements ZonesRepository {
   Future<Either<Failure, List<SubZone>>> getPastZones() async {
     try {
       final result = await zonesLocalDataSource.getPastZones();
-      return Right(result);
+
+      return Right(result.limit(3));
     } on CacheException {
-      return const Left(CacheFailure(message: 'حدث مشكلة اثناء جلب المناطق'));
+      return const Left(CacheFailure(
+          message: 'مشكلة في جلب اخر المناطق المختارة..حاول مرة اخرى'));
     }
   }
 

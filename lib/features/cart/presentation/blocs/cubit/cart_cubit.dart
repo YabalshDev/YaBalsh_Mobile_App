@@ -51,7 +51,7 @@ class CartCubit extends Cubit<CartState> {
 
   void addShoppingList({required String shoppingListName}) {
     final ShoppingList shoppingList =
-        ShoppingList(name: shoppingListName, products: state.cartItems);
+        ShoppingList(name: shoppingListName.trim(), products: state.cartItems);
 
     final response = addShoppingListUseCase(ShoppingListParams(shoppingList));
 
@@ -68,7 +68,9 @@ class CartCubit extends Cubit<CartState> {
               buttonTitle: 'حسنا',
               mainContent: 'تمت اضافة قائمة التسوق',
               title: 'ملاحظة',
-              onConfirm: () => Get.back(),
+              onConfirm: () => Get
+                ..back()
+                ..back(),
             ));
   }
 

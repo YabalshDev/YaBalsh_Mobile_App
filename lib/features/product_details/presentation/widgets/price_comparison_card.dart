@@ -1,68 +1,67 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yabalash_mobile_app/core/depedencies.dart';
-import 'package:yabalash_mobile_app/features/home/data/models/location_model.dart';
-import 'package:yabalash_mobile_app/features/product_details/presentation/blocs/cubit/product_details_cubit.dart';
-
+import 'package:get/get.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
-import '../../../../core/services/zone_service.dart';
+import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
+import '../../../../core/utils/enums/search_navigation_screens.dart';
 import '../../../../core/widgets/custom_card.dart';
-import '../../../../core/widgets/custom_svg_icon.dart';
-import '../../../home/domain/entities/location.dart';
 import '../../../home/domain/entities/store.dart';
 
 class PriceComparisonCard extends StatelessWidget {
   final double price;
   final Store store;
   final bool isAvailable;
-  final int pricesLength;
-  final int index;
-  final bool isNear;
+
   const PriceComparisonCard({
     super.key,
-    required this.index,
     required this.store,
     required this.price,
-    required this.isNear,
     required this.isAvailable,
-    required this.pricesLength,
   });
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      return Column(
-        children: [
-          Container(
-            margin: EdgeInsets.only(bottom: 15.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomCard(
-                  height: 45.h,
-                  width: 45.h,
-                  withBorder: true,
-                  isAssetImage: false,
-                  imagePath: store.logoImagePath,
-                ),
-                mediumHorizontalSpace,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+      return InkWell(
+        onTap: () => Get.toNamed(RouteHelper.getSearchRoute(),
+            arguments: [SearchNavigationScreens.storeScreen, store.name, 0]),
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(bottom: 15.h),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CustomCard(
+                    height: 45.h,
+                    width: 45.h,
+                    withBorder: true,
+                    isAssetImage: false,
+                    imagePath: store.logoImagePath,
+                  ),
+                  mediumHorizontalSpace,
+
+                  SizedBox(
+                    width: constraints.maxWidth * 0.44,
+                    child: Row(
                       children: [
-                        Text(
-                          store.name ?? '',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColorsLight.kAppPrimaryColorLight),
+                        Container(
+                          constraints: BoxConstraints(
+                              maxWidth: constraints.maxWidth * 0.38),
+                          child: Text(
+                            store.name ?? 'غير متوفر',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color:
+                                        AppColorsLight.kAppPrimaryColorLight),
+                          ),
                         ),
                         SizedBox(
                           width: 20.w,
@@ -73,159 +72,46 @@ class PriceComparisonCard extends StatelessWidget {
                                 : AppAssets.outOfStockIcon,
                             fit: BoxFit.cover,
                           ),
-                        )
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        CustomSvgIcon(
-                          iconPath: AppAssets.addressesIcon,
-                          height: 16.h,
-                          width: 12.w,
-                          color: AppColorsLight.kAppPrimaryColorLight,
                         ),
-                        smallHorizontalSpace,
-                        SizedBox(
-                          width: constraints.maxWidth * 0.4,
-                          child: Text(
-                            getStoreAddress(store, isNear),
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(
-                                    fontSize: 10.sp,
-                                    color: AppColorsLight.kDarkPurpleColor),
-                          ),
-                        )
                       ],
                     ),
-                  ],
-                ),
-                const Spacer(),
-                SizedBox(
-                  width: constraints.maxWidth * 0.36,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '$price جنيه',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge
-                                ?.copyWith(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 18.sp,
-                                    color:
-                                        AppColorsLight.kAppPrimaryColorLight),
-                          ),
-                        ],
-                      ),
-                    ],
                   ),
-                )
-              ],
-            ),
-          ),
-          PriceCardShowMore(pricesLength: pricesLength, index: index)
-        ],
-      );
-    });
-  }
-}
-
-String getStoreAddress(Store store, bool isNearStores) {
-  String address = '';
-  Location? storeLocation = store.locations!.firstWhere(
-      (element) => element.subZoneId != getIt<ZoneService>().currentSubZone!.id,
-      orElse: () => const LocationModel());
-  if (isNearStores ||
-      storeLocation.subZoneId == null && store.locations!.isNotEmpty) {
-    address = store.locations!
-        .firstWhere((element) =>
-            element.subZoneId == getIt<ZoneService>().currentSubZone!.id)
-        .address!;
-  } else {
-    if (storeLocation.address != null) {
-      address = storeLocation.address!;
-    } else {
-      address = 'غير متوفر';
-    }
-  }
-
-  return address;
-}
-
-class PriceCardShowMore extends StatelessWidget {
-  const PriceCardShowMore({
-    Key? key,
-    required this.pricesLength,
-    required this.index,
-  }) : super(key: key);
-
-  final int pricesLength;
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
-      builder: (context, state) {
-        return pricesLength <= 5
-            ? const SizedBox()
-            : pricesLength < 5 && index == pricesLength - 1
-                ? InkWell(
-                    onTap: () => BlocProvider.of<ProductDetailsCubit>(context)
-                        .changeShowMore(false),
+                  // const Spacer(),
+                  SizedBox(
+                    width: constraints.maxWidth * 0.29,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          'عرض كل الاسعار',
+                          '${price.toStringAsFixed(2)} جنيه',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                           style: Theme.of(context)
                               .textTheme
-                              .bodySmall
+                              .bodyLarge
                               ?.copyWith(
-                                  color: AppColorsLight.kAppPrimaryColorLight,
-                                  fontWeight: FontWeight.w700),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18.sp,
+                                  color: AppColorsLight.kAppPrimaryColorLight),
                         ),
-                        const Icon(
-                          Icons.keyboard_arrow_down,
-                          color: AppColorsLight.kAppPrimaryColorLight,
-                        )
                       ],
                     ),
+                  ),
+                  const Spacer(),
+                  Container(
+                    margin: EdgeInsets.only(top: 3.h),
+                    child: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 18.h,
+                      color: AppColorsLight.kAppPrimaryColorLight,
+                    ),
                   )
-                : pricesLength > 5 && index == pricesLength - 1
-                    ? InkWell(
-                        onTap: () =>
-                            BlocProvider.of<ProductDetailsCubit>(context)
-                                .changeShowMore(true),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'عرض اسعار اقل',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(
-                                      color:
-                                          AppColorsLight.kAppPrimaryColorLight,
-                                      fontWeight: FontWeight.w700),
-                            ),
-                            const Icon(
-                              Icons.keyboard_arrow_up,
-                              color: AppColorsLight.kAppPrimaryColorLight,
-                            )
-                          ],
-                        ),
-                      )
-                    : const SizedBox();
-      },
-    );
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

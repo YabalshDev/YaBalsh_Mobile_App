@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/utils/extensions/string_extension.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_card.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_shimmer.dart';
@@ -28,7 +29,6 @@ class RecipieProductsSection extends StatelessWidget {
           case RequestState.loading:
             return ListView.builder(
               itemCount: 4,
-              shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               padding: kDefaultPadding,
               itemBuilder: (context, index) {
@@ -43,7 +43,6 @@ class RecipieProductsSection extends StatelessWidget {
             return CustomAnimatedWidget(
               child: ListView.builder(
                 itemCount: state.recipie!.products!.length,
-                shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 padding: kDefaultPadding,
                 itemBuilder: (context, index) {
@@ -63,19 +62,6 @@ class RecipieProductsSection extends StatelessWidget {
         }
       },
     );
-
-    // return ListView.builder(
-    //   itemCount: products.length,
-    //   shrinkWrap: true,
-    //   physics: const NeverScrollableScrollPhysics(),
-    //   padding: kDefaultPadding,
-    //   itemBuilder: (context, index) {
-    //     final product = products[index];
-    //     return RecipieProductCard(
-    //       product: product,
-    //     );
-    //   },
-    // );
   }
 }
 
@@ -105,12 +91,12 @@ class RecipieProductCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                constraints: BoxConstraints(maxWidth: 195.w),
+                constraints: BoxConstraints(maxWidth: 180.w),
                 child: Text(
-                  product.name!,
-                  overflow: TextOverflow.ellipsis,
+                  product.name!.split('-')[0].arabicText,
                   maxLines: 1,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       color: AppColorsLight.kAppPrimaryColorLight,
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w600),

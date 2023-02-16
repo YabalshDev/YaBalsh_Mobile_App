@@ -14,22 +14,23 @@ class SearchState extends Equatable {
   final Product? chepeastProduct;
   final String? errorMessage;
   final String? intialValue;
+  final bool? paginationLoading;
 
-  const SearchState({
-    this.searchTypeIndex = 0,
-    this.intialValue = '',
-    this.isSearchEmpty = true,
-    this.chepeastProduct = const Product(),
-    this.searchHistory = const [],
-    this.searchProductsResult = const [],
-    this.searchStoresResult = const [],
-    this.mostSellingProducts = const [],
-    this.mostSellingRequestState = RequestState.loading,
-    this.searchHistoryRequestState = RequestState.loading,
-    this.searchProductsRequestState = RequestState.idle,
-    this.searchStoresRequestState = RequestState.idle,
-    this.errorMessage = '',
-  });
+  const SearchState(
+      {this.searchTypeIndex = 0,
+      this.intialValue = '',
+      this.isSearchEmpty = true,
+      this.chepeastProduct = const Product(),
+      this.searchHistory = const [],
+      this.searchProductsResult = const [],
+      this.searchStoresResult = const [],
+      this.mostSellingProducts = const [],
+      this.mostSellingRequestState = RequestState.loading,
+      this.searchHistoryRequestState = RequestState.loading,
+      this.searchProductsRequestState = RequestState.idle,
+      this.searchStoresRequestState = RequestState.idle,
+      this.errorMessage = '',
+      this.paginationLoading = false});
 
   SearchState copyWith(
           {int? searchTypeIndex,
@@ -43,9 +44,11 @@ class SearchState extends Equatable {
           RequestState? searchStoresRequestState,
           RequestState? mostSellingRequestState,
           bool? isSearchEmpty,
+          bool? paginationLoading,
           String? intialValue,
           String? errorMessage}) =>
       SearchState(
+          paginationLoading: paginationLoading ?? this.paginationLoading,
           intialValue: intialValue ?? this.intialValue,
           chepeastProduct: chepeastProduct ?? this.chepeastProduct,
           mostSellingProducts: mostSellingProducts ?? this.mostSellingProducts,
@@ -80,6 +83,7 @@ class SearchState extends Equatable {
         mostSellingProducts!,
         mostSellingRequestState!,
         chepeastProduct!,
-        intialValue!
+        intialValue!,
+        paginationLoading!
       ];
 }

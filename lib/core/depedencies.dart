@@ -90,7 +90,7 @@ import 'package:yabalash_mobile_app/features/reciepies/data/datasources/recipie_
 import 'package:yabalash_mobile_app/features/reciepies/data/datasources/recipie_remote_datasource.dart';
 import 'package:yabalash_mobile_app/features/reciepies/data/repositories/recipies_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/reciepies/domain/repositories/recipies_repository.dart';
-import 'package:yabalash_mobile_app/features/reciepies/domain/usecases/get_all_creators_usecase.dart';
+import 'package:yabalash_mobile_app/features/reciepies/domain/usecases/get_all_brands_usecase.dart';
 import 'package:yabalash_mobile_app/features/reciepies/domain/usecases/get_all_recipies_usecase.dart';
 import 'package:yabalash_mobile_app/features/reciepies/domain/usecases/get_brand_recipies_usecase.dart';
 import 'package:yabalash_mobile_app/features/reciepies/domain/usecases/get_recipie_details_usecase.dart';
@@ -152,7 +152,8 @@ setupDependecies() {
       () => UserServiceImpl(localStorageProvider: getIt()));
   getIt.registerLazySingleton<StoreService>(() => StoreServiceImpl());
   getIt.registerLazySingleton<CategoriesService>(() => CategoriesServiceImpl());
-  getIt.registerLazySingleton<DeviceService>(() => DeviceServiceImpl());
+  getIt.registerLazySingleton<DeviceService>(
+      () => DeviceServiceImpl(registerDeviceUseCase: getIt()));
   getIt.registerLazySingleton<ShoppingListService>(
       () => ShoppingListServiceImpl());
   getIt.registerLazySingleton<PromoService>(() => PromoServiceImpl());
@@ -371,6 +372,7 @@ setupDependecies() {
   );
   getIt.registerLazySingleton(
     () => SplashCubit(
+        registerDeviceUseCase: getIt(),
         splashRepository: getIt(),
         userService: getIt(),
         zoneService: getIt(),
@@ -379,7 +381,6 @@ setupDependecies() {
   getIt.registerFactory(
     () => LoginCubit(
         loginUseCase: getIt(),
-        registerDeviceUseCase: getIt(),
         authRepository: getIt(),
         getCurrentCustomerUseCase: getIt()),
   );
@@ -451,7 +452,9 @@ setupDependecies() {
       ));
 
   getIt.registerFactory(() => RecipiesCubit(
-      getAllBrandsUseCase: getIt(), getRecipieDetailsUseCase: getIt()));
+      getRecipiesUseCase: getIt(),
+      getAllBrandsUseCase: getIt(),
+      getRecipieDetailsUseCase: getIt()));
   getIt.registerFactory(() => BrandsCubit(
       getBrandRecipiesUseCase: getIt(), getRecipieDetailsUseCase: getIt()));
   getIt.registerFactory(() => RecipieDetailsCubit(

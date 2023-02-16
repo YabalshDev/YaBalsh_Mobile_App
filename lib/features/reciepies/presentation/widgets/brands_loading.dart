@@ -11,24 +11,27 @@ class CreatorsLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 120.h,
-      child: ListView.builder(
-        itemCount: 4,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) => Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CustomShimmer(
-              width: 60.w,
-              height: 60.h,
-            ),
-            mediumVerticalSpace,
-            CustomShimmer(
-              width: 60.w,
-              height: 10.h,
-            ),
-          ],
+    return Padding(
+      padding: kDefaultPadding,
+      child: SizedBox(
+        height: 120.h,
+        child: ListView.builder(
+          itemCount: 4,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) => Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CustomShimmer(
+                width: 60.w,
+                height: 60.h,
+              ),
+              mediumVerticalSpace,
+              CustomShimmer(
+                width: 60.w,
+                height: 10.h,
+              ),
+            ],
+          ),
         ),
       ),
     );

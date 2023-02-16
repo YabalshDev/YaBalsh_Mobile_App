@@ -12,14 +12,15 @@ class GetBrandRecipiesUseCase
   GetBrandRecipiesUseCase({required this.recipiesRepository});
   @override
   Future<Either<Failure, List<Recipie>>> call(GetBrandRecipiesParams params) =>
-      recipiesRepository.getBrandRecipies(brandId: params.brandId);
+      recipiesRepository.getBrandRecipies(
+          brandId: params.brandId, page: params.page);
 }
 
 class GetBrandRecipiesParams extends Equatable {
   final int brandId;
-
-  const GetBrandRecipiesParams({required this.brandId});
+  final int? page;
+  const GetBrandRecipiesParams({required this.brandId, this.page});
 
   @override
-  List<Object?> get props => [brandId];
+  List<Object?> get props => [brandId, page];
 }

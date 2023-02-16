@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/utils/enums/empty_states.dart';
 import '../../../../core/widgets/empty_indicator.dart';
 
 class SearchEmptyResult extends StatelessWidget {
@@ -8,7 +9,8 @@ class SearchEmptyResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: EmptyIndicator(title: 'لا يوجد نتائج بحث'),
+      child: EmptyIndicator(
+          emptyStateType: EmptyStates.other, title: 'لا يوجد نتائج بحث'),
     );
   }
 }

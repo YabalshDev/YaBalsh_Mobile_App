@@ -5,9 +5,12 @@ import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_shimmer.dart';
 import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
+import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
+import 'package:yabalash_mobile_app/core/widgets/yaBalash_toast.dart';
 import 'package:yabalash_mobile_app/features/reciepies/presentation/blocs/cubit/brands_cubit.dart';
 
 import '../../../../core/constants/app_layouts.dart';
+import '../../../../core/utils/enums/empty_states.dart';
 import '../../../../core/utils/enums/request_state.dart';
 import '../../../../core/widgets/sub_heading.dart';
 import 'reciepie_card.dart';
@@ -19,20 +22,28 @@ class CreatorRecipiesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BrandsCubit, BrandsState>(
+    return BlocConsumer<BrandsCubit, BrandsState>(
+      listener: (context, state) {
+        if (state.recipiesRequestState == RequestState.error) {
+          yaBalashCustomToast(message: state.errorMessage!, context: context);
+        }
+      },
+      buildWhen: (previous, current) =>
+          previous.recipiesRequestState != current.recipiesRequestState,
       builder: (context, state) {
         switch (state.recipiesRequestState) {
-          case RequestState.idle:
-            return const SizedBox();
-
           case RequestState.loading:
             return const BrandsRecipiesLoading();
+          case RequestState.idle:
+
           case RequestState.loaded:
             return state.recipies!.isEmpty
                 ? SizedBox(
                     height: Get.height * 0.6,
                     child: const Center(
-                      child: EmptyIndicator(title: "لا يوجد وصفات"),
+                      child: EmptyIndicator(
+                          emptyStateType: EmptyStates.other,
+                          title: "لا يوجد وصفات"),
                     ),
                   )
                 : BrandRecipiesLoaded(
@@ -43,7 +54,7 @@ class CreatorRecipiesSection extends StatelessWidget {
             return SizedBox(
               height: Get.height * 0.5,
               child: Center(
-                child: EmptyIndicator(title: state.errorMessage!),
+                child: ErrorIndicator(errorMessage: state.errorMessage!),
               ),
             );
 
@@ -91,16 +102,24 @@ class BrandRecipiesLoaded extends StatelessWidget {
         children: [
           const SubHeading(text: 'جميع الوصفات'),
           smallVerticalSpace,
-          ListView.builder(
-            itemCount: state.recipies!.length,
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return RecipieCard(
-                recipie: state.recipies![index],
-              );
-            },
-          )
+          SizedBox(
+            height: state.recipies!.length * 92.h,
+            child: ListView.builder(
+              itemCount: state.recipies!.length,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return RecipieCard(
+                  recipie: state.recipies![index],
+                );
+              },
+            ),
+          ),
+          smallVerticalSpace,
+          state.paginationLoading!
+              ? const Center(
+                  child: CircularProgressIndicator.adaptive(),
+                )
+              : const SizedBox()
         ],
       ),
     );

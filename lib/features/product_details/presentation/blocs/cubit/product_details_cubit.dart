@@ -53,20 +53,27 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     return productStores;
   }
 
-  List<Store> _getNearStores(List<Store> stores) {
-    final subZoneId = getIt<ZoneService>().currentSubZone!.id;
+  Map<String, List<Store>> _getProductBranches(List<Store> stores) {
+    final subZone = getIt<ZoneService>().currentSubZone!;
     List<Store> nearStores = [];
+    List<Store> farStores = [];
 
-    for (var element in stores) {
-      final locations = element.locations!
-          .where((element) => element.subZoneId == subZoneId)
-          .toList();
-      if (locations.isNotEmpty) {
-        nearStores.add(element);
+    for (var store in stores) {
+      final mainZonelocation = store.locations!
+          .where((element) => element.mainZoneId == subZone.mainZoneId);
+      final subZoneLocation =
+          store.locations!.where((element) => element.subZoneId == subZone.id);
+
+      if (mainZonelocation.isNotEmpty) {
+        farStores.add(store);
+      }
+
+      if (subZoneLocation.isNotEmpty) {
+        nearStores.add(store);
       }
     }
 
-    return nearStores;
+    return {'nearStores': nearStores, 'farStores': farStores};
   }
 
   void changeProductNotified(bool value) =>
@@ -84,15 +91,15 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     final response = await getProductDetailsUseCase(GetProductDetailsParams(
         productId: productId, withNearStores: withNearStores));
 
-    response.fold((l) {
+    response.fold((faiulre) {
       emit(state.copyWith(productRequestState: RequestState.error));
     }, (product) async {
       final stores = await _getProductStores(product);
       final relevants = await getProductRelevants(product.id!);
-      final nearStores = _getNearStores(stores);
+      final branches = _getProductBranches(stores);
       emit(state.copyWith(
-          productStores: stores,
-          nearStores: nearStores,
+          productStores: branches['farStores'],
+          nearStores: branches['nearStores'],
           productRelevants: relevants,
           product: product,
           productRequestState: RequestState.loaded));

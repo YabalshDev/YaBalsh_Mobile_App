@@ -7,7 +7,7 @@ import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/utils/enums/search_navigation_screens.dart';
 import '../../../../core/widgets/custom_card.dart';
-import '../../domain/entities/main_category.dart';
+import '../../../categories/domain/entities/category.dart';
 
 class LastOfferCard extends StatelessWidget {
   const LastOfferCard({
@@ -15,7 +15,7 @@ class LastOfferCard extends StatelessWidget {
     required this.mainCategory,
   }) : super(key: key);
 
-  final MainCategory mainCategory;
+  final Category mainCategory;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +34,7 @@ class LastOfferCard extends StatelessWidget {
                 width: 60.w,
                 height: 60.h,
                 isAssetImage: false,
+                fit: BoxFit.cover,
                 imagePath: mainCategory.imagePath,
                 backgroundColor: AppColorsLight.kSubCategoryCardColor,
                 withBorder: false,

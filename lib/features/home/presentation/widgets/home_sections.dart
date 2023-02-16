@@ -8,6 +8,7 @@ import 'package:yabalash_mobile_app/core/widgets/kew_word_products.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_cubit.dart';
 
 import '../../../../core/utils/enums/request_state.dart';
+import '../../../../core/widgets/yaBalash_toast.dart';
 import '../../domain/entities/product.dart';
 import 'Title_row.dart';
 import 'section_loading.dart';
@@ -17,7 +18,13 @@ class HomeSections extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit, HomeState>(
+    return BlocConsumer<HomeCubit, HomeState>(
+      listener: (context, state) {
+        if (state.homeSectionsRequestState == RequestState.error) {
+          yaBalashCustomToast(
+              message: 'فشل في جلب القوائم الرئيسية', context: context);
+        }
+      },
       buildWhen: (previous, current) =>
           previous.homeSectionsRequestState != current.homeSectionsRequestState,
       builder: (context, state) {
@@ -92,7 +99,7 @@ class SectionLoaded extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        largeVerticalSpace,
+        smallVerticalSpace,
         TitleRow(
           title: sectionName,
           onSelectAll: () => Get.toNamed(RouteHelper.getSearchRoute(),

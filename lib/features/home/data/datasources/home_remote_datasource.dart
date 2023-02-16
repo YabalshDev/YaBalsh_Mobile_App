@@ -2,8 +2,9 @@ import 'package:yabalash_mobile_app/core/api/remote_data_api/endpoints.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/rest_api_provider.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
 import 'package:yabalash_mobile_app/core/services/zone_service.dart';
+import 'package:yabalash_mobile_app/features/categories/domain/entities/category.dart';
 import 'package:yabalash_mobile_app/features/home/data/models/banners_response_model.dart';
-import 'package:yabalash_mobile_app/features/home/data/models/main_categories_response_model.dart';
+
 import 'package:yabalash_mobile_app/features/home/data/models/near_stores_response_model.dart';
 import 'package:yabalash_mobile_app/features/home/data/models/sections_response_model.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/store.dart';
@@ -12,12 +13,11 @@ import 'package:yabalash_mobile_app/features/home/domain/entities/section.dart';
 
 import 'package:yabalash_mobile_app/features/home/domain/entities/product.dart';
 
-import 'package:yabalash_mobile_app/features/home/domain/entities/main_category.dart';
-
 import 'package:yabalash_mobile_app/features/home/domain/entities/banner.dart';
 import 'package:yabalash_mobile_app/features/product_details/data/models/product_response_model.dart';
 import 'package:yabalash_mobile_app/features/search/data/models/product_search_response.dart';
 
+import '../../../categories/data/models/category_response_model.dart';
 import 'home_mock_datasource.dart';
 
 class HomeRemoteDataSourceImpl implements HomeDataSource {
@@ -25,10 +25,9 @@ class HomeRemoteDataSourceImpl implements HomeDataSource {
 
   HomeRemoteDataSourceImpl({required this.restApiProvider});
   @override
-  Future<List<MainCategory>> getAllMainCategories() async {
+  Future<List<Category>> getAllMainCategories() async {
     final response = await restApiProvider.get(mainCategoriesEndpoint);
-    return MainCategoriesResponseModel.fromJson(response).data
-        as List<MainCategory>;
+    return CategoriesResponseModel.fromJson(response).data as List<Category>;
   }
 
   @override
@@ -46,9 +45,11 @@ class HomeRemoteDataSourceImpl implements HomeDataSource {
   }
 
   @override
-  Future<List<Product>> getSectionProducts({required int sectionId}) async {
-    final response =
-        await restApiProvider.get(getSectionProductsEndpoint(sectionId));
+  Future<List<Product>> getSectionProducts(
+      {required int sectionId, int? page}) async {
+    final response = await restApiProvider.get(
+        getSectionProductsEndpoint(sectionId),
+        queryParams: page != null ? {'page': page} : null);
     return ProductSearchResponse.fromJson(response).data as List<Product>;
   }
 

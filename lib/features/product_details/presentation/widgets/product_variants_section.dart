@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
+import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/utils/enums/request_state.dart';
 import '../../../../core/widgets/custom_shimmer.dart';
-import '../../../../core/widgets/empty_indicator.dart';
 import '../../../../core/widgets/sub_heading.dart';
+import '../../../../core/widgets/yaBalash_toast.dart';
 import '../blocs/cubit/product_details_cubit.dart';
 import 'variant_card.dart';
 
@@ -16,7 +16,14 @@ class ProductVariantsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
+    return BlocConsumer<ProductDetailsCubit, ProductDetailsState>(
+      listener: (context, state) {
+        if (state.productVariationRequestState == RequestState.error) {
+          yaBalashCustomToast(
+              message: 'فشل في جلب احجام المنتج ... حاول مرة اخرى',
+              context: context);
+        }
+      },
       buildWhen: (previous, current) =>
           previous.productVariationRequestState !=
           current.productVariationRequestState,
@@ -50,7 +57,7 @@ class ProductVariantsSection extends StatelessWidget {
                         const SubHeading(text: 'احجام اخرى للمنتج'),
                         mediumVerticalSpace,
                         SizedBox(
-                          height: 63.5.h,
+                          height: 68.5.h,
                           child: ListView.builder(
                             padding: EdgeInsets.zero,
                             scrollDirection: Axis.horizontal,
@@ -72,7 +79,7 @@ class ProductVariantsSection extends StatelessWidget {
             return SizedBox(
               height: Get.height * 0.6,
               child: const Center(
-                child: EmptyIndicator(title: 'مشكلة في جلب المنتج '),
+                child: ErrorIndicator(errorMessage: 'مشكلة في جلب المنتج '),
               ),
             );
 

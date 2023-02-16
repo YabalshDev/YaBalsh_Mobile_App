@@ -7,21 +7,24 @@ class OrderResponseProductModel extends OrderResponseProduct {
       double? price,
       double? total,
       String? name,
+      String? size,
       String? imagePath})
       : super(
             id: id,
             name: name,
             price: price,
             quantity: quantity,
+            size: size,
             total: total,
             imagePath: imagePath);
 
   factory OrderResponseProductModel.fromJson(Map<String, dynamic> json) =>
       OrderResponseProductModel(
-          id: json['id'],
-          name: json['name'],
+          id: json['id'] ?? 0,
+          name: json['name'] ?? '',
           imagePath: json['imagePath'] ?? '',
-          price: double.parse(json['price'] as String),
-          quantity: json['quantity'],
+          size: json['size'] ?? '',
+          price: json['price'] != null ? 0 : json['price'].toDouble(),
+          quantity: json['quantity'] ?? 1,
           total: double.parse(json['total'] as String));
 }

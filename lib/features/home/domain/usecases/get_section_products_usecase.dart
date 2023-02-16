@@ -14,13 +14,15 @@ class GetSectionProductsUseCase
   @override
   Future<Either<Failure, List<Product>>> call(
           GetSectionProductsParams params) =>
-      homeRepository.getSectionProducts(sectionId: params.sectionId);
+      homeRepository.getSectionProducts(
+          sectionId: params.sectionId, page: params.page);
 }
 
 class GetSectionProductsParams extends Equatable {
   final int sectionId;
+  final int? page;
 
-  const GetSectionProductsParams({required this.sectionId});
+  const GetSectionProductsParams({required this.sectionId, this.page});
   @override
-  List<Object?> get props => [sectionId];
+  List<Object?> get props => [sectionId, page];
 }

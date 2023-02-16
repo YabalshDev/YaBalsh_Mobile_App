@@ -11,7 +11,7 @@ import 'package:yabalash_mobile_app/core/widgets/custom_network_image.dart';
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/utils/enums/request_state.dart';
-import '../../../on_boaring/presentation/widgets/dots_indicators.dart';
+import '../../../../core/widgets/yaBalash_toast.dart';
 import '../blocs/cubit/home_cubit.dart';
 
 class BannersSection extends StatelessWidget {
@@ -19,7 +19,12 @@ class BannersSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit, HomeState>(
+    return BlocConsumer<HomeCubit, HomeState>(
+      listener: (context, state) {
+        if (state.bannersRequestState == RequestState.error) {
+          yaBalashCustomToast(message: state.bannersError!, context: context);
+        }
+      },
       buildWhen: (previous, current) =>
           previous.bannersRequestState != current.bannersRequestState,
       builder: (context, state) {
@@ -59,24 +64,6 @@ class BannersSection extends StatelessWidget {
               height: 133.h,
             );
         }
-      },
-    );
-  }
-}
-
-class CarouselDotsIndicators extends StatelessWidget {
-  const CarouselDotsIndicators({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit, HomeState>(
-      buildWhen: (previous, current) =>
-          previous.currentBannerIndex != current.currentBannerIndex,
-      builder: (context, state) {
-        return DotsIndicatorsCards(
-            index: state.currentBannerIndex!, length: state.banners!.length);
       },
     );
   }

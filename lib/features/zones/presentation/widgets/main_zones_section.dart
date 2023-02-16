@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
+import 'package:yabalash_mobile_app/core/widgets/yaBalash_toast.dart';
 
 import '../../../../core/utils/enums/request_state.dart';
-import '../../../../core/widgets/empty_indicator.dart';
 import '../blocs/cubit/main_zones_cubit.dart';
 import 'main_zones_loaded.dart';
 import 'main_zones_loading.dart';
@@ -13,7 +14,13 @@ class MainZonesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MainZonesCubit, MainZonesState>(
+    return BlocConsumer<MainZonesCubit, MainZonesState>(
+      listener: (context, state) {
+        if (state.mainZonesState == RequestState.error) {
+          yaBalashCustomToast(
+              message: state.mainZonesErrorMessage!, context: context);
+        }
+      },
       builder: (context, state) {
         switch (state.mainZonesState) {
           case RequestState.idle:
@@ -28,7 +35,8 @@ class MainZonesSection extends StatelessWidget {
             return SizedBox(
               height: Get.height * 0.6,
               child: Center(
-                child: EmptyIndicator(title: state.mainZonesErrorMessage!),
+                child:
+                    ErrorIndicator(errorMessage: state.mainZonesErrorMessage!),
               ),
             );
           default:

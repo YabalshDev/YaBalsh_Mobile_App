@@ -21,7 +21,7 @@ class PriceModel extends Equatable {
 
   factory PriceModel.fromJson(Map<String, dynamic> json) => PriceModel(
       isAvailable: json['isAvailable'] ?? false,
-      price: json['price'] != null ? double.parse(json['price'] as String) : 0,
+      price: json['price'].toDouble() ?? 0,
       storeId: json['storeId'] ?? 0,
       storeImagePath: json['cardImagePath'] ?? '');
 

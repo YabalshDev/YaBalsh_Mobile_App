@@ -40,11 +40,13 @@ class OrderSuccessBody extends StatelessWidget {
               mediumVerticalSpace,
               InkWell(
                 onTap: () {
-                  if (!isFromOrderDetails) {
+                  if (isFromOrderDetails) {
+                    Get.back();
+                  } else {
                     getIt<CartCubit>().resetCart();
+                    Get.offAllNamed(RouteHelper.getMainNavigationRoute(),
+                        arguments: 0);
                   }
-                  Get.offAllNamed(RouteHelper.getMainNavigationRoute(),
-                      arguments: 0);
                 },
                 child: const CustomSvgIcon(
                   iconPath: AppAssets.closeIcon,

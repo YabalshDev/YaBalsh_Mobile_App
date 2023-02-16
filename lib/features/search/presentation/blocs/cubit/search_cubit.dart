@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_fields, unused_field
+
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
@@ -6,7 +8,8 @@ import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/constants.dart';
 import 'package:yabalash_mobile_app/core/errors/faliures.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
-import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
+import 'package:yabalash_mobile_app/core/utils/enums/search_navigation_screens.dart';
+import 'package:yabalash_mobile_app/core/utils/extensions/list_limit_extension.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/location.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_section_products_usecase.dart';
 import 'package:yabalash_mobile_app/features/search/domain/entities/store_search.dart';
@@ -41,6 +44,15 @@ class SearchCubit extends Cubit<SearchState> {
       required this.searchProductUsecase})
       : super(const SearchState());
 
+  List<Product> _productsResult = [];
+  List<StoreSearch> _storesResult = [];
+
+  int _productsPageNumber = 1;
+  int _storesPageNumber = 1;
+  String _searchValue = '';
+
+  SearchNavigationScreens _screen = SearchNavigationScreens.other;
+
   void setIntialSearchValue(String value) =>
       emit(state.copyWith(intialValue: value));
   void changeProductSearchState(RequestState searchState) =>
@@ -68,87 +80,61 @@ class SearchCubit extends Cubit<SearchState> {
         searchHistoryRequestState: RequestState.loaded));
   }
 
-  void onSearchInit(String? searchName) async {
-    // if idle or from home
-    if (searchName != null) {
-      final response =
-          await searchProductUsecase(SearchParams(searchName: searchName));
-
-      response.fold((failure) {
-        emit(state.copyWith(errorMessage: failure.message));
-        yaBalashCustomDialog(
-          buttonTitle: 'حسنا',
-          isWithEmoji: false,
-          title: 'خطأ',
-          mainContent: failure.message,
-          onConfirm: () {
-            Get.back();
-          },
-        );
-      }, (result) {
-        emit(state.copyWith(
-            searchProductsRequestState: RequestState.loaded,
-            searchProductsResult: result));
-      });
-    }
-  }
-
   void _productSearch(String searchName) async {
-    emit(state.copyWith(searchProductsRequestState: RequestState.loading));
-    final response =
-        await searchProductUsecase(SearchParams(searchName: searchName));
+    _handleResultsLoading();
+
+    final response = await searchProductUsecase(
+        SearchParams(searchName: searchName, page: _productsPageNumber));
 
     response.fold((failure) {
       emit(state.copyWith(
           errorMessage: failure.message,
           searchProductsRequestState: RequestState.error));
-      yaBalashCustomDialog(
-        buttonTitle: 'حسنا',
-        isWithEmoji: false,
-        title: 'خطأ',
-        mainContent: failure.message,
-        onConfirm: () {
-          Get.back();
-        },
-      );
     }, (result) {
+      if (result.isNotEmpty) {
+        _productsPageNumber++;
+      }
       emit(state.copyWith(
+          paginationLoading: false,
+          chepeastProduct: const Product(),
           searchProductsRequestState: RequestState.loaded,
-          searchProductsResult: result));
+          searchProductsResult: _productsResult..addAll(result)));
     });
   }
 
   void _storeSearch(String searchName) async {
-    emit(state.copyWith(searchStoresRequestState: RequestState.loading));
-    final response =
-        await searchStoreUsecase(SearchParams(searchName: searchName));
+    _handleResultsLoading();
+    final response = await searchStoreUsecase(
+        SearchParams(searchName: searchName, page: _storesPageNumber));
 
     response.fold((failure) {
       emit(state.copyWith(
           errorMessage: failure.message,
           searchStoresRequestState: RequestState.error));
-      yaBalashCustomDialog(
-        buttonTitle: 'حسنا',
-        isWithEmoji: false,
-        title: 'خطأ',
-        mainContent: failure.message,
-        onConfirm: () {
-          Get.back();
-        },
-      );
     }, (result) {
+      if (result.isNotEmpty) {
+        _storesPageNumber++;
+      }
+
       emit(state.copyWith(
+          paginationLoading: false,
           searchStoresRequestState: RequestState.loaded,
-          searchStoresResult: result));
+          searchStoresResult: _storesResult..addAll(result)));
     });
   }
 
   void search(String searchName) async {
+    _searchValue = searchName;
+    _screen = SearchNavigationScreens.other;
     if (state.searchTypeIndex == 0) {
       // if in products section
+      _productsPageNumber = 1;
+      _productsResult = [];
       _productSearch(searchName);
     } else {
       // if in stores section
+      _storesPageNumber = 1;
+      _storesResult = [];
       _storeSearch(searchName);
     }
   }
@@ -156,7 +142,7 @@ class SearchCubit extends Cubit<SearchState> {
   void getAllNearStores() {
     final nearStores = getIt<StoreService>().nearStores;
     final subZoneId = getIt<ZoneService>().currentSubZone!.id;
-    List<StoreSearch> allNearStores = [];
+
     emit(state.copyWith(searchStoresRequestState: RequestState.loading));
 
     for (Store store in nearStores) {
@@ -173,20 +159,15 @@ class SearchCubit extends Cubit<SearchState> {
                 id: store.id,
                 location: e))
             .toList();
-        allNearStores.addAll(stores);
+        _storesPageNumber++;
+        _storesResult.addAll(stores);
       }
     }
 
-    // allNearStores = nearStores
-    //     .map((e) => StoreSearch(
-    //         cardImagePath: e.cardImagePath,
-    //         id: e.id,
-    //         location: e.locations!.last,
-    //         name: e.name))
-    //     .toList();
     emit(state.copyWith(
+        paginationLoading: false,
         searchStoresRequestState: RequestState.loaded,
-        searchStoresResult: allNearStores));
+        searchStoresResult: _storesResult));
   }
 
   void getMostSellingProducts() async {
@@ -194,45 +175,65 @@ class SearchCubit extends Cubit<SearchState> {
         const GetSectionProductsParams(sectionId: mostSellingProductsId));
 
     response.fold(
-        (failure) =>
-            emit(state.copyWith(mostSellingRequestState: RequestState.error)),
+        (failure) => emit(state.copyWith(
+              mostSellingRequestState: RequestState.error,
+              errorMessage: failure.message,
+            )),
         (products) => emit(state.copyWith(
             mostSellingRequestState: RequestState.loaded,
-            mostSellingProducts: products)));
+            mostSellingProducts: products.limit(5))));
   }
 
   void getSectionProducts(int sectionId) async {
-    emit(state.copyWith(searchProductsRequestState: RequestState.loading));
-    final response = await getSectionProductsUseCase(
-        GetSectionProductsParams(sectionId: sectionId));
-
-    response.fold(
-        (failure) => emit(
-            state.copyWith(searchProductsRequestState: RequestState.error)),
-        (products) => emit(state.copyWith(
-            searchProductsRequestState: RequestState.loaded,
-            searchProductsResult: products)));
-  }
-
-  void categoryProductsSearch(int id, bool isMainCategory) async {
-    emit(state.copyWith(searchProductsRequestState: RequestState.loading));
-    Either<Failure, List<Product>>? response;
-    if (isMainCategory) {
-      response = await mainCategoriesProductsSearchUsecase(
-          CategoriesProductsSearchParams(id: id));
-    } else {
-      response = await subCategoriesProductsSearchUsecase(
-          CategoriesProductsSearchParams(id: id));
-    }
+    _handleResultsLoading();
+    final response = await getSectionProductsUseCase(GetSectionProductsParams(
+        sectionId: sectionId, page: _productsPageNumber));
 
     response.fold(
         (failure) => emit(
             state.copyWith(searchProductsRequestState: RequestState.error)),
         (products) {
-      getBestOffer(products);
+      if (products.isNotEmpty) {
+        _productsPageNumber++;
+      }
+
       emit(state.copyWith(
+          paginationLoading: false,
           searchProductsRequestState: RequestState.loaded,
-          searchProductsResult: products));
+          searchProductsResult: _productsResult..addAll(products)));
+    });
+  }
+
+  void categoryProductsSearch(int id, bool isMainCategory) async {
+    _handleResultsLoading();
+    Either<Failure, List<Product>>? response;
+    if (isMainCategory) {
+      _screen = SearchNavigationScreens.mainCategories;
+      response = await mainCategoriesProductsSearchUsecase(
+          CategoriesProductsSearchParams(id: id, page: _productsPageNumber));
+    } else {
+      _screen = SearchNavigationScreens.subCategories;
+      response = await subCategoriesProductsSearchUsecase(
+          CategoriesProductsSearchParams(id: id, page: _productsPageNumber));
+    }
+
+    response.fold(
+        (failure) => emit(state.copyWith(
+            searchProductsRequestState: RequestState.error,
+            errorMessage: failure.message)), (products) {
+      if (products.isNotEmpty) {
+        _productsPageNumber++;
+      }
+      _productsResult.addAll(products);
+      var set = <int>{};
+      List<Product> uniquelist =
+          _productsResult.where((product) => set.add(product.id!)).toList();
+
+      getBestOffer(List.from(uniquelist));
+      emit(state.copyWith(
+          paginationLoading: false,
+          searchProductsRequestState: RequestState.loaded,
+          searchProductsResult: uniquelist));
     });
   }
 
@@ -244,6 +245,65 @@ class SearchCubit extends Cubit<SearchState> {
 
       emit(state.copyWith(
           chepeastProduct: products[0])); //first element is cheapest
+    }
+  }
+
+  void _handleResultsLoading() {
+    if (state.searchTypeIndex == 0 && _productsPageNumber > 1) {
+      // if in products section and page is more than one
+      emit(state.copyWith(
+          paginationLoading: true,
+          searchProductsRequestState: RequestState.idle));
+    } else if (state.searchTypeIndex == 1 && _storesPageNumber > 1) {
+      // if in stores section and page is more than one
+      emit(state.copyWith(
+          paginationLoading: true,
+          searchStoresRequestState: RequestState.idle));
+    } else {
+      // if page is one
+      if (state.searchTypeIndex == 0) {
+        emit(state.copyWith(searchProductsRequestState: RequestState.loading));
+      } else {
+        emit(state.copyWith(searchStoresRequestState: RequestState.loading));
+      }
+    }
+  }
+
+  void handlePagination() {
+    final String searchName =
+        _searchValue.isNotEmpty ? _searchValue : Get.routing.args[1];
+    final int id = Get.routing.args[2];
+
+    switch (_screen) {
+      case SearchNavigationScreens.homeScreen:
+        break;
+      case SearchNavigationScreens.other:
+      case SearchNavigationScreens.storeScreen:
+        if (state.searchTypeIndex == 0) {
+          return _productSearch(searchName);
+        } else {
+          return _storeSearch(searchName);
+        }
+      case SearchNavigationScreens.nearStoresScreen:
+        break;
+      case SearchNavigationScreens.sections:
+        if (state.searchTypeIndex == 0) {
+          return getSectionProducts(id);
+        } else {
+          return;
+        }
+      case SearchNavigationScreens.mainCategories:
+        if (state.searchTypeIndex == 0) {
+          return categoryProductsSearch(id, true);
+        } else {
+          return;
+        }
+      case SearchNavigationScreens.subCategories:
+        if (state.searchTypeIndex == 0) {
+          return categoryProductsSearch(id, false);
+        } else {
+          return;
+        }
     }
   }
 }

@@ -6,6 +6,7 @@ import 'package:yabalash_mobile_app/core/utils/handle_search_view_initstate.dart
 import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/core/widgets/internet_connection_wrapper.dart';
 import 'package:yabalash_mobile_app/core/widgets/keyboard_dissmisable.dart';
+import 'package:yabalash_mobile_app/core/widgets/protected_route.dart';
 import 'package:yabalash_mobile_app/features/addresses/presentation/blocs/cubit/address_cubit.dart';
 import 'package:yabalash_mobile_app/features/addresses/presentation/blocs/cubit/update_address_cubit.dart';
 import 'package:yabalash_mobile_app/features/addresses/presentation/views/addresses_view.dart';
@@ -50,7 +51,6 @@ import 'package:yabalash_mobile_app/features/zones/presentation/views/main_zones
 import 'package:yabalash_mobile_app/features/zones/presentation/views/sub_zones_view.dart';
 
 import '../../features/home/domain/entities/product.dart';
-import '../../features/home/presentation/views/home_view.dart';
 import '../../features/orders/domain/entities/order.dart';
 import '../../features/orders/presentation/blocs/cubit/order_success_cubit.dart';
 import '../../features/reciepies/domain/entities/brand.dart';
@@ -115,6 +115,8 @@ class RouteHelper {
   static final routes = [
     GetPage(
       name: _intialRoute,
+      transition: normalNavigationTransition,
+      transitionDuration: transitionDuration,
       page: () => BlocProvider<SplashCubit>(
         create: (context) => getIt<SplashCubit>()..splashInit(),
         child: const SplashView(),
@@ -122,6 +124,8 @@ class RouteHelper {
     ),
     GetPage(
       name: _onBordingRoute,
+      transition: normalNavigationTransition,
+      transitionDuration: transitionDuration,
       page: () => BlocProvider<OnBoardingCubit>(
         create: (context) => getIt<OnBoardingCubit>(),
         child: const OnBoardingView(),
@@ -129,6 +133,8 @@ class RouteHelper {
     ),
     GetPage(
         name: _mainNavigationRoute,
+        transition: normalNavigationTransition,
+        transitionDuration: transitionDuration,
         page: () {
           int index = Get.arguments;
           return BlocProvider<MainNavigationCubit>(
@@ -138,16 +144,13 @@ class RouteHelper {
           );
         }),
     GetPage(
-      name: _homeRoute,
-      page: () => const HomeView(),
-    ),
-    GetPage(
         name: _productDetailsRoute,
+        transition: normalNavigationTransition,
+        transitionDuration: transitionDuration,
         page: () {
           final Product product = Get.arguments;
           return InternetConnectionWrapper(
-            child: CustomAnimatedWidget(
-                child: BlocProvider<ProductDetailsCubit>(
+            child: BlocProvider<ProductDetailsCubit>(
               create: (context) => getIt<ProductDetailsCubit>()
                 ..getProductDetails(
                     productId: product.id!, withNearStores: true)
@@ -156,94 +159,101 @@ class RouteHelper {
               child: ProductDetailsView(
                 product: product,
               ),
-            )),
+            ),
           );
         }),
     GetPage(
         name: _loginRoute,
+        transition: normalNavigationTransition,
+        transitionDuration: transitionDuration,
         page: () {
-          return CustomAnimatedWidget(
-              child: BlocProvider<LoginCubit>(
+          return BlocProvider<LoginCubit>(
             create: (context) => getIt<LoginCubit>(),
             child: KeyboardDissmisable(
                 child: LoginView(
               phoneNumber: Get.arguments[0],
               fromRoute: Get.arguments[1],
             )),
-          ));
+          );
         }),
     GetPage(
         name: _registerRoute,
+        transition: normalNavigationTransition,
+        transitionDuration: transitionDuration,
         page: () {
-          return CustomAnimatedWidget(
-              child: BlocProvider<RegisterCubit>(
+          return BlocProvider<RegisterCubit>(
             create: (context) => getIt<RegisterCubit>(),
             child: KeyboardDissmisable(
                 child: RegisterView(
               phoneNumber: Get.arguments[0],
               fromRoute: Get.arguments[1],
             )),
-          ));
+          );
         }),
     GetPage(
         name: _mainZonesRoute,
+        transition: normalNavigationTransition,
+        transitionDuration: transitionDuration,
         page: () {
           return InternetConnectionWrapper(
-            child: CustomAnimatedWidget(
-              child: BlocProvider<MainZonesCubit>(
-                create: (context) => getIt<MainZonesCubit>()
-                  ..getZonesHistory()
-                  ..getMainZones(),
-                child: const MainZonesView(),
-              ),
+            child: BlocProvider<MainZonesCubit>(
+              create: (context) => getIt<MainZonesCubit>()
+                ..getZonesHistory()
+                ..getMainZones(),
+              child: const MainZonesView(),
             ),
           );
         }),
     GetPage(
         name: _subZonesRoutes,
+        transition: normalNavigationTransition,
+        transitionDuration: transitionDuration,
         page: () {
           final MainZone mainZone = Get.arguments;
           return InternetConnectionWrapper(
-            child: CustomAnimatedWidget(
-              child: BlocProvider<SubZoneCubit>(
-                create: (context) =>
-                    getIt<SubZoneCubit>()..getMainZoneSubZones(mainZone.id!),
-                child: SubZonesView(mainZone: Get.arguments),
-              ),
+            child: BlocProvider<SubZoneCubit>(
+              create: (context) =>
+                  getIt<SubZoneCubit>()..getMainZoneSubZones(mainZone.id!),
+              child: SubZonesView(mainZone: Get.arguments),
             ),
           );
         }),
     GetPage(
         name: _phoneNumberRoute,
+        transition: normalNavigationTransition,
+        transitionDuration: transitionDuration,
         page: () {
           final String fromRoute = Get.arguments;
           return InternetConnectionWrapper(
-            child: CustomAnimatedWidget(
-                child: KeyboardDissmisable(
-                    child: BlocProvider<PhoneNumberCubit>(
+            child: KeyboardDissmisable(
+                child: BlocProvider<PhoneNumberCubit>(
               create: (context) => getIt<PhoneNumberCubit>(),
               child: PhoneNumberView(fromRoute: fromRoute),
-            ))),
-          );
-        }),
-    GetPage(
-        name: _addressesRoute,
-        page: () {
-          final String fromRoute = Get.arguments;
-          return InternetConnectionWrapper(
-            child: CustomAnimatedWidget(
-                child: BlocProvider<AddressCubit>(
-              create: (context) => getIt<AddressCubit>()..getAllAddress(),
-              child: AddressesView(fromRoute: fromRoute),
             )),
           );
         }),
     GetPage(
+        name: _addressesRoute,
+        transition: normalNavigationTransition,
+        transitionDuration: transitionDuration,
+        page: () {
+          final String fromRoute = Get.arguments;
+          return InternetConnectionWrapper(
+            child: ProtectedRoute(
+              child: BlocProvider<AddressCubit>(
+                create: (context) => getIt<AddressCubit>()..getAllAddress(),
+                child: AddressesView(fromRoute: fromRoute),
+              ),
+            ),
+          );
+        }),
+    GetPage(
         name: _updateAddressRoute,
+        transition: normalNavigationTransition,
+        transitionDuration: transitionDuration,
         page: () {
           return InternetConnectionWrapper(
-            child: CustomAnimatedWidget(
-                child: KeyboardDissmisable(
+            child: KeyboardDissmisable(
               child: BlocProvider<UpdateAddressCubit>(
                 create: (context) => getIt<UpdateAddressCubit>(),
                 child: UpdateAddress(
@@ -252,13 +262,13 @@ class RouteHelper {
                   fromRoute: Get.arguments[2],
                 ),
               ),
-            )),
+            ),
           );
         }),
     GetPage(
         name: _orderSuccessRoute,
-        transition: navigationTransition,
-        transitionDuration: const Duration(milliseconds: 500),
+        transition: orderNavigationTransition,
+        transitionDuration: transitionDuration,
         page: () {
           final Order order = Get.arguments[0];
           final bool isFromOrderDetails = Get.arguments[1];
@@ -281,62 +291,67 @@ class RouteHelper {
         }),
     GetPage(
         name: _pastOrdersRoute,
+        transition: normalNavigationTransition,
+        transitionDuration: transitionDuration,
         page: () {
           return InternetConnectionWrapper(
-            child: CustomAnimatedWidget(
-                child: BlocProvider<PastOrdersCubit>(
-                    create: (context) =>
-                        getIt<PastOrdersCubit>()..getPastOrders(),
-                    child: const PastOrdersView())),
+            child: ProtectedRoute(
+              child: BlocProvider<PastOrdersCubit>(
+                  create: (context) =>
+                      getIt<PastOrdersCubit>()..getPastOrders(),
+                  child: const PastOrdersView()),
+            ),
           );
         }),
     GetPage(
         name: _shoppingListDetailsRoute,
+        transition: normalNavigationTransition,
+        transitionDuration: transitionDuration,
         page: () {
           final ShoppingList shoppingList = Get.arguments[0];
-          return CustomAnimatedWidget(
-              child: BlocProvider<ShoppingListDetailsCubit>(
-                  create: (context) => getIt<ShoppingListDetailsCubit>()
-                    ..setShoppingListName(shoppingList.name!)
-                    ..getShoppingListStores(
-                        shoppingListItems: shoppingList.products!),
-                  child: ShoppingListDetailsView(
-                    shoppingList: shoppingList,
-                  )));
+          return BlocProvider<ShoppingListDetailsCubit>(
+              create: (context) => getIt<ShoppingListDetailsCubit>()
+                ..setShoppingListName(shoppingList.name!)
+                ..getShoppingListStores(
+                    shoppingListItems: shoppingList.products!),
+              child: ShoppingListDetailsView(
+                shoppingList: shoppingList,
+              ));
         }),
     GetPage(
         name: _searchRoute,
+        transition: normalNavigationTransition,
+        transitionDuration: transitionDuration,
         page: () {
           final String searchName = Get.arguments[1];
           final SearchNavigationScreens searchNavigationScreens =
               Get.arguments[0];
           final int id = Get.arguments[2];
           return InternetConnectionWrapper(
-            child: CustomAnimatedWidget(
-              child: BlocProvider<SearchCubit>(
-                create: (context) {
-                  return handleSearchViewInitState(
-                      searchNavigationScreens, searchName, id);
-                },
-                child: KeyboardDissmisable(
-                  child: SearchView(
-                      searchNavigationScreens: searchNavigationScreens,
-                      intialValue: searchName),
-                ),
+            child: BlocProvider<SearchCubit>(
+              create: (context) {
+                return handleSearchViewInitState(
+                    searchNavigationScreens, searchName, id);
+              },
+              child: KeyboardDissmisable(
+                child: SearchView(
+                    searchNavigationScreens: searchNavigationScreens,
+                    intialValue: searchName),
               ),
             ),
           );
         }),
     GetPage(
         name: _recipiesRoute,
+        transition: normalNavigationTransition,
+        transitionDuration: transitionDuration,
         page: () {
-          final List<Recipie> recipies = Get.arguments;
           return InternetConnectionWrapper(
             child: CustomAnimatedWidget(
               child: BlocProvider<RecipiesCubit>(
                 create: (context) => getIt<RecipiesCubit>()
                   ..getBrands()
-                  ..getAllRecipieDetails(recipies),
+                  ..getAllRecipieDetails(),
                 child: const RecipiesView(),
               ),
             ),
@@ -344,59 +359,63 @@ class RouteHelper {
         }),
     GetPage(
         name: _recipieDetailsRoute,
+        transition: normalNavigationTransition,
+        transitionDuration: transitionDuration,
         page: () {
           final Recipie recipie = Get.arguments;
           return InternetConnectionWrapper(
             child: BlocProvider<RecipieDetailsCubit>(
               create: (context) =>
                   getIt<RecipieDetailsCubit>()..getRecipieDetails(recipie.id!),
-              child: const CustomAnimatedWidget(
-                child: RecipieDetailsView(),
-              ),
+              child: const RecipieDetailsView(),
             ),
           );
         }),
     GetPage(
         name: _brandDetailsRoute,
+        transition: normalNavigationTransition,
+        transitionDuration: transitionDuration,
         page: () {
           final Brand brand = Get.arguments;
           return InternetConnectionWrapper(
             child: BlocProvider<BrandsCubit>(
               create: (context) =>
                   getIt<BrandsCubit>()..getBrandRecipies(brand.id!),
-              child: CustomAnimatedWidget(
-                child: BrandDetailsView(
-                  brand: brand,
-                ),
-              ),
+              child: const BrandDetailsView(),
             ),
           );
         }),
     GetPage(
         name: _notificationsRoute,
+        transition: normalNavigationTransition,
+        transitionDuration: transitionDuration,
         page: () {
           return InternetConnectionWrapper(
             child: BlocProvider<NotificationsCubit>(
               create: (context) =>
                   getIt<NotificationsCubit>()..getAllNotifications(),
-              child: const CustomAnimatedWidget(child: NotificatiosView()),
+              child: const NotificationsView(),
             ),
           );
         }),
     GetPage(
         name: _storeDetailsRoute,
+        transition: normalNavigationTransition,
+        transitionDuration: transitionDuration,
         page: () {
           final StoreSearch store = Get.arguments;
 
           return InternetConnectionWrapper(
             child: BlocProvider<StoreDetailsCubit>(
               create: (context) => getIt<StoreDetailsCubit>()..setStore(store),
-              child: const CustomAnimatedWidget(child: StoreDetailsView()),
+              child: const StoreDetailsView(),
             ),
           );
         }),
     GetPage(
         name: _otherBranchesRoute,
+        transition: normalNavigationTransition,
+        transitionDuration: transitionDuration,
         page: () {
           final StoreSearch store = Get.arguments;
 
@@ -405,7 +424,7 @@ class RouteHelper {
               create: (context) => getIt<OtherBranchesCubit>()
                 ..setCurrentStore(store)
                 ..getOtherBranches(store),
-              child: const CustomAnimatedWidget(child: OtherBranchesView()),
+              child: const OtherBranchesView(),
             ),
           );
         }),

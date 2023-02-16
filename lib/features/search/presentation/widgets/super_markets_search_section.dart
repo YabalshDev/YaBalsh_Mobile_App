@@ -9,6 +9,7 @@ import 'package:yabalash_mobile_app/features/search/presentation/blocs/cubit/sea
 import 'package:yabalash_mobile_app/features/search/presentation/widgets/back_to_top_card.dart';
 
 import '../../../../core/services/stores_service.dart';
+import '../../../../core/widgets/yaBalash_toast.dart';
 import 'supermarkets_search_result.dart';
 
 class SuperMarketsSearchSection extends StatefulWidget {
@@ -25,7 +26,12 @@ class _SuperMarketsSearchSectionState extends State<SuperMarketsSearchSection> {
   void initState() {
     super.initState();
     _scrollController = ScrollController();
-    _scrollController?.addListener(() {});
+    _scrollController?.addListener(() {
+      if (_scrollController!.position.maxScrollExtent ==
+          _scrollController!.position.pixels) {
+        BlocProvider.of<SearchCubit>(context).handlePagination();
+      }
+    });
   }
 
   @override
@@ -38,17 +44,22 @@ class _SuperMarketsSearchSectionState extends State<SuperMarketsSearchSection> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SingleChildScrollView(
+        CustomScrollView(
           controller: _scrollController,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              BlocBuilder<SearchCubit, SearchState>(
-                builder: (context, state) {
-                  if (state.isSearchEmpty!) {
-                    return getIt<StoreService>().uniqueStores.isEmpty
-                        ? const SizedBox()
-                        : Padding(
+          slivers: [
+            BlocConsumer<SearchCubit, SearchState>(
+              listener: (context, state) {
+                if (state.searchStoresRequestState == RequestState.error) {
+                  yaBalashCustomToast(
+                      message: state.errorMessage!, context: context);
+                }
+              },
+              builder: (context, state) {
+                if (state.isSearchEmpty!) {
+                  return getIt<StoreService>().uniqueStores.isEmpty
+                      ? const SliverToBoxAdapter(child: SizedBox())
+                      : SliverToBoxAdapter(
+                          child: Padding(
                             padding: kDefaultPadding,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,14 +72,15 @@ class _SuperMarketsSearchSectionState extends State<SuperMarketsSearchSection> {
                                     isWithPadding: false),
                               ],
                             ),
-                          );
-                  } else {
-                    return SuperMarketsSearchResult(state: state);
-                  }
-                },
-              )
-            ],
-          ),
+                          ),
+                        );
+                } else {
+                  return SliverToBoxAdapter(
+                      child: SuperMarketsSearchResult(state: state));
+                }
+              },
+            )
+          ],
         ),
 
         // back to top

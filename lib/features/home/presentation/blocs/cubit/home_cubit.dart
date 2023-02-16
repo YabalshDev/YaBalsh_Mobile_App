@@ -8,11 +8,13 @@ import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/core/services/stores_service.dart';
 import 'package:yabalash_mobile_app/core/usecases/use_cases.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
+import 'package:yabalash_mobile_app/core/utils/extensions/list_limit_extension.dart';
 import 'package:yabalash_mobile_app/core/utils/get_unique_stores.dart';
+import 'package:yabalash_mobile_app/core/utils/notification_helper.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
+import 'package:yabalash_mobile_app/features/categories/domain/entities/category.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/banner.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/home_section.dart';
-import 'package:yabalash_mobile_app/features/home/domain/entities/main_category.dart';
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_banners_use_case.dart';
 
 import 'package:yabalash_mobile_app/features/home/domain/usecases/get_near_stores_use_case.dart';
@@ -109,6 +111,10 @@ class HomeCubit extends Cubit<HomeState> {
     });
   }
 
+  void requestNotificationsPermission() {
+    NotificationHelper.handleNotificationsPermission();
+  }
+
   void getProductByBarcode(String barcode) async {
     final response = await getProductByBarCodeUseCase(
         GetProductByBarcodeParams(barCode: barcode));
@@ -162,6 +168,7 @@ class HomeCubit extends Cubit<HomeState> {
     response.fold((l) {}, (result) {
       subZones = result;
     });
-    return subZones;
+
+    return subZones.limit(3);
   }
 }

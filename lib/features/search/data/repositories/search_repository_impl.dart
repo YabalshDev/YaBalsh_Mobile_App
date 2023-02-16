@@ -1,4 +1,6 @@
 import 'package:yabalash_mobile_app/core/errors/exceptions.dart';
+import 'package:yabalash_mobile_app/core/utils/extensions/list_limit_extension.dart';
+import 'package:yabalash_mobile_app/core/utils/filter_priced_products.dart';
 import 'package:yabalash_mobile_app/features/search/data/datasources/search_local_datasource.dart';
 import 'package:yabalash_mobile_app/features/search/data/datasources/search_remote_datasource.dart';
 import 'package:yabalash_mobile_app/features/search/domain/entities/store_search.dart';
@@ -18,7 +20,8 @@ class SearchRepositoryImpl implements SearchRepository {
   Future<List<String>> getSearchHistory() async {
     try {
       final response = await searchLocalDataSource.getSearchHistory();
-      return response;
+
+      return response.limit(5);
     } on CacheException {
       return [];
     }
@@ -26,61 +29,66 @@ class SearchRepositoryImpl implements SearchRepository {
 
   @override
   Future<Either<Failure, List<Product>>> productSearch(
-      {required String searchName}) async {
+      {required String searchName, int? page}) async {
     try {
-      final response =
-          await searchRemoteDataSource.productSearch(searchName: searchName);
-      return Right(response.data as List<Product>);
-    } on ServerException {
-      return const Left(
-          ServerFailure(message: 'حدث خطا اثناء البحث عن المنتج'));
+      final response = await searchRemoteDataSource.productSearch(
+          searchName: searchName, page: page);
+      final pricedProducts =
+          filterPricedProducts((response.data as List<Product>));
+
+      return Right(pricedProducts);
+    } on ServerException catch (err) {
+      return Left(ServerFailure(message: err.errorModel.message!));
     }
   }
 
   @override
   Either<Failure, void> saveSearch({required String searchName}) {
     try {
-      final response = searchLocalDataSource.saveSearch(searchName: searchName);
+      final response = searchLocalDataSource.saveSearch(
+        searchName: searchName,
+      );
       return Right(response);
     } on CacheException {
-      return const Left(CacheFailure(message: 'حدث خطا اثناء البحث'));
+      return const Left(
+          CacheFailure(message: 'مشكلة في التخزين المحلي للبياتات'));
     }
   }
 
   @override
   Future<Either<Failure, List<StoreSearch>>> storeSearch(
-      {required String searchName}) async {
+      {required String searchName, int? page}) async {
     try {
-      final response =
-          await searchRemoteDataSource.storeSearch(searchName: searchName);
+      final response = await searchRemoteDataSource.storeSearch(
+          searchName: searchName, page: page);
       return Right(response.data as List<StoreSearch>);
-    } on ServerException {
-      return const Left(
-          ServerFailure(message: 'حدث خطا اثناء البحث عن المتجر'));
+    } on ServerException catch (err) {
+      return Left(ServerFailure(message: err.errorModel.message!));
     }
   }
 
   @override
   Future<Either<Failure, List<Product>>> mainCategoriesProductsSearch(
-      {required int mainCategoryId}) async {
+      {required int mainCategoryId, int? page}) async {
     try {
       final response = await searchRemoteDataSource.mainCategoriesSearch(
-          mainCategoryId: mainCategoryId);
-      return Right(response.data as List<Product>);
-    } on ServerException {
-      return const Left(ServerFailure(message: 'حدث خطا اثناء البحث '));
+          mainCategoryId: mainCategoryId, page: page);
+
+      return Right(filterPricedProducts(response.data as List<Product>));
+    } on ServerException catch (err) {
+      return Left(ServerFailure(message: err.errorModel.message!));
     }
   }
 
   @override
   Future<Either<Failure, List<Product>>> subCategoriesProductsSearch(
-      {required int subCategoryId}) async {
+      {required int subCategoryId, int? page}) async {
     try {
       final response = await searchRemoteDataSource.subCategoriesSearch(
-          subCategoryId: subCategoryId);
-      return Right(response.data as List<Product>);
-    } on ServerException {
-      return const Left(ServerFailure(message: 'حدث خطا اثناء البحث '));
+          subCategoryId: subCategoryId, page: page);
+      return Right(filterPricedProducts(response.data as List<Product>));
+    } on ServerException catch (err) {
+      return Left(ServerFailure(message: err.errorModel.message!));
     }
   }
 }

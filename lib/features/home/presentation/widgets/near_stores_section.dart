@@ -11,6 +11,7 @@ import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/services/zone_service.dart';
 import '../../../../core/utils/enums/request_state.dart';
 import '../../../../core/utils/enums/search_navigation_screens.dart';
+import '../../../../core/widgets/yaBalash_toast.dart';
 import '../blocs/cubit/home_cubit.dart';
 import 'Title_row.dart';
 
@@ -19,25 +20,32 @@ class NearStoresSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit, HomeState>(
-        buildWhen: (previous, current) =>
-            previous.nearStoreRequestState != current.nearStoreRequestState,
-        builder: (context, state) {
-          switch (state.nearStoreRequestState) {
-            case RequestState.loading:
-              return const NearStoresLoading();
-            case RequestState.loaded:
-              return state.nearStores!.isEmpty
-                  ? const SizedBox()
-                  : const NearStoresLoaded();
+    return BlocConsumer<HomeCubit, HomeState>(
+      listener: (context, state) {
+        if (state.nearStoreRequestState == RequestState.error) {
+          yaBalashCustomToast(
+              message: state.nearStoresError!, context: context);
+        }
+      },
+      buildWhen: (previous, current) =>
+          previous.nearStoreRequestState != current.nearStoreRequestState,
+      builder: (context, state) {
+        switch (state.nearStoreRequestState) {
+          case RequestState.loading:
+            return const NearStoresLoading();
+          case RequestState.loaded:
+            return state.nearStores!.isEmpty
+                ? const SizedBox()
+                : const NearStoresLoaded();
 
-            case RequestState.error:
-              return const SizedBox();
+          case RequestState.error:
+            return const SizedBox();
 
-            default:
-              return const SizedBox();
-          }
-        });
+          default:
+            return const SizedBox();
+        }
+      },
+    );
   }
 }
 

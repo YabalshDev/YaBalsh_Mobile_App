@@ -27,24 +27,29 @@ class YaBalashApp extends StatelessWidget {
               create: (context) => getIt<CartCubit>()..fetchCartItems(),
             ),
             BlocProvider<ConnectivtyCubit>(
-              create: (context) =>
-                  getIt<ConnectivtyCubit>()..getIntitalConnectionStatus(),
+              create: (context) => getIt<ConnectivtyCubit>()
+                ..getIntitalConnectionStatus()
+                ..initConnectivityStream(),
             )
           ],
-          child: GetMaterialApp(
-            useInheritedMediaQuery: true,
-            key: UniqueKey(),
-            textDirection: TextDirection.rtl,
-            supportedLocales: const [Locale('ar'), Locale('en')],
-            navigatorKey: Get.key,
-            debugShowCheckedModeBanner: false,
-            localizationsDelegates: const [
-              FormBuilderLocalizations.delegate,
-            ],
-            getPages: RouteHelper.routes,
-            initialRoute: RouteHelper.getIntialRoute(),
-            title: AppStrings.appName,
-            theme: lightTheme,
+          child: BlocBuilder<ConnectivtyCubit, ConnectivtyState>(
+            buildWhen: (previous, current) => previous != current,
+            builder: (context, state) {
+              return GetMaterialApp(
+                useInheritedMediaQuery: true,
+                textDirection: TextDirection.rtl,
+                supportedLocales: const [Locale('ar'), Locale('en')],
+                navigatorKey: Get.key,
+                debugShowCheckedModeBanner: false,
+                localizationsDelegates: const [
+                  FormBuilderLocalizations.delegate,
+                ],
+                getPages: RouteHelper.routes,
+                initialRoute: RouteHelper.getIntialRoute(),
+                title: AppStrings.appName,
+                theme: lightTheme,
+              );
+            },
           ),
         ),
       ),

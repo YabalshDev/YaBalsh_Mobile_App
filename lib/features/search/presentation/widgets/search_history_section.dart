@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:yabalash_mobile_app/core/widgets/yaBalash_toast.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/widgets/search_history_card.dart';
 
 import '../../../../core/constants/app_layouts.dart';
@@ -17,7 +18,12 @@ class SearchHistorySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SearchCubit, SearchState>(
+    return BlocConsumer<SearchCubit, SearchState>(
+      listener: (context, state) {
+        if (state.searchHistoryRequestState == RequestState.error) {
+          yaBalashCustomToast(message: state.errorMessage!, context: context);
+        }
+      },
       builder: (context, state) {
         if (state.isSearchEmpty!) {
           switch (state.searchHistoryRequestState) {
@@ -63,17 +69,19 @@ class SearchHistoryLoaded extends StatelessWidget {
         children: [
           const SubHeading(text: 'ما بحثت عنه مؤخرا'),
           mediumVerticalSpace,
-          Wrap(
-              runSpacing: 10.h,
-              spacing: 10.w,
-              direction: Axis.horizontal,
-              key: UniqueKey(),
-              children: state.searchHistory!
-                  .map((name) => SearchHistoryCard(
-                        searchName: name,
-                        searchFormKey: searchFormKey,
-                      ))
-                  .toList())
+          SizedBox(
+            height: 29.h,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: state.searchHistory!.length,
+              itemBuilder: (context, index) {
+                final searchHistory = state.searchHistory![index];
+
+                return SearchHistoryCard(
+                    searchName: searchHistory, searchFormKey: searchFormKey);
+              },
+            ),
+          )
         ],
       ),
     );

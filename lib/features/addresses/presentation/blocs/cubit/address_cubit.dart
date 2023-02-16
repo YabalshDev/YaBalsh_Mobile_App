@@ -40,15 +40,6 @@ class AddressCubit extends Cubit<AddressState> {
       emit(state.copyWith(
           errorMessage: failure.message,
           addressesRequestState: RequestState.error));
-      yaBalashCustomDialog(
-        buttonTitle: 'حسنا',
-        isWithEmoji: false,
-        title: 'خطأ',
-        mainContent: failure.message,
-        onConfirm: () {
-          Get.back();
-        },
-      );
     }, (addresses) {
       final zoneAddresses = getZoneAddress(addresses);
       emit(state.copyWith(

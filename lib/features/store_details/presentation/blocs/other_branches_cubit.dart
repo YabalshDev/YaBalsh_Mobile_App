@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_fields
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
@@ -15,12 +17,15 @@ class OtherBranchesCubit extends Cubit<OtherBranchesState> {
   OtherBranchesCubit({required this.searchStoreUsecase})
       : super(const OtherBranchesState());
 
+  int _currentPage = 1;
+  List<StoreSearch> _branches = [];
+
   void setCurrentStore(StoreSearch store) =>
       emit(state.copyWith(currentStore: store));
 
   void getOtherBranches(StoreSearch storeSearch) async {
-    final response =
-        await searchStoreUsecase(SearchParams(searchName: storeSearch.name!));
+    final response = await searchStoreUsecase(
+        SearchParams(searchName: storeSearch.name!, page: _currentPage));
 
     response.fold((failure) {
       emit(state.copyWith(
@@ -36,9 +41,23 @@ class OtherBranchesCubit extends Cubit<OtherBranchesState> {
         },
       );
     }, (result) {
+      _currentPage++;
+      _branches = _branches..addAll(result);
       emit(state.copyWith(
           otherBranchesRequestState: RequestState.loaded,
-          otherBranches: result));
+          paginationLoading: false,
+          otherBranches: _branches));
     });
+  }
+
+  void handleBranchesPagintation() {
+    if (_branches.length > 14) {
+      final StoreSearch store = Get.routing.args;
+
+      emit(state.copyWith(
+          paginationLoading: true,
+          otherBranchesRequestState: RequestState.idle));
+      getOtherBranches(store);
+    }
   }
 }

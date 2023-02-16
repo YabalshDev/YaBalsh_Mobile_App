@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
-import 'package:yabalash_mobile_app/core/widgets/custom_animated_widget.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_shimmer.dart';
 import 'package:yabalash_mobile_app/core/widgets/empty_indicator.dart';
+import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
 import 'package:yabalash_mobile_app/core/widgets/sub_heading.dart';
+import 'package:yabalash_mobile_app/core/widgets/yaBalash_toast.dart';
 
+import '../../../../core/utils/enums/empty_states.dart';
 import '../../../../core/utils/enums/request_state.dart';
 import '../blocs/cubit/recipies_cubit.dart';
 import 'reciepie_card.dart';
@@ -19,30 +21,39 @@ class AllRecipiesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RecipiesCubit, RecipiesState>(
+    return BlocConsumer<RecipiesCubit, RecipiesState>(
+      listener: (context, state) {
+        if (state.recipiesRequestState == RequestState.error) {
+          yaBalashCustomToast(
+              message: state.recipiesErrorMessage!, context: context);
+        }
+      },
       buildWhen: (previous, current) =>
           previous.recipiesRequestState != current.recipiesRequestState,
       builder: (context, state) {
         switch (state.recipiesRequestState) {
-          case RequestState.idle:
-            return const SizedBox();
-
           case RequestState.loading:
             return const AllRecipiesLoading();
+
+          case RequestState.idle:
 
           case RequestState.loaded:
             return state.recipies!.isEmpty
                 ? SizedBox(
                     height: Get.height * 0.6,
                     child: const Center(
-                        child: EmptyIndicator(title: 'لا يوجد وصفات')))
-                : CustomAnimatedWidget(
+                        child: EmptyIndicator(
+                            emptyStateType: EmptyStates.other,
+                            title: 'لا يوجد وصفات')))
+                : Padding(
+                    padding: kDefaultPadding,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SubHeading(text: 'طبختك علي قد ايدك!'),
                         smallVerticalSpace,
-                        Expanded(
+                        SizedBox(
+                          height: state.recipies!.length * 90.h,
                           child: ListView.builder(
                             itemCount: state.recipies!.length,
                             physics: const NeverScrollableScrollPhysics(),
@@ -53,7 +64,12 @@ class AllRecipiesSection extends StatelessWidget {
                               );
                             },
                           ),
-                        )
+                        ),
+                        state.recipiesPaginationLoading!
+                            ? const Center(
+                                child: CircularProgressIndicator.adaptive(),
+                              )
+                            : const SizedBox()
                       ],
                     ),
                   );
@@ -61,7 +77,8 @@ class AllRecipiesSection extends StatelessWidget {
             return SizedBox(
                 height: Get.height * 0.6,
                 child: Center(
-                    child: EmptyIndicator(title: state.recipiesErrorMessage!)));
+                    child: ErrorIndicator(
+                        errorMessage: state.recipiesErrorMessage!)));
           default:
             return const SizedBox();
         }
@@ -79,6 +96,8 @@ class AllRecipiesLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: 5,
+      shrinkWrap: true,
+      padding: kDefaultPadding,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return Row(

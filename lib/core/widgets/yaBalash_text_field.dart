@@ -20,11 +20,13 @@ class YaBalashTextField extends StatelessWidget {
   final Function(String?)? onChanged;
   final FormFieldValidator<String>? validator;
   final String? hintText;
+  final VoidCallback? onTap;
 
   const YaBalashTextField(
       {super.key,
       this.isWithBorder = true,
       this.hintText,
+      this.onTap,
       this.validator,
       this.onChanged,
       this.fillColor = Colors.transparent,
@@ -38,6 +40,7 @@ class YaBalashTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FormBuilderTextField(
+      onTap: onTap ?? () {},
       readOnly: readOnly ?? false,
       validator: validator,
       onChanged: onChanged ?? (value) {},

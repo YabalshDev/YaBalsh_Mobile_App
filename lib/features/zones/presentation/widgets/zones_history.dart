@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yabalash_mobile_app/core/utils/handle_zone_history_selection.dart';
+import 'package:yabalash_mobile_app/core/widgets/yaBalash_toast.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/widgets/zone_history_card.dart';
 
 import '../../../../core/constants/app_layouts.dart';
@@ -13,7 +14,13 @@ class ZonesHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MainZonesCubit, MainZonesState>(
+    return BlocConsumer<MainZonesCubit, MainZonesState>(
+      listener: (context, state) {
+        if (state.zonesHistoryState == RequestState.error) {
+          yaBalashCustomToast(
+              message: state.zonesHistoryErrorMessage!, context: context);
+        }
+      },
       builder: (context, state) {
         switch (state.zonesHistoryState) {
           case RequestState.idle:

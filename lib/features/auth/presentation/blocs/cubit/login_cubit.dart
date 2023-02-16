@@ -10,7 +10,6 @@ import 'package:yabalash_mobile_app/features/auth/data/models/login_request_mode
 import 'package:yabalash_mobile_app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/get_current_customer_usecase.dart';
 import 'package:yabalash_mobile_app/features/auth/domain/usecases/login_usecase.dart';
-import 'package:yabalash_mobile_app/features/auth/domain/usecases/register_device_usecase.dart';
 
 import '../../../../../core/depedencies.dart';
 import '../../../../../core/services/device_service.dart';
@@ -23,35 +22,22 @@ class LoginCubit extends Cubit<LoginState> {
   final LoginUseCase loginUseCase;
   final AuthRepository authRepository;
   final GetCurrentCustomerUseCase getCurrentCustomerUseCase;
-  final RegisterDeviceUseCase registerDeviceUseCase;
 
   LoginCubit(
       {required this.getCurrentCustomerUseCase,
-      required this.registerDeviceUseCase,
       required this.authRepository,
       required this.loginUseCase})
       : super(const LoginState());
 
-  Future<bool> registerDevice(
-      {required String deviceId, required String token}) async {
-    bool deviceRegistered = false;
-    final response = await registerDeviceUseCase(
-        RegisterDeviceParams(deviceId: deviceId, token: token));
-
-    response.fold((faiulre) {
-      // snackbar with message
-    }, (result) => deviceRegistered = result);
-
-    return deviceRegistered;
-  }
-
   void _handleDeviceRegisteration(String token) async {
     final device = getIt<DeviceService>().currentDevice;
     if (device != null && device.sendToBackend!) {
-      final result =
-          await registerDevice(deviceId: device.deviceId!, token: token);
+      final result = await getIt<DeviceService>()
+          .registerDevice(deviceId: device.deviceId!, token: token);
       if (result) {
-        saveDevice(false); //if success change send to backend flag to false
+        saveDevice(
+            sendToBackEnd:
+                false); //if success change send to backend flag to false
       }
     }
   }
@@ -71,7 +57,7 @@ class LoginCubit extends Cubit<LoginState> {
           isWithEmoji: false,
           buttonTitle: 'حسنا',
           onConfirm: () => Get.back(),
-          title: 'خطا في البيانات',
+          title: 'خطا',
           mainContent: 'رقم الهاتف او كلمة المرور غير صحيحة');
     }, (data) async {
       emit(state.copyWith(errorMessage: '', loginState: RequestState.loaded));

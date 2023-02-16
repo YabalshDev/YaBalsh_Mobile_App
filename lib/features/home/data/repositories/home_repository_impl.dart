@@ -1,14 +1,16 @@
 import 'package:yabalash_mobile_app/core/errors/exceptions.dart';
+import 'package:yabalash_mobile_app/core/utils/extensions/list_limit_extension.dart';
+import 'package:yabalash_mobile_app/core/utils/filter_priced_products.dart';
 import 'package:yabalash_mobile_app/features/home/data/datasources/home_mock_datasource.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/home_section.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/store.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/section.dart';
-import 'package:yabalash_mobile_app/features/home/domain/entities/main_category.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/banner.dart';
 import 'package:yabalash_mobile_app/core/errors/faliures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:yabalash_mobile_app/features/home/domain/repositories/home_repository.dart';
 
+import '../../../categories/domain/entities/category.dart';
 import '../../domain/entities/product.dart';
 
 class HomeRepositoryImpl implements HomeRepository {
@@ -34,14 +36,11 @@ class HomeRepositoryImpl implements HomeRepository {
       for (Section section in sections) {
         List<Product> sectionProducts = await homeDataSource.getSectionProducts(
             sectionId: section.id!); // get products for each section
+        List<Product> pricedSectionProducts =
+            filterPricedProducts(sectionProducts);
 
-        if (sectionProducts.length > 6) {
-          homeSections.add(HomeSection(
-              section: section, products: sectionProducts.sublist(0, 6)));
-        } else {
-          homeSections
-              .add(HomeSection(section: section, products: sectionProducts));
-        }
+        homeSections.add(HomeSection(
+            section: section, products: pricedSectionProducts.limit(6)));
       }
 
       return Right(homeSections);
@@ -62,7 +61,7 @@ class HomeRepositoryImpl implements HomeRepository {
   }
 
   @override
-  Future<Either<Failure, List<MainCategory>>> getMainCategories() async {
+  Future<Either<Failure, List<Category>>> getMainCategories() async {
     try {
       final categories = await homeDataSource.getAllMainCategories();
       return Right(categories);
@@ -73,11 +72,12 @@ class HomeRepositoryImpl implements HomeRepository {
 
   @override
   Future<Either<Failure, List<Product>>> getSectionProducts(
-      {required int sectionId}) async {
+      {required int sectionId, int? page}) async {
     try {
-      final products =
-          await homeDataSource.getSectionProducts(sectionId: sectionId);
-      return Right(products);
+      final products = await homeDataSource.getSectionProducts(
+          sectionId: sectionId, page: page);
+
+      return Right(filterPricedProducts(products));
     } on ServerException {
       return const Left(ServerFailure(message: 'خطا اثناء جلب المنتجات'));
     }

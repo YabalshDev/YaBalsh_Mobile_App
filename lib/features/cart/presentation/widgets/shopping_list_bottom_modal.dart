@@ -109,6 +109,7 @@ class _ShoppingListBottomModalState extends State<ShoppingListBottomModal> {
                                     },
                                     child: CustomSvgIcon(
                                         height: 14.h,
+                                        color: Colors.black,
                                         iconPath: AppAssets.notAvailable),
                                   ),
                                 )

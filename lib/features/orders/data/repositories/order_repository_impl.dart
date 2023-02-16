@@ -24,9 +24,10 @@ class OrderRepositoryImpl implements OrderRepository {
   }
 
   @override
-  Future<Either<Failure, List<entities.Order>>> getPastOrders() async {
+  Future<Either<Failure, List<entities.Order>>> getPastOrders(
+      {int? page}) async {
     try {
-      final response = await orderRemoteDataSource.getOrders();
+      final response = await orderRemoteDataSource.getOrders(page: page);
       return Right(response);
     } on ServerException catch (err) {
       return Left(ServerFailure(message: err.errorModel.message!));

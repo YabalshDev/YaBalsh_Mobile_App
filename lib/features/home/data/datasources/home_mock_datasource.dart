@@ -6,8 +6,8 @@
 // import 'package:yabalash_mobile_app/core/constants/constantdata/stores_mock_list.dart';
 // import 'package:yabalash_mobile_app/core/errors/exceptions.dart';
 
+import '../../../categories/domain/entities/category.dart';
 import '../../domain/entities/banner.dart';
-import '../../domain/entities/main_category.dart';
 import '../../domain/entities/product.dart';
 import '../../domain/entities/section.dart';
 import '../../domain/entities/store.dart';
@@ -15,9 +15,9 @@ import '../../domain/entities/store.dart';
 abstract class HomeDataSource {
   Future<List<Banner>> getBanners();
   Future<List<Store>> getNearStores();
-  Future<List<Product>> getSectionProducts({required int sectionId});
+  Future<List<Product>> getSectionProducts({required int sectionId, int? page});
   Future<List<Section>> getSections();
-  Future<List<MainCategory>> getAllMainCategories();
+  Future<List<Category>> getAllMainCategories();
   Future<Product> getProductByBarcode({required String barCode});
 }
 

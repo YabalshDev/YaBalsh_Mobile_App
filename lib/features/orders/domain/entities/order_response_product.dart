@@ -7,16 +7,18 @@ class OrderResponseProduct extends Equatable {
   final double? total;
   final String? name;
   final String? imagePath;
+  final String? size;
 
-  const OrderResponseProduct({
-    this.id,
-    this.quantity,
-    this.price,
-    this.total,
-    this.name,
-    this.imagePath,
-  });
+  const OrderResponseProduct(
+      {this.id,
+      this.quantity,
+      this.price,
+      this.total,
+      this.name,
+      this.imagePath,
+      this.size});
 
   @override
-  List<Object?> get props => [id, quantity, price, total, name, imagePath];
+  List<Object?> get props =>
+      [id, quantity, price, total, name, imagePath, size];
 }
