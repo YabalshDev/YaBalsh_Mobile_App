@@ -25,25 +25,31 @@ class NavIcon extends StatelessWidget {
         value: getIt<CartCubit>(),
         child: BlocBuilder<CartCubit, CartState>(
           builder: (context, state) {
-            if (state.cartItems!.isNotEmpty) {
-              return Badge(
-                badgeColor: AppColorsLight.kErrorColor,
-                position: BadgePosition.topStart(top: 0.1, start: 0.5),
-                child: CustomSvgIcon(
-                  iconPath: iconPath,
-                  color: activeIndex == itemIndex
-                      ? AppColorsLight.kAppPrimaryColorLight
-                      : Colors.black,
-                ),
-              );
-            } else {
-              return CustomSvgIcon(
-                iconPath: iconPath,
-                color: activeIndex == itemIndex
-                    ? AppColorsLight.kAppPrimaryColorLight
-                    : Colors.black,
-              );
-            }
+            return CustomSvgIcon(
+              iconPath: iconPath,
+              color: activeIndex == itemIndex
+                  ? AppColorsLight.kAppPrimaryColorLight
+                  : Colors.black,
+            );
+            // if (state.cartItems!.isNotEmpty) {
+            //   return Badge(
+            //     badgeColor: AppColorsLight.kErrorColor,
+            //     position: BadgePosition.topStart(top: 0.1, start: 0.5),
+            //     child: CustomSvgIcon(
+            //       iconPath: iconPath,
+            //       color: activeIndex == itemIndex
+            //           ? AppColorsLight.kAppPrimaryColorLight
+            //           : Colors.black,
+            //     ),
+            //   );
+            // } else {
+            //   return CustomSvgIcon(
+            //     iconPath: iconPath,
+            //     color: activeIndex == itemIndex
+            //         ? AppColorsLight.kAppPrimaryColorLight
+            //         : Colors.black,
+            //   );
+            // }
           },
         ),
       );
