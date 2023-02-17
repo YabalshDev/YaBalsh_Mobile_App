@@ -25,7 +25,7 @@ class CustomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: height ?? 70.h,
-      padding: kDefaultPadding,
+      padding: EdgeInsets.only(bottom: 21.h, right: 15.w, left: 15.w),
       child: YaBalashCustomButton(
         isDisabled: isDisabled,
         isWithIcon: iconPath != null,
