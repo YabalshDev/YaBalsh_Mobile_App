@@ -55,7 +55,7 @@ class SelectSupermarketBottom extends StatelessWidget {
         state.supermarket!.store != null
             ? Positioned(
                 right: 35.w,
-                top: 20.h,
+                top: 15.h,
                 child: Container(
                   padding: kSecondaryPadding,
                   decoration: const BoxDecoration(
@@ -74,7 +74,7 @@ class SelectSupermarketBottom extends StatelessWidget {
         state.supermarket!.store != null
             ? Positioned(
                 right: Get.width * 0.7,
-                top: 51.h / 2.4,
+                top: 15.h,
                 child: Text(
                   '${state.supermarket!.price!.toStringAsFixed(0)} جنيه',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(

@@ -100,7 +100,7 @@ class OrderSummaryLoaded extends StatelessWidget {
                 isFromOrderDetails: false,
               ),
               SizedBox(
-                height: isVisible ? Get.height * 0.3 : 0,
+                height: isVisible ? Get.height * 0.33 : 0,
               )
             ],
           ),

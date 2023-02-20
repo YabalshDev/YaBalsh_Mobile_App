@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 
-import '../constants/app_layouts.dart';
 import 'ya_balash_custom_button.dart';
 
 class CustomNavBar extends StatelessWidget {
@@ -24,8 +24,8 @@ class CustomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height ?? 70.h,
-      padding: EdgeInsets.only(bottom: 21.h, right: 15.w, left: 15.w),
+      height: height ?? 80.h,
+      padding: kNavBarPadding,
       child: YaBalashCustomButton(
         isDisabled: isDisabled,
         isWithIcon: iconPath != null,
