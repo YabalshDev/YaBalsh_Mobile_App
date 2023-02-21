@@ -58,7 +58,7 @@ class LoginCubit extends Cubit<LoginState> {
           buttonTitle: 'حسنا',
           onConfirm: () => Get.back(),
           title: 'خطا',
-          mainContent: 'رقم الهاتف او كلمة المرور غير صحيحة');
+          mainContent: faiulre.message);
     }, (data) async {
       emit(state.copyWith(errorMessage: '', loginState: RequestState.loaded));
       // save user token
