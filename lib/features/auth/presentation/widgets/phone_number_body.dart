@@ -67,7 +67,7 @@ class _PhoneNumberBodyState extends State<PhoneNumberBody> {
                           ),
                           mediumVerticalSpace,
                           PhoneTextField(
-                            hintText: '1012222222',
+                            hintText: '01012222222',
                             onChanged: (value) {
                               if (value!.isEmpty) {
                                 BlocProvider.of<PhoneNumberCubit>(context)
@@ -106,7 +106,7 @@ class _PhoneNumberBodyState extends State<PhoneNumberBody> {
 
                         BlocProvider.of<PhoneNumberCubit>(context)
                             .handlePhoneFormSubmission(
-                                phoneNumber: phoneNumber,
+                                phoneNumber: phoneNumber.trim(),
                                 fromRoute: widget.fromRoute);
                       }
                     },
