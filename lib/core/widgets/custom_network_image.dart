@@ -1,5 +1,5 @@
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class AppImage extends StatelessWidget {
   final BoxFit? fit;
@@ -18,34 +18,42 @@ class AppImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ExtendedImage.network(path!,
-        key: key,
-        height: height,
-        cache: true,
-        fit: fit,
-        compressionRatio: 0.8,
-        printError: true,
-        color: Colors.white,
-        enableLoadState: true,
-        enableMemoryCache: true, loadStateChanged: (ExtendedImageState state) {
-      switch (state.extendedImageLoadState) {
-        case LoadState.loading:
-          return placeHolder ??
-              const Center(
-                child: CircularProgressIndicator.adaptive(),
-              );
+    return CachedNetworkImage(
+      imageUrl: path!,
+      fit: fit,
+      progressIndicatorBuilder: (context, url, progress) =>
+          const Center(child: CircularProgressIndicator.adaptive()),
+      errorWidget: (context, url, error) => const Icon(Icons.error),
+    );
 
-        case LoadState.completed:
-          return ExtendedRawImage(
-            image: state.extendedImageInfo?.image,
-            fit: fit,
-          );
+    // return ExtendedImage.network(path!,
+    //     key: key,
+    //     height: height,
+    //     cache: true,
+    //     fit: fit,
+    //     compressionRatio: 0.8,
+    //     printError: true,
+    //     color: Colors.white,
+    //     enableLoadState: true,
+    //     enableMemoryCache: true, loadStateChanged: (ExtendedImageState state) {
+    //   switch (state.extendedImageLoadState) {
+    //     case LoadState.loading:
+    //       return placeHolder ??
+    //           const Center(
+    //             child: CircularProgressIndicator.adaptive(),
+    //           );
 
-        case LoadState.failed:
-          return const Icon(Icons.error);
-        default:
-          return state.completedWidget;
-      }
-    });
+    //     case LoadState.completed:
+    //       return ExtendedRawImage(
+    //         image: state.extendedImageInfo?.image,
+    //         fit: fit,
+    //       );
+
+    //     case LoadState.failed:
+    //       return const Icon(Icons.error);
+    //     default:
+    //       return state.completedWidget;
+    //   }
+    // });
   }
 }

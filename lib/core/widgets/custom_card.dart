@@ -40,9 +40,12 @@ class CustomCard extends StatelessWidget {
           borderRadius: kDefaultBorderRaduis,
           child: isAssetImage!
               ? Image.asset(imagePath!)
-              : AppImage(
-                  path: imagePath ?? '',
-                  fit: fit ?? BoxFit.contain,
+              : AspectRatio(
+                  aspectRatio: 1,
+                  child: AppImage(
+                    path: imagePath ?? '',
+                    fit: fit ?? BoxFit.fill,
+                  ),
                 )),
     );
   }
