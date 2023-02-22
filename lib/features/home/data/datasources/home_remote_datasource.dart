@@ -26,14 +26,13 @@ class HomeRemoteDataSourceImpl implements HomeDataSource {
   HomeRemoteDataSourceImpl({required this.restApiProvider});
   @override
   Future<List<Category>> getAllMainCategories() async {
-    final response =
-        await restApiProvider.get(mainCategoriesEndpoint.substring(1, 8));
+    final response = await restApiProvider.get(mainCategoriesEndpoint);
     return CategoriesResponseModel.fromJson(response).data as List<Category>;
   }
 
   @override
   Future<List<Banner>> getBanners() async {
-    final response = await restApiProvider.get(bannersEndpoint.substring(1, 8));
+    final response = await restApiProvider.get(bannersEndpoint);
     return BannersResponseModel.fromJson(response).data as List<Banner>;
   }
 
@@ -41,7 +40,7 @@ class HomeRemoteDataSourceImpl implements HomeDataSource {
   Future<List<Store>> getNearStores() async {
     final zoneId = getIt<ZoneService>().currentSubZone!.id;
     final response = await restApiProvider
-        .get(nearStoresEndpoint.substring(1, 8), headers: {'zone': zoneId});
+        .get(nearStoresEndpoint, headers: {'zone': zoneId});
     return NearStoresResponseModel.fromJson(response).data as List<Store>;
   }
 
@@ -49,15 +48,14 @@ class HomeRemoteDataSourceImpl implements HomeDataSource {
   Future<List<Product>> getSectionProducts(
       {required int sectionId, int? page}) async {
     final response = await restApiProvider.get(
-        getSectionProductsEndpoint(sectionId).substring(1, 8),
+        getSectionProductsEndpoint(sectionId),
         queryParams: page != null ? {'page': page} : null);
     return ProductSearchResponse.fromJson(response).data as List<Product>;
   }
 
   @override
   Future<List<Section>> getSections() async {
-    final response =
-        await restApiProvider.get(sectionsEndpoint.substring(1, 8));
+    final response = await restApiProvider.get(sectionsEndpoint);
     return SectionsResponseModel.fromJson(response).data as List<Section>;
   }
 

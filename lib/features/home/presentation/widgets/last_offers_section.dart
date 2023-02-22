@@ -38,7 +38,7 @@ class LastOfferSection extends StatelessWidget {
                 : const LastOffersLoaded();
 
           case RequestState.error:
-            return const SizedBox();
+            return largeVerticalSpace;
 
           default:
             return const SizedBox();
