@@ -97,13 +97,13 @@ class ProductDetailsCard extends StatelessWidget {
           Stack(
             clipBehavior: Clip.none,
             children: [
-              SizedBox(
-                  height: fromSearch ? 142.h : 133.h,
-                  width: fromSearch ? 136.w : 126.w,
-                  child: AppImage(
-                    fit: BoxFit.fill,
-                    path: product.imagePath!,
-                  )),
+              AspectRatio(
+                aspectRatio: fromSearch ? 136.w / 142.h : 126.w / 133.h,
+                child: AppImage(
+                  fit: BoxFit.fill,
+                  path: product.imagePath!,
+                ),
+              ),
               Positioned(
                   top: 3,
                   left: 0,

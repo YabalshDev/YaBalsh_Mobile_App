@@ -22,7 +22,9 @@ class BranchMapImage extends StatelessWidget {
             child: ClipRRect(
               borderRadius: kDefaultBorderRaduis,
               child: AppImage(
-                  path: state.store!.location!.mapImage!, fit: BoxFit.cover),
+                path: state.store!.location!.mapImage!,
+                fit: BoxFit.fill,
+              ),
             ),
           ),
         );

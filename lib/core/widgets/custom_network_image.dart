@@ -19,7 +19,7 @@ class AppImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      imageUrl: path!,
+      imageUrl: path ?? '',
       fit: fit,
       progressIndicatorBuilder: (context, url, progress) =>
           const Center(child: CircularProgressIndicator.adaptive()),
