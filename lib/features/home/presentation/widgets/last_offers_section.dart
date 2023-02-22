@@ -68,6 +68,7 @@ class LastOffersLoaded extends StatelessWidget {
             SizedBox(
               height: 120.h,
               child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
                 padding: kScaffoldPadding,
                 scrollDirection: Axis.horizontal,
                 itemCount: state.lastOffers!.length,

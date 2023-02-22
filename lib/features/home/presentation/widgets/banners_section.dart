@@ -52,12 +52,7 @@ class BannersSection extends StatelessWidget {
                   );
 
           case RequestState.error:
-            return SizedBox(
-              height: 133.h,
-              child: Center(
-                child: Text(state.bannersError!),
-              ),
-            );
+            return const SizedBox();
 
           default:
             return SizedBox(
@@ -106,7 +101,10 @@ class CarouselImage extends StatelessWidget {
             );
           },
           options: CarouselOptions(
-              viewportFraction: 0.86, autoPlay: true, height: 133.h)),
+              viewportFraction: 0.86,
+              scrollPhysics: const BouncingScrollPhysics(),
+              autoPlay: true,
+              height: 133.h)),
     );
   }
 }

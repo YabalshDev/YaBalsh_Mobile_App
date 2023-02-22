@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/search_navigation_screens.dart';
+import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
 import 'package:yabalash_mobile_app/core/widgets/kew_word_products.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_cubit.dart';
 
@@ -38,7 +39,10 @@ class HomeSections extends StatelessWidget {
                 : const HomeSectionsLoaded();
 
           case RequestState.error:
-            return const SizedBox();
+            return SizedBox(
+                height: Get.height * 0.6,
+                child: Center(
+                    child: ErrorIndicator(errorMessage: state.sectionsError!)));
 
           default:
             return const SizedBox.shrink();
