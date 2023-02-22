@@ -17,7 +17,8 @@ class ApiErrorModel extends Equatable {
           success: false);
     } else {
       return ApiErrorModel(
-          message: AppErrorMessages.statusCodesTranslator[statusCode],
+          message:
+              AppErrorMessages.statusCodesTranslator[statusCode.toString()],
           success: false);
     }
   }

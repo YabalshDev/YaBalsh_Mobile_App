@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 
 import '../../../../core/depedencies.dart';
 import '../../../../core/routes/app_routes.dart';
-import '../../../../core/services/addresses_service.dart';
 import '../../../../core/widgets/custom_bottom_nav_bar.dart';
 import '../../../orders/data/models/order_product_model.dart';
 import '../../../orders/domain/entities/order_request.dart';
@@ -31,8 +30,7 @@ class ConfirmOrderBottom extends StatelessWidget {
 
   Future<void> handleConfirmOrder() async {
     final OrderRequest orderRequest = OrderRequest(
-        addressId:
-            state.userAddress?.id ?? getIt<AddressService>().primaryAddress.id,
+        addressId: state.userAddress?.id,
         storeId: state.supermarket?.store!.id,
         products: state.cartItems!
             .map((e) =>

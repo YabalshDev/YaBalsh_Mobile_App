@@ -1,5 +1,4 @@
 import 'package:yabalash_mobile_app/core/api/remote_data_api/endpoints.dart';
-import 'package:yabalash_mobile_app/core/api/remote_data_api/headers.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/rest_api_provider.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
 import 'package:yabalash_mobile_app/features/orders/data/models/order_api_response.dart';
@@ -28,7 +27,7 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
         storeId: orderRequest.storeId);
     final response = await restApiProvider.post(ordersEndpoint,
         body: orderRequestModel.toJson(),
-        headers: token.isNotEmpty ? ApiHeaders.authorizationHeaders : null);
+        headers: token.isNotEmpty ? {'authorization': 'Bearer $token'} : null);
 
     return (OrderApiResponse.fromJson(response)).data as OrderModel;
   }
@@ -38,7 +37,7 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
     final token = getIt<UserService>().token;
     final response = await restApiProvider.get(ordersEndpoint,
         queryParams: page != null ? {'page': page} : null,
-        headers: token.isNotEmpty ? ApiHeaders.authorizationHeaders : null);
+        headers: token.isNotEmpty ? {'authorization': 'Bearer $token'} : null);
 
     return ((response['data']) as List<dynamic>)
         .map((e) => OrderModel.fromJson(e))

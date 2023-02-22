@@ -103,7 +103,8 @@ class _RegisterBodyState extends State<RegisterBody> {
     RegisterRequestModel? registerBody;
     String? email;
 
-    email = _formKey.currentState!.fields['email']!.value != null
+    email = _formKey.currentState!.fields['email']!.value != null &&
+            _formKey.currentState!.fields['email']!.value != ''
         ? _formKey.currentState!.fields['email']!.value.toString().trim()
         : '${_formKey.currentState!.fields['phoneNumber']!.value}@yabalash.net';
 
