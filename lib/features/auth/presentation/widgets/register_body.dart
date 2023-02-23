@@ -101,14 +101,24 @@ class _RegisterBodyState extends State<RegisterBody> {
   void handleValidRegsiterRequest(BuildContext context) {
     BlocProvider.of<RegisterCubit>(context).changeFormFieldError(false);
     RegisterRequestModel? registerBody;
+    String? email;
+
+    email = _formKey.currentState!.fields['email']!.value != null &&
+            _formKey.currentState!.fields['email']!.value != ''
+        ? _formKey.currentState!.fields['email']!.value.toString().trim()
+        : '${_formKey.currentState!.fields['phoneNumber']!.value}@yabalash.net';
 
     registerBody = RegisterRequestModel(
-        email: _formKey.currentState!.fields['email']!.value ??
-            '${_formKey.currentState!.fields['phoneNumber']!.value}@yabalash.net',
-        firstName: _formKey.currentState!.fields['firstName']!.value,
-        lastName: _formKey.currentState!.fields['lastName']!.value,
-        password: _formKey.currentState!.fields['password']!.value,
-        phoneNumber: _formKey.currentState!.fields['phoneNumber']!.value);
+        email: email,
+        firstName:
+            _formKey.currentState!.fields['firstName']!.value.toString().trim(),
+        lastName:
+            _formKey.currentState!.fields['lastName']!.value.toString().trim(),
+        password:
+            _formKey.currentState!.fields['password']!.value.toString().trim(),
+        phoneNumber: _formKey.currentState!.fields['phoneNumber']!.value
+            .toString()
+            .trim());
 
     BlocProvider.of<RegisterCubit>(context).registerUser(
         registerCredntials: registerBody, fromRoute: widget.fromRoute);

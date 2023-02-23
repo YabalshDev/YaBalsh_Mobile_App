@@ -10,6 +10,9 @@ final EdgeInsets kSmallPadding =
 final EdgeInsets kSecondaryPadding =
     EdgeInsets.symmetric(vertical: 5.h, horizontal: 10.w);
 
+final EdgeInsets kNavBarPadding =
+    EdgeInsets.only(bottom: 21.h, right: 15.w, left: 15.w);
+
 final EdgeInsets kScaffoldPadding = EdgeInsets.symmetric(horizontal: 15.w);
 
 final BorderRadius kDefaultBorderRaduis = BorderRadius.circular(10);

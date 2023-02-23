@@ -15,9 +15,11 @@ class PhoneTextField extends StatelessWidget {
   final String? hintText;
   final Function(String?)? onChanged;
   final bool? hasError;
+  final FormFieldValidator<String>? validator;
   const PhoneTextField(
       {super.key,
       this.intialValue,
+      this.validator,
       this.hintText,
       this.readOnly = false,
       this.hasError = false,
@@ -67,6 +69,7 @@ class PhoneTextField extends StatelessWidget {
                   height: 45.h,
                   child: FormBuilderTextField(
                     onChanged: onChanged ?? (value) {},
+                    validator: validator,
                     name: 'phoneNumber',
                     initialValue: intialValue,
                     keyboardType: TextInputType.phone,

@@ -19,9 +19,9 @@ class PhoneNumberCubit extends Cubit<PhoneNumberState> {
 
   bool isFormHasError(String formValue) {
     bool hasError = false;
-    if (formValue.length < 10) {
+    if (formValue.length != 11) {
       hasError = true;
-      emit(state.copyWith(formErrorMessage: 'رقم الهاتف لازم يكون 10 ارقام'));
+      emit(state.copyWith(formErrorMessage: 'رقم الهاتف لازم يكون 11 ارقام'));
     } else {
       emit(state.copyWith(formErrorMessage: ''));
     }

@@ -1,4 +1,4 @@
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
@@ -26,9 +26,9 @@ class NavIcon extends StatelessWidget {
         child: BlocBuilder<CartCubit, CartState>(
           builder: (context, state) {
             if (state.cartItems!.isNotEmpty) {
-              return Badge(
+              return badges.Badge(
                 badgeColor: AppColorsLight.kErrorColor,
-                position: BadgePosition.topStart(top: 0.1, start: 0.5),
+                position: badges.BadgePosition.topStart(top: 0.1, start: 0.5),
                 child: CustomSvgIcon(
                   iconPath: iconPath,
                   color: activeIndex == itemIndex

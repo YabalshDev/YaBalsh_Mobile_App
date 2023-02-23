@@ -38,7 +38,7 @@ class LastOfferSection extends StatelessWidget {
                 : const LastOffersLoaded();
 
           case RequestState.error:
-            return const SizedBox();
+            return largeVerticalSpace;
 
           default:
             return const SizedBox();
@@ -68,6 +68,7 @@ class LastOffersLoaded extends StatelessWidget {
             SizedBox(
               height: 120.h,
               child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
                 padding: kScaffoldPadding,
                 scrollDirection: Axis.horizontal,
                 itemCount: state.lastOffers!.length,

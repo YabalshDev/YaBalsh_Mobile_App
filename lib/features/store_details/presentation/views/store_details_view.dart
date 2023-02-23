@@ -31,8 +31,8 @@ class StoreDetailsBottom extends StatelessWidget {
     return BlocBuilder<StoreDetailsCubit, StoreDetailsState>(
       builder: (context, state) {
         return Container(
-          padding: kDefaultPadding,
-          height: 60.h,
+          padding: EdgeInsets.only(bottom: 20.h, left: 15.w, right: 15.w),
+          height: 70.h,
           child: YaBalashCustomButton(
               onTap: () {
                 Get.toNamed(RouteHelper.getOtherBranches(),

@@ -32,6 +32,7 @@ class NotificationCard extends StatelessWidget {
         }
       },
       child: Container(
+        margin: EdgeInsets.only(top: 21.h),
         decoration: kDefaultBoxDecoration,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

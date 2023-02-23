@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/api_error_model.dart';
 import 'package:yabalash_mobile_app/core/constants/app_strings.dart';
-import 'package:yabalash_mobile_app/core/errors/error_messages.dart';
 
 import '../../depedencies.dart';
 import '../../errors/exceptions.dart';
@@ -47,7 +46,7 @@ class DioConsumer implements RestApiProvider {
       if (response.statusCode == 200) {
         return response.data;
       } else {
-        _handleStatusCodeError(response.statusCode!);
+        _handleStatusCodeError(response.statusCode!, response.data['message']);
       }
     } on DioError catch (err) {
       return _handleDioError(err);
@@ -65,7 +64,7 @@ class DioConsumer implements RestApiProvider {
       if (response.statusCode == 200) {
         return response.data;
       } else {
-        _handleStatusCodeError(response.statusCode!);
+        _handleStatusCodeError(response.statusCode!, response.data['message']);
       }
     } on DioError catch (err) {
       return _handleDioError(err);
@@ -85,7 +84,7 @@ class DioConsumer implements RestApiProvider {
       if (response.statusCode == 200) {
         return response.data;
       } else {
-        _handleStatusCodeError(response.statusCode!);
+        _handleStatusCodeError(response.statusCode!, response.data['message']);
       }
     } on DioError catch (err) {
       return _handleDioError(err);
@@ -105,45 +104,38 @@ class DioConsumer implements RestApiProvider {
       if (response.statusCode == 200) {
         return response.data;
       } else {
-        _handleStatusCodeError(response.statusCode!);
+        _handleStatusCodeError(response.statusCode!, response.data['message']);
       }
     } on DioError catch (err) {
       return _handleDioError(err);
     }
   }
 
-  dynamic _handleStatusCodeError(int statusCode) {
+  dynamic _handleStatusCodeError(int statusCode, String message) {
     switch (statusCode) {
       case StatusCode.badRequest:
         throw BadRequestException(
-            errorModel: ApiErrorModel(
-                message: AppErrorMessages.errorsMap[statusCode.toString()]));
+            errorModel: ApiErrorModel.fromError(statusCode, message));
       case StatusCode.unauthorized:
       case StatusCode.forbidden:
         throw UnauthorizedException(
-            errorModel: ApiErrorModel(
-                message: AppErrorMessages.errorsMap[statusCode.toString()]));
+            errorModel: ApiErrorModel.fromError(statusCode, message));
       case StatusCode.notFound:
         throw NotFoundException(
-            errorModel: ApiErrorModel(
-                message: AppErrorMessages.errorsMap[statusCode.toString()]));
+            errorModel: ApiErrorModel.fromError(statusCode, message));
       case StatusCode.confilct:
         throw ConflictException(
-            errorModel: ApiErrorModel(
-                message: AppErrorMessages.errorsMap[statusCode.toString()]));
+            errorModel: ApiErrorModel.fromError(statusCode, message));
       case StatusCode.test:
         throw BadRequestException(
-            errorModel: ApiErrorModel(
-                message: AppErrorMessages.errorsMap[statusCode.toString()]));
+            errorModel: ApiErrorModel.fromError(statusCode, message));
       case StatusCode.internalServerError:
         throw InternalServerErrorException(
-            errorModel: ApiErrorModel(
-                message: AppErrorMessages.errorsMap[statusCode.toString()]));
+            errorModel: ApiErrorModel.fromError(statusCode, message));
 
       case StatusCode.notAllowed:
         throw NotAllowedException(
-            errorModel: ApiErrorModel(
-                message: AppErrorMessages.errorsMap[statusCode.toString()]));
+            errorModel: ApiErrorModel.fromError(statusCode, message));
     }
   }
 
@@ -157,7 +149,8 @@ class DioConsumer implements RestApiProvider {
             errorModel: ApiErrorModel(
                 message: 'تاخر الاتصال بالسيرفر... حاول مرة اخرى'));
       case DioErrorType.response:
-        _handleStatusCodeError(error.response!.statusCode!);
+        _handleStatusCodeError(
+            error.response!.statusCode!, error.response!.data['message']);
         break;
 
       case DioErrorType.other:
