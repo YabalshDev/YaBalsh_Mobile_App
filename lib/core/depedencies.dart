@@ -7,6 +7,7 @@ import 'package:yabalash_mobile_app/core/api/remote_data_api/interceptors.dart';
 import 'package:yabalash_mobile_app/core/api/remote_data_api/rest_api_provider.dart';
 import 'package:yabalash_mobile_app/core/cubits/cubit/connectivty_cubit.dart';
 import 'package:yabalash_mobile_app/core/services/addresses_service.dart';
+import 'package:yabalash_mobile_app/core/services/app_settings_service.dart';
 import 'package:yabalash_mobile_app/core/services/categories_service.dart';
 import 'package:yabalash_mobile_app/core/services/device_service.dart';
 import 'package:yabalash_mobile_app/core/services/order_service.dart';
@@ -146,6 +147,8 @@ setupDependecies() {
       () => HiveLocalDataConsumer());
 //services
   getIt.registerLazySingleton<ZoneService>(() => ZoneServiceImpl());
+  getIt.registerLazySingleton<AppSettingsService>(
+      () => AppSettingsServiceImpl());
   getIt.registerLazySingleton<OrderService>(() => OrderServiceImpl());
   getIt.registerLazySingleton<AddressService>(() => AddressServiceImpl());
   getIt.registerLazySingleton<UserService>(
