@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/constants.dart';
@@ -50,6 +51,8 @@ import 'package:yabalash_mobile_app/features/zones/presentation/blocs/cubit/sub_
 import 'package:yabalash_mobile_app/features/zones/presentation/views/main_zones_view.dart';
 import 'package:yabalash_mobile_app/features/zones/presentation/views/sub_zones_view.dart';
 
+import '../../features/cart/presentation/blocs/cubit/super_markets_cubit.dart';
+import '../../features/cart/presentation/widgets/supermarkets_list.dart';
 import '../../features/home/domain/entities/product.dart';
 import '../../features/orders/domain/entities/order.dart';
 import '../../features/orders/presentation/blocs/cubit/order_success_cubit.dart';
@@ -86,6 +89,7 @@ class RouteHelper {
   static const String _notificationsRoute = '/notifcations';
   static const String _storeDetailsRoute = '/store-details';
   static const String _otherBranchesRoute = '/other-branches';
+  static const String _supermarketsRoute = '/supermarkets';
 
   static getIntialRoute() => _intialRoute;
   static getOnBoardingRoute() => _onBordingRoute;
@@ -111,6 +115,7 @@ class RouteHelper {
   static getNotificationsRoute() => _notificationsRoute;
   static getStoreDetailsRoute() => _storeDetailsRoute;
   static getOtherBranches() => _otherBranchesRoute;
+  static getSupermarketsRoute() => _supermarketsRoute;
 
   static final routes = [
     GetPage(
@@ -425,6 +430,19 @@ class RouteHelper {
                 ..setCurrentStore(store)
                 ..getOtherBranches(store),
               child: const OtherBranchesView(),
+            ),
+          );
+        }),
+    GetPage(
+        name: _supermarketsRoute,
+        transition: normalNavigationTransition,
+        transitionDuration: transitionDuration,
+        page: () {
+          return InternetConnectionWrapper(
+            child: BlocProvider<SuperMarketsCubit>(
+              create: (context) =>
+                  getIt<SuperMarketsCubit>()..getSuperMarkets(),
+              child: const Scaffold(body: SuperMarketLists()),
             ),
           );
         }),
