@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
+import 'package:yabalash_mobile_app/core/services/app_settings_service.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
 import 'package:yabalash_mobile_app/core/widgets/custom_dialog.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/usecases/get_store_usecase.dart';
@@ -59,12 +60,12 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     List<Store> farStores = [];
 
     for (var store in stores) {
-      final mainZonelocation = store.locations!
-          .where((element) => element.mainZoneId == subZone.mainZoneId);
+      final otherZoneslocation =
+          store.locations!.where((element) => element.subZoneId != subZone.id);
       final subZoneLocation =
           store.locations!.where((element) => element.subZoneId == subZone.id);
 
-      if (mainZonelocation.isNotEmpty) {
+      if (otherZoneslocation.isNotEmpty) {
         farStores.add(store);
       }
 
@@ -94,12 +95,28 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     response.fold((faiulre) {
       emit(state.copyWith(productRequestState: RequestState.error));
     }, (product) async {
-      final stores = await _getProductStores(product);
+      List<Store> stores = [];
+      Map<String, List<Store>> branches = {};
+      final isWithNearStoresActivated =
+          getIt<AppSettingsService>().isNearStores;
+
+      if (isWithNearStoresActivated) {
+        // get filtered branches for product stores
+        stores = await _getProductStores(product);
+        branches = _getProductBranches(stores);
+      } else {
+        // get all stores without filtering
+        stores = product.prices!.entries
+            .map((price) => Store.fromPricesMap(price))
+            .toList();
+      }
+
       final relevants = await getProductRelevants(product.id!);
-      final branches = _getProductBranches(stores);
       emit(state.copyWith(
-          productStores: branches['farStores'],
-          nearStores: branches['nearStores'],
+          productStores:
+              isWithNearStoresActivated ? branches['farStores'] : stores,
+          nearStores:
+              isWithNearStoresActivated ? branches['nearStores'] : stores,
           productRelevants: relevants,
           product: product,
           productRequestState: RequestState.loaded));

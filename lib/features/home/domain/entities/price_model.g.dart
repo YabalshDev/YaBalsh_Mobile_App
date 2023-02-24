@@ -19,6 +19,7 @@ class PriceModelAdapter extends TypeAdapter<PriceModel> {
     return PriceModel(
       storeId: fields[20] as int?,
       storeImagePath: fields[16] as String?,
+      logoImagePath: fields[17] as String?,
       isAvailable: fields[5] as bool?,
       price: fields[15] as double?,
     );
@@ -27,7 +28,7 @@ class PriceModelAdapter extends TypeAdapter<PriceModel> {
   @override
   void write(BinaryWriter writer, PriceModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(20)
       ..write(obj.storeId)
       ..writeByte(16)
@@ -35,7 +36,9 @@ class PriceModelAdapter extends TypeAdapter<PriceModel> {
       ..writeByte(5)
       ..write(obj.isAvailable)
       ..writeByte(15)
-      ..write(obj.price);
+      ..write(obj.price)
+      ..writeByte(17)
+      ..write(obj.logoImagePath);
   }
 
   @override

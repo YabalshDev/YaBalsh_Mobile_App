@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import 'location.dart';
+import 'price_model.dart';
 
 class Store extends Equatable {
   final int? id;
@@ -16,6 +17,14 @@ class Store extends Equatable {
       this.cardImagePath,
       this.locations,
       this.logoImagePath});
+
+  factory Store.fromPricesMap(MapEntry<String, PriceModel> price) {
+    return Store(
+        id: price.value.storeId,
+        cardImagePath: price.value.storeImagePath,
+        logoImagePath: price.value.logoImagePath,
+        name: price.key);
+  }
 
   Store copyWith(
           {int? id,

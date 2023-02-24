@@ -13,9 +13,13 @@ class PriceModel extends Equatable {
   @HiveField(15)
   final double? price;
 
+  @HiveField(17)
+  final String? logoImagePath;
+
   const PriceModel(
       {this.storeId = 0,
       this.storeImagePath = '',
+      this.logoImagePath = '',
       this.isAvailable = false,
       this.price = 0});
 
@@ -23,8 +27,10 @@ class PriceModel extends Equatable {
       isAvailable: json['isAvailable'] ?? false,
       price: json['price'].toDouble() ?? 0,
       storeId: json['storeId'] ?? 0,
+      logoImagePath: json['logoImagePath'] ?? '',
       storeImagePath: json['cardImagePath'] ?? '');
 
   @override
-  List<Object?> get props => [storeId, storeImagePath, isAvailable, price];
+  List<Object?> get props =>
+      [storeId, storeImagePath, isAvailable, price, logoImagePath];
 }
