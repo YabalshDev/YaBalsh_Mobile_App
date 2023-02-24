@@ -23,6 +23,7 @@ class SettingsBody extends StatefulWidget {
 
 class _SettingsBodyState extends State<SettingsBody> {
   bool isComparisonVersion = getIt<AppSettingsService>().appVersion == '1.0.0';
+  bool isNearStoresActivated = getIt<AppSettingsService>().isNearStores;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -107,6 +108,10 @@ class _SettingsBodyState extends State<SettingsBody> {
                 color: const Color(0xffF5F5F5),
               ),
               ComparisonSettingCard(
+                activeIndicator:
+                    getIt<AppSettingsService>().appVersion == '1.0.0',
+                iconPath: AppAssets.settingsIcon,
+                title: 'نسخة المقارنة',
                 onSwitchTap: () {
                   if (isComparisonVersion) {
                     isComparisonVersion = false;
@@ -114,6 +119,21 @@ class _SettingsBodyState extends State<SettingsBody> {
                   } else {
                     isComparisonVersion = true;
                     getIt<AppSettingsService>().setAppVersion('1.0.0');
+                  }
+                  setState(() {});
+                },
+              ),
+              ComparisonSettingCard(
+                activeIndicator: isNearStoresActivated,
+                iconPath: AppAssets.earthIcon,
+                title: 'القريب منك',
+                onSwitchTap: () {
+                  if (isNearStoresActivated) {
+                    isNearStoresActivated = false;
+                    getIt<AppSettingsService>().setIsNearStores(false);
+                  } else {
+                    isNearStoresActivated = true;
+                    getIt<AppSettingsService>().setIsNearStores(true);
                   }
                   setState(() {});
                 },
