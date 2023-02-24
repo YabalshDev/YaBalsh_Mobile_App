@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
+import 'package:yabalash_mobile_app/core/services/app_settings_service.dart';
 import 'package:yabalash_mobile_app/features/settings/presentation/widgets/settings_element_card.dart';
 
 import '../../../../core/constants/app_layouts.dart';
@@ -11,10 +12,17 @@ import '../../../../core/services/user_service.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/custom_dialog.dart';
 import '../../../../core/widgets/custom_header.dart';
+import 'comparison_setting_card.dart';
 
-class SettingsBody extends StatelessWidget {
+class SettingsBody extends StatefulWidget {
   const SettingsBody({super.key});
 
+  @override
+  State<SettingsBody> createState() => _SettingsBodyState();
+}
+
+class _SettingsBodyState extends State<SettingsBody> {
+  bool isComparisonVersion = getIt<AppSettingsService>().appVersion == '1.0.0';
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -37,16 +45,20 @@ class SettingsBody extends StatelessWidget {
                     ),
                   ),
                   largeVerticalSpace,
-                  SettingsElementCard(
-                      onTap: () {
-                        Get.toNamed(RouteHelper.getPastOrdersRoute());
-                      },
-                      iconPath: AppAssets.ordersIcon,
-                      title: 'طلباتي'),
-                  Divider(
-                    color: Colors.grey.shade300,
-                    thickness: 1,
-                  ),
+                  getIt<AppSettingsService>().appVersion == '1.0.0'
+                      ? const SizedBox()
+                      : SettingsElementCard(
+                          onTap: () {
+                            Get.toNamed(RouteHelper.getPastOrdersRoute());
+                          },
+                          iconPath: AppAssets.ordersIcon,
+                          title: 'طلباتي'),
+                  getIt<AppSettingsService>().appVersion == '1.0.0'
+                      ? const SizedBox()
+                      : Divider(
+                          color: Colors.grey.shade300,
+                          thickness: 1,
+                        ),
                   SettingsElementCard(
                       onTap: () {
                         Get.toNamed(RouteHelper.getNotificationsRoute());
@@ -93,6 +105,18 @@ class SettingsBody extends StatelessWidget {
               Container(
                 height: 10.h,
                 color: const Color(0xffF5F5F5),
+              ),
+              ComparisonSettingCard(
+                onSwitchTap: () {
+                  if (isComparisonVersion) {
+                    isComparisonVersion = false;
+                    getIt<AppSettingsService>().setAppVersion('1.0.1');
+                  } else {
+                    isComparisonVersion = true;
+                    getIt<AppSettingsService>().setAppVersion('1.0.0');
+                  }
+                  setState(() {});
+                },
               ),
               StatefulBuilder(
                 builder: (context, setState) => SettingsElementCard(
