@@ -40,12 +40,14 @@ class SuperMarketLists extends StatelessWidget {
                 case RequestState.idle:
                   return const SizedBox();
                 case RequestState.loading:
-                  return SizedBox(
-                    height: getIt<AppSettingsService>().appVersion == '1.0.0'
-                        ? Get.height
-                        : Get.height * 0.6,
-                    child: const Center(child: CircularProgressIndicator()),
-                  );
+                  return getIt<AppSettingsService>().appVersion != '1.0.0'
+                      ? SizedBox(
+                          height: Get.height * 0.6,
+                          child:
+                              const Center(child: CircularProgressIndicator()),
+                        )
+                      : const Expanded(
+                          child: Center(child: CircularProgressIndicator()));
 
                 case RequestState.loaded:
                   return const SuperMarketsLoaded();

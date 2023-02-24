@@ -25,6 +25,7 @@ class CompareSupermarketsButton extends StatelessWidget {
         }
 
         Get.toNamed(RouteHelper.getSupermarketsRoute());
+        getIt<CartCubit>().clearCart();
       },
     );
   }

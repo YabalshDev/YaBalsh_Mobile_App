@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
+import 'package:yabalash_mobile_app/core/services/app_settings_service.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/supermarket_card_model.dart';
 import 'package:yabalash_mobile_app/features/cart/presentation/blocs/cubit/super_markets_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/data/models/location_model.dart';
@@ -37,7 +38,7 @@ class SuperMarketCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          isAvailable
+          isAvailable && getIt<AppSettingsService>().appVersion != '1.0.0'
               ? GestureDetector(
                   onTap: () => BlocProvider.of<SuperMarketsCubit>(context)
                       .setSuperMarketIndex(index: index),
@@ -55,7 +56,9 @@ class SuperMarketCard extends StatelessWidget {
                   ),
                 )
               : SizedBox(
-                  width: 18.w,
+                  width: getIt<AppSettingsService>().appVersion != '1.0.0'
+                      ? 18.w
+                      : 0,
                 ),
           mediumHorizontalSpace,
           SizedBox(

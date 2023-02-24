@@ -24,7 +24,9 @@ class OrderResponseProductModel extends OrderResponseProduct {
           name: json['name'] ?? '',
           imagePath: json['imagePath'] ?? '',
           size: json['size'] ?? '',
-          price: json['price'] != null ? 0 : json['price'].toDouble(),
+          price: json['price'] == null
+              ? 0
+              : double.parse(json['price'].toString()),
           quantity: json['quantity'] ?? 1,
           total: double.parse(json['total'] as String));
 }
