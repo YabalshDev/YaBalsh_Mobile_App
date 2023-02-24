@@ -155,14 +155,12 @@ class SuperMarketCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(
-                child: Text(
-                  '${superMarket.price!.toStringAsFixed(0)} جنيه',
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18.sp,
-                      color: AppColorsLight.kAppPrimaryColorLight),
-                ),
+              Text(
+                '${superMarket.price!.toStringAsFixed(0)} جنيه',
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 18.sp,
+                    color: AppColorsLight.kAppPrimaryColorLight),
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,

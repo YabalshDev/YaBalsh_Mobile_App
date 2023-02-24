@@ -18,9 +18,7 @@ class NotificationHelper {
   }
 
   static void handleOnNotificationRecived() {
-    OneSignal.shared.setNotificationWillShowInForegroundHandler((event) {
-      print(event.notification.additionalData);
-    });
+    OneSignal.shared.setNotificationWillShowInForegroundHandler((event) {});
   }
 
   static Future<String> getDeviceId() async {

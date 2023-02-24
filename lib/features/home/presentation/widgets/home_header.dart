@@ -6,6 +6,7 @@ import 'package:yabalash_mobile_app/features/home/presentation/widgets/zone_bott
 import '../../../../core/depedencies.dart';
 import '../../../../core/services/zone_service.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
+import '../../../zones/domain/entities/sub_zone.dart';
 import '../blocs/cubit/home_cubit.dart';
 
 class HomeHeader extends StatelessWidget {
@@ -57,6 +58,13 @@ class HomeHeader extends StatelessWidget {
           const Spacer()
         ],
       ),
+    );
+  }
+
+  void showZonesBottomModal(BuildContext context, List<SubZone> subZones) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => ZonesBottomModal(zones: subZones),
     );
   }
 }
