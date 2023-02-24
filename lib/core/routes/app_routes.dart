@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
 import 'package:yabalash_mobile_app/core/constants/constants.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/search_navigation_screens.dart';
 import 'package:yabalash_mobile_app/core/utils/handle_search_view_initstate.dart';
@@ -61,6 +63,9 @@ import '../../features/search/presentation/blocs/cubit/search_cubit.dart';
 import '../../features/shopping_lists/domain/entities/shopping_list.dart';
 import '../../features/store_details/presentation/views/other_branches_view.dart';
 import '../depedencies.dart';
+import '../theme/light/app_colors_light.dart';
+import '../widgets/custom_header.dart';
+import '../widgets/custom_svg_icon.dart';
 
 class RouteHelper {
   // paths
