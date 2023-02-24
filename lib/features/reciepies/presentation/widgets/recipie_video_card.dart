@@ -62,8 +62,8 @@ class _RecipieVideoCardState extends State<RecipieVideoCard> {
             ),
           ),
           Positioned(
-            top: 20.h,
-            right: 20.w,
+            top: 30.h,
+            right: 30.w,
             child: InkWell(
               onTap: () => Get.back(),
               child: const Icon(

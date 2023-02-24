@@ -50,7 +50,7 @@ class AllRecipiesSection extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SubHeading(text: 'طبختك علي قد ايدك!'),
+                        const SubHeading(text: 'طبختك علي أد ايدك !'),
                         smallVerticalSpace,
                         SizedBox(
                           height: state.recipies!.length * 90.h,

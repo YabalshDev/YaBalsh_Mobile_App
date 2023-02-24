@@ -22,7 +22,7 @@ class RecipiesLoaded extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TitleRow(
-          title: 'طبختك علي اد ايدك !',
+          title: 'طبختك علي أد ايدك !',
           padding: EdgeInsets.symmetric(horizontal: 10.w),
           fontWeight: FontWeight.w700,
           onSelectAll: () => Get.toNamed(RouteHelper.getRecipiesRoute(),

@@ -14,27 +14,29 @@ class RecipieDetailsBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      physics: const BouncingScrollPhysics(),
-      slivers: [
-        SliverToBoxAdapter(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const RecipieVideoSection(),
-              smallVerticalSpace,
-              Padding(
-                padding: kDefaultPadding,
-                child: const SubHeading(text: 'تفاصيل الوصفة'),
-              ),
-              const BrandDetailsWidget(),
-              smallVerticalSpace,
-              const RecipieDetailsSection(),
-            ],
+    return SafeArea(
+      child: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
+          SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const RecipieVideoSection(),
+                smallVerticalSpace,
+                Padding(
+                  padding: kDefaultPadding,
+                  child: const SubHeading(text: 'تفاصيل الوصفة'),
+                ),
+                const BrandDetailsWidget(),
+                smallVerticalSpace,
+                const RecipieDetailsSection(),
+              ],
+            ),
           ),
-        ),
-        const SliverFillRemaining(child: RecipieProductsSection())
-      ],
+          const SliverFillRemaining(child: RecipieProductsSection())
+        ],
+      ),
     );
   }
 }
