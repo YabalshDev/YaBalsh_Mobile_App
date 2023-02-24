@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/depedencies.dart';
+import '../../../../core/services/app_settings_service.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/theme/light/light_theme.dart';
 import '../../../../core/widgets/custom_bottom_nav_bar.dart';
@@ -24,8 +25,9 @@ class BascketListBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 170.h,
+      height: getIt<AppSettingsService>().appVersion != '1.0.0' ? 170.h : 95.h,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             'ملاحظة: مرر من اليمين للحذف',
@@ -71,17 +73,19 @@ class BascketListBottomBar extends StatelessWidget {
               ),
             ),
           ),
-          CustomNavBar(
-            mainButtonTap: () {
-              pageController.animateToPage(1,
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeInOut);
-              getIt<CartCubit>().changeCurrentCartStep(1);
-            },
-            isButtonSecondary: false,
-            title: 'اختار السوبر ماركت',
-            isDisabled: false,
-          )
+          getIt<AppSettingsService>().appVersion != '1.0.0'
+              ? CustomNavBar(
+                  mainButtonTap: () {
+                    pageController.animateToPage(1,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOut);
+                    getIt<CartCubit>().changeCurrentCartStep(1);
+                  },
+                  isButtonSecondary: false,
+                  title: 'اختار السوبر ماركت',
+                  isDisabled: false,
+                )
+              : const SizedBox()
         ],
       ),
     );

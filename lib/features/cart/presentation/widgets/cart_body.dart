@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
+import 'package:yabalash_mobile_app/core/services/app_settings_service.dart';
 import 'package:yabalash_mobile_app/core/widgets/keyboard_dissmisable.dart';
 import 'package:yabalash_mobile_app/features/addresses/domain/entities/address.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/supermarket_card_model.dart';
@@ -56,18 +57,25 @@ class CartBody extends StatelessWidget {
         },
       ),
       smallVerticalSpace,
-      const CartStepper(),
-      Expanded(
-          child: Padding(
-        padding: kDefaultPadding,
-        child: PageView.builder(
-          controller: pageController,
-          itemCount: cartSteps.length,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) =>
-              cartSteps[getIt<CartCubit>().state.cartStepIndex!],
-        ),
-      ))
+      getIt<AppSettingsService>().appVersion != '1.0.0'
+          ? const CartStepper()
+          : const SizedBox(),
+      getIt<AppSettingsService>().appVersion != '1.0.0'
+          ? Expanded(
+              child: Padding(
+              padding: kDefaultPadding,
+              child: PageView.builder(
+                controller: pageController,
+                itemCount: cartSteps.length,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) =>
+                    cartSteps[getIt<CartCubit>().state.cartStepIndex!],
+              ),
+            ))
+          : Padding(
+              padding: kDefaultPadding,
+              child: const BasketList(),
+            )
     ]));
   }
 }

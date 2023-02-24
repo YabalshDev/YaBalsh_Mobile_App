@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/depedencies.dart';
+import '../../../../core/services/app_settings_service.dart';
 import '../../../../core/widgets/custom_bottom_nav_bar.dart';
 import '../blocs/cubit/cart_cubit.dart';
 import 'basket_list_bottom_bar.dart';
@@ -65,7 +67,7 @@ class EmptyCartBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 165.h,
+      height: getIt<AppSettingsService>().appVersion != '1.0.0' ? 165.h : 90.h,
       child: Column(
         children: [
           CustomNavBar(
@@ -74,11 +76,13 @@ class EmptyCartBottomBar extends StatelessWidget {
             title: 'حفظ كقائمة تسوق',
             isDisabled: true,
           ),
-          const CustomNavBar(
-            isButtonSecondary: false,
-            title: 'اختار السوبر ماركت',
-            isDisabled: true,
-          )
+          getIt<AppSettingsService>().appVersion != '1.0.0'
+              ? const CustomNavBar(
+                  isButtonSecondary: false,
+                  title: 'اختار السوبر ماركت',
+                  isDisabled: true,
+                )
+              : const SizedBox()
         ],
       ),
     );
