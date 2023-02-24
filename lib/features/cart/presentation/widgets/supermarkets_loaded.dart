@@ -13,6 +13,7 @@ import '../../../../core/widgets/custom_svg_icon.dart';
 import '../../../../core/widgets/empty_indicator.dart';
 import '../blocs/cubit/super_markets_cubit.dart';
 import 'super_market_card.dart';
+import 'supermarkets_section.dart';
 
 class SuperMarketsLoaded extends StatelessWidget {
   const SuperMarketsLoaded({
@@ -44,74 +45,14 @@ class SuperMarketsLoaded extends StatelessWidget {
                                 title: 'لا يوجد سوبرماركتس لطلب المنتجات'),
                           ),
                         )
-                      : Text(
-                          getIt<AppSettingsService>().appVersion != '1.0.0'
-                              ? 'إختار السوبر ماركت'
-                              : 'السوبر ماركتس المتوفرة',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(
-                                  fontWeight: FontWeight.w700, fontSize: 18.sp),
+                      : const SupermarketsSection(
+                          isAvailableMarkets: true,
                         ),
-                  largeVerticalSpace,
-                  ListView.builder(
-                    key: UniqueKey(),
-                    padding: EdgeInsets.only(left: 5.w),
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: state.availableSupermarkets!.length,
-                    itemBuilder: (context, index) {
-                      final superMarket = state.availableSupermarkets![index];
-
-                      return SuperMarketCard(
-                          superMarket: superMarket,
-                          isAvailable: superMarket.isAvailable!,
-                          index: index,
-                          selectedSupermarketIndex:
-                              state.selectedSupermarketIndex!);
-                    },
-                  ),
-                  largeVerticalSpace,
                   state.unAvailableSupermarkets!.isEmpty
                       ? const SizedBox()
-                      : Row(
-                          children: [
-                            const CustomSvgIcon(
-                              iconPath: AppAssets.notAvailable,
-                              color: AppColorsLight.kErrorColor,
-                            ),
-                            smallHorizontalSpace,
-                            Text(
-                              'بعض المنتجات غير متوفرة',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 15.sp,
-                                    color: AppColorsLight.kErrorColor,
-                                  ),
-                            ),
-                          ],
+                      : const SupermarketsSection(
+                          isAvailableMarkets: false,
                         ),
-                  ListView.builder(
-                    key: UniqueKey(),
-                    shrinkWrap: true,
-                    padding: EdgeInsets.only(left: 5.w),
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: state.unAvailableSupermarkets!.length,
-                    itemBuilder: (context, index) {
-                      final superMarket = state.unAvailableSupermarkets![index];
-
-                      return SuperMarketCard(
-                          superMarket: superMarket,
-                          isAvailable: superMarket.isAvailable!,
-                          index: index,
-                          selectedSupermarketIndex:
-                              state.selectedSupermarketIndex!);
-                    },
-                  ),
                 ],
               ),
             ),
