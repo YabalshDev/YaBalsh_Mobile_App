@@ -1,11 +1,9 @@
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/widgets/custom_svg_icon.dart';
+import '../../../../core/widgets/custom_switch.dart';
 
 class ComparisonSettingCard extends StatelessWidget {
   final void Function() onSwitchTap;
@@ -43,17 +41,10 @@ class ComparisonSettingCard extends StatelessWidget {
                         ? Colors.green.shade400
                         : Colors.grey.shade300),
               ),
-              Platform.isAndroid
-                  ? Switch(
-                      value: activeIndicator,
-                      activeColor: Colors.green.shade400,
-                      onChanged: (value) => onSwitchTap(),
-                    )
-                  : CupertinoSwitch(
-                      value: activeIndicator,
-                      activeColor: Colors.green.shade400,
-                      onChanged: (value) => onSwitchTap(),
-                    )
+              CustomSwitch(
+                activeIndicator: activeIndicator,
+                onSwitchTap: onSwitchTap,
+              )
             ]),
             title: Row(
               children: [

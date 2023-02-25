@@ -25,35 +25,5 @@ class AppImage extends StatelessWidget {
           const Center(child: CircularProgressIndicator.adaptive()),
       errorWidget: (context, url, error) => const Icon(Icons.error),
     );
-
-    // return ExtendedImage.network(path!,
-    //     key: key,
-    //     height: height,
-    //     cache: true,
-    //     fit: fit,
-    //     compressionRatio: 0.8,
-    //     printError: true,
-    //     color: Colors.white,
-    //     enableLoadState: true,
-    //     enableMemoryCache: true, loadStateChanged: (ExtendedImageState state) {
-    //   switch (state.extendedImageLoadState) {
-    //     case LoadState.loading:
-    //       return placeHolder ??
-    //           const Center(
-    //             child: CircularProgressIndicator.adaptive(),
-    //           );
-
-    //     case LoadState.completed:
-    //       return ExtendedRawImage(
-    //         image: state.extendedImageInfo?.image,
-    //         fit: fit,
-    //       );
-
-    //     case LoadState.failed:
-    //       return const Icon(Icons.error);
-    //     default:
-    //       return state.completedWidget;
-    //   }
-    // });
   }
 }
