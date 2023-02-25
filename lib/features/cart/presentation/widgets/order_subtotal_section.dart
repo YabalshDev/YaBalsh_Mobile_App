@@ -56,7 +56,7 @@ class OrderSubTotalSection extends StatelessWidget {
                         color: Colors.grey.shade400, fontSize: 12.sp)),
                 smallHorizontalSpace,
                 Text(
-                    '${order != null ? order?.subTotal : getIt<CartCubit>().state.supermarket!.price!.toStringAsFixed(2)} جنيه',
+                    '${order != null ? order!.subTotal!.toStringAsFixed(2) : getIt<CartCubit>().state.supermarket!.price!.toStringAsFixed(2)} جنيه',
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall

@@ -14,7 +14,7 @@ class OrderModel extends Order {
       DateTime? orderDate,
       List<OrderResponseProduct>? products,
       int? id,
-      double? subTotal,
+      num? subTotal,
       Store? store})
       : super(
             address: address,
@@ -42,9 +42,7 @@ class OrderModel extends Order {
       status: json['status'] ?? 'pending',
       subTotal: json['subTotal'] == null
           ? 0
-          : json['subTotal'].runtimeType == int
-              ? json['subTotal'].toDouble()
-              : json['subTotal'].runtimeType == String
-                  ? double.parse(json['subTotal'])
-                  : json['subTotal']);
+          : json['subTotal'] is String
+              ? double.parse(json['subTotal'])
+              : json['subTotal']);
 }

@@ -10,7 +10,7 @@ class Order extends Equatable {
   final DateTime? orderDate;
   final List<OrderResponseProduct>? products;
   final int? id;
-  final double? subTotal;
+  final num? subTotal;
   final Store? store;
 
   const Order(
