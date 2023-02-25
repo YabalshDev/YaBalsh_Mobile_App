@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class CustomSwitch extends StatelessWidget {
   final bool activeIndicator;
-  final void Function() onSwitchTap;
+  final void Function(bool) onSwitchTap;
 
   const CustomSwitch(
       {super.key, required this.activeIndicator, required this.onSwitchTap});
@@ -16,12 +16,12 @@ class CustomSwitch extends StatelessWidget {
         ? Switch(
             value: activeIndicator,
             activeColor: Colors.green.shade400,
-            onChanged: (value) => onSwitchTap(),
+            onChanged: onSwitchTap,
           )
         : CupertinoSwitch(
             value: activeIndicator,
             activeColor: Colors.green.shade400,
-            onChanged: (value) => onSwitchTap(),
+            onChanged: onSwitchTap,
           );
   }
 }

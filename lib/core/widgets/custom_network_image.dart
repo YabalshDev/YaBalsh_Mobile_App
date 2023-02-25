@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import 'custom_image_loader.dart';
+
 class AppImage extends StatelessWidget {
   final BoxFit? fit;
   final String? path;
@@ -22,7 +24,7 @@ class AppImage extends StatelessWidget {
       imageUrl: path ?? '',
       fit: fit,
       progressIndicatorBuilder: (context, url, progress) =>
-          const Center(child: CircularProgressIndicator.adaptive()),
+          const CustomImageLoader(),
       errorWidget: (context, url, error) => const Icon(Icons.error),
     );
   }

@@ -112,7 +112,7 @@ class _SettingsBodyState extends State<SettingsBody> {
                     getIt<AppSettingsService>().appVersion == '1.0.0',
                 iconPath: AppAssets.settingsIcon,
                 title: 'نسخة المقارنة',
-                onSwitchTap: () {
+                onSwitchTap: (value) {
                   if (isComparisonVersion) {
                     isComparisonVersion = false;
                     getIt<AppSettingsService>().setAppVersion('1.0.1');
@@ -127,7 +127,7 @@ class _SettingsBodyState extends State<SettingsBody> {
                 activeIndicator: isNearStoresActivated,
                 iconPath: AppAssets.earthIcon,
                 title: 'القريب منك',
-                onSwitchTap: () {
+                onSwitchTap: (value) {
                   if (isNearStoresActivated) {
                     isNearStoresActivated = false;
                     getIt<AppSettingsService>().setIsNearStores(false);

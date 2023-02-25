@@ -6,7 +6,7 @@ import '../../../../core/widgets/custom_svg_icon.dart';
 import '../../../../core/widgets/custom_switch.dart';
 
 class ComparisonSettingCard extends StatelessWidget {
-  final void Function() onSwitchTap;
+  final void Function(bool) onSwitchTap;
   final String title;
   final String iconPath;
   final bool activeIndicator;
