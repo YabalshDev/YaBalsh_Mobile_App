@@ -31,6 +31,7 @@ class ComparisonSettingCard extends StatelessWidget {
       child: SizedBox(
         height: 56.h,
         child: ListTile(
+            contentPadding: EdgeInsets.only(right: 15.w),
             trailing: Row(mainAxisSize: MainAxisSize.min, children: [
               Text(
                 'مفعلة',

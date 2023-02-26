@@ -10,6 +10,7 @@ import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/home_
 import 'package:yabalash_mobile_app/features/home/presentation/blocs/cubit/main_navigation_cubit.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/views/home_view.dart';
 import 'package:yabalash_mobile_app/features/home/presentation/widgets/nav_icon.dart';
+import 'package:yabalash_mobile_app/features/settings/presentation/cubits/cubit/settings_cubit_cubit.dart';
 import 'package:yabalash_mobile_app/features/settings/presentation/views/settings_view.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/blocs/cubit/shopping_list_cubit.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/presentation/views/shopping_lists_view.dart';
@@ -160,5 +161,9 @@ final List<Widget> screens = [
       child: const ShoppingListsView(),
     ))),
   ),
-  const CustomAnimatedWidget(child: SettingsView()),
+  CustomAnimatedWidget(
+      child: BlocProvider(
+    create: (context) => getIt<SettingsCubit>()..getIsNearStoresSetting(),
+    child: const SettingsView(),
+  )),
 ];

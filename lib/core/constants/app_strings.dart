@@ -19,4 +19,5 @@ class AppStrings {
   static const String searchHistoryKey = 'search_key';
   static const String customerKey = 'customer_key';
   static const String deviceKey = 'device';
+  static const String isNearStoresActivatedKey = 'isNearStores';
 }

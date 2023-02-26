@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
 import 'package:yabalash_mobile_app/core/services/app_settings_service.dart';
+import 'package:yabalash_mobile_app/features/settings/presentation/cubits/cubit/settings_cubit_cubit.dart';
 import 'package:yabalash_mobile_app/features/settings/presentation/widgets/settings_element_card.dart';
 
 import '../../../../core/constants/app_layouts.dart';
@@ -13,6 +15,7 @@ import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/custom_dialog.dart';
 import '../../../../core/widgets/custom_header.dart';
 import 'comparison_setting_card.dart';
+import 'isNear_setting_card.dart';
 
 class SettingsBody extends StatefulWidget {
   const SettingsBody({super.key});
@@ -23,7 +26,7 @@ class SettingsBody extends StatefulWidget {
 
 class _SettingsBodyState extends State<SettingsBody> {
   bool isComparisonVersion = getIt<AppSettingsService>().appVersion == '1.0.0';
-  bool isNearStoresActivated = getIt<AppSettingsService>().isNearStores;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -123,19 +126,12 @@ class _SettingsBodyState extends State<SettingsBody> {
                   setState(() {});
                 },
               ),
-              ComparisonSettingCard(
-                activeIndicator: isNearStoresActivated,
+              IsNearYouSettingCard(
                 iconPath: AppAssets.earthIcon,
                 title: 'القريب منك',
                 onSwitchTap: (value) {
-                  if (isNearStoresActivated) {
-                    isNearStoresActivated = false;
-                    getIt<AppSettingsService>().setIsNearStores(false);
-                  } else {
-                    isNearStoresActivated = true;
-                    getIt<AppSettingsService>().setIsNearStores(true);
-                  }
-                  setState(() {});
+                  BlocProvider.of<SettingsCubit>(context)
+                      .handleIsNearSettingSwitchTap(value);
                 },
               ),
               StatefulBuilder(

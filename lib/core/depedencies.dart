@@ -105,6 +105,7 @@ import 'package:yabalash_mobile_app/features/search/domain/usecases/main_categor
 import 'package:yabalash_mobile_app/features/search/domain/usecases/search_product_usecase.dart';
 import 'package:yabalash_mobile_app/features/search/domain/usecases/sub_categories_products_search.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/blocs/cubit/search_cubit.dart';
+import 'package:yabalash_mobile_app/features/settings/presentation/cubits/cubit/settings_cubit_cubit.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/data/datasources/shopping_list_local_datasource.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/data/repositories/shopping_list_repository_impl.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/domain/repositories/shopping_list_repository.dart';
@@ -469,5 +470,6 @@ setupDependecies() {
       ));
 
   getIt.registerFactory(() => StoreDetailsCubit());
+  getIt.registerFactory(() => SettingsCubit(appSettingsService: getIt()));
   getIt.registerFactory(() => OtherBranchesCubit(searchStoreUsecase: getIt()));
 }

@@ -40,6 +40,7 @@ void main() async {
   await Hive.openBox<String>(AppStrings.searchHistoryKey);
   await Hive.openBox<Customer>(AppStrings.customerKey);
   await Hive.openBox<Device>(AppStrings.deviceKey);
+  await Hive.openBox<bool>(AppStrings.isNearStoresActivatedKey);
   // intialize hive boxes
   Bloc.observer = AppBlocObserver();
   await OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
