@@ -9,7 +9,6 @@ import 'package:yabalash_mobile_app/core/constants/text_styles.dart';
 import 'package:yabalash_mobile_app/core/widgets/phone_number_text_field.dart';
 import 'package:yabalash_mobile_app/core/widgets/ya_balash_custom_button.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/blocs/cubit/phone_number_cubit.dart';
-import 'package:yabalash_mobile_app/features/auth/presentation/widgets/auth_back_icon.dart';
 import 'package:yabalash_mobile_app/features/auth/presentation/widgets/auth_title_widget.dart';
 
 class PhoneNumberBody extends StatefulWidget {
@@ -41,7 +40,6 @@ class _PhoneNumberBodyState extends State<PhoneNumberBody> {
               SizedBox(
                 height: 20.h,
               ),
-              const AuthBackIcon(),
               SizedBox(
                 height: 180.h,
               ),

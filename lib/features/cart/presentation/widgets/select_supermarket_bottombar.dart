@@ -5,10 +5,9 @@ import 'package:yabalash_mobile_app/core/theme/light/app_colors_light.dart';
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/depedencies.dart';
-import '../../../../core/routes/app_routes.dart';
 import '../../../../core/services/user_service.dart';
 import '../../../../core/widgets/custom_bottom_nav_bar.dart';
-import '../../../../core/widgets/custom_dialog.dart';
+import '../../../../core/widgets/show_not_logged_in_button.dart';
 import '../blocs/cubit/cart_cubit.dart';
 
 class SelectSupermarketBottom extends StatelessWidget {
@@ -31,16 +30,7 @@ class SelectSupermarketBottom extends StatelessWidget {
               // second step handle
               if (state.supermarket?.store != null) {
                 if (getIt<UserService>().token.isEmpty) {
-                  yaBalashCustomDialog(
-                    isWithEmoji: false,
-                    buttonTitle: 'تسجيل/مستخدم جديد',
-                    mainContent: 'انت لست مسجلا سجل دخول لتتمكن من اتمام طلبك.',
-                    title: 'ملاحظة',
-                    onConfirm: () => Get
-                      ..back()
-                      ..offNamed(RouteHelper.getPhoneNumberRoute(),
-                          arguments: RouteHelper.getCartRoute()),
-                  );
+                  showNotLoggedInDialog();
                 } else {
                   pageController.animateToPage(2,
                       duration: const Duration(milliseconds: 500),

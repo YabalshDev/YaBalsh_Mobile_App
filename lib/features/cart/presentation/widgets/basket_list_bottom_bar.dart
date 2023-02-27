@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/services/user_service.dart';
+import 'package:yabalash_mobile_app/core/widgets/show_not_logged_in_button.dart';
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/depedencies.dart';
@@ -40,19 +42,24 @@ class BascketListBottomBar extends StatelessWidget {
             padding: kDefaultPadding,
             child: InkWell(
               onTap: () {
-                showModalBottomSheet(
-                    context: context,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: kSecondaryBorderRaduis),
-                    builder: (context) => ShoppingListBottomModal(
-                          formKey: formKey,
-                          onTap: () {
-                            final shoppingListName =
-                                formKey.currentState!.fields['name']!.value;
-                            getIt<CartCubit>().addShoppingList(
-                                shoppingListName: shoppingListName);
-                          },
-                        ));
+                if (getIt<AppSettingsService>().appVersion == '1.0.0' &&
+                    getIt<UserService>().token.isEmpty) {
+                  showNotLoggedInDialog();
+                } else {
+                  showModalBottomSheet(
+                      context: context,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: kSecondaryBorderRaduis),
+                      builder: (context) => ShoppingListBottomModal(
+                            formKey: formKey,
+                            onTap: () {
+                              final shoppingListName =
+                                  formKey.currentState!.fields['name']!.value;
+                              getIt<CartCubit>().addShoppingList(
+                                  shoppingListName: shoppingListName);
+                            },
+                          ));
+                }
               },
               child: Container(
                 width: Get.width,
