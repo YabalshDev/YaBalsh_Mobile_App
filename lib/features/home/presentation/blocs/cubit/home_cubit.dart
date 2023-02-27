@@ -143,11 +143,9 @@ class HomeCubit extends Cubit<HomeState> {
         // in cancel
         Get.back();
       } else {
-        String barCode = result.substring(1, 7);
-        getProductByBarcode(barCode);
+        getProductByBarcode(result);
 
         // call comparing api
-
       }
     } on PlatformException {
       result = 'Failed to get platform version.';
