@@ -18,7 +18,7 @@ class BranchMapImage extends StatelessWidget {
           aspectRatio: 345.h / 179.w,
           child: InkWell(
             onTap: () => MapUtils.navigateToMap(state.store!.location!.lat!,
-                state.store!.location!.lat!, state.store!.name!),
+                state.store!.location!.lon!, state.store!.name!),
             child: ClipRRect(
               borderRadius: kDefaultBorderRaduis,
               child: AppImage(
