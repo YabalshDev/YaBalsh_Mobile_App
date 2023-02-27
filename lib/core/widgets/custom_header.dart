@@ -15,9 +15,11 @@ class CustomHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 12.h, right: 4.5.w),
+      padding: EdgeInsets.only(
+        top: 15.h,
+        right: 6.w,
+      ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           iconPath != null
               ? InkWell(

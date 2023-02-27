@@ -43,27 +43,24 @@ class _BrandDetailsBodyState extends State<BrandDetailsBody> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Padding(
-        padding: kDefaultPadding,
-        child: CustomScrollView(
-          controller: _scrollController,
-          slivers: [
-            SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomHeader(
-                    title: 'وصفات ${(Get.routing.args as Brand).name}',
-                    iconPath: AppAssets.backIcon,
-                  ),
-                  largeVerticalSpace,
-                  const CreatorDetailsSection(),
-                ],
-              ),
+      child: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomHeader(
+                  title: 'وصفات ${(Get.routing.args as Brand).name}',
+                  iconPath: AppAssets.backIcon,
+                ),
+                largeVerticalSpace,
+                const CreatorDetailsSection(),
+              ],
             ),
-            const SliverToBoxAdapter(child: CreatorRecipiesSection())
-          ],
-        ),
+          ),
+          const SliverToBoxAdapter(child: CreatorRecipiesSection())
+        ],
       ),
     );
   }

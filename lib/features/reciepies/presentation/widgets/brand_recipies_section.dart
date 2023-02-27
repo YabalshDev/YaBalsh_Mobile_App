@@ -97,30 +97,33 @@ class BrandRecipiesLoaded extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomAnimatedWidget(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SubHeading(text: 'جميع الوصفات'),
-          smallVerticalSpace,
-          SizedBox(
-            height: state.recipies!.length * 92.h,
-            child: ListView.builder(
-              itemCount: state.recipies!.length,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return RecipieCard(
-                  recipie: state.recipies![index],
-                );
-              },
+      child: Padding(
+        padding: kDefaultPadding,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SubHeading(text: 'جميع الوصفات'),
+            smallVerticalSpace,
+            SizedBox(
+              height: state.recipies!.length * 92.h,
+              child: ListView.builder(
+                itemCount: state.recipies!.length,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return RecipieCard(
+                    recipie: state.recipies![index],
+                  );
+                },
+              ),
             ),
-          ),
-          smallVerticalSpace,
-          state.paginationLoading!
-              ? const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                )
-              : const SizedBox()
-        ],
+            smallVerticalSpace,
+            state.paginationLoading!
+                ? const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  )
+                : const SizedBox()
+          ],
+        ),
       ),
     );
   }
