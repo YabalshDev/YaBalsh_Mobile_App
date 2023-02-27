@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shimmer/shimmer.dart';
-
-import '../../../../core/constants/app_layouts.dart';
+import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
+import 'package:yabalash_mobile_app/core/widgets/custom_shimmer.dart';
 
 class BannersLoading extends StatelessWidget {
   const BannersLoading({
@@ -11,14 +10,10 @@ class BannersLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 133.h,
-      child: Shimmer.fromColors(
-        baseColor: Colors.grey[800]!,
-        highlightColor: Colors.grey[850]!,
-        child: ClipRRect(
-          borderRadius: kDefaultBorderRaduis,
-        ),
+    return Padding(
+      padding: kDefaultPadding,
+      child: CustomShimmer(
+        height: 133.h,
       ),
     );
   }
