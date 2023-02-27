@@ -15,13 +15,13 @@ class UpdateAddressBottom extends StatelessWidget {
     required this.formKey,
     required this.isfromEdit,
     required this.fromRoute,
-    required this.addressId,
+    this.addressId,
   });
 
   final GlobalKey<FormBuilderState> formKey;
   final bool isfromEdit;
   final String fromRoute;
-  final int addressId;
+  final int? addressId;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class UpdateAddressBottom extends StatelessWidget {
 
                 if (isfromEdit) {
                   BlocProvider.of<UpdateAddressCubit>(context).editAddress(
-                      id: addressId,
+                      id: addressId!,
                       addressRequest: addressBody,
                       fromRoute: fromRoute);
                 } else {

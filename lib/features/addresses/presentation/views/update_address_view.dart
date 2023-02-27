@@ -39,7 +39,7 @@ class _UpdateAddressState extends State<UpdateAddress> {
         address: widget.address,
       ),
       bottomNavigationBar: UpdateAddressBottom(
-        addressId: widget.address!.id!,
+        addressId: widget.address?.id!,
         formKey: _formKey,
         fromRoute: widget.fromRoute,
         isfromEdit: widget.isfromEdit,

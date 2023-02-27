@@ -49,7 +49,7 @@ class ShoppingListDetailsBottomLoaded extends StatelessWidget {
             getIt<AppSettingsService>().appVersion != '1.0.0'
                 ? const SizedBox()
                 : const CompareSupermarketsButton(),
-            smallVerticalSpace
+            largeVerticalSpace
           ],
         );
       },
