@@ -423,6 +423,7 @@ setupDependecies() {
       clearCartUseCase: getIt()));
 
   getIt.registerFactory(() => SuperMarketsCubit(
+        getProductDetailsUseCase: getIt(),
         getStoreUseCase: getIt(),
       ));
   getIt.registerFactory(() => OrderSummaryCubit(

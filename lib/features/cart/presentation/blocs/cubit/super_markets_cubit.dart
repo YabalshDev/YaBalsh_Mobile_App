@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/store_price.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/supermarket_card_model.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/location.dart';
+import 'package:yabalash_mobile_app/features/product_details/domain/usecases/get_product_details_usecase.dart';
 
 import '../../../../../core/depedencies.dart';
 import '../../../../../core/services/order_service.dart';
@@ -20,7 +21,9 @@ part 'super_markets_state.dart';
 
 class SuperMarketsCubit extends Cubit<SuperMarketsState> {
   final GetStoreUseCase getStoreUseCase;
+  final GetProductDetailsUseCase getProductDetailsUseCase;
   SuperMarketsCubit({
+    required this.getProductDetailsUseCase,
     required this.getStoreUseCase,
   }) : super(const SuperMarketsState());
 
