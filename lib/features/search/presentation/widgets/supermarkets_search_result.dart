@@ -75,7 +75,7 @@ class SuperMarketsSearchResult extends StatelessWidget {
                               )
                             : const SizedBox(),
                         SizedBox(
-                          height: Get.height * 0.8,
+                          height: Get.height,
                         )
                       ],
                     ),
