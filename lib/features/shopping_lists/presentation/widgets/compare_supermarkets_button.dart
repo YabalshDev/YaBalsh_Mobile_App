@@ -21,7 +21,11 @@ class CompareSupermarketsButton extends StatelessWidget {
             (Get.routing.args[0] as ShoppingList).products;
 
         for (var element in shoppingListItems!) {
-          getIt<CartCubit>().addItemToCart(element.product!);
+          bool isExistInCart =
+              getIt<CartCubit>().checkIfItemisInCart(element.product!);
+          if (!isExistInCart) {
+            getIt<CartCubit>().addItemToCart(element.product!);
+          }
         }
 
         Get.toNamed(RouteHelper.getSupermarketsRoute());

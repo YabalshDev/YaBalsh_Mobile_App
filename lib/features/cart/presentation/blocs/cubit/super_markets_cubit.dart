@@ -48,6 +48,7 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
 
   List<int> _getAvailableSupermarketsIds(
       Map<int, int> supermarketsIds, List<CartItem> cart) {
+    // get stores that are repeated in all cart products
     List<MapEntry<int, int>> entries = supermarketsIds.entries
         .where((element) => element.value == cart.length)
         .toList();
@@ -58,8 +59,29 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
     return storeIds;
   }
 
-  Map<String, dynamic> _getSupermarketsPrices() {
+  Future<List<CartItem>> _getCartProductsDetails() async {
+    List<CartItem> products = [];
     final cartProducts = getIt<CartCubit>().cart;
+
+    for (var element in cartProducts) {
+      if (element.product!.prices!.length < 3) {
+        // if all stores not exist get all stores for product
+        final response = await getProductDetailsUseCase(GetProductDetailsParams(
+            withNearStores: true, productId: element.product!.id!));
+        response.fold(
+            (failure) =>
+                emit(state.copyWith(storeRequestState: RequestState.error)),
+            (product) => products.add(element.copyWith(product: product)));
+      } else {
+        products.add(element);
+      }
+    }
+
+    return products;
+  }
+
+  Future<Map<String, dynamic>> _getSupermarketsPrices() async {
+    final cartProducts = await _getCartProductsDetails();
     Map<String, StorePrice> storesTotalPrices = {};
     Map<int, int> supermarketsIds = {};
     for (var cartProduct in cartProducts) {
@@ -109,7 +131,7 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
     bool hasError = false;
     List<SuperMarketCardModel> supermarkets = [];
 
-    final supermarketPrices = _getSupermarketsPrices();
+    final supermarketPrices = await _getSupermarketsPrices();
 
     List<int> storeIds = supermarketPrices['storeIds'];
     Map<String, StorePrice> storesPrices = supermarketPrices['storePrices'];
@@ -126,6 +148,7 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
           onConfirm: () => Get.back(),
         );
         emit(state.copyWith(storeRequestState: RequestState.error));
+        return;
       }, (store) {
         bool isStoreInZone = _checkStoreInSameZone(store);
 
