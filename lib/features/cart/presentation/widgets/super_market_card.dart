@@ -91,8 +91,8 @@ class SuperMarketCard extends StatelessWidget {
                                   color: AppColorsLight.kAppPrimaryColorLight),
                         ),
                         SizedBox(
-                          width: 20.w,
-                          height: 11.h,
+                          width: 22.w,
+                          height: 12.h,
                           child: Image.asset(
                             isAvailable
                                 ? AppAssets.inStockIcon

@@ -49,6 +49,9 @@ class AppAssets {
   static const String inStockIcon = 'assets/images/In_stock.png';
   static const String outOfStockIcon = 'assets/images/Out_of_stock.png';
 
+  static const String inStockIconSvg = 'assets/icons/In_stock.svg';
+  static const String outOfStockIconSvg = 'assets/icons/Out_of_stock.svg';
+
   static const String headphoneIcon = 'assets/icons/headphone.svg';
 
   static const String likeIcon = 'assets/icons/like.svg';
