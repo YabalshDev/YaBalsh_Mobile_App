@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/utils/enums/search_navigation_screens.dart';
 import '../../../../core/widgets/custom_card.dart';
+import '../../../../core/widgets/stock_icon.dart';
 import '../../../home/domain/entities/store.dart';
 
 class PriceComparisonCard extends StatelessWidget {
@@ -63,16 +63,9 @@ class PriceComparisonCard extends StatelessWidget {
                                         AppColorsLight.kAppPrimaryColorLight),
                           ),
                         ),
-                        SizedBox(
-                          width: 20.w,
-                          height: 11.h,
-                          child: Image.asset(
-                            isAvailable
-                                ? AppAssets.inStockIcon
-                                : AppAssets.outOfStockIcon,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                        StockIcon(
+                          isAvailable: isAvailable,
+                        )
                       ],
                     ),
                   ),

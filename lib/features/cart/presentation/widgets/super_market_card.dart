@@ -13,6 +13,7 @@ import '../../../../core/services/zone_service.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/custom_card.dart';
 import '../../../../core/widgets/custom_svg_icon.dart';
+import '../../../../core/widgets/stock_icon.dart';
 
 class SuperMarketCard extends StatelessWidget {
   final SuperMarketCardModel superMarket;
@@ -90,15 +91,8 @@ class SuperMarketCard extends StatelessWidget {
                                   fontWeight: FontWeight.w600,
                                   color: AppColorsLight.kAppPrimaryColorLight),
                         ),
-                        SizedBox(
-                          width: 22.w,
-                          height: 12.h,
-                          child: Image.asset(
-                            isAvailable
-                                ? AppAssets.inStockIcon
-                                : AppAssets.outOfStockIcon,
-                            fit: BoxFit.cover,
-                          ),
+                        StockIcon(
+                          isAvailable: isAvailable,
                         )
                       ],
                     ),
