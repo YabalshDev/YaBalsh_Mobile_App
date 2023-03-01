@@ -15,8 +15,9 @@ int calculateSavingsPercentage(Product product) {
       List<MapEntry<String, PriceModel>> productPrices =
           product.prices!.entries.toList();
 
-      double saving =
-          (productPrices.last.value.price! - productPrices.first.value.price!);
+      double saving = (productPrices.last.value.price! -
+          productPrices.first.value
+              .price!); // last entry is most expensive while first entry is cheapest price
 
       return ((saving / productPrices.last.value.price!) * 100).ceil();
     } else {

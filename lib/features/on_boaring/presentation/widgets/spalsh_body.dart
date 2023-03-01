@@ -23,7 +23,7 @@ class SplashBody extends StatelessWidget {
               height: 55.h,
               child: Image.asset(
                 AppAssets.logo,
-                fit: BoxFit.cover,
+                fit: BoxFit.fill,
               )),
           SizedBox(
             height: 10.h,
