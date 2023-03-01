@@ -24,6 +24,7 @@ class KewordProducts extends StatelessWidget {
         child: ListView.builder(
           padding: isWithPadding ? kScaffoldPadding : EdgeInsets.zero,
           scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
           itemCount: products.length,
           itemBuilder: (context, index) {
             final product = products[index];

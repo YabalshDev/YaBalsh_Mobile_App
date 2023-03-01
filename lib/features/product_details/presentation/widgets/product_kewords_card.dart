@@ -29,6 +29,7 @@ class ProductKewordCards extends StatelessWidget {
                     child: SizedBox(
                         height: 50.h,
                         child: ListView.builder(
+                          physics: const BouncingScrollPhysics(),
                           padding: EdgeInsets.only(right: 15.w),
                           scrollDirection: Axis.horizontal,
                           itemCount: state.productRelevants.length,
