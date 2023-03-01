@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/utils/enums/search_navigation_screens.dart';
 import 'package:yabalash_mobile_app/features/search/presentation/blocs/cubit/search_cubit.dart';
 
 import '../../../../core/constants/app_layouts.dart';
+import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/theme/light/light_theme.dart';
 
@@ -151,7 +153,15 @@ class _SearchHeaderState extends State<SearchHeader> {
           Expanded(
             flex: 1,
             child: InkWell(
-              onTap: () => Get.back(),
+              onTap: () {
+                final route = (Get.routing.args[0] as SearchNavigationScreens);
+                if (route == SearchNavigationScreens.notification) {
+                  Get.toNamed(RouteHelper.getMainNavigationRoute(),
+                      arguments: 0);
+                } else {
+                  Get.back();
+                }
+              },
               child: Text(
                 'الغاء',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(

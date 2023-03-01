@@ -5,5 +5,6 @@ enum SearchNavigationScreens {
   sections,
   mainCategories,
   subCategories,
-  other
+  other,
+  notification
 }

@@ -36,6 +36,7 @@ SearchCubit handleSearchViewInitState(
         ..getSearchHistory()
         ..getMostSellingProducts()
         ..getAllNearStores();
+    case SearchNavigationScreens.notification:
     case SearchNavigationScreens.sections:
       return getIt<SearchCubit>()
         ..changeSearchIsEmpty(false)

@@ -185,6 +185,7 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   void getSectionProducts(int sectionId) async {
+    _screen = SearchNavigationScreens.sections;
     _handleResultsLoading();
     final response = await getSectionProductsUseCase(GetSectionProductsParams(
         sectionId: sectionId, page: _productsPageNumber));
@@ -286,6 +287,7 @@ class SearchCubit extends Cubit<SearchState> {
         }
       case SearchNavigationScreens.nearStoresScreen:
         break;
+      case SearchNavigationScreens.notification:
       case SearchNavigationScreens.sections:
         if (state.searchTypeIndex == 0) {
           return getSectionProducts(id);

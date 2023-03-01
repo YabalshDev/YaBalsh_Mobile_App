@@ -46,7 +46,7 @@ class NotificationHelper {
 
       if (notificationData.isClickable!) {
         Get.toNamed(RouteHelper.getSearchRoute(), arguments: [
-          SearchNavigationScreens.sections,
+          SearchNavigationScreens.notification,
           notificationData.section != null
               ? notificationData.section!.name
               : '',
