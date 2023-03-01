@@ -29,7 +29,7 @@ class SubZoneList extends StatelessWidget {
           case RequestState.loading:
             return SizedBox(
               height: Get.size.height * 0.50,
-              child: const Center(child: CircularProgressIndicator()),
+              child: const Center(child: CircularProgressIndicator.adaptive()),
             );
 
           case RequestState.loaded:
