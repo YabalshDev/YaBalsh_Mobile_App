@@ -41,17 +41,19 @@ class NotificationHelper {
 
   static void handleOnNotificationOpened() {
     OneSignal.shared.setNotificationOpenedHandler((openedResult) {
-      final notificationData = NotificationAdditionalData.fromJson(
-          openedResult.notification.additionalData!);
+      if (openedResult.notification.additionalData != null) {
+        final notificationData = NotificationAdditionalData.fromJson(
+            openedResult.notification.additionalData!);
 
-      if (notificationData.isClickable!) {
-        Get.toNamed(RouteHelper.getSearchRoute(), arguments: [
-          SearchNavigationScreens.notification,
-          notificationData.section != null
-              ? notificationData.section!.name
-              : '',
-          notificationData.section!.id ?? 0
-        ]);
+        if (notificationData.isClickable!) {
+          Get.toNamed(RouteHelper.getSearchRoute(), arguments: [
+            SearchNavigationScreens.notification,
+            notificationData.section != null
+                ? notificationData.section!.name
+                : '',
+            notificationData.section!.id ?? 0
+          ]);
+        }
       }
     });
   }
