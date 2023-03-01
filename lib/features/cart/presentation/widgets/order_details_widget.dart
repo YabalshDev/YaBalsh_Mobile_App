@@ -30,7 +30,7 @@ class OrderDetailsSection extends StatelessWidget {
         if (orderProducts != null) {
           orderProduct = orderProducts![index];
         } else {
-          cartItem = getIt<CartCubit>().state.cartItems![index];
+          cartItem = getIt<CartCubit>().cart[index];
           productPrice = cartItem
               .product!
               .prices![getIt<CartCubit>().state.supermarket!.store!.name]!

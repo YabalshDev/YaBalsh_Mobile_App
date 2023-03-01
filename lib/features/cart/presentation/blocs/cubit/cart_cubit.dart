@@ -49,6 +49,10 @@ class CartCubit extends Cubit<CartState> {
     clearCart();
   }
 
+  void setCartItemsList(List<CartItem> cartItems) {
+    _cart = cartItems;
+  }
+
   void addShoppingList({required String shoppingListName}) {
     final ShoppingList shoppingList =
         ShoppingList(name: shoppingListName.trim(), products: state.cartItems);
@@ -92,6 +96,8 @@ class CartCubit extends Cubit<CartState> {
     if (isSuccess) {
       emit(state.copyWith(cartItems: []));
     }
+
+    _cart.clear();
   }
 
   void changeCurrentCartStep(int value) {
@@ -207,7 +213,7 @@ class CartCubit extends Cubit<CartState> {
     updatedList[index] = cartItem.copyWith(quantity: cartItem.quantity! - 1);
 
     final response =
-        incrementQuantityUseCase(QuantityParams(cartItem: cartItem));
+        decrementQuantityUseCase(QuantityParams(cartItem: cartItem));
     response.fold((l) {}, (r) {
       _cart = List.from(updatedList);
       emit(state.copyWith(cartItems: updatedList));

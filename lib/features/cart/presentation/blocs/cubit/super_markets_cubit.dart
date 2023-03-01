@@ -76,7 +76,7 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
         products.add(element);
       }
     }
-
+    getIt<CartCubit>().setCartItemsList(products);
     return products;
   }
 
