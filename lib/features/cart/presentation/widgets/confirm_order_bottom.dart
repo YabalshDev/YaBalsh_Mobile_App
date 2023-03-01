@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
+import 'package:yabalash_mobile_app/core/widgets/custom_svg_icon.dart';
 
+import '../../../../core/constants/app_assets.dart';
 import '../../../../core/depedencies.dart';
 import '../../../../core/routes/app_routes.dart';
+import '../../../../core/theme/light/app_colors_light.dart';
 import '../../../../core/widgets/custom_bottom_nav_bar.dart';
 import '../../../orders/data/models/order_product_model.dart';
 import '../../../orders/domain/entities/order_request.dart';
@@ -24,6 +28,19 @@ class ConfirmOrderBottom extends StatelessWidget {
         await handleConfirmOrder();
       },
       title: '✔  خلص الطلب',
+      customChild: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CustomSvgIcon(
+            iconPath: AppAssets.tickIcon,
+            color: state.userAddress?.id == null
+                ? AppColorsLight.kDisabledButtonTextColor
+                : Colors.white,
+          ),
+          mediumHorizontalSpace,
+          const Text('خلص الطلب')
+        ],
+      ),
       isDisabled: state.userAddress?.id == null,
     );
   }

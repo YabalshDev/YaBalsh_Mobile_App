@@ -10,6 +10,7 @@ class CustomNavBar extends StatelessWidget {
   final String title;
   final bool? isDisabled;
   final String? iconPath;
+  final Widget? customChild;
 
   final bool isButtonSecondary;
   const CustomNavBar(
@@ -19,7 +20,8 @@ class CustomNavBar extends StatelessWidget {
       this.iconPath,
       this.mainButtonTap,
       required this.isButtonSecondary,
-      required this.title});
+      required this.title,
+      this.customChild});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class CustomNavBar extends StatelessWidget {
         iconPath: iconPath,
         isSecondaryButton: isButtonSecondary,
         onTap: mainButtonTap ?? () {},
-        child: Text(title),
+        child: customChild ?? Text(title),
       ),
     );
   }

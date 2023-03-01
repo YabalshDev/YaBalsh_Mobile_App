@@ -78,4 +78,5 @@ class AppAssets {
   static const String mapSearchIcon = 'assets/icons/map_search.svg';
   static const String storeMapIcon = 'assets/icons/store_map.svg';
   static const String earthIcon = 'assets/icons/earth.svg';
+  static const String tickIcon = 'assets/icons/tick.svg';
 }

@@ -54,11 +54,16 @@ class OrderSummaryCubit extends Cubit<OrderSummaryState> {
           getIt<AddressService>()
               .setAddresses(zoneAddresses); // set service for global use
 
-          getIt<CartCubit>().changeSelectedUserAddress(zoneAddresses.last);
+          if (zoneAddresses.isNotEmpty) {
+            getIt<CartCubit>().changeSelectedUserAddress(zoneAddresses.last);
+          }
+          emit(state.copyWith(
+              addressesRequestState: RequestState.loaded,
+              userAddresses: zoneAddresses));
+        } else {
+          emit(state.copyWith(
+              addressesRequestState: RequestState.loaded, userAddresses: []));
         }
-        emit(state.copyWith(
-            addressesRequestState: RequestState.loaded,
-            userAddresses: addresses));
       });
     }
   }
