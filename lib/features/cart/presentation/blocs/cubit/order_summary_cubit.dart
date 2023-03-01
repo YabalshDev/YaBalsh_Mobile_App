@@ -48,13 +48,6 @@ class OrderSummaryCubit extends Cubit<OrderSummaryState> {
       response.fold((failure) {
         emit(state.copyWith(addressesRequestState: RequestState.error));
         getIt<CartCubit>().changeSelectedUserAddress(const Address());
-        yaBalashCustomDialog(
-          isWithEmoji: false,
-          buttonTitle: 'حسنا',
-          mainContent: failure.message,
-          title: 'خطأ',
-          onConfirm: () => Get.back(),
-        );
       }, (addresses) {
         if (addresses.isNotEmpty) {
           final zoneAddresses = getZoneAddress(addresses);
