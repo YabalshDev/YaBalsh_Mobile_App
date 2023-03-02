@@ -41,7 +41,7 @@ class AppSettingsServiceImpl implements AppSettingsService {
   Future<bool> getIsNearStoresSetting() async {
     try {
       bool? value;
-      if (Hive.isBoxOpen(AppStrings.isNearStoresActivatedKey)) {
+      if (!Hive.isBoxOpen(AppStrings.isNearStoresActivatedKey)) {
         await Hive.openBox<bool>(AppStrings.isNearStoresActivatedKey);
       }
 
@@ -61,7 +61,7 @@ class AppSettingsServiceImpl implements AppSettingsService {
   @override
   void saveIsNearStoresSettings(bool value) async {
     try {
-      if (Hive.isBoxOpen(AppStrings.isNearStoresActivatedKey)) {
+      if (!Hive.isBoxOpen(AppStrings.isNearStoresActivatedKey)) {
         await Hive.openBox<bool>(AppStrings.isNearStoresActivatedKey);
       }
 
