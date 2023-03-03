@@ -6,6 +6,7 @@ import 'package:yabalash_mobile_app/features/shopping_lists/domain/entities/shop
 
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/widgets/ya_balash_custom_button.dart';
+import '../../../cart/domain/entities/cart_item.dart';
 
 class CompareSupermarketsButton extends StatelessWidget {
   const CompareSupermarketsButton({
@@ -17,19 +18,16 @@ class CompareSupermarketsButton extends StatelessWidget {
     return YaBalashCustomButton(
       child: const Text('قارن كل السوبر ماركتس'),
       onTap: () {
+        List<CartItem> shoppingListProducts = [];
         final shoppingListItems =
             (Get.routing.args[0] as ShoppingList).products;
 
         for (var element in shoppingListItems!) {
-          bool isExistInCart =
-              getIt<CartCubit>().checkIfItemisInCart(element.product!);
-          if (!isExistInCart) {
-            getIt<CartCubit>().addItemToCart(element.product!);
-          }
+          shoppingListProducts.add(element);
         }
+        getIt<CartCubit>().setCartItemsList(shoppingListProducts);
 
         Get.toNamed(RouteHelper.getSupermarketsRoute());
-        getIt<CartCubit>().clearCart();
       },
     );
   }

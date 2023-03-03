@@ -152,12 +152,12 @@ class CartCubit extends Cubit<CartState> {
       cartItem = CartItem(product: product, quantity: 1);
     }
 
+    _cart = List.from(state.cartItems!)..add(cartItem);
     final response = addCartItemUseCase(QuantityParams(cartItem: cartItem));
 
     response.fold((failure) {
       emit(state.copyWith(errorMessage: failure.message));
     }, (success) {
-      _cart = List.from(state.cartItems!)..add(cartItem!);
       emit(state.copyWith(cartItems: _cart));
     });
   }
