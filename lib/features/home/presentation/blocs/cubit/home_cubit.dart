@@ -59,8 +59,10 @@ class HomeCubit extends Cubit<HomeState> {
           lastOffersError: failure.message));
     }, (offers) {
       getIt<CategoriesService>().setMainCategories(categories: offers);
-      emit(state.copyWith(
-          lastOfferrequestState: RequestState.loaded, lastOffers: offers));
+      if (!isClosed) {
+        emit(state.copyWith(
+            lastOfferrequestState: RequestState.loaded, lastOffers: offers));
+      }
     });
   }
 
@@ -72,8 +74,10 @@ class HomeCubit extends Cubit<HomeState> {
           bannersRequestState: RequestState.error,
           bannersError: failure.message));
     }, (banners) {
-      emit(state.copyWith(
-          bannersRequestState: RequestState.loaded, banners: banners));
+      if (!isClosed) {
+        emit(state.copyWith(
+            bannersRequestState: RequestState.loaded, banners: banners));
+      }
     });
   }
 
@@ -90,10 +94,11 @@ class HomeCubit extends Cubit<HomeState> {
       List<Store> uniqueStores = getUniqueStores(stores);
 
       getIt<StoreService>().setUniqueStores(uniqueStores);
-
-      emit(state.copyWith(
-          nearStoreRequestState: RequestState.loaded,
-          nearStores: uniqueStores));
+      if (!isClosed) {
+        emit(state.copyWith(
+            nearStoreRequestState: RequestState.loaded,
+            nearStores: uniqueStores));
+      }
     });
   }
 
@@ -105,9 +110,11 @@ class HomeCubit extends Cubit<HomeState> {
           homeSectionsRequestState: RequestState.error,
           sectionsError: failure.message));
     }, (sections) {
-      emit(state.copyWith(
-          homeSectionsRequestState: RequestState.loaded,
-          homeSections: sections));
+      if (!isClosed) {
+        emit(state.copyWith(
+            homeSectionsRequestState: RequestState.loaded,
+            homeSections: sections));
+      }
     });
   }
 

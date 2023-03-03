@@ -33,8 +33,10 @@ class CategoriesCubit extends Cubit<CategoriesState> {
               subCategories: subCategories)));
     }
 
-    emit(state.copyWith(
-        categorySectionsRequestState: RequestState.loaded,
-        categorySections: categorySections));
+    if (!isClosed) {
+      emit(state.copyWith(
+          categorySectionsRequestState: RequestState.loaded,
+          categorySections: categorySections));
+    }
   }
 }
