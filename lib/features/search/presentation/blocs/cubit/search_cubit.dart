@@ -84,7 +84,7 @@ class SearchCubit extends Cubit<SearchState> {
     _handleResultsLoading();
 
     final response = await searchProductUsecase(
-        SearchParams(searchName: searchName, page: _productsPageNumber));
+        SearchParams(searchName: searchName.trim(), page: _productsPageNumber));
 
     response.fold((failure) {
       emit(state.copyWith(
