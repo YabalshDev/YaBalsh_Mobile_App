@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/store_price.dart';
 import 'package:yabalash_mobile_app/features/cart/domain/entities/supermarket_card_model.dart';
 import 'package:yabalash_mobile_app/features/home/domain/entities/location.dart';
@@ -10,7 +9,6 @@ import '../../../../../core/depedencies.dart';
 import '../../../../../core/services/order_service.dart';
 import '../../../../../core/services/zone_service.dart';
 import '../../../../../core/utils/enums/request_state.dart';
-import '../../../../../core/widgets/custom_dialog.dart';
 import '../../../../home/domain/entities/price_model.dart';
 import '../../../../home/domain/entities/store.dart';
 import '../../../domain/entities/cart_item.dart';
@@ -140,13 +138,7 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
       final response = await getStoreUseCase(GetStoreParams(id: id));
       response.fold((failure) {
         hasError = true;
-        yaBalashCustomDialog(
-          isWithEmoji: false,
-          buttonTitle: 'حسنا',
-          mainContent: 'حدث مشكلة اثناء جلب المتجر',
-          title: 'خطأ',
-          onConfirm: () => Get.back(),
-        );
+
         emit(state.copyWith(storeRequestState: RequestState.error));
         return;
       }, (store) {
