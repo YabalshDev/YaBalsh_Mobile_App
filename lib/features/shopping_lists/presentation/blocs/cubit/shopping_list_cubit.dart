@@ -59,9 +59,12 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
         mainContent: failure.message,
         onConfirm: () => Get.back(),
       );
-    },
-        (result) => emit(state.copyWith(
+    }, (result) {
+      if (!isClosed) {
+        emit(state.copyWith(
             recipiesRequestState: RequestState.loaded,
-            recipies: result.limit(5))));
+            recipies: result.limit(5)));
+      }
+    });
   }
 }
