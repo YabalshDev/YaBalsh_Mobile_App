@@ -127,7 +127,7 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
     return {'storeIds': storeIds, 'storePrices': sortedStoresPrices};
   }
 
-  void getSuperMarkets() async {
+  void getSuperMarkets([bool? removeCart]) async {
     bool hasError = false;
     List<SuperMarketCardModel> supermarkets = [];
 
@@ -170,6 +170,10 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
       supermarkets.sort(
         (a, b) => a.price!.compareTo(b.price!),
       );
+
+      if (removeCart != null) {
+        getIt<CartCubit>().clearCart();
+      }
 
       emit(state.copyWith(
           availableSupermarkets:

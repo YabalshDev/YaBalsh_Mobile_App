@@ -441,7 +441,7 @@ class RouteHelper {
           return InternetConnectionWrapper(
             child: BlocProvider<SuperMarketsCubit>(
               create: (context) =>
-                  getIt<SuperMarketsCubit>()..getSuperMarkets(),
+                  getIt<SuperMarketsCubit>()..getSuperMarkets(true),
               child: const Scaffold(body: SuperMarketLists()),
             ),
           );
