@@ -41,8 +41,10 @@ class OtherBranchesCubit extends Cubit<OtherBranchesState> {
         },
       );
     }, (result) {
-      _currentPage++;
-      _branches = _branches..addAll(result);
+      if (result.isNotEmpty) {
+        _currentPage++;
+      }
+      _branches.addAll(result);
       emit(state.copyWith(
           otherBranchesRequestState: RequestState.loaded,
           paginationLoading: false,
