@@ -2,8 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
-import 'package:yabalash_mobile_app/core/utils/sort_prices_map.dart';
-import 'package:yabalash_mobile_app/features/home/domain/entities/price_model.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/domain/entities/shopping_list_store.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/domain/usecases/rename_shopping_list_usecase.dart';
 
@@ -50,56 +48,70 @@ class ShoppingListDetailsCubit extends Cubit<ShoppingListDetailsState> {
   }
 
   void getShoppingListStores({required List<CartItem> shoppingListItems}) {
-    List<ShoppingListStoreModel> stores = [];
+    List<ShoppingListStoreModel> stores =
+        List<ShoppingListStoreModel>.empty(growable: true);
 
-    Map<String, List<CartItem>> storesMap = {};
-    // sort items prices
-    final sortedPrices = shoppingListItems.map((item) {
-      Map<String, PriceModel> sortedPrices =
-          sortProductPrices(item.product!.prices!); // sort each product prices
-      return CartItem(
-          product: item.product!.copyWith(prices: sortedPrices),
-          quantity: item.quantity);
-    }).toList();
+    Map<String, List<CartItem>> storesCartItems = {};
 
-    for (var element in sortedPrices) {
+    for (var element in shoppingListItems) {
       if (element.product!.prices!.isNotEmpty) {
         String storeImagePath = element.product!.prices!.entries.first.value
             .storeImagePath!; //chepeast store for current item
-        if (storesMap.containsKey(storeImagePath)) {
-          storesMap.update(
+        if (storesCartItems.containsKey(storeImagePath)) {
+          storesCartItems.update(
               storeImagePath,
               (value) =>
                   value..add(element)); // add cart item to corresponding store
         } else {
-          storesMap[storeImagePath] = [element];
+          storesCartItems[storeImagePath] = [element];
         }
       }
     }
 
-    double storesSubTotal = 0;
-    double saving = 0;
-    for (var storeEntry in storesMap.entries) {
-      double subTotal = 0;
-
-      for (var item in storeEntry.value) {
-        subTotal +=
-            (item.quantity! * item.product!.prices!.entries.first.value.price!);
-        saving += item.quantity! *
-            (item.product!.prices!.entries.last.value.price! -
-                item.product!.prices!.entries.first.value.price!);
-      }
-      storesSubTotal += subTotal;
-      stores.add(ShoppingListStoreModel(
-          items: storeEntry.value,
-          storeImagePath: storeEntry.key,
-          totalPrice: subTotal.round()));
-    }
+    final storesSubTotal = _calculateStoresSubTotal(stores, storesCartItems);
 
     emit(state.copyWith(
         stores: stores,
-        subTotal: storesSubTotal,
-        saving: saving.round(),
+        subTotal: storesSubTotal['subTotal'],
+        saving: storesSubTotal['saving']!.round(),
         storesState: RequestState.loaded));
   }
+}
+
+Map<String, double> _calculateStoresSubTotal(
+    List<ShoppingListStoreModel> stores,
+    Map<String, List<CartItem>> storesCartItems) {
+  double storesSubTotal = 0;
+  double saving = 0;
+
+  // Iterate through each store in storesMap
+  for (final storeEntry in storesCartItems.entries) {
+    double subTotal = 0;
+
+    // Iterate through each item in the current store
+    for (final item in storeEntry.value) {
+      // Calculate the subtotal for the current item and add it to the store subtotal
+      subTotal +=
+          (item.quantity! * item.product!.prices!.entries.first.value.price!);
+
+      // Calculate the saving for the current item and add it to the total saving
+      saving += item.quantity! *
+          (item.product!.prices!.entries.last.value.price! -
+              item.product!.prices!.entries.first.value.price!);
+    }
+
+    // Add the store information to the stores list
+    stores.add(
+      ShoppingListStoreModel(
+        items: storeEntry.value,
+        storeImagePath: storeEntry.key,
+        totalPrice: subTotal.round(),
+      ),
+    );
+
+    // Add the store subtotal to the total stores subtotal
+    storesSubTotal += subTotal;
+  }
+
+  return {'subTotal': storesSubTotal, 'saving': saving};
 }
