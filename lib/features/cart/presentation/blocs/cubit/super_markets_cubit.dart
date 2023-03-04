@@ -35,45 +35,42 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
 
   void _updateAvaialbleSupermarketsMap(
       PriceModel priceModel, Map<int, int> supermarketsIds) {
-    int superMarketId = priceModel.storeId!;
-
-    if (supermarketsIds[superMarketId] != null) {
-      supermarketsIds[superMarketId] = supermarketsIds[superMarketId]! + 1;
-    } else {
-      supermarketsIds[superMarketId] = 1;
-    }
+    final supermarketId = priceModel.storeId!;
+    final currentCount = supermarketsIds[supermarketId] ??
+        0; // if first time found count will be 0 otherwise will be current count
+    supermarketsIds[supermarketId] = currentCount + 1;
   }
 
   List<int> _getAvailableSupermarketsIds(
       Map<int, int> supermarketsIds, List<CartItem> cart) {
     // get stores that are repeated in all cart products
-    List<MapEntry<int, int>> entries = supermarketsIds.entries
-        .where((element) => element.value == cart.length)
+    return supermarketsIds.entries
+        .where((entry) => entry.value == cart.length)
+        .map((entry) => entry.key)
         .toList();
-    List<int> storeIds = [];
-    for (var element in entries) {
-      storeIds.add(element.key);
-    }
-    return storeIds;
   }
 
   Future<List<CartItem>> _getCartProductsDetails() async {
-    List<CartItem> products = [];
     final cartProducts = getIt<CartCubit>().cart;
+    List<CartItem> products = List<CartItem>.empty(growable: true);
 
-    for (var element in cartProducts) {
+    for (CartItem element in cartProducts) {
       if (element.product!.prices!.length < 3) {
-        // if all stores not exist get all stores for product
-        final response = await getProductDetailsUseCase(GetProductDetailsParams(
-            withNearStores: true, productId: element.product!.id!));
-        response.fold(
-            (failure) =>
-                emit(state.copyWith(storeRequestState: RequestState.error)),
-            (product) => products.add(element.copyWith(product: product)));
+        final getProductDetailsResponse =
+            await getProductDetailsUseCase(GetProductDetailsParams(
+          withNearStores: true,
+          productId: element.product!.id!,
+        ));
+        getProductDetailsResponse.fold(
+          (failure) =>
+              emit(state.copyWith(storeRequestState: RequestState.error)),
+          (product) => products.add(element.copyWith(product: product)),
+        );
       } else {
         products.add(element);
       }
     }
+
     getIt<CartCubit>().setCartItemsList(products);
     return products;
   }
@@ -92,18 +89,13 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
         if (storesTotalPrices.containsKey(priceModel.key)) {
           StorePrice storePrice = storesTotalPrices[priceModel.key]!;
           double totalPrice = (storePrice.price! + (quantity * price));
-          if (!storePrice.isAvailable!) {
-            storesTotalPrices.update(
-                priceModel.key,
-                (value) => storePrice.copyWith(
-                      price: totalPrice,
-                    ));
-          } else {
-            storesTotalPrices.update(
-                priceModel.key,
-                (value) => storePrice.copyWith(
-                    price: totalPrice, isAvailable: isAvailable));
-          }
+          storesTotalPrices.update(
+            priceModel.key,
+            (value) => storePrice.copyWith(
+              price: totalPrice,
+              isAvailable: value.isAvailable! && isAvailable,
+            ),
+          );
         } else {
           //first addition
           storesTotalPrices[priceModel.key] =
@@ -127,7 +119,8 @@ class SuperMarketsCubit extends Cubit<SuperMarketsState> {
 
   void getSuperMarkets([bool? removeCart]) async {
     bool hasError = false;
-    List<SuperMarketCardModel> supermarkets = [];
+    List<SuperMarketCardModel> supermarkets =
+        List<SuperMarketCardModel>.empty(growable: true);
 
     final supermarketPrices = await _getSupermarketsPrices();
 

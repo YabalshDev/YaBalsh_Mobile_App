@@ -28,7 +28,8 @@ class SuperMarketsLoaded extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  state.availableSupermarkets!.isEmpty
+                  state.availableSupermarkets!.isEmpty &&
+                          state.unAvailableSupermarkets!.isEmpty
                       ? SizedBox(
                           height:
                               getIt<AppSettingsService>().appVersion == '1.0.0'
