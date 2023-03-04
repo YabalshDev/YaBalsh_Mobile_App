@@ -30,27 +30,41 @@ class RecipiesCubit extends Cubit<RecipiesState> {
   int _recipiesCurrentPage = 1;
 
   void getBrands() async {
-    final response =
+    // Make API call to get list of brands
+    final brandsResult =
         await getAllBrandsUseCase(GetAllBrandsParams(page: _brandsCurrentPage));
 
-    response.fold((failure) {
-      emit(state.copyWith(
+    // Handle API response
+    brandsResult.fold(
+      // If API call failed, update state with error message
+      (failure) {
+        emit(state.copyWith(
           errorMessage: failure.message,
-          brandsRequestState: RequestState.error));
-    }, (result) {
-      if (result.isNotEmpty) {
-        _brandsCurrentPage++;
-      }
-      _brands.addAll(result);
-      emit(state.copyWith(
+          brandsRequestState: RequestState.error,
+        ));
+      },
+      // If API call succeeded, update state with new list of brands
+      (brands) {
+        // If the list of brands is not empty, increment current page
+        if (brands.isNotEmpty) {
+          _brandsCurrentPage++;
+        }
+
+        // Add new brands to existing list
+        _brands.addAll(brands);
+
+        // Update state with new brands and loading state
+        emit(state.copyWith(
           brandsRequestState: RequestState.loaded,
           brands: _brands,
-          brandsPaginationLoading: false));
-    });
+          brandsPaginationLoading: false,
+        ));
+      },
+    );
   }
 
   Future<List<Recipie>> getRecipies() async {
-    List<Recipie> allRecipies = [];
+    List<Recipie> allRecipies = List<Recipie>.empty(growable: true);
     final response = await getRecipiesUseCase(
         GetAllBrandsParams(page: _recipiesCurrentPage));
 
