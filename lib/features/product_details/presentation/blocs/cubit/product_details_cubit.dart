@@ -55,22 +55,15 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
   }
 
   Map<String, List<Store>> _getProductBranches(List<Store> stores) {
-    final subZone = getIt<ZoneService>().currentSubZone!;
+    final subZoneId = getIt<ZoneService>().currentSubZone?.id ?? 0;
     List<Store> nearStores = [];
     List<Store> farStores = [];
 
-    for (var store in stores) {
-      final otherZoneslocation =
-          store.locations!.where((element) => element.subZoneId != subZone.id);
-      final subZoneLocation =
-          store.locations!.where((element) => element.subZoneId == subZone.id);
-
-      if (otherZoneslocation.isNotEmpty) {
-        farStores.add(store);
-      }
-
-      if (subZoneLocation.isNotEmpty) {
+    for (final store in stores) {
+      if (store.locations!.any((loc) => loc.subZoneId == subZoneId)) {
         nearStores.add(store);
+      } else {
+        farStores.add(store);
       }
     }
 
