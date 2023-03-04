@@ -87,7 +87,7 @@ class OrderDetailsSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    '${orderProducts != null ? orderProduct!.price != 0 ? orderProduct.price : (orderProduct.total! / orderProduct.quantity!) : totalPrice!.toStringAsFixed(0)} جنيه',
+                    '${orderProducts != null ? orderProduct!.price != 0 ? orderProduct.total : (orderProduct.price! * orderProduct.quantity!).toStringAsFixed(2) : totalPrice!.toStringAsFixed(2)} جنيه',
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.w500,
                         fontSize: 18.sp,
@@ -114,7 +114,7 @@ class OrderDetailsSection extends StatelessWidget {
                             ),
                       ),
                       Text(
-                        ' ${orderProducts != null ? orderProduct!.price != 0 ? orderProduct.price : (orderProduct.total! / orderProduct.quantity!) : productPrice!.toStringAsFixed(2)}',
+                        ' ${orderProducts != null ? orderProduct!.price != 0 ? orderProduct.price : (orderProduct.total! / orderProduct.quantity!).toStringAsFixed(2) : productPrice!.toStringAsFixed(2)}',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               fontSize: 9.sp,
                               fontWeight: FontWeight.w600,
