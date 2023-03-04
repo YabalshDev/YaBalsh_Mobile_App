@@ -27,7 +27,7 @@ class AddressCubit extends Cubit<AddressState> {
 
   void handleDeleteDialogClose() {
     emit(state.copyWith(
-        addresses: state.addresses, addressesRequestState: RequestState.error));
+        addresses: state.addresses, addressesRequestState: RequestState.idle));
 
     emit(state.copyWith(
         addresses: state.addresses,
@@ -49,7 +49,8 @@ class AddressCubit extends Cubit<AddressState> {
   }
 
   void deleteAddress({required int id, required Address address}) async {
-    List<Address> updatedAddress = List.from(state.addresses!)..remove(address);
+    List<Address> updatedAddresses = List.from(state.addresses!)
+      ..remove(address);
 
     final response = await deleteAddressUseCase(DeleteAddressParams(id: id));
     response.fold((failure) {
@@ -63,7 +64,7 @@ class AddressCubit extends Cubit<AddressState> {
             ..back()
             ..back());
     }, (success) {
-      emit(state.copyWith(addresses: updatedAddress));
+      emit(state.copyWith(addresses: updatedAddresses));
       yaBalashCustomDialog(
           buttonTitle: 'حسنا',
           isWithEmoji: false,

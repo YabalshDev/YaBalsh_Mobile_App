@@ -28,8 +28,6 @@ class AddressesList extends StatelessWidget {
       },
       builder: (context, state) {
         switch (state.addressesRequestState) {
-          case RequestState.idle:
-            return const SizedBox();
           case RequestState.loading:
             return SizedBox(
               height: Get.size.height * 0.6,
@@ -37,6 +35,8 @@ class AddressesList extends StatelessWidget {
                 child: CircularProgressIndicator.adaptive(),
               ),
             );
+          case RequestState.idle:
+
           case RequestState.loaded:
             if (state.addresses!.isNotEmpty) {
               return ListView.builder(
