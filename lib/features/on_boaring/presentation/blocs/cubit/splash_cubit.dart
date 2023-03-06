@@ -80,7 +80,7 @@ class SplashCubit extends Cubit<SplashState> {
 
   void splashInit() async {
     await Future.delayed(
-      const Duration(seconds: 1),
+      const Duration(seconds: 3),
       () {
         // initConnectivityStream();
 

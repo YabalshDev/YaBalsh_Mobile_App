@@ -19,11 +19,14 @@ class SplashBody extends StatelessWidget {
         children: [
           const Spacer(),
           SizedBox(
-              width: 190.w,
-              height: 55.h,
-              child: Image.asset(
-                AppAssets.logo,
-                fit: BoxFit.fill,
+              width: 220.w,
+              height: 120.h,
+              child: AspectRatio(
+                aspectRatio: 220.w / 120.h,
+                child: Image.asset(
+                  AppAssets.splash,
+                  fit: BoxFit.fill,
+                ),
               )),
           SizedBox(
             height: 10.h,

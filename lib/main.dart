@@ -18,11 +18,12 @@ import 'features/zones/domain/entities/sub_zone.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // intialize dependecies
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
+  // intialize dependecies
   setupDependecies();
+  // intialize hive local storage boxes
   await Hive.initFlutter();
 
   Hive.registerAdapter(SubZoneAdapter());
@@ -41,8 +42,9 @@ void main() async {
   await Hive.openBox<Customer>(AppStrings.customerKey);
   await Hive.openBox<Device>(AppStrings.deviceKey);
   await Hive.openBox<bool>(AppStrings.isNearStoresActivatedKey);
-  // intialize hive boxes
+
   Bloc.observer = AppBlocObserver();
+  // intialize notifications
   await OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
   await OneSignal.shared.setAppId(AppStrings.oneSignalAppId);
 
