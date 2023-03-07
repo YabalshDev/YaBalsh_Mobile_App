@@ -22,6 +22,7 @@ class SplashBody extends StatelessWidget {
               text: TextSpan(
                   style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                       fontFamily: 'Gotham',
+                      fontSize: 30.sp,
                       color: AppColorsLight.kAppPrimaryColorLight,
                       fontWeight: FontWeight.bold),
                   children: [
