@@ -57,10 +57,10 @@ class CartBody extends StatelessWidget {
         },
       ),
       smallVerticalSpace,
-      getIt<AppSettingsService>().appVersion != '1.0.0'
+      getIt<AppSettingsService>().appConfig.appVersion != '1.0.0'
           ? const CartStepper()
           : const SizedBox(),
-      getIt<AppSettingsService>().appVersion != '1.0.0'
+      getIt<AppSettingsService>().appConfig.appVersion != '1.0.0'
           ? Expanded(
               child: Padding(
               padding: kDefaultPadding,

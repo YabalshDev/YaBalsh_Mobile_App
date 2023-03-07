@@ -4,7 +4,8 @@ class AppStrings {
   static const String fontFamily = 'Cairo';
   static const String baseUrl = 'https://yabalash.net';
   static const String oneSignalAppId = 'e68dac07-3cd5-47c1-bc77-48b36d750ef4';
-
+  static const String defaultUpdateText =
+      'يوجد تحديث جديد ل yaBalash .. حدث التطبيق للاستفادة بالخصائص والمميزات الجديدة';
   static const String splashHeading =
       '!Compare and find the product’s lowest price';
   static const String splashSubHeading = 'قارن و اعرف ارخص سعر للمنتج فين!';

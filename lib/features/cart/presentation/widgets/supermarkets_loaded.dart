@@ -22,19 +22,22 @@ class SuperMarketsLoaded extends StatelessWidget {
         return Expanded(
           child: SingleChildScrollView(
             child: Padding(
-              padding: getIt<AppSettingsService>().appVersion == '1.0.0'
-                  ? kDefaultPadding
-                  : EdgeInsets.zero,
+              padding:
+                  getIt<AppSettingsService>().appConfig.appVersion == '1.0.0'
+                      ? kDefaultPadding
+                      : EdgeInsets.zero,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   state.availableSupermarkets!.isEmpty &&
                           state.unAvailableSupermarkets!.isEmpty
                       ? SizedBox(
-                          height:
-                              getIt<AppSettingsService>().appVersion == '1.0.0'
-                                  ? Get.height
-                                  : Get.height * 0.6,
+                          height: getIt<AppSettingsService>()
+                                      .appConfig
+                                      .appVersion ==
+                                  '1.0.0'
+                              ? Get.height
+                              : Get.height * 0.6,
                           child: const Center(
                             child: EmptyIndicator(
                                 emptyStateType: EmptyStates.cart,

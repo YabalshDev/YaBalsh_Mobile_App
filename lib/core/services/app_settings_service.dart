@@ -5,13 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 import '../constants/app_strings.dart';
+import 'app_config.dart';
 
 abstract class AppSettingsService {
-  late String _appVersion;
+  late AppConfig _appConfig;
   late bool _isNearStores;
-  String get appVersion;
+  late bool _showUpdateDialog;
+
   bool get isNearStores;
-  void setAppVersion(String appVersion);
+  bool get showUpdateDialog;
+  AppConfig get appConfig;
+
+  bool setShowUpdateDialog(bool value);
+  void fetchAndSaveAppConfigs();
+
   void setIsNearStores(bool value);
   void saveIsNearStoresSettings(bool value);
   Future<bool> getIsNearStoresSetting();
@@ -19,16 +26,8 @@ abstract class AppSettingsService {
 
 class AppSettingsServiceImpl implements AppSettingsService {
   final FirebaseRemoteConfig remoteConfig;
-  @override
-  String _appVersion = '1.0.0';
 
   AppSettingsServiceImpl({required this.remoteConfig});
-  @override
-  String get appVersion => _appVersion;
-  @override
-  void setAppVersion(String version) {
-    _appVersion = version;
-  }
 
   @override
   bool _isNearStores = false;
@@ -75,4 +74,31 @@ class AppSettingsServiceImpl implements AppSettingsService {
       debugPrint('failed to save setting');
     }
   }
+
+  @override
+  void fetchAndSaveAppConfigs() async {
+    try {
+      await remoteConfig.fetchAndActivate();
+      final configs = remoteConfig.getAll();
+      _appConfig = AppConfigFirebase.fromJson(configs);
+    } catch (err) {
+      _appConfig = AppConfig(
+          appVersion: '1.0.0', updateDescription: AppStrings.defaultUpdateText);
+    }
+  }
+
+  @override
+  AppConfig _appConfig = AppConfig();
+
+  @override
+  AppConfig get appConfig => _appConfig;
+
+  @override
+  bool _showUpdateDialog = true;
+
+  @override
+  bool get showUpdateDialog => _showUpdateDialog;
+
+  @override
+  bool setShowUpdateDialog(bool value) => _showUpdateDialog = value;
 }

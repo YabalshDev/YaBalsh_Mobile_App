@@ -67,7 +67,9 @@ class EmptyCartBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: getIt<AppSettingsService>().appVersion != '1.0.0' ? 165.h : 90.h,
+      height: getIt<AppSettingsService>().appConfig.appVersion != '1.0.0'
+          ? 165.h
+          : 90.h,
       child: Column(
         children: [
           CustomNavBar(
@@ -76,7 +78,7 @@ class EmptyCartBottomBar extends StatelessWidget {
             title: 'حفظ كقائمة تسوق',
             isDisabled: true,
           ),
-          getIt<AppSettingsService>().appVersion != '1.0.0'
+          getIt<AppSettingsService>().appConfig.appVersion != '1.0.0'
               ? const CustomNavBar(
                   isButtonSecondary: false,
                   title: 'اختار السوبر ماركت',

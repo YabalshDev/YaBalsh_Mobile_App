@@ -27,7 +27,9 @@ class BascketListBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: getIt<AppSettingsService>().appVersion != '1.0.0' ? 170.h : 95.h,
+      height: getIt<AppSettingsService>().appConfig.appVersion != '1.0.0'
+          ? 170.h
+          : 95.h,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -42,7 +44,8 @@ class BascketListBottomBar extends StatelessWidget {
             padding: kDefaultPadding,
             child: InkWell(
               onTap: () {
-                if (getIt<AppSettingsService>().appVersion == '1.0.0' &&
+                if (getIt<AppSettingsService>().appConfig.appVersion ==
+                        '1.0.0' &&
                     getIt<UserService>().token.isEmpty) {
                   showNotLoggedInDialog();
                 } else {
@@ -80,7 +83,7 @@ class BascketListBottomBar extends StatelessWidget {
               ),
             ),
           ),
-          getIt<AppSettingsService>().appVersion != '1.0.0'
+          getIt<AppSettingsService>().appConfig.appVersion != '1.0.0'
               ? CustomNavBar(
                   mainButtonTap: () {
                     pageController.animateToPage(1,

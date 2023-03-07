@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
 import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
+import 'package:yabalash_mobile_app/core/services/app_settings_service.dart';
 import 'package:yabalash_mobile_app/core/services/user_service.dart';
 import 'package:yabalash_mobile_app/core/services/zone_service.dart';
 import 'package:yabalash_mobile_app/core/utils/notification_helper.dart';
@@ -83,7 +84,7 @@ class SplashCubit extends Cubit<SplashState> {
       const Duration(seconds: 3),
       () {
         // initConnectivityStream();
-
+        getIt<AppSettingsService>().fetchAndSaveAppConfigs();
         NotificationHelper.handleOnNotificationOpened();
         NotificationHelper.handleOnNotificationRecived();
         checkIsFirstTimeVisit();

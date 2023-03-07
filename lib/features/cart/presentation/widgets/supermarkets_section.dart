@@ -24,7 +24,7 @@ class SupermarketsSection extends StatelessWidget {
           children: [
             isAvailableMarkets
                 ? Text(
-                    getIt<AppSettingsService>().appVersion != '1.0.0'
+                    getIt<AppSettingsService>().appConfig.appVersion != '1.0.0'
                         ? 'إختار السوبر ماركت'
                         : 'السوبر ماركتس المتوفرة',
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(

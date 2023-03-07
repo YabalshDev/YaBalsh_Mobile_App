@@ -16,9 +16,10 @@ class ShoppingListDetailsBottomLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: getIt<AppSettingsService>().appVersion == '1.0.0'
-          ? MainAxisAlignment.start
-          : MainAxisAlignment.center,
+      mainAxisAlignment:
+          getIt<AppSettingsService>().appConfig.appVersion == '1.0.0'
+              ? MainAxisAlignment.start
+              : MainAxisAlignment.center,
       children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -41,10 +42,10 @@ class ShoppingListDetailsBottomLoading extends StatelessWidget {
                 ))
           ],
         ),
-        getIt<AppSettingsService>().appVersion != '1.0.0'
+        getIt<AppSettingsService>().appConfig.appVersion != '1.0.0'
             ? const SizedBox()
             : const Spacer(),
-        getIt<AppSettingsService>().appVersion != '1.0.0'
+        getIt<AppSettingsService>().appConfig.appVersion != '1.0.0'
             ? const SizedBox()
             : const CompareSupermarketsButton(),
         smallVerticalSpace

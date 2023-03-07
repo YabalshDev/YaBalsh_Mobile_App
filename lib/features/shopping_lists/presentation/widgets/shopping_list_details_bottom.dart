@@ -18,7 +18,9 @@ class ShoppingListDetailsBottom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: getIt<AppSettingsService>().appVersion == '1.0.0' ? 140.h : 110.h,
+      height: getIt<AppSettingsService>().appConfig.appVersion == '1.0.0'
+          ? 140.h
+          : 110.h,
       padding: kDefaultPadding,
       child: BlocBuilder<ShoppingListDetailsCubit, ShoppingListDetailsState>(
         builder: (context, state) {

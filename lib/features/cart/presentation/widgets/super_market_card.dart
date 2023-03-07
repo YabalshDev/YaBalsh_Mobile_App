@@ -39,7 +39,8 @@ class SuperMarketCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          isAvailable && getIt<AppSettingsService>().appVersion != '1.0.0'
+          isAvailable &&
+                  getIt<AppSettingsService>().appConfig.appVersion != '1.0.0'
               ? GestureDetector(
                   onTap: () => BlocProvider.of<SuperMarketsCubit>(context)
                       .setSuperMarketIndex(index: index),
@@ -57,7 +58,8 @@ class SuperMarketCard extends StatelessWidget {
                   ),
                 )
               : SizedBox(
-                  width: getIt<AppSettingsService>().appVersion != '1.0.0'
+                  width: getIt<AppSettingsService>().appConfig.appVersion !=
+                          '1.0.0'
                       ? 18.w
                       : 0,
                 ),
