@@ -5,7 +5,6 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/depedencies.dart';
 import 'package:yabalash_mobile_app/core/routes/app_routes.dart';
-import 'package:yabalash_mobile_app/core/services/app_settings_service.dart';
 import 'package:yabalash_mobile_app/core/services/stores_service.dart';
 import 'package:yabalash_mobile_app/core/usecases/use_cases.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
@@ -176,20 +175,5 @@ class HomeCubit extends Cubit<HomeState> {
     });
 
     return subZones.limit(3);
-  }
-
-  void checkForUpdates() {
-    if (getIt<AppSettingsService>().appConfig.appVersion != '1.0.0') {
-      if (getIt<AppSettingsService>().showUpdateDialog) {
-        yaBalashCustomDialog(
-          title: 'تحديث جديد',
-          mainContent: getIt<AppSettingsService>().appConfig.updateDescription,
-          buttonTitle: 'حسنا',
-          isWithEmoji: false,
-        );
-
-        getIt<AppSettingsService>().setShowUpdateDialog(false);
-      }
-    }
   }
 }

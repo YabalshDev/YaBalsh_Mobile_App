@@ -84,13 +84,14 @@ class SplashCubit extends Cubit<SplashState> {
       const Duration(seconds: 3),
       () {
         // initConnectivityStream();
-        getIt<AppSettingsService>().fetchAndSaveAppConfigs();
         NotificationHelper.handleOnNotificationOpened();
         NotificationHelper.handleOnNotificationRecived();
         checkIsFirstTimeVisit();
         checkIfUserLoggedIn();
         getCurrentCustomer();
         checkIfZoneExist();
+        getIt<AppSettingsService>().setUpRemoteConfig();
+        getIt<AppSettingsService>().fetchAndSaveAppConfigs();
 
         if (_isFirstTimeVisit) {
           setIsFirstTimeVisit(false);

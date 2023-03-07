@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_layouts.dart';
 import 'package:yabalash_mobile_app/core/theme/light/app_colors_light.dart';
+import 'package:yabalash_mobile_app/core/widgets/custom_svg_icon.dart';
 import 'package:yabalash_mobile_app/core/widgets/ya_balash_custom_button.dart';
 
 void showCustomDialog(
@@ -74,6 +75,7 @@ void yaBalashCustomDialog(
     String? mainContent,
     String? subContent,
     String? buttonTitle,
+    String? iconPath,
     void Function()? onConfirm,
     void Function()? onClose,
     bool? isWithEmoji}) {
@@ -119,6 +121,14 @@ void yaBalashCustomDialog(
                 ? Text(
                     '😔',
                     style: TextStyle(fontSize: 60.sp),
+                  )
+                : const SizedBox(),
+            iconPath != null
+                ? CustomSvgIcon(
+                    iconPath: iconPath,
+                    boxFit: BoxFit.fill,
+                    width: 80.w,
+                    height: 80.h,
                   )
                 : const SizedBox(),
             mediumVerticalSpace,

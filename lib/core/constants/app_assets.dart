@@ -9,6 +9,7 @@ abstract class AppAssets {
       'assets/icons/on_boarding3.svg';
 
   static const String homeIcon = 'assets/icons/home.svg';
+  static const String updateIcon = 'assets/icons/update.svg';
 
   static const String cartIcon = 'assets/icons/cart.svg';
 

@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field, prefer_final_fields
+// ignore_for_file: unused_field, prefer_final_fields, empty_catches
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +17,7 @@ abstract class AppSettingsService {
   AppConfig get appConfig;
 
   bool setShowUpdateDialog(bool value);
+  void setUpRemoteConfig();
   void fetchAndSaveAppConfigs();
 
   void setIsNearStores(bool value);
@@ -101,4 +102,13 @@ class AppSettingsServiceImpl implements AppSettingsService {
 
   @override
   bool setShowUpdateDialog(bool value) => _showUpdateDialog = value;
+
+  @override
+  void setUpRemoteConfig() async {
+    try {
+      await remoteConfig.setConfigSettings(RemoteConfigSettings(
+          fetchTimeout: const Duration(seconds: 10),
+          minimumFetchInterval: Duration.zero));
+    } catch (e) {}
+  }
 }
