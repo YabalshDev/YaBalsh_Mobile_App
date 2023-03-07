@@ -1,5 +1,6 @@
 // ignore_for_file: unused_field, prefer_final_fields
 
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -17,8 +18,11 @@ abstract class AppSettingsService {
 }
 
 class AppSettingsServiceImpl implements AppSettingsService {
+  final FirebaseRemoteConfig remoteConfig;
   @override
   String _appVersion = '1.0.0';
+
+  AppSettingsServiceImpl({required this.remoteConfig});
   @override
   String get appVersion => _appVersion;
   @override

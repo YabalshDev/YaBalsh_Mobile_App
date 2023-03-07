@@ -38,6 +38,8 @@ dependencies:
   dots_indicator: ^2.1.0
   equatable: ^2.0.5
   
+  firebase_core: ^2.7.1
+  firebase_remote_config: ^3.0.14
   flutter:
     sdk: flutter
   flutter_barcode_scanner: ^2.0.0

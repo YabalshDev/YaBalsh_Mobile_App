@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "765701231662",
+    "project_id": "yabalash-55e64",
+    "storage_bucket": "yabalash-55e64.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:765701231662:android:9988a40d8ac1058a47fbbf",
+        "android_client_info": {
+          "package_name": "com.example.yabalash_mobile_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "765701231662-7t2a07bl380fcu6bl66j7egd88c8arb6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9wThCMpQTMyVkZhNHXLkJXt-qIjIKyOU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "765701231662-7t2a07bl380fcu6bl66j7egd88c8arb6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "765701231662-gu24bku03v0lo0c2ni26is4gu3lqt0m0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.yabalashMobileApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

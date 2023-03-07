@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:get_it/get_it.dart';
 import 'package:yabalash_mobile_app/core/api/local_data_api/hive_local_storage_consumer.dart';
 import 'package:yabalash_mobile_app/core/api/local_data_api/local_storage_provider.dart';
@@ -137,6 +138,7 @@ import '../features/zones/data/datasources/zone_local_data_source.dart';
 
 final getIt = GetIt.instance;
 setupDependecies() {
+  final remoteConfig = FirebaseRemoteConfig.instance;
   getIt.registerLazySingleton(() => Dio());
   getIt.registerLazySingleton(() => Connectivity());
   getIt.registerLazySingleton(() => AppInterceptor());
@@ -149,7 +151,7 @@ setupDependecies() {
 //services
   getIt.registerLazySingleton<ZoneService>(() => ZoneServiceImpl());
   getIt.registerLazySingleton<AppSettingsService>(
-      () => AppSettingsServiceImpl());
+      () => AppSettingsServiceImpl(remoteConfig: remoteConfig));
   getIt.registerLazySingleton<OrderService>(() => OrderServiceImpl());
   getIt.registerLazySingleton<AddressService>(() => AddressServiceImpl());
   getIt.registerLazySingleton<UserService>(
