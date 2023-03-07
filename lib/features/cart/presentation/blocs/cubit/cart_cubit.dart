@@ -196,7 +196,7 @@ class CartCubit extends Cubit<CartState> {
     updatedList[index] = cartItem.copyWith(quantity: cartItem.quantity! + 1);
 
     final response =
-        incrementQuantityUseCase(QuantityParams(cartItem: cartItem));
+        incrementQuantityUseCase(QuantityParams(cartItem: updatedList[index]));
     response.fold((l) {}, (r) {
       _cart = List.from(updatedList);
       emit(state.copyWith(cartItems: updatedList));
@@ -213,7 +213,7 @@ class CartCubit extends Cubit<CartState> {
     updatedList[index] = cartItem.copyWith(quantity: cartItem.quantity! - 1);
 
     final response =
-        decrementQuantityUseCase(QuantityParams(cartItem: cartItem));
+        decrementQuantityUseCase(QuantityParams(cartItem: updatedList[index]));
     response.fold((l) {}, (r) {
       _cart = List.from(updatedList);
       emit(state.copyWith(cartItems: updatedList));
