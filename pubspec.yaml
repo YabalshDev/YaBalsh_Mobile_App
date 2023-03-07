@@ -93,3 +93,9 @@ flutter:
           weight: 600
         - asset: assets/font/Cairo-Bold.ttf
           weight: 700
+
+ 
+    - family: Gotham
+      fonts:
+        - asset: assets/font/Gotham-Rounded-Bold.otf
+          weight: 700        

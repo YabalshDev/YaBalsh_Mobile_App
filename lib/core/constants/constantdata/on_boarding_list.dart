@@ -17,5 +17,5 @@ final List<OnBoarding> onBoardings = [
       imagePath: AppAssets.thirdOnBoardingIllustration,
       title: 'هنوصلك لباب بيتك',
       subTitile:
-          'زودت كل الي محتاجه؟ هنوصلهمك  من السوبرماركت الي تختاره لحد باب بيتك!')
+          'زودت كل الي محتاجه؟ شوف كل مكان هيوصلك في قد ايه و بكام.. لحد باب بيتك!')
 ];

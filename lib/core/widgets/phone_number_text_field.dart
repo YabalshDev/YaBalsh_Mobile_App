@@ -48,9 +48,8 @@ class PhoneTextField extends StatelessWidget {
               child: Text(Country.parse('EG').flagEmoji,
                   style: TextStyle(fontSize: 27.sp)),
             ),
-            mediumHorizontalSpace,
             Text(
-              '20+',
+              '2+',
               style: Theme.of(context)
                   .textTheme
                   .bodyMedium
