@@ -24,11 +24,14 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
       : super(const ShoppingListState());
 
   List<ShoppingList> _shoppingLists = List<ShoppingList>.empty(growable: true);
-  void handleDialogAfterDismiss(ShoppingList shoppingList) {
+  void handleDialogAfterDismiss(ShoppingList shoppingList) async {
+    emit(state.copyWith(
+      shoppingListRequestState: RequestState.loading,
+    ));
+    emit(state.copyWith(
+      shoppingListRequestState: RequestState.loaded,
+    ));
     Get.back();
-    emit(
-        state.copyWith(shoppingLists: _shoppingLists..insert(0, shoppingList)));
-    // emit(state.copyWith());
   }
 
   void removeShoppingList(ShoppingList shoppingList) {
@@ -39,9 +42,13 @@ class ShoppingListCubit extends Cubit<ShoppingListState> {
       emit(state.copyWith(
           errorMessage: failure.message,
           shoppingListRequestState: RequestState.error));
-    },
-        (result) => emit(state.copyWith(
-            shoppingLists: _shoppingLists..remove(shoppingList))));
+    }, (result) {
+      emit(state.copyWith(shoppingListRequestState: RequestState.loading));
+
+      emit(state.copyWith(
+          shoppingListRequestState: RequestState.loaded,
+          shoppingLists: _shoppingLists..remove(shoppingList)));
+    });
   }
 
   void getAllShoppingList() async {

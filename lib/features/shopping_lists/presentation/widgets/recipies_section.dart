@@ -18,6 +18,8 @@ class RecipiesSection extends StatelessWidget {
           yaBalashCustomToast(message: state.errorMessage!, context: context);
         }
       },
+      buildWhen: (previous, current) =>
+          previous.recipiesRequestState != current.recipiesRequestState,
       builder: (context, state) {
         switch (state.recipiesRequestState) {
           case RequestState.idle:

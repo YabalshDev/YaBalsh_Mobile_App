@@ -46,6 +46,8 @@ class ShoppingListsSection extends StatelessWidget {
           yaBalashCustomToast(message: state.errorMessage!, context: context);
         }
       },
+      buildWhen: (previous, current) =>
+          previous.shoppingListRequestState != current.shoppingListRequestState,
       builder: (context, state) {
         switch (state.shoppingListRequestState) {
           case RequestState.loading:

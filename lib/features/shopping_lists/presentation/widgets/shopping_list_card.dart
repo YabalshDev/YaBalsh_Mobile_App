@@ -21,7 +21,7 @@ class ShoppingListCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: ObjectKey(shoppingList),
+      key: UniqueKey(),
       direction: DismissDirection.startToEnd,
       onDismissed: (direction) {
         yaBalashCustomDialog(
