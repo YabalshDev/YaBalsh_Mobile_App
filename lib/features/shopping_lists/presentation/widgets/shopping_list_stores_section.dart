@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:yabalash_mobile_app/core/widgets/error_indicator.dart';
 
 import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/utils/enums/request_state.dart';
@@ -81,7 +82,12 @@ class ShoppingListStoresSection extends StatelessWidget {
               },
             );
           case RequestState.error:
-            return const SizedBox();
+            return SizedBox(
+              height: Get.height * 0.55,
+              child: Center(
+                child: ErrorIndicator(errorMessage: state.errorMessage!),
+              ),
+            );
 
           default:
             return const SizedBox();

@@ -9,6 +9,8 @@ abstract class ShoppingListLocalDataSource {
   void renameShoppingList(
       {required ShoppingList renamedShoppingList, String? key});
   void addShoppingList({required ShoppingList shoppingList});
+
+  void removeShoppingList({required String key});
 }
 
 class ShoppingListLocalDataSourceImpl implements ShoppingListLocalDataSource {
@@ -53,6 +55,19 @@ class ShoppingListLocalDataSourceImpl implements ShoppingListLocalDataSource {
       final box = Hive.box<ShoppingList>(AppStrings.shoppingListKey);
       box.put(key ?? shoppingList.name, shoppingList);
     } catch (err) {
+      throw CacheException();
+    }
+  }
+
+  @override
+  void removeShoppingList({required String key}) async {
+    try {
+      if (!Hive.isBoxOpen(AppStrings.shoppingListKey)) {
+        await Hive.openBox<ShoppingList>(AppStrings.shoppingListKey);
+      }
+      final box = await Hive.openBox<ShoppingList>(AppStrings.shoppingListKey);
+      await box.delete(key);
+    } catch (e) {
       throw CacheException();
     }
   }

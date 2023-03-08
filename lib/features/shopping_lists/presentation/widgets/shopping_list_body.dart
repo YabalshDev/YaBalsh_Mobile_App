@@ -48,9 +48,6 @@ class ShoppingListsSection extends StatelessWidget {
       },
       builder: (context, state) {
         switch (state.shoppingListRequestState) {
-          case RequestState.idle:
-            return const SizedBox();
-
           case RequestState.loading:
             return SizedBox(
               height: Get.height * 0.65,
@@ -58,6 +55,8 @@ class ShoppingListsSection extends StatelessWidget {
                 child: CircularProgressIndicator.adaptive(),
               ),
             );
+
+          case RequestState.idle:
 
           case RequestState.loaded:
             return state.shoppingLists!.isEmpty

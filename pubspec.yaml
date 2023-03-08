@@ -72,14 +72,17 @@ dev_dependencies:
     sdk: flutter
   hive_generator: ^2.0.0
 flutter_native_splash:
-  image: assets/images/splash.png
+  image: assets/images/splash_2.png
   color: "#ffffff"
   android_gravity: center
+  ios_content_mode: center
   android: true
   ios: true
+  web: false
 flutter:
   uses-material-design: true
   assets:
+
     - assets/
     - assets/images/
     - assets/icons/

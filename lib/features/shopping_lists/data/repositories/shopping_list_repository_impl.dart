@@ -44,4 +44,15 @@ class ShoppingListRepositoryImpl implements ShoppingListRepository {
           message: 'مشكلة اثناء اعادة تسمية القائمة ..حاول مرة اخرى'));
     }
   }
+
+  @override
+  Either<Failure, void> removeShoppingList({required String key}) {
+    try {
+      final response = shoppingListLocalDataSource.removeShoppingList(key: key);
+      return Right(response);
+    } on CacheException {
+      return const Left(
+          CacheFailure(message: 'مشكلة اثناء حذف القائمة ..حاول مرة اخرى'));
+    }
+  }
 }

@@ -8,4 +8,5 @@ abstract class ShoppingListRepository {
   Either<Failure, void> renameShoppingList(
       {required ShoppingList renamedShoppingList, String? key});
   Either<Failure, void> addShoppingList({required ShoppingList shoppingList});
+  Either<Failure, void> removeShoppingList({required String key});
 }

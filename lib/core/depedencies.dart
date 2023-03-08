@@ -134,6 +134,7 @@ import '../features/reciepies/presentation/blocs/cubit/brands_cubit.dart';
 import '../features/search/domain/usecases/search_store_usecase.dart';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import '../features/shopping_lists/domain/usecases/remove_shopping_list_usecase.dart';
 import '../features/zones/data/datasources/zone_local_data_source.dart';
 
 final getIt = GetIt.instance;
@@ -323,6 +324,8 @@ setupDependecies() {
   getIt.registerLazySingleton(
       () => RenameShoppingListUseCase(shoppingListRepository: getIt()));
   getIt.registerLazySingleton(
+      () => RemoveShoppingListUseCase(shoppingListRepository: getIt()));
+  getIt.registerLazySingleton(
       () => AddShoppingListUseCase(shoppingListRepository: getIt()));
 
   getIt.registerLazySingleton(
@@ -438,10 +441,10 @@ setupDependecies() {
   getIt.registerFactory(() => ShoppingListCubit(
       getAllRecpiesUseCase: getIt(),
       getAllShoppingListsUseCase: getIt(),
-      renameShoppingListUseCase: getIt()));
+      removeShoppingListUseCase: getIt()));
 
-  getIt.registerFactory(
-      () => ShoppingListDetailsCubit(renameShoppingListUseCase: getIt()));
+  getIt.registerFactory(() => ShoppingListDetailsCubit(
+      renameShoppingListUseCase: getIt(), getProductDetailsUseCase: getIt()));
 
   getIt.registerFactory(() => SearchCubit(
       getSectionProductsUseCase: getIt(),

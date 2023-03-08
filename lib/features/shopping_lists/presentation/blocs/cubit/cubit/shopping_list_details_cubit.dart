@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/utils/enums/request_state.dart';
+import 'package:yabalash_mobile_app/features/product_details/domain/usecases/get_product_details_usecase.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/domain/entities/shopping_list_store.dart';
 import 'package:yabalash_mobile_app/features/shopping_lists/domain/usecases/rename_shopping_list_usecase.dart';
 
@@ -13,8 +14,11 @@ part 'shopping_list_details_state.dart';
 
 class ShoppingListDetailsCubit extends Cubit<ShoppingListDetailsState> {
   final RenameShoppingListUseCase renameShoppingListUseCase;
-  ShoppingListDetailsCubit({required this.renameShoppingListUseCase})
-      : super(const ShoppingListDetailsState());
+  final GetProductDetailsUseCase getProductDetailsUseCase;
+  ShoppingListDetailsCubit({
+    required this.renameShoppingListUseCase,
+    required this.getProductDetailsUseCase,
+  }) : super(const ShoppingListDetailsState());
 
   void setShoppingListName(String name) =>
       emit(state.copyWith(shoppingListName: name));
@@ -47,13 +51,34 @@ class ShoppingListDetailsCubit extends Cubit<ShoppingListDetailsState> {
     });
   }
 
-  void getShoppingListStores({required List<CartItem> shoppingListItems}) {
+  Future<List<CartItem>> getShoppingListProductDetails(
+      List<CartItem> shoppingListItems) async {
+    List<CartItem> products = List<CartItem>.empty(growable: true);
+
+    for (var element in shoppingListItems) {
+      final response = await getProductDetailsUseCase(GetProductDetailsParams(
+          withNearStores: true, productId: element.product!.id!));
+
+      response.fold(
+          (failure) => emit(state.copyWith(
+              errorMessage: failure.message,
+              storesState: RequestState.error)), (product) {
+        products.add(element.copyWith(product: product));
+      });
+    }
+
+    return products;
+  }
+
+  void getShoppingListStores(
+      {required List<CartItem> shoppingListItems}) async {
+    final products = await getShoppingListProductDetails(shoppingListItems);
     List<ShoppingListStoreModel> stores =
         List<ShoppingListStoreModel>.empty(growable: true);
 
     Map<String, List<CartItem>> storesCartItems = {};
 
-    for (var element in shoppingListItems) {
+    for (var element in products) {
       if (element.product!.prices!.isNotEmpty) {
         String storeImagePath = element.product!.prices!.entries.first.value
             .storeImagePath!; //chepeast store for current item
