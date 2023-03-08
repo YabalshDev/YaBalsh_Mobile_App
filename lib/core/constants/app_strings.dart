@@ -1,6 +1,6 @@
 class AppStrings {
   static const String appName = "YaBalash";
-  static const String appVersion = '1.0';
+  static const String appVersion = '1.0.0';
   static const String fontFamily = 'Cairo';
   static const String baseUrl = 'https://yabalash.net';
   static const String oneSignalAppId = 'e68dac07-3cd5-47c1-bc77-48b36d750ef4';
