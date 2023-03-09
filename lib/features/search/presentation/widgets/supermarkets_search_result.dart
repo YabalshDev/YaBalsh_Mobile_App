@@ -34,7 +34,10 @@ class SuperMarketsSearchResult extends StatelessWidget {
       case RequestState.loaded:
         return state.searchStoresResult!.isEmpty
             ? SizedBox(
-                height: Get.height * 0.6, child: const SearchEmptyResult())
+                height: Get.height * 0.6,
+                child: const SearchEmptyResult(
+                  isProduct: false,
+                ))
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

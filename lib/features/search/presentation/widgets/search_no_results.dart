@@ -4,13 +4,17 @@ import '../../../../core/utils/enums/empty_states.dart';
 import '../../../../core/widgets/empty_indicator.dart';
 
 class SearchEmptyResult extends StatelessWidget {
-  const SearchEmptyResult({super.key});
+  final bool isProduct;
+  const SearchEmptyResult({super.key, required this.isProduct});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: EmptyIndicator(
-          emptyStateType: EmptyStates.other, title: 'لا يوجد نتائج بحث'),
+          emptyStateType: EmptyStates.other,
+          title: isProduct
+              ? 'للاسف المنتج دة مش موجود دلوقتي بس طلبك اتسجل وهنحاول نضيفه في اقرب وقت'
+              : 'لا يوجد نتائج بحث'),
     );
   }
 }

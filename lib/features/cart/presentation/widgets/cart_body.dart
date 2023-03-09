@@ -57,10 +57,12 @@ class CartBody extends StatelessWidget {
         },
       ),
       smallVerticalSpace,
-      getIt<AppSettingsService>().appConfig.appVersion != '1.0.0'
+      getIt<AppSettingsService>().appConfig.appVersion ==
+              '2.0.0' // complete version show  cart stepper
           ? const CartStepper()
           : const SizedBox(),
-      getIt<AppSettingsService>().appConfig.appVersion != '1.0.0'
+      getIt<AppSettingsService>().appConfig.appVersion ==
+              '2.0.0' // complete version use page view
           ? Expanded(
               child: Padding(
               padding: kDefaultPadding,

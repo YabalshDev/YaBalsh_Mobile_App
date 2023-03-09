@@ -15,7 +15,8 @@ class SuperMarketLists extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          getIt<AppSettingsService>().appConfig.appVersion == '1.0.0'
+          getIt<AppSettingsService>().appConfig.appVersion !=
+                  '2.0.0' // complete version should not have header
               ? const CustomHeader(
                   title: 'السوبر ماركتس',
                   iconPath: AppAssets.backIcon,

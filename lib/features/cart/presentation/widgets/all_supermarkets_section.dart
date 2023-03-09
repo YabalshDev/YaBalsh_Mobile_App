@@ -30,7 +30,8 @@ class AllSupermarketsSection extends StatelessWidget {
           case RequestState.idle:
             return const SizedBox();
           case RequestState.loading:
-            return getIt<AppSettingsService>().appConfig.appVersion != '1.0.0'
+            return getIt<AppSettingsService>().appConfig.appVersion ==
+                    '2.0.0' // loading for complete version should be less
                 ? SizedBox(
                     height: Get.height * 0.6,
                     child: const Center(child: CircularProgressIndicator()),
@@ -42,10 +43,10 @@ class AllSupermarketsSection extends StatelessWidget {
             return const SuperMarketsLoaded();
           case RequestState.error:
             return SizedBox(
-              height:
-                  getIt<AppSettingsService>().appConfig.appVersion == '1.0.0'
-                      ? Get.height
-                      : Get.height * 0.6,
+              height: getIt<AppSettingsService>().appConfig.appVersion !=
+                      '2.0.0' // complete version
+                  ? Get.height
+                  : Get.height * 0.6,
               child: const Center(
                 child:
                     ErrorIndicator(errorMessage: 'خطا اثناء جلب السوبر ماركتس'),

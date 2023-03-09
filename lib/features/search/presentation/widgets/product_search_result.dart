@@ -32,7 +32,9 @@ class ProductSearchResult extends StatelessWidget {
                 ? SliverToBoxAdapter(
                     child: SizedBox(
                         height: Get.height * 0.6,
-                        child: const SearchEmptyResult()),
+                        child: const SearchEmptyResult(
+                          isProduct: true,
+                        )),
                   )
                 : const SliverToBoxAdapter(child: SearchProductResultsLoaded());
           case RequestState.error:

@@ -24,6 +24,7 @@ class ErrorIndicator extends StatelessWidget {
         largeVerticalSpace,
         Text(
           errorMessage,
+          textAlign: TextAlign.center,
           style: Theme.of(context)
               .textTheme
               .bodyLarge

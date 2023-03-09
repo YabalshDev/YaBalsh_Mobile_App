@@ -20,10 +20,10 @@ class ShoppingListDetailsBottomLoaded extends StatelessWidget {
     return BlocBuilder<ShoppingListDetailsCubit, ShoppingListDetailsState>(
       builder: (context, state) {
         return Column(
-          mainAxisAlignment:
-              getIt<AppSettingsService>().appConfig.appVersion == '1.0.0'
-                  ? MainAxisAlignment.start
-                  : MainAxisAlignment.center,
+          mainAxisAlignment: getIt<AppSettingsService>().appConfig.appVersion !=
+                  '2.0.0' // complete version align center
+              ? MainAxisAlignment.start
+              : MainAxisAlignment.center,
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -44,10 +44,12 @@ class ShoppingListDetailsBottomLoaded extends StatelessWidget {
                         )),
               ],
             ),
-            getIt<AppSettingsService>().appConfig.appVersion != '1.0.0'
+            getIt<AppSettingsService>().appConfig.appVersion ==
+                    '2.0.0' // complete version
                 ? const SizedBox()
                 : const Spacer(),
-            getIt<AppSettingsService>().appConfig.appVersion != '1.0.0'
+            getIt<AppSettingsService>().appConfig.appVersion ==
+                    '2.0.0' // complete version show nothing otherwise show button
                 ? const SizedBox()
                 : const CompareSupermarketsButton(),
             largeVerticalSpace

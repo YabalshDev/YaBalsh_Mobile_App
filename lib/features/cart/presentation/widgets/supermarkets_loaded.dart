@@ -22,10 +22,10 @@ class SuperMarketsLoaded extends StatelessWidget {
         return Expanded(
           child: SingleChildScrollView(
             child: Padding(
-              padding:
-                  getIt<AppSettingsService>().appConfig.appVersion == '1.0.0'
-                      ? kDefaultPadding
-                      : EdgeInsets.zero,
+              padding: getIt<AppSettingsService>().appConfig.appVersion !=
+                      '2.0.0' // complete version no padding (EdgeInsets.zero)
+                  ? kDefaultPadding
+                  : EdgeInsets.zero,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -34,8 +34,8 @@ class SuperMarketsLoaded extends StatelessWidget {
                       ? SizedBox(
                           height: getIt<AppSettingsService>()
                                       .appConfig
-                                      .appVersion ==
-                                  '1.0.0'
+                                      .appVersion !=
+                                  '2.0.0' // complete version height(0.6)
                               ? Get.height
                               : Get.height * 0.6,
                           child: const Center(

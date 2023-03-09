@@ -34,6 +34,7 @@ class SettingsCubit extends Cubit<SettingsState> {
     final settingsService = getIt<AppSettingsService>();
     final appConfig = settingsService.appConfig;
     if (appConfig.appVersion != '1.0.0') {
+      // condition to be set for current version
       if (settingsService.showUpdateDialog) {
         yaBalashCustomDialog(
           title: 'تحديث جديد',

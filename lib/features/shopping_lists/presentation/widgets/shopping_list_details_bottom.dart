@@ -18,7 +18,8 @@ class ShoppingListDetailsBottom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: getIt<AppSettingsService>().appConfig.appVersion == '1.0.0'
+      height: getIt<AppSettingsService>().appConfig.appVersion !=
+              '2.0.0' // complete version should have less height because there is no button (compare all uspermarkets)
           ? 140.h
           : 110.h,
       padding: kDefaultPadding,

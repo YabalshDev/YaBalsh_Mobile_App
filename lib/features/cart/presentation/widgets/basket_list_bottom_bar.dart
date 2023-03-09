@@ -27,7 +27,8 @@ class BascketListBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: getIt<AppSettingsService>().appConfig.appVersion != '1.0.0'
+      height: getIt<AppSettingsService>().appConfig.appVersion ==
+              '2.0.0' // complete version more height for the 2 buttons
           ? 170.h
           : 95.h,
       child: Column(
@@ -44,9 +45,10 @@ class BascketListBottomBar extends StatelessWidget {
             padding: kDefaultPadding,
             child: InkWell(
               onTap: () {
-                if (getIt<AppSettingsService>().appConfig.appVersion ==
-                        '1.0.0' &&
+                if (getIt<AppSettingsService>().appConfig.appVersion !=
+                        '2.0.0' &&
                     getIt<UserService>().token.isEmpty) {
+                  // if not complete version (comparison version ) and not logged in
                   showNotLoggedInDialog();
                 } else {
                   showModalBottomSheet(
@@ -83,7 +85,8 @@ class BascketListBottomBar extends StatelessWidget {
               ),
             ),
           ),
-          getIt<AppSettingsService>().appConfig.appVersion != '1.0.0'
+          getIt<AppSettingsService>().appConfig.appVersion ==
+                  '2.0.0' // show button when its complete version
               ? CustomNavBar(
                   mainButtonTap: () {
                     pageController.animateToPage(1,

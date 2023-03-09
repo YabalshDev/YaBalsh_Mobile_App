@@ -31,6 +31,7 @@ class EmptyIndicator extends StatelessWidget {
         largeVerticalSpace,
         Text(
           title,
+          textAlign: TextAlign.center,
           style: Theme.of(context)
               .textTheme
               .bodyLarge

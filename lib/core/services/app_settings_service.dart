@@ -30,7 +30,7 @@ class AppSettingsServiceImpl implements AppSettingsService {
   AppSettingsServiceImpl({required this.remoteConfig});
 
   @override
-  bool _isNearStores = false;
+  bool _isNearStores = false; // control is near you setting accross the app
 
   @override
   bool get isNearStores => _isNearStores;
@@ -44,6 +44,7 @@ class AppSettingsServiceImpl implements AppSettingsService {
       }
 
       final box = Hive.box<bool>(AppStrings.isNearStoresActivatedKey);
+      // get is near you setting saved from local storage
       value = box.get(AppStrings.isNearStoresActivatedKey);
       if (value != null) {
         _isNearStores = value;
@@ -76,10 +77,13 @@ class AppSettingsServiceImpl implements AppSettingsService {
   @override
   void fetchAndSaveAppConfigs() async {
     try {
+      // fetch remote configs
       await remoteConfig.fetchAndActivate();
       final configs = remoteConfig.getAll();
-      _appConfig = AppConfigFirebase.fromJson(configs);
+      _appConfig = AppConfigFirebase.fromJson(
+          configs); // set the app config object with fetched remote config
     } catch (err) {
+      // this is the default app configs (change it according to current version)
       _appConfig = AppConfig(
           appVersion: '1.0.0', updateDescription: AppStrings.defaultUpdateText);
     }
@@ -104,7 +108,7 @@ class AppSettingsServiceImpl implements AppSettingsService {
   void setUpRemoteConfig() async {
     try {
       await remoteConfig.setConfigSettings(RemoteConfigSettings(
-          fetchTimeout: const Duration(seconds: 10),
+          fetchTimeout: const Duration(minutes: 2),
           minimumFetchInterval: Duration.zero));
     } catch (e) {}
   }
