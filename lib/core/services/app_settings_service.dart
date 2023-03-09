@@ -20,7 +20,6 @@ abstract class AppSettingsService {
   void setUpRemoteConfig();
   void fetchAndSaveAppConfigs();
 
-  void setIsNearStores(bool value);
   void saveIsNearStoresSettings(bool value);
   Future<bool> getIsNearStoresSetting();
 }
@@ -37,11 +36,6 @@ class AppSettingsServiceImpl implements AppSettingsService {
   bool get isNearStores => _isNearStores;
 
   @override
-  void setIsNearStores(bool value) {
-    _isNearStores = value;
-  }
-
-  @override
   Future<bool> getIsNearStoresSetting() async {
     try {
       bool? value;
@@ -55,10 +49,11 @@ class AppSettingsServiceImpl implements AppSettingsService {
         _isNearStores = value;
         return value;
       } else {
+        _isNearStores = false;
         return false;
       }
     } catch (err) {
-      return false;
+      return _isNearStores;
     }
   }
 
@@ -70,7 +65,9 @@ class AppSettingsServiceImpl implements AppSettingsService {
       }
 
       final box = Hive.box<bool>(AppStrings.isNearStoresActivatedKey);
-      box.put(AppStrings.isNearStoresActivatedKey, value);
+      box.put(AppStrings.isNearStoresActivatedKey,
+          value); // change value in local storage
+      _isNearStores = value; // change service settings for global use
     } catch (err) {
       debugPrint('failed to save setting');
     }

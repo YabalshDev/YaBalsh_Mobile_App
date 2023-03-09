@@ -27,10 +27,8 @@ class SettingsCubit extends Cubit<SettingsState> {
     emit(IsNearStoresState(isNearStores: value));
   }
 
-  void handleIsNearSettingSwitchTap(bool value) {
-    appSettingsService.setIsNearStores(value);
-    changeIsNearStoresSetting(value);
-  }
+  void handleIsNearSettingSwitchTap(bool value) =>
+      changeIsNearStoresSetting(value);
 
   void checkForUpdates() {
     final settingsService = getIt<AppSettingsService>();
