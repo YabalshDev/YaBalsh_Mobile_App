@@ -90,6 +90,7 @@ class SplashCubit extends Cubit<SplashState> {
         checkIfUserLoggedIn();
         getCurrentCustomer();
         checkIfZoneExist();
+        getIt<AppSettingsService>().getIsNearStoresSetting();
         getIt<AppSettingsService>().setUpRemoteConfig();
         getIt<AppSettingsService>().fetchAndSaveAppConfigs();
 
