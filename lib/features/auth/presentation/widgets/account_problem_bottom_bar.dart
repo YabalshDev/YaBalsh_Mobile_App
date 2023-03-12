@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 
 import '../../../../core/theme/light/app_colors_light.dart';
-import '../../../../core/widgets/custom_dialog.dart';
+import '../../../../core/utils/show_support_dialog.dart';
 
 class AccountProblemBottomBar extends StatelessWidget {
   const AccountProblemBottomBar({super.key});
@@ -18,14 +17,7 @@ class AccountProblemBottomBar extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           child: TextButton(
             onPressed: () {
-              yaBalashCustomDialog(
-                  buttonTitle: 'ابعتلنا رسالة',
-                  subContent:
-                      'احنا حابين نسمع منك أكتر ونساعدك ، ممكن تبعتلنا رسالة و فريق الدعم الفني هيتواصل معاك في أقرب وقت. ',
-                  isWithEmoji: true,
-                  onConfirm: () => Get.back(),
-                  title: 'هل لديك مشكلة في الحساب؟',
-                  mainContent: 'بنعتذر ليك جدا وبنشكرك علي تفهمك 💜');
+              showSupportDialog();
             },
             child: Text(
               'لديك مشكلة للدخول إلي حسابك؟',

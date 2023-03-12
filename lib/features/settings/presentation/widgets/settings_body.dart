@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yabalash_mobile_app/core/constants/app_assets.dart';
+import 'package:yabalash_mobile_app/core/utils/launch_url.dart';
 import 'package:yabalash_mobile_app/features/settings/presentation/cubits/cubit/settings_cubit_cubit.dart';
 import 'package:yabalash_mobile_app/features/settings/presentation/widgets/settings_element_card.dart';
 
@@ -10,8 +11,10 @@ import '../../../../core/constants/app_layouts.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/depedencies.dart';
 import '../../../../core/routes/app_routes.dart';
+import '../../../../core/services/app_settings_service.dart';
 import '../../../../core/services/user_service.dart';
 import '../../../../core/theme/light/app_colors_light.dart';
+import '../../../../core/utils/show_support_dialog.dart';
 import '../../../../core/widgets/custom_dialog.dart';
 import '../../../../core/widgets/custom_header.dart';
 import 'isNear_setting_card.dart';
@@ -48,6 +51,22 @@ class SettingsBody extends StatelessWidget {
                           ),
                         ),
                         largeVerticalSpace,
+                        getIt<AppSettingsService>().appConfig.appVersion !=
+                                '2.0.0'
+                            ? const SizedBox()
+                            : SettingsElementCard(
+                                onTap: () {
+                                  Get.toNamed(RouteHelper.getPastOrdersRoute());
+                                },
+                                iconPath: AppAssets.ordersIcon,
+                                title: 'طلباتي'),
+                        getIt<AppSettingsService>().appConfig.appVersion !=
+                                '2.0.0'
+                            ? const SizedBox()
+                            : Divider(
+                                color: Colors.grey.shade300,
+                                thickness: 1,
+                              ),
                         SettingsElementCard(
                             onTap: () {
                               Get.toNamed(RouteHelper.getNotificationsRoute());
@@ -70,7 +89,9 @@ class SettingsBody extends StatelessWidget {
                           thickness: 1,
                         ),
                         SettingsElementCard(
-                            onTap: () {},
+                            onTap: () {
+                              showSupportDialog();
+                            },
                             iconPath: AppAssets.headphoneIcon,
                             title: 'مركز المساعدة'),
                         Divider(
@@ -78,7 +99,9 @@ class SettingsBody extends StatelessWidget {
                           thickness: 1,
                         ),
                         SettingsElementCard(
-                            onTap: () {},
+                            onTap: () {
+                              launchCustomUrl(AppStrings.yabalashPageLink);
+                            },
                             iconPath: AppAssets.speakerphoneIcon,
                             title: 'الشروط والاحكام'),
                         Divider(
@@ -86,7 +109,9 @@ class SettingsBody extends StatelessWidget {
                           thickness: 1,
                         ),
                         SettingsElementCard(
-                            onTap: () {},
+                            onTap: () {
+                              launchCustomUrl(AppStrings.yabalashPageLink);
+                            },
                             iconPath: AppAssets.likeIcon,
                             title: 'تابعنا علي صفحاتنا'),
                       ],

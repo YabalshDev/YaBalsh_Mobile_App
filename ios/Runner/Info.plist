@@ -31,6 +31,11 @@
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
 		<key>LSApplicationQueriesSchemes</key>
+<array>
+  <string>sms</string>
+  <string>tel</string>
+</array>
+		<key>LSApplicationQueriesSchemes</key>
 		<array>
 			<string>comgooglemaps</string>
 			<string>baidumap</string>

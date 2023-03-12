@@ -24,7 +24,6 @@ environment:
 
 dependencies:
   animate_do: ^3.0.2
-  
   badges: ^2.0.3
   bloc: ^8.1.0
   cached_network_image: ^3.2.3
@@ -33,14 +32,12 @@ dependencies:
   country_picker: ^2.0.18
   cupertino_icons: ^1.0.2
   dartz: ^0.10.1
-  
   dio: ^4.0.6
   dots_indicator: ^2.1.0
   equatable: ^2.0.5
-  
+  firebase_analytics: ^10.1.5
   firebase_core: ^2.7.1
   firebase_remote_config: ^3.0.14
-  firebase_analytics: ^10.1.5
   flutter:
     sdk: flutter
   flutter_barcode_scanner: ^2.0.0
@@ -61,9 +58,9 @@ dependencies:
   intl: ^0.17.0
   map_launcher: ^2.4.0
   onesignal_flutter: ^3.5.0
-  
   path_provider: ^2.0.11
   shimmer: ^2.0.0
+  url_launcher: ^6.1.10
   youtube_player_flutter: ^8.1.2
 
 dev_dependencies:
@@ -100,8 +97,7 @@ flutter:
         - asset: assets/font/Cairo-Bold.ttf
           weight: 700
 
- 
     - family: Gotham
       fonts:
         - asset: assets/font/Gotham-Rounded-Bold.otf
-          weight: 700        
+          weight: 700

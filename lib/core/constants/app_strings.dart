@@ -10,6 +10,10 @@ class AppStrings {
       '!Compare and find the product’s lowest price';
   static const String splashSubHeading = 'قارن و اعرف ارخص سعر للمنتج فين!';
   static const String discoverComparePrices = 'اكتشف و قارن الأسعار';
+  static const String supportLink =
+      'https://www.instagram.com/yabalash.egypt/?igshid=YmMyMTA2M2Y%3D';
+  static const String yabalashPageLink = 'https://linktr.ee/yabalash';
+  static const String privacyPolicyLink = '';
   //hive keys
 
   static const String isFirstTimeVisitKey = 'isFirstTimeVisit';
